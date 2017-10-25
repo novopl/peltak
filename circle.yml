@@ -25,7 +25,6 @@ dependencies:
 test:
   override:
     - fab lint
-    - fab testall
     - fab docs
 
   post:
