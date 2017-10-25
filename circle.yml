@@ -18,6 +18,7 @@ dependencies:
     - ./.tox/py36
 
   override:
+    - git submodule update --init --recursive
     - pip install -r ops/devrequirements.txt
     # - tox --notest  # Install all the envs so they get cached
 
