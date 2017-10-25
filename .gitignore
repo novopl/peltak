@@ -1,0 +1,58 @@
+################
+# Secret files #
+################
+
+###############
+# local files #
+###############
+local
+___*.py
+
+##############
+# Temp files #
+##############
+*~
+*sw[po]
+cache.sqlite
+.cache
+
+################
+# Python files #
+################
+*.py[cod]
+__pycache__
+*.egg-info
+
+###################
+# Generated files #
+###################
+env
+.coverage
+.tox
+/.build
+docs/html
+docs/ref
+
+##############
+# Data files #
+##############
+data/
+*.db
+*.sqlite
+*.sqlite3
+*.ipynb
+.ipynb_checkpoints
+*.log
+*.zip
+*.tar
+*.gz
+*.bz2
+*.rar
+
+###########################
+# 3rd party configuration #
+###########################
+*.kdev4
+.ropeproject
+.idea
+.directory
