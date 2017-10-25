@@ -19,7 +19,7 @@ dependencies:
 
   override:
     - pip install -r ops/devrequirements.txt
-    - tox --notest  # Install all the envs so they get cached
+    # - tox --notest  # Install all the envs so they get cached
 
 
 test:
