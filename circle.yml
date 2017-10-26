@@ -30,5 +30,5 @@ test:
 
   post:
     - mv docs/html .build/docs
-    - cp .build/test-results.xml $CIRCLE_TEST_REPORTS/
+    # - cp .build/test-results.xml $CIRCLE_TEST_REPORTS/
     - mv .build/** "$CIRCLE_ARTIFACTS/"
