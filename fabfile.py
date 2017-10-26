@@ -8,7 +8,7 @@ from __future__ import absolute_import
 from ops.commands.common import conf
 conf.init({
     'SRC_DIR': 'src',
-    'SRC_PATH': 'src/simplechat',
+    'SRC_PATH': 'ops/commands',
     'BUILD_DIR': '.build',
     'PKGS_PATHS': [
         'ops/commands',
