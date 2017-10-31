@@ -10,7 +10,10 @@ conf.init({
     'SRC_DIR': 'src',
     'SRC_PATH': 'ops/commands',
     'BUILD_DIR': '.build',
-    'PKGS_PATHS': [
+    'LINT_PATHS': [
+        'ops/commands',
+    ],
+    'REFDOC_PATHS': [
         'ops/commands',
     ],
     'TEST_TYPES': {
