@@ -25,6 +25,7 @@ test:
   override:
     - fab lint
     - fab docs
+    - fab test
 
   post:
     - mv docs/html .build/docs
