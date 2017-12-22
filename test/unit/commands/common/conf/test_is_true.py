@@ -43,6 +43,6 @@ def test_returns_false_for_other_values(str_val):
     tuple(),
     set()
 ])
-def test_raises_exception_on_non_string_values(str_val):
-    with pytest.raises(Exception):
+def test_raises_ValueError_on_non_string_values(str_val):
+    with pytest.raises(ValueError):
         conf.is_true(str_val)
