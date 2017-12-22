@@ -16,7 +16,7 @@ setup(
     url="http://github.com/novopl/serafin",
     description="Set of fabric commands to help manage a project",
     long_description=read('README.rst'),
-    packages=find_packages('fabops'),
+    packages=find_packages('src'),
     classifiers=[
         "Development Status :: 4 - Beta",
         "Topic :: Utilities",
