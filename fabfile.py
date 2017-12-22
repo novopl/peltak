@@ -4,21 +4,27 @@ This is fabrics configuration file.
 """
 from __future__ import absolute_import
 
+# Add src to PYTHONPATH
+import sys
+from os.path import abspath, dirname, join
+sys.path.insert(0, join(abspath(dirname(__file__)), 'src'))
+
+
 # Configure the build
 from fabops.commands.common import conf
 conf.init({
-    'SRC_DIR': '.',
-    'SRC_PATH': 'fabops/commands',
+    'SRC_DIR': 'src',
+    'SRC_PATH': 'src/fabops',
     'BUILD_DIR': '.build',
     'LINT_PATHS': [
-        'fabops/commands',
+        'src/fabops',
     ],
     'REFDOC_PATHS': [
-        'fabops/commands',
+        'src/fabops',
     ],
     'TEST_TYPES': {
         'default': {'paths': [
-            'fabops/commands',
+            'src/fabops',
             'test/unit'
         ]}
     },
