@@ -5,30 +5,30 @@ This is fabrics configuration file.
 from __future__ import absolute_import
 
 # Configure the build
-from ops.commands.common import conf
+from fabops.commands.common import conf
 conf.init({
     'SRC_DIR': '.',
-    'SRC_PATH': 'ops/commands',
+    'SRC_PATH': 'fabops/commands',
     'BUILD_DIR': '.build',
     'LINT_PATHS': [
-        'ops/commands',
+        'fabops/commands',
     ],
     'REFDOC_PATHS': [
-        'ops/commands',
+        'fabops/commands',
     ],
     'TEST_TYPES': {
         'default': {'paths': [
-            'ops/commands',
+            'fabops/commands',
             'test/unit'
         ]}
-    }
+    },
 })
 
 
 # Import all commands
-from ops.commands.clean import *
-from ops.commands.docs import *
-from ops.commands.git import *
-from ops.commands.lint import *
-from ops.commands.release import *
-from ops.commands.test import *
+from fabops.commands.clean import *
+from fabops.commands.docs import *
+from fabops.commands.git import *
+from fabops.commands.lint import *
+from fabops.commands.release import *
+from fabops.commands.test import *

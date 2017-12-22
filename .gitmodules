@@ -1,3 +1,0 @@
-[submodule "ops/commands"]
-	path = ops/commands
-	url = git@github.com:novopl/fabops-commands.git
