@@ -41,4 +41,4 @@ deployment:
       - fab upload:pypi
       - rm ~/.pypirc
       - fab tag_release
-      - git push origin --tags
+      - "git push origin v$(cat VERSION)"
