@@ -36,5 +36,6 @@ from fabops.commands.clean import *
 from fabops.commands.docs import *
 from fabops.commands.git import *
 from fabops.commands.lint import *
+from fabops.commands.ops import *
 from fabops.commands.release import *
 from fabops.commands.test import *
