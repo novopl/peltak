@@ -1,6 +1,6 @@
 machine:
-#  python:
-#    version: 3.6.2
+  python:
+    version: 3.6.2
   post:
     - pyenv install --skip-existing 2.7.12
     - pyenv install --skip-existing 3.3.6
@@ -30,7 +30,7 @@ test:
 
   post:
     - mv docs/html .build/docs
-    - cp .build/test-results.xml $CIRCLE_TEST_REPORTS/
+    # - cp .build/test-results.xml $CIRCLE_TEST_REPORTS/
     - mv .build/** "$CIRCLE_ARTIFACTS/"
 
 
