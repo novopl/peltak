@@ -1,31 +1,32 @@
 machine:
   python:
     version: 3.6.2
-#  post:
-#    - pyenv install --skip-existing 2.7.12
-#    - pyenv install --skip-existing 3.3.6
-#    - pyenv install --skip-existing 3.6.2
-#    - pyenv global 2.7.12 3.3.6 3.6.2
+  post:
+    - pyenv install --skip-existing 2.7.12
+    - pyenv install --skip-existing 3.3.6
+    - pyenv install --skip-existing 3.6.2
+    - pyenv global 2.7.12 3.3.6 3.6.2
 
 
 dependencies:
-#  cache_directories:
-#    - /opt/circleci/python
-#    - ./.tox/py27
-#    - ./.tox/py33
-#    - ./.tox/py36
+  cache_directories:
+    - /opt/circleci/python
+    - ./.tox/py27
+    - ./.tox/py33
+    - ./.tox/py36
 
   override:
     - git submodule update --init --recursive
     - pip install -r ops/devrequirements.txt
-    # - tox --notest  # Install all the envs so they get cached
+    - tox --notest  # Install all the envs so they get cached
 
 
 test:
   override:
     - fab lint
     - fab docs
-    - fab test
+    # - fab test
+    - tox
 
   post:
     - mv docs/html .build/docs
