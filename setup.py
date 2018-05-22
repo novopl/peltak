@@ -13,7 +13,7 @@ setup(
     author_email="novopl@gmail.com",
     license="MIT",
     keywords="fabric ops devops",
-    url="http://github.com/novopl/serafin",
+    url="http://github.com/novopl/fabops",
     description="Set of fabric commands to help manage a project",
     long_description=read('README.rst'),
     package_dir={'fabops': 'src/fabops'},
