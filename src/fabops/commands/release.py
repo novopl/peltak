@@ -59,7 +59,6 @@ def make_release(component='patch', exact=None):
     1. Bump version.
     2. Create and checkout release/* branch
     3. Create commit with bumped version.
-    4. Create a version tag for the current commit
     """
     with project.inside(quiet=True):
         git_status = local('git status --porcelain', capture=True).strip()
