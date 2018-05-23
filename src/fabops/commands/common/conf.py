@@ -14,6 +14,7 @@ from . import log
 
 g_config = {}
 g_proj_path = None
+g_proj_root = None
 
 
 def is_true(value):
@@ -46,22 +47,32 @@ def proj_path(path=None):
 
 def _find_proj_root():
     """ Find appengine_sdk in the current $PATH. """
-    start_paths = [
-        abspath(dirname(__file__)),
-        getcwd()
-    ]
+    global g_proj_root
 
-    log.info('Finding project root')
-    for curr in start_paths:
-        while curr.startswith('/') and len(curr) > 1:
-            log.info('  checking ^94{}', curr)
-            if 'fabfile.py' in listdir(curr):
-                log.info('  ^32Found')
-                return curr
-            else:
-                curr = normpath(join(curr, '..'))
+    if g_proj_root is None:
+        start_paths = [
+            abspath(dirname(__file__)),
+            getcwd()
+        ]
 
-    log.info('  ^31Not found')
+        log.info('Finding project root')
+        for curr in start_paths:
+            while curr.startswith('/') and len(curr) > 1:
+                log.info('  checking ^94{}', curr)
+                if 'fabfile.py' in listdir(curr):
+                    log.info('  ^32Found')
+                    g_proj_root = curr
+                    break
+                else:
+                    curr = normpath(join(curr, '..'))
+
+            if g_proj_root is not None:
+                break
+
+        if g_proj_root is None:
+            log.info('  ^31Not found')
+
+    return g_proj_root
 
 
 def get(name, *default):
