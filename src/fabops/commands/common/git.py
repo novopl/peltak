@@ -41,7 +41,7 @@ def commit_author(sha1=''):
         A named tuple ``(name, email)`` with the commit author details.
     """
     with project.inside():
-        cmd = 'git show --format="%an||%ae" {}'.format(sha1)
+        cmd = 'git show -s --format="%an||%ae" {}'.format(sha1)
         result = local(cmd, capture=True).stdout
         name, email = result.split('||')
         return Author(name, email)
