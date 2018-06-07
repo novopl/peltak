@@ -8,6 +8,7 @@ from __future__ import absolute_import, unicode_literals
 import os
 import sys
 from os.path import join
+from warnings import warn
 
 # 3rd party imports
 from fabric.api import local
@@ -30,7 +31,7 @@ def version():
     log.info("Version: ^35{}".format(current))
 
 
-def bump_version(component='patch', exact=None):
+def bumpver(component='patch', exact=None):
     """ Bump current project version without committing anything.
 
     No tags are created either.
@@ -51,7 +52,7 @@ def bump_version(component='patch', exact=None):
     log.info("  new version: ^35{}".format(new_ver))
 
 
-def make_release(component='patch', exact=None):
+def makerel(component='patch', exact=None):
     """ Release a new version of the project.
 
     This will bump the version number (patch component by default) + add and tag
@@ -98,7 +99,7 @@ def make_release(component='patch', exact=None):
         ))
 
 
-def tag_release():
+def tagrel():
     """ Create a new release tag for the current version. """
     release_ver = ver.get_current(VERSION_FILE)
     author = git.commit_author()
@@ -157,3 +158,24 @@ def gen_pypirc(username=None, password=None):
             'password: {}'.format(password),
             '',
         )))
+
+
+# Deprecated
+
+
+def bump_version(component='patch', exact=None):
+    """ Deprecated. Use bumpver. """
+    warn("bump_version is deprecated, use bumpver instead")
+    return bumpver(component, exact)
+
+
+def make_release(component='patch', exact=None):
+    """ Deprecated. Use makerel. """
+    warn("make_release is deprecated, use makerel instead")
+    return makerel(component, exact)
+
+
+def tag_release():
+    """ Deprecated. Use tagrel. """
+    warn("tag_release is deprecated, use tagrel instead")
+    return tagrel()
