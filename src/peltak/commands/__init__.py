@@ -7,4 +7,19 @@ import click
 
 @click.group()
 def cli():
+    """
+
+    To get help for a specific command:
+
+        \033[1mpeltak <command> --help\033[0m
+
+    Examples:
+
+        \033[1mpeltak lint --help\033[0m
+
+        \033[1mpeltak version bump --help\033[0m
+
+        \033[1mpeltak release upload --help\033[0m
+
+    """
     pass

@@ -64,36 +64,6 @@ def docs(recreate=False, no_index=False):
         ))
 
 
-@cli.command()
-def help(command=None):     # pylint: disable=redefined-builtin
-    """ Simple help system for commands """
-    from rst2ansi import rst2ansi
-
-    commands = _collect_commands()
-
-    if command is None:
-        help_text = [
-            'To get help for a specific command:',
-            '  \033[90mfab help:<command_name>\033[0m',
-            '',
-            'Example:',
-            '  \033[90mfab help:lint\033[0m',
-            '',
-            'Here is a list of all peltak commands (some might not be enabled'
-            ' for the project):\n  - ' + '\n  - '.join(commands.keys()),
-        ]
-        print('\n'.join(help_text))
-    elif command not in commands:
-        print("Command not found")
-    else:
-        cmd = commands[command]
-        docs = cmd.__doc__.encode('utf-8')
-
-        print('\033[1m-' * 80)
-        print('{}\033[0m\n'.format(command))
-        print(rst2ansi(docs))
-
-
 def _gen_ref_docs(ref_path, no_index=False):
     log.info('Removing previously generated reference documentation')
     if os.path.exists(ref_path):
@@ -110,30 +80,3 @@ def _gen_ref_docs(ref_path, no_index=False):
     pkg_paths = [conf.proj_path(p) for p in REFDOC_PATHS]
 
     _generate_docs(pkg_paths, **args)
-
-
-def _collect_commands():
-    # pylint: disable=unused-variable
-    import peltak.commands as peltak_cmds
-    from types import ModuleType
-
-    commands = {}
-    modules = [
-        m for m in peltak_cmds.__dict__.values()
-        if isinstance(m, ModuleType)
-    ]
-
-    commands = []
-    for module in modules:
-        commands += [
-            attr for attr_name, attr in module.__dict__.items()
-            if (
-                    callable(attr) and
-                    attr_name[0] != '_' and
-                    attr.__module__ == module.__name__
-            )
-        ]
-
-    return {cmd.__name__: cmd for cmd in commands}
-
-    return commands
