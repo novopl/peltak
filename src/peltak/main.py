@@ -14,3 +14,7 @@ __all__ = [
 
 conf.load()
 click_completion.init()
+
+
+from peltak.commands import clean
+from peltak.commands import git

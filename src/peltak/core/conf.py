@@ -46,6 +46,9 @@ def init(config):
 
 
 def load():
+    if g_proj_path is None:
+        return
+
     with within_proj_dir():
         if six.PY3:
             from importlib.util import spec_from_file_location
@@ -76,11 +79,8 @@ def proj_path(path=None):
         if g_proj_path is None:
             g_proj_path = _find_proj_root()
 
-        if g_proj_path is None:
-            log.err("Can't find project root (missing pelconf.py)")
-            sys.exit(-1)
-
-        path = normpath(join(g_proj_path, path))
+        if g_proj_path is not None:
+            path = normpath(join(g_proj_path, path))
 
     return path
 
