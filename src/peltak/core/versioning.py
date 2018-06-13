@@ -6,6 +6,8 @@ much easier.
 from __future__ import absolute_import
 
 # stdlib imports
+import json
+import os
 import re
 from os.path import exists
 
@@ -187,8 +189,26 @@ class RawVersionStorage(VersionStorage):
             fp.write(version)
 
 
+class NodeVersionStorage(VersionStorage):
+    def read(self):
+        with open(self.version_file) as fp:
+            config = json.load(fp)
+            return config.get('version')
+
+    def write(self, version):
+        with open(self.version_file, 'rw') as fp:
+            config = json.load(fp)
+
+            config['version'] = version
+
+            fp.seek(0, os.SEEK_SET)
+            fp.write(version)
+
+
 def get_version_storage(version_file):
     if VERSION_FILE.endswith('.py'):
         return PyVersionStorage(version_file)
+    elif VERSION_FILE.endswith('package.json'):
+        return NodeVersionStorage(version_file)
     else:
         return RawVersionStorage(version_file)
