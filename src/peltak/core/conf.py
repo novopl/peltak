@@ -7,6 +7,7 @@ from __future__ import absolute_import, unicode_literals
 # stdlib imports
 import os
 import subprocess
+import sys
 from collections import namedtuple
 from contextlib import contextmanager
 from os.path import abspath, dirname, isabs, join, normpath
@@ -75,6 +76,10 @@ def proj_path(path=None):
         if g_proj_path is None:
             g_proj_path = _find_proj_root()
 
+        if g_proj_path is None:
+            log.err("Can't find project root (missing pelconf.py)")
+            sys.exit(-1)
+
         path = normpath(join(g_proj_path, path))
 
     return path
@@ -88,11 +93,6 @@ def within_proj_dir(path='.', quiet=False):
     os.chdir(proj_path(path))
 
     yield
-    # if quiet:
-    #     with fabric_quiet():
-    #         yield
-    # else:
-    #     yield
 
     os.chdir(curr_dir)
 
