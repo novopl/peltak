@@ -74,21 +74,21 @@ def _gen_ref_docs(ref_path, no_index=False):
 
 def _collect_commands():
     # pylint: disable=unused-variable
-    from fabops.commands import appengine
-    from fabops.commands import clean
-    from fabops.commands import django
-    from fabops.commands import docs
-    from fabops.commands import frontend
-    from fabops.commands import git
-    from fabops.commands import ops
-    from fabops.commands import release
-    from fabops.commands import test
-    import fabops.commands as fabops_cmds
+    from peltak.commands import appengine
+    from peltak.commands import clean
+    from peltak.commands import django
+    from peltak.commands import docs
+    from peltak.commands import frontend
+    from peltak.commands import git
+    from peltak.commands import ops
+    from peltak.commands import release
+    from peltak.commands import test
+    import peltak.commands as peltak_cmds
     from types import ModuleType
 
     commands = {}
     modules = [
-        m for m in fabops_cmds.__dict__.values()
+        m for m in peltak_cmds.__dict__.values()
         if isinstance(m, ModuleType)
     ]
 
@@ -122,7 +122,7 @@ def help(command=None):     # pylint: disable=redefined-builtin
             'Example:',
             '  \033[90mfab help:lint\033[0m',
             '',
-            'Here is a list of all fabops commands (some might not be enabled'
+            'Here is a list of all peltak commands (some might not be enabled'
             ' for the project):\n  - ' + '\n  - '.join(commands.keys()),
         ]
         print('\n'.join(help_text))

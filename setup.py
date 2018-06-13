@@ -7,16 +7,16 @@ def read(fname):
 
 
 setup(
-    name="fabops",
+    name="peltak",
     version=read('VERSION').strip(),
     author="Mateusz 'novo' Klos",
     author_email="novopl@gmail.com",
     license="MIT",
     keywords="fabric ops devops",
-    url="http://github.com/novopl/fabops",
+    url="http://github.com/novopl/peltak",
     description="Set of fabric commands to help manage a project",
     long_description=read('README.rst'),
-    package_dir={'fabops': 'src/fabops'},
+    package_dir={'peltak': 'src/peltak'},
     packages=find_packages('src'),
     classifiers=[
         "Development Status :: 4 - Beta",

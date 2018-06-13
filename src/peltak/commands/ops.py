@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Commands related directly to fabops.
+Commands related directly to peltak.
 """
 from __future__ import absolute_import, unicode_literals
 
@@ -19,7 +19,7 @@ from .common import project
 
 
 def ops_update():
-    """ Pull fabops-commands mainstream updates and merge with local. """
+    """ Pull peltak-commands mainstream updates and merge with local. """
     commands_path = os.path.dirname(__file__)
 
     if git.is_dirty(commands_path):
@@ -121,7 +121,7 @@ addopts = --durations=3
 devrequirements_txt = '''
 coverage==4.2
 Fabric3==1.12.post1
-fabops==0.9.9
+peltak==0.9.9
 factory-boy==2.8.1
 mock==2.0.0
 pep8==1.7.0
