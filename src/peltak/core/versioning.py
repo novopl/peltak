@@ -23,9 +23,9 @@ VERSION_FILE = conf.get_path('VERSION_FILE', 'VERSION')
 # MAJOR.MINOR[.PATCH[-BUILD]]
 RE_VERSION = re.compile(
     r'^'
-    r'(?P<major>\d+)\.'
-    r'(?P<minor>\d+)'
-    r'(\.(?P<patch>\d+))?'
+    r'(?P<major>\d+)'
+    r'(\.(?P<minor>\d+)'
+    r'(\.(?P<patch>\d+))?)?'
     r'$'
 )
 
@@ -110,7 +110,7 @@ def _bump_version(version, component='patch'):
         raise ValueError("Version must be in MAJOR.MINOR[.PATCH] format")
 
     major = m.group('major')
-    minor = m.group('minor')
+    minor = m.group('minor') or '0'
     patch = m.group('patch') or None
 
     if patch == '0':
