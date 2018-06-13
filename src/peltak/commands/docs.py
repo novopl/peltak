@@ -9,10 +9,17 @@ from __future__ import absolute_import, unicode_literals
 import os
 import os.path
 import shutil
+import sys
 
 # 3rd party imports
 import click
-from refdoc import generate_docs as _generate_docs
+try:
+    from refdoc import generate_docs as _generate_docs
+except ImportError:
+    def _generate_docs(*args, **kw):
+        print("You need to install sphinx-refdoc to use the 'docs' command",
+              file=sys.stderr)
+        sys.exit(-1)
 
 # local imports
 from peltak.core import log, conf
