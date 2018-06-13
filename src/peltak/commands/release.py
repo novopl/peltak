@@ -105,7 +105,7 @@ def upload(target):
         conf.run('python setup.py sdist upload -r "{}"'.format(target))
 
 
-@rel.command()
+@rel.command('gen-pypirc')
 @click.argument('username', required=False)
 @click.argument('password', required=False)
 def gen_pypirc(username=None, password=None):

@@ -23,8 +23,8 @@ def git_group():
     pass
 
 
-@git_group.command()
-def addhooks():
+@git_group.command('add-hooks')
+def add_hooks():
     """ Setup project git hooks.
 
     This will run all the checks before pushing to avoid waiting for the CI

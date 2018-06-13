@@ -67,9 +67,9 @@ def deploy(version, promote):
         conf.run('gcloud app deploy {} app.yaml '.format(' '.join(args)))
 
 
-@appengine.command()
+@appengine.command('setup-ci')
 @click.argument('project', type=str)
-def ci_setup(project):
+def setup_ci(project):
     """ Setup AppEngine SDK on CircleCI """
     gcloud_path = conf.run('which gcloud', capture=True).stdout
     sdk_path = os.path.normpath(os.path.join(

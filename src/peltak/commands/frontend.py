@@ -52,10 +52,10 @@ def fe(cmd):
         log.err("No {} in FRONTEND_CMDS".format(cmd))
 
 
-@cli.command()
+@cli.command('init-fe')
 @click.argument('cmd')
 @click.option('--no-recreate', is_flag=True)
-def fe_init(no_recreate=False):
+def init_fe(no_recreate=False):
     """ Initialize frontend. """
     initialized = exists(join(FRONTEND_PATH, 'node_modules'))
 
