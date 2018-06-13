@@ -11,12 +11,12 @@ import os.path
 import shutil
 
 # 3rd party imports
-from fabric.api import local, lcd
+import click
 from refdoc import generate_docs as _generate_docs
 
 # local imports
-from .common import conf
-from .common import log
+from peltak.core import log, conf
+from . import cli
 
 
 BUILD_DIR = conf.get_path('BUILD_DIR', '.build')
@@ -29,85 +29,35 @@ DOC_ASSETS_PATH = os.path.join(DOC_SRC_PATH, 'assets')
 DOC_BUILD_PATH = os.path.join(BUILD_DIR, 'docs')
 
 
-def docs(recreate='no', no_index='false'):
+@cli.command()
+@click.option('--recreate', is_flag=True)
+@click.option('--no_index', is_flag=False)
+def docs(recreate=False, no_index=False):
     """ Build project documentation. """
     log.info('Ensuring assets directory ^94{}^32 exists', DOC_ASSETS_PATH)
     if not os.path.exists(DOC_ASSETS_PATH):
         os.makedirs(DOC_ASSETS_PATH)
 
-    if conf.is_true(recreate) and os.path.exists(DOC_OUT_PATH):
+    if recreate and os.path.exists(DOC_OUT_PATH):
         log.info("^91Deleting ^94{}".format(DOC_OUT_PATH))
         shutil.rmtree(DOC_OUT_PATH)
 
     if DOC_REF_PATH:
-        _gen_ref_docs(DOC_REF_PATH, conf.is_true(no_index))
+        _gen_ref_docs(DOC_REF_PATH, no_index)
     else:
         log.err('Not generating any reference documentation - '
                 'No DOC_REF_PKG_PATHS specified in config')
 
-    with lcd(DOC_SRC_PATH):
+    with conf.within_proj_dir(DOC_SRC_PATH):
         log.info('Building docs with ^35sphinx')
-        local('sphinx-build -b html -d {build} {docs} {out}'.format(
+        conf.run('sphinx-build -b html -d {build} {docs} {out}'.format(
             build=DOC_BUILD_PATH,
             docs=DOC_SRC_PATH,
             out=DOC_OUT_PATH,
         ))
 
 
-def _gen_ref_docs(ref_path, no_index=False):
-    log.info('Removing previously generated reference documentation')
-    if os.path.exists(ref_path):
-        shutil.rmtree(ref_path)
-
-    os.makedirs(ref_path)
-
-    log.info('Generating reference documentation')
-    args = {'out_dir': ref_path}
-
-    if no_index:
-        args['no_index'] = True
-
-    pkg_paths = [conf.proj_path(p) for p in REFDOC_PATHS]
-
-    _generate_docs(pkg_paths, **args)
-
-
-def _collect_commands():
-    # pylint: disable=unused-variable
-    from peltak.commands import appengine
-    from peltak.commands import clean
-    from peltak.commands import django
-    from peltak.commands import docs
-    from peltak.commands import frontend
-    from peltak.commands import git
-    from peltak.commands import ops
-    from peltak.commands import release
-    from peltak.commands import test
-    import peltak.commands as peltak_cmds
-    from types import ModuleType
-
-    commands = {}
-    modules = [
-        m for m in peltak_cmds.__dict__.values()
-        if isinstance(m, ModuleType)
-    ]
-
-    commands = []
-    for module in modules:
-        commands += [
-            attr for attr_name, attr in module.__dict__.items()
-            if (
-                callable(attr) and
-                attr_name[0] != '_' and
-                attr.__module__ == module.__name__
-            )
-        ]
-
-    return {cmd.__name__: cmd for cmd in commands}
-
-    return commands
-
-
+@cli.command()
 def help(command=None):     # pylint: disable=redefined-builtin
     """ Simple help system for commands """
     from rst2ansi import rst2ansi
@@ -135,3 +85,48 @@ def help(command=None):     # pylint: disable=redefined-builtin
         print('\033[1m-' * 80)
         print('{}\033[0m\n'.format(command))
         print(rst2ansi(docs))
+
+
+def _gen_ref_docs(ref_path, no_index=False):
+    log.info('Removing previously generated reference documentation')
+    if os.path.exists(ref_path):
+        shutil.rmtree(ref_path)
+
+    os.makedirs(ref_path)
+
+    log.info('Generating reference documentation')
+    args = {'out_dir': ref_path}
+
+    if no_index:
+        args['no_index'] = True
+
+    pkg_paths = [conf.proj_path(p) for p in REFDOC_PATHS]
+
+    _generate_docs(pkg_paths, **args)
+
+
+def _collect_commands():
+    # pylint: disable=unused-variable
+    import peltak.commands as peltak_cmds
+    from types import ModuleType
+
+    commands = {}
+    modules = [
+        m for m in peltak_cmds.__dict__.values()
+        if isinstance(m, ModuleType)
+    ]
+
+    commands = []
+    for module in modules:
+        commands += [
+            attr for attr_name, attr in module.__dict__.items()
+            if (
+                    callable(attr) and
+                    attr_name[0] != '_' and
+                    attr.__module__ == module.__name__
+            )
+        ]
+
+    return {cmd.__name__: cmd for cmd in commands}
+
+    return commands

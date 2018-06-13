@@ -5,7 +5,7 @@ from __future__ import absolute_import, unicode_literals
 import pytest
 
 # local imports
-from peltak.common import conf
+from peltak.core import conf
 
 
 @pytest.mark.parametrize('str_val', [

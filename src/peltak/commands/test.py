@@ -8,11 +8,11 @@ from __future__ import absolute_import, unicode_literals
 import os.path
 
 # 3rd party imports
-from fabric.api import local, shell_env
+import click
 
 # local imports
-from .common import conf
-from .common import fs
+from peltak.core import fs, conf
+from . import cli
 
 
 BUILD_DIR = conf.get_path('BUILD_DIR', '.build')
@@ -27,22 +27,23 @@ DJANGO_SETTINGS = conf.get('DJANGO_SETTINGS', None)
 DJANGO_TEST_SETTINGS = conf.get('DJANGO_TEST_SETTINGS', None)
 
 
-def test(**opts):
+@cli.command()
+@click.option('--no-sugar', is_flag=True)
+@click.option('--type', type=str, default='default')
+@click.option('--verbose', count=True)
+@click.option('--no-junit', is_flag=True)
+@click.option('--no-locals', is_flag=True)
+@click.option('--no-coverage', is_flag=True)
+@click.option('--plugins', type=str, default='')
+# def test(**opts):
+def test(no_sugar, type, verbose, no_junit, no_locals, no_coverage, plugins):
     """ Run all tests against the current python version. """
     SRC_DIR = conf.get_path('SRC_DIR')
     SRC_PATH = conf.get_path('SRC_PATH')
-
-    sugar = conf.is_true(opts.get('sugar', 'on'))
-    junit = conf.is_true(opts.get('junit', 'off'))
-    test_type = opts.get('type', 'default')
-    verbose = int(opts.get('verbose', '0'))
-    show_locals = conf.is_true(opts.get('locals', 'on'))
-    coverage = conf.is_true(opts.get('coverage', 'on'))
-    plugins = opts.get('plugins', '').split(',')
-
+    plugins = plugins.split(',')
     args = []
 
-    if coverage:
+    if not no_coverage:
         args += [
             '--durations=3',
             '--cov-config={}'.format(COVERAGE_CFG_PATH),
@@ -51,7 +52,7 @@ def test(**opts):
             '--cov-report=html:{}'.format(COVERAGE_OUT_PATH),
         ]
 
-    if junit:
+    if not no_junit:
         args += ['--junitxml={}/test-results.xml'.format('.build')]
 
     if '-django' not in plugins:
@@ -60,7 +61,7 @@ def test(**opts):
         elif DJANGO_SETTINGS is not None:
             args += ['--ds {}'.format(DJANGO_SETTINGS)]
 
-    if not sugar:
+    if no_sugar:
         args += ['-p no:sugar']
 
     if verbose >= 1:
@@ -68,7 +69,7 @@ def test(**opts):
     if verbose >= 2:
         args += ['--full-trace']
 
-    if show_locals:
+    if not no_locals:
         args += ['-l']
 
     if plugins:
@@ -82,18 +83,20 @@ def test(**opts):
                 args += ['-p {}'.format(plug_name)]
 
     test_config = {'paths': SRC_PATH}
-    if test_type is not None:
-        test_config = TEST_TYPES.get(test_type)
+    if type is not None:
+        test_config = TEST_TYPES.get(type)
         mark = test_config.get('mark')
 
         if mark:
             args += ['-m "{}"'.format(mark)]
 
-    with shell_env(PYTHONPATH=SRC_DIR):
-        test_paths = test_config['paths'] or []
-        test_paths = [conf.proj_path(p) for p in test_paths]
-        local('pytest -c {conf} {args} {paths}'.format(
+    test_paths = test_config['paths'] or []
+    test_paths = [conf.proj_path(p) for p in test_paths]
+    conf.run(
+        'pytest -c {conf} {args} {paths}'.format(
             conf=PYTEST_CFG_PATH,
             args=' '.join(args),
             paths = fs.surround_paths_with_quotes(test_paths)
-        ))
+        ),
+        env={'PYTHONPATH': SRC_DIR}
+    )

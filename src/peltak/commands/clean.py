@@ -9,8 +9,9 @@ from __future__ import absolute_import, unicode_literals
 import os
 
 # local imports
-from .common import conf
-from .common import fs
+from peltak.core import conf
+from peltak.core import fs
+from . import cli
 
 
 CLEAN_PATTERNS = conf.get('CLEAN_PATTERNS', [
@@ -20,6 +21,7 @@ CLEAN_PATTERNS = conf.get('CLEAN_PATTERNS', [
 ])
 
 
+@cli.command()
 def clean():
     """ Remove temporary files like python cache, swap files, etc. """
     cwd = os.getcwd()

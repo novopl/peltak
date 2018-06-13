@@ -5,8 +5,8 @@ from __future__ import absolute_import, unicode_literals
 import click_completion
 
 # local imports
-from peltak.common import conf
-from peltak.commands_old import cli
+from peltak.core import conf
+from peltak.commands import cli
 __all__ = [
     'cli'
 ]

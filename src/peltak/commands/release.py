@@ -10,20 +10,29 @@ import sys
 from os.path import join
 from warnings import warn
 
-# 3rd party imports
-from fabric.api import local
+# 3rd party modules
+import click
 
 # local imports
-from .common import conf
-from .common import git
-from .common import log
-from .common import project
-from .common import version as ver
+from peltak.core import git, log, conf, version as ver
+from . import cli
 
 
 VERSION_FILE = conf.get_path('VERSION_FILE', 'VERSION')
 
 
+@cli.group('release')
+def rel():
+    """ Release related commands. """
+    pass
+
+@cli.group('version')
+def ver_cmd():
+    """ Versioning related commands. """
+    pass
+
+
+@ver_cmd.command('show')
 def version():
     """ Return current project version. """
     current = ver.get_current(VERSION_FILE)
@@ -31,6 +40,9 @@ def version():
     log.info("Version: ^35{}".format(current))
 
 
+@ver_cmd.command('bump')
+@click.argument('component', required=False, default='patch')
+@click.option('--exact', type=str)
 def bumpver(component='patch', exact=None):
     """ Bump current project version without committing anything.
 
@@ -52,6 +64,9 @@ def bumpver(component='patch', exact=None):
     log.info("  new version: ^35{}".format(new_ver))
 
 
+@rel.command('make')
+@click.argument('component', required=False)
+@click.option('--exact', type=str)
 def makerel(component='patch', exact=None):
     """ Release a new version of the project.
 
@@ -62,8 +77,8 @@ def makerel(component='patch', exact=None):
     2. Create and checkout release/* branch
     3. Create commit with bumped version.
     """
-    with project.inside(quiet=True):
-        out = local('git status --porcelain', capture=True).strip()
+    with conf.within_proj_dir(quiet=True):
+        out = conf.run('git status --porcelain', capture=True).strip()
         has_changes = any(
             not l.startswith('??') for l in out.split(os.linesep) if l.strip()
         )
@@ -86,25 +101,28 @@ def makerel(component='patch', exact=None):
     log.info("  old version: ^35{}".format(old_ver))
     log.info("  new version: ^35{}".format(new_ver))
 
-    with project.inside(quiet=True):
+    with conf.within_proj_dir(quiet=True):
         branch = 'release/' + new_ver
 
         log.info("Checking out new branch ^35{}", branch)
-        local('git checkout -b ' + branch)
+        conf.run('git checkout -b ' + branch)
 
         log.info("Creating commit for the release")
-        local('git add {ver_file} && git commit -m "Release: v{ver}"'.format(
+        conf.run('git add {ver_file} && git commit -m "Release: v{ver}"'.format(
             ver_file=VERSION_FILE,
             ver=new_ver
         ))
 
 
+@rel.command('tag')
+@click.argument('component', required=False)
+@click.option('--exact', type=str)
 def tagrel():
     """ Create a new release tag for the current version. """
     release_ver = ver.get_current(VERSION_FILE)
     author = git.commit_author()
 
-    with project.inside(quiet=False):
+    with conf.within_proj_dir(quiet=False):
         log.info("Creating tag that marks the release")
         cmd = (
             'git -c "user.name={0.name}" -c "user.email={0.email}" '
@@ -113,27 +131,22 @@ def tagrel():
             author,
             release_ver
         )
-        local(cmd)
+        conf.run(cmd)
 
 
+@rel.command()
+@click.argument('target', required=False)
 def upload(target='local'):
     """ Release to a given pypi server ('local' by default). """
     log.info("Uploading to pypi server ^33{}".format(target))
-    with project.inside(quiet=False):
-        local('python setup.py sdist register -r "{}"'.format(target))
-        local('python setup.py sdist upload -r "{}"'.format(target))
+    with conf.within_proj_dir(quiet=False):
+        conf.run('python setup.py sdist register -r "{}"'.format(target))
+        conf.run('python setup.py sdist upload -r "{}"'.format(target))
 
 
-def release(component='patch', target='local'):
-    """ Release a new version of the project.
-
-    This will bump the version number (patch component by default) + add and tag
-    a commit with that change. Finally it will upload the package to pypi.
-    """
-    make_release(component)
-    upload(target)
-
-
+@rel.command()
+@click.argument('username', required=False)
+@click.argument('password', required=False)
 def gen_pypirc(username=None, password=None):
     """ Generate .pypirc config with the given credentials. """
     path = join(conf.getenv('HOME'), '.pypirc')
@@ -158,24 +171,3 @@ def gen_pypirc(username=None, password=None):
             'password: {}'.format(password),
             '',
         )))
-
-
-# Deprecated
-
-
-def bump_version(component='patch', exact=None):
-    """ Deprecated. Use bumpver. """
-    warn("bump_version is deprecated, use bumpver instead")
-    return bumpver(component, exact)
-
-
-def make_release(component='patch', exact=None):
-    """ Deprecated. Use makerel. """
-    warn("make_release is deprecated, use makerel instead")
-    return makerel(component, exact)
-
-
-def tag_release():
-    """ Deprecated. Use tagrel. """
-    warn("tag_release is deprecated, use tagrel instead")
-    return tagrel()
