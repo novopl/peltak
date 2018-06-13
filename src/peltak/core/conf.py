@@ -30,12 +30,34 @@ ExecResult = namedtuple(
 )
 
 
-def is_true(value):
-    """ Convert various string values to boolean. """
-    try:
-        return value.lower() in ('yes', 'y', 'true', 'on')
-    except Exception:
-        raise ValueError("str_value should be a string.")
+def init(config):
+    """ Initialize configuration with the given values.
+
+    This should be called from within the project fabfile, before any
+    other commands are imported
+
+    :param dict config:
+        The dictionary containing the project configuration.
+    """
+    global g_config
+
+    g_config.update(config)
+
+
+def load():
+    with within_proj_dir():
+        if six.PY3:
+            from importlib.util import spec_from_file_location
+            from importlib.util import module_from_spec
+
+            spec = spec_from_file_location('pelconf', 'pelconf.py')
+            mod = module_from_spec(spec)
+            spec.loader.exec_module(mod)
+
+        else:
+            import imp
+
+            imp.load_source('pelconf', 'pelconf.py')
 
 
 def getenv(name, default=None):
@@ -99,37 +121,6 @@ def run(cmd, capture=False, shell=True, env=None):
     )
 
 
-def _find_proj_root():
-    """ Find appengine_sdk in the current $PATH. """
-    global g_proj_root
-
-    if g_proj_root is None:
-        start_paths = [
-            abspath(dirname(__file__)),
-            os.getcwd()
-        ]
-
-        # log.info('Finding project root')
-        for curr in start_paths:
-            while curr.startswith('/') and len(curr) > 1:
-                # log.info('  checking ^94{}', curr)
-                if PROJ_CONF_FILE in os.listdir(curr):
-                    # log.info('  ^32Found')
-                    g_proj_root = curr
-                    break
-                else:
-                    curr = normpath(join(curr, '..'))
-
-            if g_proj_root is not None:
-                break
-
-        if g_proj_root is None:
-            # log.info('  ^31Not found')
-            pass
-
-    return g_proj_root
-
-
 def get(name, *default):
     """ Get config value with the given name and optional default.
 
@@ -182,31 +173,32 @@ def get_path(name, *default):
         raise AttributeError("Config value '{}' does not exist".format(name))
 
 
-def init(config):
-    """ Initialize configuration with the given values.
+def _find_proj_root():
+    """ Find appengine_sdk in the current $PATH. """
+    global g_proj_root
 
-    This should be called from within the project fabfile, before any
-    other commands are imported
+    if g_proj_root is None:
+        start_paths = [
+            abspath(dirname(__file__)),
+            os.getcwd()
+        ]
 
-    :param dict config:
-        The dictionary containing the project configuration.
-    """
-    global g_config
+        # log.info('Finding project root')
+        for curr in start_paths:
+            while curr.startswith('/') and len(curr) > 1:
+                # log.info('  checking ^94{}', curr)
+                if PROJ_CONF_FILE in os.listdir(curr):
+                    # log.info('  ^32Found')
+                    g_proj_root = curr
+                    break
+                else:
+                    curr = normpath(join(curr, '..'))
 
-    g_config.update(config)
+            if g_proj_root is not None:
+                break
 
+        if g_proj_root is None:
+            # log.info('  ^31Not found')
+            pass
 
-def load():
-    with within_proj_dir():
-        if six.PY3:
-            from importlib.util import spec_from_file_location
-            from importlib.util import module_from_spec
-
-            spec = spec_from_file_location('pelconf', 'pelconf.py')
-            mod = module_from_spec(spec)
-            spec.loader.exec_module(mod)
-
-        else:
-            import imp
-
-            imp.load_source('pelconf', 'pelconf.py')
+    return g_proj_root
