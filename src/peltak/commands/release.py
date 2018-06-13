@@ -133,8 +133,8 @@ def tag_release():
 
 
 @rel.command()
-@click.argument('target', required=False)
-def upload(target='local'):
+@click.argument('target')
+def upload(target):
     """ Release to a given pypi server ('local' by default). """
     log.info("Uploading to pypi server ^33{}".format(target))
     with conf.within_proj_dir(quiet=False):
