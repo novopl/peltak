@@ -13,18 +13,26 @@ import os
 import os.path
 
 # 3rd party imports
-from fabric.api import lcd, local
+import click
 
 # local imports
 from peltak.common import conf
-from peltak.common import project
 from peltak.common import log
+from . import cli
 
 
-def devserver(port='8080', admin_port=None, clear='False'):
+@cli.group()
+def appengine():
+    """ Google AppEngine related commands. """
+    pass
+
+
+@appengine.command()
+@click.option('-p', '--port', type=int, default=8080)
+@click.option('--admin-port', type=int, default=None)
+@click.option('--clear', is_flag=True)
+def devserver(port, admin_port, clear):
     """ Run devserver. """
-    clear = conf.is_true(clear)
-    port = int(port)
     admin_port = admin_port or (port + 1)
 
     args = [
@@ -36,29 +44,34 @@ def devserver(port='8080', admin_port=None, clear='False'):
         args += ['--clear_datastore=yes']
 
     with conf.within_proj_dir():
-        local('dev_appserver.py . {args}'.format(args=' '.join(args)))
+        conf.run('dev_appserver.py . {args}'.format(args=' '.join(args)))
 
 
-def deploy(version='playground', promote='false'):
+@appengine.command()
+@click.option('-v', '--version', type=str, default='playground')
+@click.option('--promote', is_flag=True)
+def deploy(version, promote):
     """ Deploy to Google AppEngine. """
-    with lcd(conf.proj_path()):
+    with conf.within_proj_dir():
         args = [
             '-q',
             '--project=worclock',
             '--version={}'.format(version)
         ]
 
-        if conf.is_true(promote):
+        if promote:
             args += ['--promote']
         else:
             args += ['--no-promote']
 
-        local('gcloud app deploy {} app.yaml '.format(' '.join(args)))
+        conf.run('gcloud app deploy {} app.yaml '.format(' '.join(args)))
 
 
-def appengine_ci_setup(project):
+@appengine.command()
+@click.argument('project', type=str)
+def ci_setup(project):
     """ Setup AppEngine SDK on CircleCI """
-    gcloud_path = local('which gcloud', capture=True).stdout
+    gcloud_path = conf.run('which gcloud', capture=True).stdout
     sdk_path = os.path.normpath(os.path.join(
         gcloud_path, '../../platform/google_appengine'
     ))
@@ -66,18 +79,18 @@ def appengine_ci_setup(project):
 
     if not os.path.exists(sdk_path):
         log.info("Installing AppEngine SDK")
-        local('sudo {} components install app-engine-python'.format(gcloud_cmd))
+        conf.run('sudo {} components install app-engine-python'.format(gcloud_cmd))
     else:
         # Only initialise once. To reinitialise, just build without cache.
         log.info("AppEngine SDK already initialised")
 
     log.info("Using service account authentication")
-    local('{} auth activate-service-account --key-file {}'.format(
+    conf.run('{} auth activate-service-account --key-file {}'.format(
         gcloud_cmd,
         conf.proj_path('ops/client_secret.json')
     ))
 
-    # local('{} config set project {}'.format(gcloud_cmd, project))
+    # conf.run('{} config set project {}'.format(gcloud_cmd, project))
 
 
 def _is_appengine_sdk(path):

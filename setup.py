@@ -21,11 +21,11 @@ setup(
     install_requires=[
         l.strip() for l in read('requirements.txt').split() if '==' in l
     ],
-    # entry_points={
-    #     'console_scripts': [
-    #         'appconf-node = appconf_node.cli:cli',
-    #     ]
-    # },
+    entry_points={
+        'console_scripts': [
+            'peltak = peltak.main:cli',
+        ]
+    },
     classifiers=[
         "Development Status :: 4 - Beta",
         "Topic :: Utilities",

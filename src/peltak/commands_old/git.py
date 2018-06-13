@@ -8,13 +8,23 @@ from __future__ import absolute_import, unicode_literals
 import os
 
 # 3rd party imports
-from fabric.api import local
+import click
 
 # local imports
-from peltak.common import git, log, conf
+from peltak.common import conf
+from peltak.common import git
+from peltak.common import log
+from . import cli
 
 
-def addgithooks():
+@cli.group('git')
+def git_group():
+    """ Git related commands """
+    pass
+
+
+@git_group.command()
+def addhooks():
     """ Setup project git hooks.
 
     This will run all the checks before pushing to avoid waiting for the CI
@@ -56,12 +66,14 @@ def addgithooks():
     os.chmod(conf.proj_path('.git/hooks/pre-push'), 0o755)
 
 
+@git_group.command()
 def push():
     """ Push the current branch and set to track remote. """
     branch = git.current_branch()
-    local('git push -u origin {}'.format(branch))
+    conf.run('git push -u origin {}'.format(branch))
 
 
+@git_group.command()
 def merged(target=None):
     """ Checkout develop, pull and delete merged branches.
 
@@ -74,22 +86,22 @@ def merged(target=None):
         target = 'master' if branch.startswith('release/') else 'develop'
 
     try:
-        local('git rev-parse --verify {}'.format(branch))
+        conf.run('git rev-parse --verify {}'.format(branch))
     except:
         log.err("Branch '{}' does not exist".format(branch))
 
     log.info("Checking out ^33{}".format(target))
-    local('git checkout {}'.format(target))
+    conf.run('git checkout {}'.format(target))
 
     log.info("Pulling latest changes")
-    local('git pull origin {}'.format(target))
+    conf.run('git pull origin {}'.format(target))
 
     if branch not in protected_branches:
         log.info("Deleting branch ^33{}".format(branch))
-        local('git branch -d {}'.format(branch))
+        conf.run('git branch -d {}'.format(branch))
 
     log.info("Pruning")
-    local('git fetch --prune origin')
+    conf.run('git fetch --prune origin')
 
     log.info("Checking out ^33{}^32 branch".format(target))
-    local('git checkout {}'.format(target))
+    conf.run('git checkout {}'.format(target))

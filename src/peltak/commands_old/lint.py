@@ -6,10 +6,13 @@ from __future__ import absolute_import, unicode_literals
 
 # 3rd party imports
 from six import string_types
-from fabric.api import local
 
 # local imports
-from peltak.common import log, fs, conf
+from peltak.common import conf
+from peltak.common import fs
+from peltak.common import log
+from . import cli
+
 
 PYLINT_CFG_PATH = conf.get_path('PYLINT_CFG_PATH', 'ops/tools/pylint.ini')
 PEP8_CFG_PATH = conf.get_path('PEP8_CFG_PATH', 'ops/tools/pep8.ini')
@@ -32,11 +35,11 @@ def _lint_files(paths):
 
     log.info("Checking PEP8 compatibility")
     pep8_cmd = 'pep8 --config {} {{}}'.format(PEP8_CFG_PATH)
-    pep8_ret = local(pep8_cmd.format(paths)).return_code
+    pep8_ret = conf.run(pep8_cmd.format(paths)).return_code
 
     log.info("Running linter")
     pylint_cmd = 'pylint --rcfile {} {{}}'.format(PYLINT_CFG_PATH)
-    pylint_ret = local(pylint_cmd.format(paths)).return_code
+    pylint_ret = conf.run(pylint_cmd.format(paths)).return_code
 
     if pep8_ret != 0:
         print("pep8 failed with return code {}".format(pep8_ret))
@@ -47,6 +50,7 @@ def _lint_files(paths):
     return pep8_ret == pylint_ret == 0
 
 
+@cli.command()
 def lint():
     """ Run pep8 and pylint on all project files. """
     if not _lint_files([conf.proj_path(p) for p in LINT_PATHS]):

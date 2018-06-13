@@ -8,7 +8,6 @@ from __future__ import absolute_import, unicode_literals
 from collections import namedtuple
 
 # 3rd party imports
-from fabric.api import local, quiet
 
 # local imports
 from . import conf
@@ -19,15 +18,14 @@ Author = namedtuple('Author', 'name email')
 
 def current_branch():
     """ Return the name of the currently checked out git branch. """
-    with quiet():
-        return local('git symbolic-ref --short HEAD', capture=True).stdout
+    return conf.run('git symbolic-ref --short HEAD', capture=True).stdout
 
 
 def is_dirty(path='.'):
     """ Return **True** if there are any changes/unstaged files. """
 
     with conf.within_proj_dir(path, quiet=True):
-        status = local('git status --porcelain', capture=True).stdout
+        status = conf.run('git status --porcelain', capture=True).stdout
         return bool(status.strip())
 
 
@@ -42,6 +40,6 @@ def commit_author(sha1=''):
     """
     with conf.within_proj_dir():
         cmd = 'git show -s --format="%an||%ae" {}'.format(sha1)
-        result = local(cmd, capture=True).stdout
+        result = conf.run(cmd, capture=True).stdout
         name, email = result.split('||')
         return Author(name, email)

@@ -12,7 +12,7 @@ from contextlib import contextmanager
 from os.path import abspath, dirname, isabs, join, normpath
 
 # 3rd party imports
-from fabric.api import lcd, quiet as fabric_quiet
+import six
 
 # local imports
 from . import log
@@ -21,6 +21,7 @@ from . import log
 g_config = {}
 g_proj_path = None
 g_proj_root = None
+PROJ_CONF_FILE = 'pelconf.py'
 
 
 ExecResult = namedtuple(
@@ -64,16 +65,17 @@ def within_proj_dir(path='.', quiet=False):
 
     os.chdir(proj_path(path))
 
-    if quiet:
-        with fabric_quiet():
-            yield
-    else:
-        yield
+    yield
+    # if quiet:
+    #     with fabric_quiet():
+    #         yield
+    # else:
+    #     yield
 
     os.chdir(curr_dir)
 
 
-def run(cmd, capture=False, shell=True):
+def run(cmd, capture=False, shell=True, env=None):
     options = {
         'bufsize': 1,       # line buffered
         'shell': shell
@@ -84,6 +86,10 @@ def run(cmd, capture=False, shell=True):
             'stdout': subprocess.PIPE,
             'stderr': subprocess.PIPE,
         })
+
+    if env is not None:
+        options['env'] = dict(os.environ)
+        options['env'].update(env)
 
     p = subprocess.Popen(cmd, **options)
     stdout, stderr = p.communicate()
@@ -103,12 +109,12 @@ def _find_proj_root():
             os.getcwd()
         ]
 
-        log.info('Finding project root')
+        # log.info('Finding project root')
         for curr in start_paths:
             while curr.startswith('/') and len(curr) > 1:
-                log.info('  checking ^94{}', curr)
-                if 'fabfile.py' in os.listdir(curr):
-                    log.info('  ^32Found')
+                # log.info('  checking ^94{}', curr)
+                if PROJ_CONF_FILE in os.listdir(curr):
+                    # log.info('  ^32Found')
                     g_proj_root = curr
                     break
                 else:
@@ -118,7 +124,8 @@ def _find_proj_root():
                 break
 
         if g_proj_root is None:
-            log.info('  ^31Not found')
+            # log.info('  ^31Not found')
+            pass
 
     return g_proj_root
 
@@ -187,3 +194,19 @@ def init(config):
     global g_config
 
     g_config.update(config)
+
+
+def load():
+    with within_proj_dir():
+        if six.PY3:
+            from importlib.util import spec_from_file_location
+            from importlib.util import module_from_spec
+
+            spec = spec_from_file_location('pelconf', 'pelconf.py')
+            mod = module_from_spec(spec)
+            spec.loader.exec_module(mod)
+
+        else:
+            import imp
+
+            imp.load_source('pelconf', 'pelconf.py')

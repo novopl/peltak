@@ -11,10 +11,12 @@ from __future__ import absolute_import, unicode_literals
 from os.path import exists, join
 
 # 3rd party imports
-from fabric.api import local, lcd
+import click
 
 # local imports
 from peltak.common import log, conf
+from . import cli
+
 
 FRONTEND_PATH = conf.get_path('FRONTEND_PATH', None)
 FRONTEND_CMDS = conf.get('FRONTEND_CMDS', {
@@ -29,12 +31,14 @@ FRONTEND_CMDS = conf.get('FRONTEND_CMDS', {
 
 def _fe_cmd(cmd):
     if FRONTEND_PATH is not None:
-        with lcd(FRONTEND_PATH):
-            local(cmd)
+        with conf.within_proj_dir(FRONTEND_PATH):
+            conf.run(cmd)
     else:
         log.err("No FRONTEND_PATH defined in the config")
 
 
+@cli.command()
+@click.argument('cmd')
 def fe(cmd):
     """ Run a predefined frontend command.
 
@@ -48,10 +52,12 @@ def fe(cmd):
         log.err("No {} in FRONTEND_CMDS".format(cmd))
 
 
-def fe_init(force='yes'):
+@cli.command()
+@click.argument('cmd')
+@click.option('--no-recreate', is_flag=True)
+def fe_init(no_recreate=False):
     """ Initialize frontend. """
-    force = conf.is_true(force)
     initialized = exists(join(FRONTEND_PATH, 'node_modules'))
 
-    if force or not initialized:
+    if not (initialized and no_recreate):
         _fe_cmd('npm install')

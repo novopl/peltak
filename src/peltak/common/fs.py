@@ -11,10 +11,9 @@ from shutil import rmtree
 
 # 3rd party imports
 from six import string_types
-from fabric.api import local, quiet
 
 # local imports
-from . import log
+from . import conf, log
 
 
 def surround_paths_with_quotes(paths):
@@ -31,15 +30,14 @@ def rm_glob(pattern):
     """ Remove all files matching the given glob *pattern*. """
     log.info("Removing files matching {}", pattern)
 
-    with quiet():
-        cmd = ' '.join([
-            'find . -name "{}"'.format(pattern),
-            "| sed '/^\.\/env/d'",   # Remove entries starting with ./env
-            "| sed '/^\.\/\.tox/d'"  # Remove entries starting with ./.tox
-        ])
-        matches = local(cmd, capture=True)
+    cmd = ' '.join([
+        'find . -name "{}"'.format(pattern),
+        "| sed '/^\.\/env/d'",   # Remove entries starting with ./env
+        "| sed '/^\.\/\.tox/d'"  # Remove entries starting with ./.tox
+    ])
+    matches = conf.run(cmd, capture=True)
 
-    for path in matches.splitlines():
+    for path in matches.stdout.splitlines():
         # might be a child of a dir deleted in an earlier iteration
         if not exists(path):
             continue
