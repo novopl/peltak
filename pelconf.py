@@ -17,6 +17,7 @@ conf.init({
     'SRC_DIR': 'src',
     'SRC_PATH': 'src/peltak',
     'BUILD_DIR': '.build',
+    'VERSION_FILE': 'src/peltak/__init__.py',
     'LINT_PATHS': [
         'src/peltak',
     ],
@@ -41,3 +42,4 @@ from peltak.commands import git
 from peltak.commands import lint
 from peltak.commands import release
 from peltak.commands import test
+from peltak.commands import version

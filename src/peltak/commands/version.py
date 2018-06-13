@@ -9,8 +9,6 @@ from peltak.core import log, conf, versioning
 from . import cli
 
 
-VERSION_FILE = conf.get_path('VERSION_FILE', 'VERSION')
-
 @cli.group('version')
 def ver():
     """ Versioning related commands. """
@@ -20,30 +18,27 @@ def ver():
 @ver.command('show')
 def version():
     """ Return current project version. """
-    current = versioning.current(VERSION_FILE)
+    current = versioning.current()
 
     log.info("Version: ^35{}".format(current))
 
 
 @ver.command('bump')
-@click.argument('component', required=False, default='patch')
+@click.argument(
+    'component',
+    type=click.Choice(['major','minor', 'patch']),
+    required=False,
+    default='patch'
+)
 @click.option('--exact', type=str)
 def bump_version(component='patch', exact=None):
     """ Bump current project version without committing anything.
 
     No tags are created either.
     """
+
+    old_ver, new_ver = versioning.bump(component, exact)
+
     log.info("Bumping package version")
-
-    old_ver = versioning.current(VERSION_FILE)
     log.info("  old version: ^35{}".format(old_ver))
-
-    if versioning.is_valid(exact):
-        new_ver = exact
-    else:
-        new_ver = versioning.bump(old_ver, component)
-
-    with open(VERSION_FILE, 'w') as fp:
-        fp.write(new_ver)
-
     log.info("  new version: ^35{}".format(new_ver))

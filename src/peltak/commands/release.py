@@ -28,9 +28,14 @@ def rel():
 
 
 @rel.command('make')
-@click.argument('component', required=False)
+@click.argument(
+    'component',
+    type=click.Choice(['major','minor', 'patch']),
+    required=False,
+    default='patch'
+)
 @click.option('--exact', type=str)
-def make_release(component='patch', exact=None):
+def make_release(component, exact):
     """ Release a new version of the project.
 
     This will bump the version number (patch component by default) + add and tag
@@ -50,17 +55,9 @@ def make_release(component='patch', exact=None):
         log.info("Cannot release: there are uncommitted changes")
         exit(1)
 
+    old_ver, new_ver = versioning.bump(component, exact)
+
     log.info("Bumping package version")
-    old_ver = versioning.current(VERSION_FILE)
-
-    if versioning.is_valid(exact):
-        new_ver = exact
-    else:
-        new_ver = versioning.bump(old_ver, component)
-
-    with open(VERSION_FILE, 'w') as fp:
-        fp.write(new_ver)
-
     log.info("  old version: ^35{}".format(old_ver))
     log.info("  new version: ^35{}".format(new_ver))
 
@@ -80,7 +77,7 @@ def make_release(component='patch', exact=None):
 @rel.command('tag')
 def tag_release():
     """ Create a new release tag for the current version. """
-    release_ver = versioning.current(VERSION_FILE)
+    release_ver = versioning.current()
     author = git.commit_author()
 
     with conf.within_proj_dir(quiet=False):

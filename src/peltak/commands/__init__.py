@@ -4,8 +4,11 @@ from __future__ import absolute_import, unicode_literals
 # 3rd party imports
 import click
 
+import peltak
+
 
 @click.group()
+@click.version_option(version=peltak.__version__, message='%(version)s')
 def cli():
     """
 
