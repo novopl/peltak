@@ -31,7 +31,7 @@ def is_valid(version_str):
     return version_str and RE_VERSION.match(version_str)
 
 
-def get_current(version_file):
+def current(version_file):
     """ Return the current project version read from *version_file*.
 
     :param {str|unicode} version_file:

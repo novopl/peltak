@@ -14,7 +14,7 @@ from warnings import warn
 import click
 
 # local imports
-from peltak.core import git, log, conf, version as ver
+from peltak.core import git, log, conf, versioning
 from . import cli
 
 
@@ -25,43 +25,6 @@ VERSION_FILE = conf.get_path('VERSION_FILE', 'VERSION')
 def rel():
     """ Release related commands. """
     pass
-
-@cli.group('version')
-def ver_cmd():
-    """ Versioning related commands. """
-    pass
-
-
-@ver_cmd.command('show')
-def version():
-    """ Return current project version. """
-    current = ver.get_current(VERSION_FILE)
-
-    log.info("Version: ^35{}".format(current))
-
-
-@ver_cmd.command('bump')
-@click.argument('component', required=False, default='patch')
-@click.option('--exact', type=str)
-def bump_version(component='patch', exact=None):
-    """ Bump current project version without committing anything.
-
-    No tags are created either.
-    """
-    log.info("Bumping package version")
-
-    old_ver = ver.get_current(VERSION_FILE)
-    log.info("  old version: ^35{}".format(old_ver))
-
-    if ver.is_valid(exact):
-        new_ver = exact
-    else:
-        new_ver = ver.bump(old_ver, component)
-
-    with open(VERSION_FILE, 'w') as fp:
-        fp.write(new_ver)
-
-    log.info("  new version: ^35{}".format(new_ver))
 
 
 @rel.command('make')
@@ -88,12 +51,12 @@ def make_release(component='patch', exact=None):
         exit(1)
 
     log.info("Bumping package version")
-    old_ver = ver.get_current(VERSION_FILE)
+    old_ver = versioning.current(VERSION_FILE)
 
-    if ver.is_valid(exact):
+    if versioning.is_valid(exact):
         new_ver = exact
     else:
-        new_ver = ver.bump(old_ver, component)
+        new_ver = versioning.bump(old_ver, component)
 
     with open(VERSION_FILE, 'w') as fp:
         fp.write(new_ver)
@@ -117,7 +80,7 @@ def make_release(component='patch', exact=None):
 @rel.command('tag')
 def tag_release():
     """ Create a new release tag for the current version. """
-    release_ver = ver.get_current(VERSION_FILE)
+    release_ver = versioning.current(VERSION_FILE)
     author = git.commit_author()
 
     with conf.within_proj_dir(quiet=False):
