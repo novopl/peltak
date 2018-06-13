@@ -14,10 +14,18 @@ setup(
     license="MIT",
     keywords="fabric ops devops",
     url="http://github.com/novopl/peltak",
-    description="Set of fabric commands to help manage a project",
+    description="Set of CLI commands to help manage a project",
     long_description=read('README.rst'),
-    package_dir={'peltak': 'src/peltak'},
+    package_dir={'': 'src'},
     packages=find_packages('src'),
+    install_requires=[
+        l.strip() for l in read('requirements.txt').split() if '==' in l
+    ],
+    # entry_points={
+    #     'console_scripts': [
+    #         'appconf-node = appconf_node.cli:cli',
+    #     ]
+    # },
     classifiers=[
         "Development Status :: 4 - Beta",
         "Topic :: Utilities",

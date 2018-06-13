@@ -11,7 +11,8 @@ sys.path.insert(0, join(abspath(dirname(__file__)), 'src'))
 
 
 # Configure the build
-from peltak.commands.common import conf
+from peltak.common import conf
+
 conf.init({
     'SRC_DIR': 'src',
     'SRC_PATH': 'src/peltak',
@@ -32,10 +33,3 @@ conf.init({
 
 
 # Import all commands
-from peltak.commands.clean import *
-from peltak.commands.docs import *
-from peltak.commands.git import *
-from peltak.commands.lint import *
-from peltak.commands.ops import *
-from peltak.commands.release import *
-from peltak.commands.test import *

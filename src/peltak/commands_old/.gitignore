@@ -1,0 +1,31 @@
+################
+# Secret files #
+################
+
+##############
+# Temp files #
+##############
+*~
+*sw[po]
+.cache
+
+################
+# Python files #
+################
+*.py[cod]
+__pycache__
+*.egg-info
+
+
+###############
+# Build files #
+###############
+.coverage
+
+###########################
+# 3rd party configuration #
+###########################
+*.kdev4
+.ropeproject
+.idea
+.directory
