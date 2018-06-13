@@ -16,5 +16,6 @@ conf.load()
 click_completion.init()
 
 
+from peltak.commands import scaffold
 from peltak.commands import clean
 from peltak.commands import git
