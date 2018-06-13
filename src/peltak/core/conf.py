@@ -117,7 +117,12 @@ def run(cmd, capture=False, shell=True, env=None):
     stdout, stderr = p.communicate()
 
     return ExecResult(
-        cmd, p.returncode, stdout, stderr, p.returncode == 0, p.returncode != 0
+        cmd,
+        p.returncode,
+        stdout and stdout.decode('utf-8'),
+        stderr and stderr.decode('utf-8'),
+        p.returncode == 0,
+        p.returncode != 0
     )
 
 

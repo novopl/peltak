@@ -43,7 +43,7 @@ def version():
 @ver_cmd.command('bump')
 @click.argument('component', required=False, default='patch')
 @click.option('--exact', type=str)
-def bumpver(component='patch', exact=None):
+def bump_version(component='patch', exact=None):
     """ Bump current project version without committing anything.
 
     No tags are created either.
@@ -67,7 +67,7 @@ def bumpver(component='patch', exact=None):
 @rel.command('make')
 @click.argument('component', required=False)
 @click.option('--exact', type=str)
-def makerel(component='patch', exact=None):
+def make_release(component='patch', exact=None):
     """ Release a new version of the project.
 
     This will bump the version number (patch component by default) + add and tag
@@ -115,9 +115,7 @@ def makerel(component='patch', exact=None):
 
 
 @rel.command('tag')
-@click.argument('component', required=False)
-@click.option('--exact', type=str)
-def tagrel():
+def tag_release():
     """ Create a new release tag for the current version. """
     release_ver = ver.get_current(VERSION_FILE)
     author = git.commit_author()
