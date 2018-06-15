@@ -46,7 +46,7 @@ def init(config):
 
 
 def load():
-    if g_proj_path is None:
+    if proj_path() is None:
         return
 
     with within_proj_dir():

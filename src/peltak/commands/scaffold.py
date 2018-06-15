@@ -10,7 +10,7 @@ TODO:
 """
 from __future__ import absolute_import, unicode_literals
 
-
+import json
 try:
     # python 3
     from io import BytesIO
@@ -26,13 +26,11 @@ import click
 
 # local imports
 from peltak.core import log
-from peltak.core.template import Scaffold
+from peltak.core.scaffold import LocalStore, Scaffold
 from . import cli
 
 
-TEMPLATE_LINE_SEP = '\n'
-TEMPLATE_CONFIG_FILE = 'peltak-template-config.json'
-NAME_MARKER = '_PELTAK-SCAFFOLD-NAME_'
+DirPath = click.Path(file_okay=False, dir_okay=True, exists=True)
 
 
 @cli.group()
@@ -42,36 +40,69 @@ def scaffold():
 
 
 @scaffold.command()
-@click.argument(
-    'src_dir',
-    type=click.Path(file_okay=False, dir_okay=True, exists=True)
-)
-@click.option('--name', 'template_name', type=str)
+@click.argument('src_dir', type=DirPath)
+@click.option('--name', type=str)
 @click.option('-e', '--exclude', multiple=True, metavar='PATTERN')
-def create(src_dir, template_name, exclude):
-    log.info("Creating scaffold ^35{}".format(template_name))
+def create(src_dir, name, exclude):
+    store = LocalStore()
+    log.info("Creating scaffold ^35{}".format(name))
     log.info("Exclude: {}".format(exclude))
 
-    scaffold = Scaffold.create(src_dir, template_name, exclude)
-    scaffold.write('.')
+    scaffold = Scaffold.create(src_dir, name, exclude)
+    store.add(scaffold)
 
 
 @scaffold.command()
-@click.option('-t', '--template', type=str, required=True)
-def info(template):
-    scaffold = Scaffold.load(template)
+@click.argument('name', type=str, required=True)
+@click.option('-f', '--files', 'show_files', is_flag=True)
+@click.option('-c', '--config', 'show_config', is_flag=True)
+def info(name, show_files, show_config):
+    store = LocalStore()
+    scaffold = store.load(name)
+    # scaffold = Scaffold.load_from_file(name)
 
     log.info("Name:     ^33{}", scaffold.name)
     log.info("Size:     ^33{} kb", round(scaffold.size / 1024))
+    log.info("Created:  ^33{}", scaffold.pretty_created)
 
-    log.info("Marked files:")
-    for path in scaffold.marked_files:
-        log.info('  ^90{}', path)
+    if show_config:
+        log.cprint("Config: {")
+        for key, value in scaffold.json_config.items():
+            log.cprint('  "{name}": ^33{value}^0'.format(
+                name=key, value=json.dumps(value, indent=2)
+            ))
+
+        log.cprint("}")
+        #
+        # log.info("Config: ^90{}".format(
+        #     json.dumps(scaffold.json_config, indent=2)
+        # ))
+
+    if show_files:
+        log.info("Files:")
+        for path in scaffold.files:
+            if path in scaffold.marked_files:
+                log.info('  ^0{}', path)
+            else:
+                log.info('  ^90{}', path)
+
+
+@scaffold.command()
+def list():
+    store = LocalStore()
+
+    log.cprint("^32Local:\n^0")
+    for scaffold in store.scaffolds:
+        log.cprint("  {}", scaffold.name)
+
+    log.cprint('')
 
 
 @scaffold.command()
 @click.argument('name', type=str)
-@click.option('-t', '--template', type=str, required=True)
-def apply(template, name):
-    scaffold = Scaffold.load(template)
-    scaffold.apply(name, '.')
+@click.argument('proj_name', type=str)
+@click.option('-p', '--path', type=DirPath, default='.')
+def apply(name, proj_name, path):
+    store = LocalStore()
+    scaffold = store.load(name)
+    scaffold.apply(proj_name, path)
