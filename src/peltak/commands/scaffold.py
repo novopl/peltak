@@ -11,6 +11,7 @@ TODO:
 from __future__ import absolute_import, unicode_literals
 
 import json
+from os.path import abspath, basename
 try:
     # python 3
     from io import BytesIO
@@ -41,14 +42,24 @@ def scaffold():
 
 @scaffold.command()
 @click.argument('src_dir', type=DirPath)
-@click.option('--name', type=str)
+@click.option('-n', '--name', type=str)
+@click.option('--project-name', type=str)
 @click.option('-e', '--exclude', multiple=True, metavar='PATTERN')
-def create(src_dir, name, exclude):
+def create(src_dir, name, project_name, exclude):
     store = LocalStore()
-    log.info("Creating scaffold ^35{}".format(name))
-    log.info("Exclude: {}".format(exclude))
 
-    scaffold = Scaffold.create(src_dir, name, exclude)
+    if project_name is None:
+        project_name = basename(abspath(src_dir))
+
+    if name is None:
+        name = project_name
+
+    log.info("Creating scaffold ^35{}".format(name))
+    log.info("Excluding")
+    for pattern in exclude:
+        log.info("  ^0- {}", pattern)
+
+    scaffold = Scaffold.create(src_dir, name, exclude, {'name': project_name})
     store.add(scaffold)
 
 

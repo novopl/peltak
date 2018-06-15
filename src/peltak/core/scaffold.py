@@ -29,15 +29,17 @@ from peltak.core import util
 
 
 TEMPLATE_CONFIG_FILE = 'peltak-template-config.json'
-NAME_MARKER = '_PELTAK-SCAFFOLD-NAME_'
+
+def marker_tag(marker):
+    return '_PELTAK-SCAFFOLD-{}_'.format(marker.upper())
 
 
 class Scaffold(object):
     LINE_SEP = '\n'
     FILE_EXT = '.scaffold'
     CONFIG_FILE = 'peltak-scaffold-config.json'
-    NAME_MARKER = '_PELTAK-SCAFFOLD-NAME_'
     TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
+    NAME_MARKER = marker_tag('name')
 
     class Invalid(RuntimeError):
         pass
@@ -97,13 +99,7 @@ class Scaffold(object):
             return zip.namelist()
 
     @classmethod
-    def create(cls, src_dir, name, exclude):
-        print("Exclude: {}".format(exclude))
-
-        if name is None:
-            name = basename(abspath(src_dir))
-
-        log.info("Creating template ^35{}".format(name))
+    def create(cls, src_dir, name, exclude, markers):
 
         marked_files = []
 
@@ -117,7 +113,7 @@ class Scaffold(object):
                     # if os.listdir(path) == []:
                     zip.writestr(ZipInfo(arc_path + '/'), '')
                 else:
-                    content, marked = Scaffold._prepare_file(path, name)
+                    content, marked = Scaffold._prepare_file(path, markers)
                     zip.writestr(arc_path, content)
 
                 if marked:
@@ -163,29 +159,27 @@ class Scaffold(object):
 
                 file_path = join(proj_path, arc_path)
 
-                if NAME_MARKER in arc_path:
-                    file_path = file_path.replace(NAME_MARKER, proj_name)
-
-                # if not exists(dirname(file_path)):
-                #     os.makedirs(dirname(file_path))
+                if Scaffold.NAME_MARKER in arc_path:
+                    file_path = file_path.replace(Scaffold.NAME_MARKER,
+                                                  proj_name)
 
                 content = zip.read(arc_path)
 
                 if arc_path in config['marked_files']:
                     content = content.decode('utf-8')
                     content = Scaffold._render_file(content, {
-                        NAME_MARKER: proj_name
+                        marker_tag('name'): proj_name
                     })
 
                     with open(file_path, 'w') as fp:
-                        log.info("Writing marked file ^90{}", file_path)
+                        log.cprint("^0[ Template ] ^0^90{}^0", file_path)
                         fp.write(content)
                 else:
                     if self._is_dir(zip, arc_path):
-                        log.info("Creating directory ^90{}", file_path)
+                        log.cprint("^34[    Dir   ] ^90{}^0", file_path)
                         os.mkdir(file_path)
                     else:
-                        log.info("Writing file ^90{}", file_path)
+                        log.cprint("^90[   File   ] ^90{}^0", file_path)
                         with open(file_path, 'wb') as fp:
                             fp.write(content)
 
@@ -193,7 +187,7 @@ class Scaffold(object):
     def _iter_files(src_dir, template_name, exclude):
         for file_name, path in fs.filtered_walk(src_dir, exclude):
             arc_path = relpath(path, src_dir)
-            arc_path = arc_path.replace(template_name, NAME_MARKER)
+            arc_path = arc_path.replace(template_name, Scaffold.NAME_MARKER)
 
             yield path, arc_path
 
@@ -205,6 +199,7 @@ class Scaffold(object):
             rendered = line
 
             for marker, value in values.items():
+                tag = marker_tag(marker)
                 if marker in line:
                     rendered = rendered.replace(marker, value)
 
@@ -213,19 +208,17 @@ class Scaffold(object):
         return os.linesep.join(lines)
 
     @staticmethod
-    def _prepare_file(path, template_name):
+    def _prepare_file(path, markers):
         is_marked = False
         try:
             with open(path) as fp:
                 lines = []
                 for i, line in enumerate(fp.readlines()):
                     line = line[:-len(os.linesep)]
-                    prepped = line.replace(template_name, NAME_MARKER)
+                    prepped, marked = Scaffold._prep_line(line, markers)
 
-                    if template_name in line:
+                    if marked:
                         is_marked = True
-                        log.cprint("{:4}| ^90{:50} ^32-> ^0{}",
-                                   i, line, prepped)
 
                     lines.append(prepped)
 
@@ -234,6 +227,18 @@ class Scaffold(object):
         except UnicodeDecodeError:
             with open(path, 'rb') as fp:
                 return fp.read(), False
+
+    @staticmethod
+    def _prep_line(line, markers):
+        prepped = line
+        is_marked = False
+
+        for marker, value in markers.items():
+            if value in line:
+                prepped = line.replace(value, marker_tag(marker))
+                is_marked = True
+
+        return prepped, is_marked
 
     def _is_dir(self, zip, arc_path):
         zip_info = zip.getinfo(arc_path)
