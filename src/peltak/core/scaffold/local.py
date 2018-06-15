@@ -1,0 +1,47 @@
+# -*- coding: utf-8 -*-
+from __future__ import absolute_import, unicode_literals
+
+# stdlib imports
+import os
+from os.path import expanduser, exists, join
+
+
+# local imports
+from peltak.core import util
+from .scaffold import Scaffold
+
+
+class LocalStore(object):
+    DEFAULT_PATH = expanduser('~/.config/peltak/local')
+
+    def __init__(self, path=None):
+        self.path = path or LocalStore.DEFAULT_PATH
+        if not exists(self.path):
+            os.makedirs(self.path)
+
+    @util.cached_property(seconds=5)
+    def scaffolds(self):
+        scaffolds = []
+        for filename in os.listdir(self.path):
+            if filename.endswith(Scaffold.FILE_EXT):
+                try:
+                    path = join(self.path, filename)
+                    scaffold = Scaffold.load_from_file(path)
+                    scaffolds.append(scaffold)
+                except Scaffold.Invalid:
+                    pass
+
+        return scaffolds
+
+    def add(self, scaffold):
+        scaffold.write(self.path)
+
+    def load(self, name):
+        return next((x for x in self.scaffolds if x.name == name), None)
+
+    def push(self, name):
+        raise NotImplemented("Remote service is not yet implemented")
+
+    def pull(self, name):
+        raise NotImplemented("Remote service is not yet implemented")
+
