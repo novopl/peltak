@@ -53,7 +53,7 @@ workflows:
       - release:
           requires:
             - build
-#          branches:
-#            only:
-#            - master
+          branches:
+            only:
+            - master
 
