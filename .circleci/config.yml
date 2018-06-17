@@ -6,20 +6,17 @@ jobs:
             - image: circleci/python:3.6
         steps:
             - checkout
+            - run: sudo chown -R circleci:circleci /usr/local/bin
+            - run: sudo chown -R circleci:circleci /usr/local/lib/python3.6/site-packages
+            - run: sudo pip install -U pip setuptoools
+            - restore_cache:
+                key: deps-{{ checksum requirements.txt }}-{{ checksum ops/requirements.txt }}
             - run: sudo pip install -r requirements.txt -r ops/devrequirements.txt
-            - run: echo "Building"
-    test:
-        docker:
-            - image: circleci/python:3.6
-        steps:
-            - checkout
+            - save_cache:
+                key: deps-{{ checksum requirements.txt }}-{{ checksum ops/requirements.txt }}
+                paths:
+                - /usr/local/bin
+                - /usr/local/lib/python3.6/site-packages
             - run fab lint
             - run fab test
             - run fab docs
-
-workflows:
-  version: 2
-  build_and_test:
-    jobs:
-      - build
-      - test
