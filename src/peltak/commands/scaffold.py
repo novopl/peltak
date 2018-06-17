@@ -28,6 +28,7 @@ from six import string_types
 
 # local imports
 from peltak.core import log
+from peltak.core import git
 from peltak.core.scaffold import LocalStore, Scaffold
 from . import cli
 
@@ -62,6 +63,10 @@ def create(src_dir, name, markers, exclude):
 
     markers = dict(markers)
     markers.setdefault('name', basename(abspath(src_dir)))
+
+    if not no_gitignore:
+        git_exclude = git.load_gitignore(src_dir)
+        exclude = set(exclude) | set(git_exclude) | {'.git'}
 
     if name is None:
         name = markers['name']

@@ -29,7 +29,7 @@ __pycache__
 env
 .coverage
 .tox
-/.build
+.build
 docs/html
 docs/ref
 
