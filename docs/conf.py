@@ -30,8 +30,11 @@ extensions = [
     'sphinx.ext.viewcode',
 ]
 
-version = read('../VERSION').strip()
-release = read('../VERSION').strip()
+import peltak
+version = peltak.__version__
+release = peltak.__version__
+# version = read('../VERSION').strip()
+# release = read('../VERSION').strip()
 doctest_test_doctest_blocks='default'
 templates_path = [repo_path('docs/_templates')]
 source_suffix = '.rst'
