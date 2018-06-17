@@ -31,13 +31,13 @@ jobs:
             - run: peltak docs
             # - run: peltak lint
             - store_test_results:
-                path: test-results
+                path: .build
             - store_artifacts:
-                path: test-reports/
-                destination: tr1
+                path: .build/coverage/
+                destination: coverage
             - store_artifacts:
-                path: .build/
-                destination: build
+                path: /docs/html
+                destination: docs
 
 workflows:
   version: 2
