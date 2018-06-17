@@ -17,6 +17,19 @@ jobs:
                 paths:
                 - /usr/local/bin
                 - /usr/local/lib/python3.6/site-packages
-            - run fab lint
-            - run fab test
-            - run fab docs
+            - run: echo "Building"
+    test:
+        docker:
+            - image: circleci/python:3.6
+        steps:
+            - checkout
+            - run: fab lint
+            - run: fab test
+            - run: fab docs
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build
+      - test
