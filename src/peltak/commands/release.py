@@ -47,7 +47,12 @@ def make_release(component, exact):
     """
     with conf.within_proj_dir(quiet=True):
         result = conf.run('git status --porcelain', capture=True)
-        out = result.stdout.strip().decode('utf-8')
+        try:
+            out = result.stdout.strip().decode('utf-8')
+        except AttributeError:
+            out = result.stdout.strip()
+            # 'str' has no attribute 'decode'
+            pass
         has_changes = any(
             not l.startswith('??') for l in out.split(os.linesep) if l.strip()
         )
