@@ -31,12 +31,12 @@ DJANGO_TEST_SETTINGS = conf.get('DJANGO_TEST_SETTINGS', None)
 @click.option('--no-sugar', is_flag=True)
 @click.option('--type', type=str, default='default')
 @click.option('--verbose', count=True)
-@click.option('--no-junit', is_flag=True)
+@click.option('--junit', is_flag=True)
 @click.option('--no-locals', is_flag=True)
 @click.option('--no-coverage', is_flag=True)
 @click.option('--plugins', type=str, default='')
 # def test(**opts):
-def test(no_sugar, type, verbose, no_junit, no_locals, no_coverage, plugins):
+def test(no_sugar, type, verbose, junit, no_locals, no_coverage, plugins):
     """ Run all tests against the current python version. """
     SRC_DIR = conf.get_path('SRC_DIR')
     SRC_PATH = conf.get_path('SRC_PATH')
@@ -52,7 +52,7 @@ def test(no_sugar, type, verbose, no_junit, no_locals, no_coverage, plugins):
             '--cov-report=html:{}'.format(COVERAGE_OUT_PATH),
         ]
 
-    if not no_junit:
+    if junit:
         args += ['--junitxml={}/test-results.xml'.format('.build')]
 
     if '-django' not in plugins:

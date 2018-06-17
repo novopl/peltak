@@ -58,7 +58,8 @@ def scaffold():
 @click.option('-n', '--name', type=str)
 @click.option('-e', '--exclude', multiple=True, metavar='PATTERN')
 @click.option('-m', '--marker', 'markers', type=marker_def, multiple=True, metavar='NAME=VALUE(S)')
-def create(src_dir, name, markers, exclude):
+@click.option('--no-gitignore', is_flag=True)
+def create(src_dir, name, markers, exclude, no_gitignore):
     store = LocalStore()
 
     markers = dict(markers)
