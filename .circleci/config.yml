@@ -17,16 +17,6 @@ jobs:
                 paths:
                 - /usr/local/bin
                 - /usr/local/lib/python3.6/site-packages
-    test:
-        docker:
-            - image: circleci/python:3.6
-        steps:
-            - checkout
-            - run: sudo chown -R circleci:circleci /usr/local/bin
-            - run: sudo chown -R circleci:circleci /usr/local/lib/python3.6/site-packages
-            - restore_cache:
-                key: deps-{{ checksum "requirements.txt" }}-{{ checksum "ops/devrequirements.txt" }}
-            - run: python setup.py develop
             - run: peltak test
             - run: peltak docs
             # - run: peltak lint
@@ -39,11 +29,34 @@ jobs:
                 path: docs/html
                 destination: docs
 
-workflows:
-  version: 2
-  build_and_test:
-    jobs:
-      - build
-      - test:
-          requires:
-           - build
+#
+#    test:
+#        docker:
+#            - image: circleci/python:3.6
+#        steps:
+#            - checkout
+#            - run: sudo chown -R circleci:circleci /usr/local/bin
+#            - run: sudo chown -R circleci:circleci /usr/local/lib/python3.6/site-packages
+#            - restore_cache:
+#                key: deps-{{ checksum "requirements.txt" }}-{{ checksum "ops/devrequirements.txt" }}
+#            - run: python setup.py develop
+#            - run: peltak test
+#            - run: peltak docs
+#            # - run: peltak lint
+#            - store_test_results:
+#                path: .build
+#            - store_artifacts:
+#                path: .build/coverage/
+#                destination: coverage
+#            - store_artifacts:
+#                path: docs/html
+#                destination: docs
+#
+#workflows:
+#  version: 2
+#  build_and_test:
+#    jobs:
+#      - build
+#      - test:
+#          requires:
+#           - build
