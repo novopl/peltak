@@ -28,8 +28,16 @@ jobs:
                 key: deps-{{ checksum "requirements.txt" }}-{{ checksum "ops/devrequirements.txt" }}
             - run: python setup.py develop
             - run: peltak test
-            - run: paltak docs
-           #  - run: peltak lint
+            - run: peltak docs
+            # - run: peltak lint
+            - store_test_results:
+                path: test-results
+            - store_artifacts:
+                path: test-reports/
+                destination: tr1
+            - store_artifacts:
+                path: .build/
+                destination: build
 
 workflows:
   version: 2
