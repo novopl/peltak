@@ -36,7 +36,7 @@ jobs:
                 path: .build/coverage/
                 destination: coverage
             - store_artifacts:
-                path: /docs/html
+                path: docs/html
                 destination: docs
 
 workflows:
