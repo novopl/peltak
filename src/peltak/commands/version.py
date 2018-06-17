@@ -16,11 +16,15 @@ def ver():
 
 
 @ver.command('show')
-def version():
+@click.option('--porcelain', is_flag=True)
+def version(porcelain):
     """ Return current project version. """
     current = versioning.current()
 
-    log.info("Version: ^35{}".format(current))
+    if porcelain:
+        print(current)
+    else:
+        log.info("Version: ^35{}".format(current))
 
 
 @ver.command('bump')
