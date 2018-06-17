@@ -28,6 +28,7 @@ jobs:
       - store_artifacts:
           path: docs/html
           destination: docs
+
   release:
     docker:
       - image: circleci/python:3.6
@@ -44,6 +45,7 @@ jobs:
       - run: rm ~/.pypirc
       - run: peltak release tag
       - run: "git push origin v$(peltak version show --porcelain)"
+
 
 workflows:
   version: 2
