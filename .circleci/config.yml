@@ -17,7 +17,8 @@ jobs:
           paths:
           - /usr/local/bin
           - /usr/local/lib/python3.6/site-packages
-      - run: peltak test
+          - /usr/local/.tox
+      - run: tox
       - run: peltak docs
       # - run: peltak lint
       - store_test_results:

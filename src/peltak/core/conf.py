@@ -118,6 +118,9 @@ def run(cmd, capture=False, shell=True, env=None):
     p = subprocess.Popen(cmd, **options)
     stdout, stderr = p.communicate()
 
+    if capture is False and p.returncode != 0:
+        sys.exit(p.returncode)
+
     return ExecResult(
         cmd,
         p.returncode,
