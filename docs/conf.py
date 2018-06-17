@@ -4,7 +4,7 @@ import sys
 import sphinx_rtd_theme
 
 
-project = u"fabops"
+project = u"peltak"
 copyright = u"2016-2017, Mateusz 'novo' Klos"
 author = u"Mateusz 'novo' Klos"
 
@@ -30,8 +30,11 @@ extensions = [
     'sphinx.ext.viewcode',
 ]
 
-version = read('../VERSION').strip()
-release = read('../VERSION').strip()
+import peltak
+version = peltak.__version__
+release = peltak.__version__
+# version = read('../VERSION').strip()
+# release = read('../VERSION').strip()
 doctest_test_doctest_blocks='default'
 templates_path = [repo_path('docs/_templates')]
 source_suffix = '.rst'
@@ -52,18 +55,18 @@ pygments_style = 'monokai'
 html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 html_theme = "sphinx_rtd_theme"
 html_static_path = [repo_path('docs/assets')]
-htmlhelp_basename = 'fabops'
+htmlhelp_basename = 'peltak'
 
 latex_elements = {}
 latex_documents = [
-    (master_doc, 'fabops.tex', 'fabops Documentation',
+    (master_doc, 'peltak.tex', 'peltak Documentation',
      'Mateusz \'novo\' Klos', 'manual'),
 ]
 man_pages = [
-    (master_doc, 'fabops', 'fabops Documentation', [author], 1)
+    (master_doc, 'peltak', 'peltak Documentation', [author], 1)
 ]
 texinfo_documents = [
-    (master_doc, 'fabops', 'fabops Documentation',
-     author, 'fabops', 'One line description of project.',
+    (master_doc, 'peltak', 'peltak Documentation',
+     author, 'peltak', 'One line description of project.',
      'Miscellaneous'),
 ]
