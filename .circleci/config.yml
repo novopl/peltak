@@ -9,10 +9,10 @@ jobs:
             - run: sudo chown -R circleci:circleci /usr/local/bin
             - run: sudo chown -R circleci:circleci /usr/local/lib/python3.6/site-packages
             - restore_cache:
-                key: deps-{{ checksum requirements.txt }}-{{ checksum ops/requirements.txt }}
+                key: deps-{{ checksum "requirements.txt" }}-{{ checksum "ops/devrequirements.txt" }}
             - run: sudo pip install -r requirements.txt -r ops/devrequirements.txt
             - save_cache:
-                key: deps-{{ checksum requirements.txt }}-{{ checksum ops/requirements.txt }}
+                key: deps-{{ checksum "requirements.txt" }}-{{ checksum "ops/devrequirements.txt" }}
                 paths:
                 - /usr/local/bin
                 - /usr/local/lib/python3.6/site-packages
