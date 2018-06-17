@@ -46,7 +46,8 @@ def make_release(component, exact):
     3. Create commit with bumped version.
     """
     with conf.within_proj_dir(quiet=True):
-        out = conf.run('git status --porcelain', capture=True).stdout.strip()
+        result = conf.run('git status --porcelain', capture=True)
+        out = result.strip().decode('utf-8')
         has_changes = any(
             not l.startswith('??') for l in out.split(os.linesep) if l.strip()
         )
