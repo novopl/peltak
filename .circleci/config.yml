@@ -1,0 +1,25 @@
+version: 2
+
+jobs:
+    build:
+        docker:
+            - image: circleci/python:3.6
+        steps:
+            - checkout
+            - run: sudo pip install -r requirements.txt -r ops/devrequirements.txt
+            - run: echo "Building"
+    test:
+        docker:
+            - image: circleci/python:3.6
+        steps:
+            - checkout
+            - run fab lint
+            - run fab test
+            - run fab docs
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build
+      - test
