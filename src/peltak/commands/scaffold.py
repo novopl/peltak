@@ -24,6 +24,7 @@ except ImportError:
 
 # 3rd party imports
 import click
+from six import string_types
 
 # local imports
 from peltak.core import log
@@ -32,6 +33,17 @@ from . import cli
 
 
 DirPath = click.Path(file_okay=False, dir_okay=True, exists=True)
+
+
+def marker_def(string):
+    name, value = string.split('=')
+    name = name.strip()
+    value = value.strip()
+
+    if ',' in value:
+        value = value.split(',')
+
+    return (name, value)
 
 
 @cli.group()
@@ -43,23 +55,25 @@ def scaffold():
 @scaffold.command()
 @click.argument('src_dir', type=DirPath)
 @click.option('-n', '--name', type=str)
-@click.option('--project-name', type=str)
 @click.option('-e', '--exclude', multiple=True, metavar='PATTERN')
-def create(src_dir, name, project_name, exclude):
+@click.option('-m', '--marker', 'markers', type=marker_def, multiple=True, metavar='NAME=VALUE(S)')
+def create(src_dir, name, markers, exclude):
     store = LocalStore()
 
-    if project_name is None:
-        project_name = basename(abspath(src_dir))
+    markers = dict(markers)
+    markers.setdefault('name', basename(abspath(src_dir)))
 
     if name is None:
-        name = project_name
+        name = markers['name']
+        if not isinstance(name, string_types):
+            name = name[0]      # name is a list of names, pick the first one.
 
     log.info("Creating scaffold ^35{}".format(name))
     log.info("Excluding")
     for pattern in exclude:
         log.info("  ^0- {}", pattern)
 
-    scaffold = Scaffold.create(src_dir, name, exclude, {'name': project_name})
+    scaffold = Scaffold.create(src_dir, name, exclude, markers)
     store.add(scaffold)
 
 

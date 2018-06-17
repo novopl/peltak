@@ -46,6 +46,7 @@ class Scaffold(object):
     def __init__(self, zipfile, **config):
         self.zipfile = zipfile or BytesIO()
         self.config = config
+        self.path = None    # Only set if loaded from file or after it's written
 
         self.config.setdefault('line_sep', Scaffold.LINE_SEP)
         self.config.setdefault('marked_files', [])
@@ -105,7 +106,7 @@ class Scaffold(object):
         zipfile = BytesIO()
         with ZipFile(zipfile, 'w') as zip:
             i = 0
-            for path, arc_path in Scaffold._iter_files(src_dir, name, exclude):
+            for path, arc_path in Scaffold._iter_files(src_dir, markers, exclude):
                 if isdir(path):
                     # Non-empty dirs will be added through files they contain
                     marked = False
@@ -134,7 +135,10 @@ class Scaffold(object):
         except BadZipFile as ex:
             raise Scaffold.Invalid(str(ex))
 
-        return Scaffold(zipfile, **config)
+        scaffold = Scaffold(zipfile, **config)
+        scaffold.path = path
+
+        return scaffold
 
     def write(self, path):
         zip_path = join(path, self.name + Scaffold.FILE_EXT)
@@ -144,6 +148,8 @@ class Scaffold(object):
 
         with open(zip_path, 'wb') as fp:
             fp.write(self.zipfile.getvalue())
+
+        self.path = zip_path
 
     def apply(self, proj_name, out_path):
         with ZipFile(self.zipfile) as zip:
@@ -183,28 +189,13 @@ class Scaffold(object):
                             fp.write(content)
 
     @staticmethod
-    def _iter_files(src_dir, template_name, exclude):
+    def _iter_files(src_dir, markers, exclude):
         for file_name, path in fs.filtered_walk(src_dir, exclude):
             arc_path = relpath(path, src_dir)
-            arc_path = arc_path.replace(template_name, Scaffold.NAME_MARKER)
+            arc_path, _ = Scaffold._prep_line(arc_path, markers)
+            # arc_path = arc_path.replace(template_name, Scaffold.NAME_MARKER)
 
             yield path, arc_path
-
-    @staticmethod
-    def _render_file(content, values):
-        lines = []
-
-        for line in content.split(Scaffold.LINE_SEP):
-            rendered = line
-
-            for marker, value in values.items():
-                tag = marker_tag(marker)
-                if tag in line:
-                    rendered = rendered.replace(tag, value)
-
-            lines.append(rendered)
-
-        return os.linesep.join(lines)
 
     @staticmethod
     def _prepare_file(path, markers):
@@ -233,11 +224,34 @@ class Scaffold(object):
         is_marked = False
 
         for marker, value in markers.items():
-            if value in line:
-                prepped = line.replace(value, marker_tag(marker))
-                is_marked = True
+            if isinstance(value, string_types):
+                if value in line:
+                    prepped = line.replace(value, marker_tag(marker))
+                    is_marked = True
+            else:
+                # Multiple values for marker
+                for item in value:
+                    if item in line:
+                        prepped = line.replace(item, marker_tag(marker))
+                        is_marked = True
 
         return prepped, is_marked
+
+    @staticmethod
+    def _render_file(content, values):
+        lines = []
+
+        for line in content.split(Scaffold.LINE_SEP):
+            rendered = line
+
+            for marker, value in values.items():
+                tag = marker_tag(marker)
+                if tag in line:
+                    rendered = rendered.replace(tag, value)
+
+            lines.append(rendered)
+
+        return os.linesep.join(lines)
 
     def _is_dir(self, zip, arc_path):
         zip_info = zip.getinfo(arc_path)
