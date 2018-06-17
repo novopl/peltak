@@ -9,6 +9,7 @@ from os.path import expanduser, exists, join
 from cached_property import cached_property_ttl
 
 # local imports
+from peltak.core import log
 from .scaffold import Scaffold
 
 
@@ -39,6 +40,17 @@ class LocalStore(object):
         scaffold.write(self.path)
 
         self._invalidate_cache()
+
+    def delete(self, name):
+        scaffold = self.load(name)
+
+        if scaffold is not None:
+            os.remove(scaffold.path)
+            self._invalidate_cache()
+
+        else:
+            log.err("'{}' does not exist".format(name))
+
     def load(self, name):
         return next((x for x in self.scaffolds if x.name == name), None)
 

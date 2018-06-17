@@ -113,12 +113,20 @@ def info(name, show_files, show_config):
 
 
 @scaffold.command()
+@click.argument('name', type=str, required=True)
+def delete(name):
+    log.info("Deleting ^35{}".format(name))
+    store = LocalStore()
+    store.delete(name)
+
+
+@scaffold.command()
 def list():
     store = LocalStore()
 
     log.cprint("^32Local:\n^0")
     for scaffold in store.scaffolds:
-        log.cprint("  {}", scaffold.name)
+        log.cprint("  ^90{}  ^0{}", scaffold.pretty_created, scaffold.name)
 
     log.cprint('')
 
