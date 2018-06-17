@@ -15,7 +15,7 @@ def read(fname):
 
 
 def read_version():
-    content = read('src/peltak/__ini__.py')
+    content = read('src/peltak/__init__.py')
     m = RE_PY_VERSION.search(content)
     if not m:
         return '0.0'
