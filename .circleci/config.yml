@@ -16,12 +16,13 @@ jobs:
                 paths:
                 - /usr/local/bin
                 - /usr/local/lib/python3.6/site-packages
-            - run: echo "Building"
     test:
         docker:
             - image: circleci/python:3.6
         steps:
             - checkout
+            - restore_cache:
+                key: deps-{{ checksum "requirements.txt" }}-{{ checksum "ops/devrequirements.txt" }}
             - run: fab lint
             - run: fab test
             - run: fab docs
@@ -32,3 +33,4 @@ workflows:
     jobs:
       - build
       - test
+          requires: build
