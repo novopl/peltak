@@ -3,7 +3,8 @@ version: 2
 jobs:
   build:
     docker:
-        - image: circleci/python:3.6
+        # - image: circleci/python:3.6
+        - image: novopl/circleci:python-slim
     steps:
       - checkout
       - run: sudo chown -R circleci:circleci /usr/local/bin
@@ -30,7 +31,8 @@ jobs:
 
   release:
     docker:
-      - image: circleci/python:3.6
+      # - image: circleci/python:3.6
+      - image: novopl/circleci:python-slim
     steps:
       - checkout
       - run: sudo chown -R circleci:circleci /usr/local/bin
