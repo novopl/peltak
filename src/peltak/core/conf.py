@@ -118,14 +118,24 @@ def run(cmd, capture=False, shell=True, env=None):
     p = subprocess.Popen(cmd, **options)
     stdout, stderr = p.communicate()
 
+    try:
+        if stdout is not None:
+            stdout = stdout.decode('utf-8')
+
+        if stderr is not None:
+            stderr = stderr.decode('utf-8')
+    except AttributeError:
+        # 'str' has no attribute 'decode'
+        pass
+
     if capture is False and p.returncode != 0:
         sys.exit(p.returncode)
 
     return ExecResult(
         cmd,
         p.returncode,
-        stdout and stdout.decode('utf-8'),
-        stderr and stderr.decode('utf-8'),
+        stdout,
+        stderr,
         p.returncode == 0,
         p.returncode != 0
     )
