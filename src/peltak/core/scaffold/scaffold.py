@@ -7,13 +7,15 @@ import os
 import sys
 from datetime import datetime
 from os.path import join, isdir, relpath
-from zipfile import BadZipFile, ZipFile, ZipInfo
+from zipfile import ZipFile, ZipInfo
 
 try:
     # python 3
     from io import BytesIO
+    from zipfile import BadZipFile
 except ImportError:
     # python 2
+    from zipfile import BadZipfile as BadZipFile
     try:
         from cStringIO import StringIO
     except ImportError:
@@ -131,7 +133,8 @@ class Scaffold(object):
 
         try:
             with ZipFile(zipfile) as zip:
-                config = json.loads(zip.read(Scaffold.CONFIG_FILE))
+                data = zip.read(Scaffold.CONFIG_FILE).decode('utf-8')
+                config = json.loads(data)
         except BadZipFile as ex:
             raise Scaffold.Invalid(str(ex))
 

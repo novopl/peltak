@@ -12,9 +12,6 @@ from collections import namedtuple
 from contextlib import contextmanager
 from os.path import abspath, dirname, isabs, join, normpath
 
-# 3rd party imports
-import six
-
 # local imports
 from . import log
 
@@ -50,7 +47,7 @@ def load():
         return
 
     with within_proj_dir():
-        if six.PY3:
+        if sys.version_info >= (3, 5):
             from importlib.util import spec_from_file_location
             from importlib.util import module_from_spec
 
@@ -58,7 +55,12 @@ def load():
             mod = module_from_spec(spec)
             spec.loader.exec_module(mod)
 
-        else:
+        elif sys.version_info >= (3, 3):
+            from importlib.machinery import SourceFileLoader
+            loader = SourceFileLoader('pelconf', 'pelconf.py')
+            mod = loader.load_module()
+
+        elif sys.version_info <= (3, 0):
             import imp
 
             imp.load_source('pelconf', 'pelconf.py')
@@ -115,6 +117,9 @@ def run(cmd, capture=False, shell=True, env=None):
 
     p = subprocess.Popen(cmd, **options)
     stdout, stderr = p.communicate()
+
+    if capture is False and p.returncode != 0:
+        sys.exit(p.returncode)
 
     return ExecResult(
         cmd,
