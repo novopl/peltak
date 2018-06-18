@@ -7,16 +7,21 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: deps-rev1-{{ checksum "requirements.txt" }}
+          key: deps-rev2-{{ checksum "requirements.txt" }}
+      - restore_cache:
+          key: tox-rev1-{{ checksum "requirements.txt" }}
       - run: pip install -r requirements.txt
       - run: python setup.py develop
       - run: tox
       - save_cache:
-          key: deps-rev1-{{ checksum "requirements.txt" }}
+          key: deps-rev2-{{ checksum "requirements.txt" }}
           paths:
-          - .tox
           - /usr/local/bin
           - /usr/local/lib/python3.6/site-packages
+      - save_cache:
+          key: tox-rev1-{{ checksum "requirements.txt" }}
+          paths:
+          - .tox
       - store_test_results:
           path: .build
       - store_artifacts:
@@ -32,7 +37,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: deps-rev1-{{ checksum "requirements.txt" }}
+          key: deps-rev2-{{ checksum "requirements.txt" }}
       - run: pip install -r requirements.txt
       - run: python setup.py develop
       - run: peltak release gen-pypirc
