@@ -17,9 +17,9 @@ except ImportError:
     # python 2
     from zipfile import BadZipfile as BadZipFile
     try:
-        from cStringIO import StringIO
+        from cStringIO import StringIO as BytesIO
     except ImportError:
-        from StringIO import StringIO
+        from StringIO import StringIO as BytesIO
 
 
 from six import string_types
@@ -31,12 +31,12 @@ from peltak.core import fs
 
 TEMPLATE_CONFIG_FILE = 'peltak-template-config.json'
 
+
 def marker_tag(marker):
     return '_PELTAK-SCAFFOLD-{}_'.format(marker.upper())
 
 
 class Scaffold(object):
-    LINE_SEP = '\n'
     FILE_EXT = '.scaffold'
     CONFIG_FILE = 'peltak-scaffold-config.json'
     TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
@@ -45,12 +45,12 @@ class Scaffold(object):
     class Invalid(RuntimeError):
         pass
 
-    def __init__(self, zipfile, **config):
-        self.zipfile = zipfile or BytesIO()
+    def __init__(self, fileobj, **config):
+        self.fileobj = fileobj or BytesIO()
         self.config = config
         self.path = None    # Only set if loaded from file or after it's written
 
-        self.config.setdefault('line_sep', Scaffold.LINE_SEP)
+        self.config.setdefault('line_sep', os.linesep)
         self.config.setdefault('marked_files', [])
         self.config.setdefault('created', datetime.utcnow())
         self.config.setdefault('time_format', Scaffold.TIME_FORMAT)
@@ -81,11 +81,11 @@ class Scaffold(object):
 
     @property
     def size(self):
-        start_pos = self.zipfile.tell()
+        start_pos = self.fileobj.tell()
 
-        self.zipfile.seek(0, os.SEEK_END)
-        size = self.zipfile.tell()
-        self.zipfile.seek(start_pos, os.SEEK_SET)
+        self.fileobj.seek(0, os.SEEK_END)
+        size = self.fileobj.tell()
+        self.fileobj.seek(start_pos, os.SEEK_SET)
 
         return size
 
@@ -97,26 +97,28 @@ class Scaffold(object):
 
     @property
     def files(self):
-        with ZipFile(self.zipfile) as zip:
-            return zip.namelist()
+        with ZipFile(self.fileobj) as zipfile:
+            return zipfile.namelist()
 
     @classmethod
     def create(cls, src_dir, name, exclude, markers):
 
         marked_files = []
 
-        zipfile = BytesIO()
-        with ZipFile(zipfile, 'w') as zip:
+        fileobj = BytesIO()
+        with ZipFile(fileobj, 'w') as zipfile:
             i = 0
-            for path, arc_path in Scaffold._iter_files(src_dir, markers, exclude):
+            for path, arc_path in Scaffold._iter_files(
+                    src_dir, markers, exclude
+            ):
                 if isdir(path):
                     # Non-empty dirs will be added through files they contain
                     marked = False
                     # if os.listdir(path) == []:
-                    zip.writestr(ZipInfo(arc_path + '/'), '')
+                    zipfile.writestr(ZipInfo(arc_path + '/'), '')
                 else:
                     content, marked = Scaffold._prepare_file(path, markers)
-                    zip.writestr(arc_path, content)
+                    zipfile.writestr(arc_path, content)
 
                 if marked:
                     marked_files.append(arc_path)
@@ -124,21 +126,21 @@ class Scaffold(object):
                 i += 1
                 log.info("[{:4}] Adding ^35{}", i, path)
 
-        return Scaffold(zipfile, name=name, marked_files=marked_files)
+        return Scaffold(fileobj, name=name, marked_files=marked_files)
 
     @classmethod
     def load_from_file(cls, path):
         with open(path, 'rb') as fp:
-            zipfile = BytesIO(fp.read())
+            fileobj = BytesIO(fp.read())
 
         try:
-            with ZipFile(zipfile) as zip:
-                data = zip.read(Scaffold.CONFIG_FILE).decode('utf-8')
+            with ZipFile(fileobj) as zipfile:
+                data = zipfile.read(Scaffold.CONFIG_FILE).decode('utf-8')
                 config = json.loads(data)
         except BadZipFile as ex:
             raise Scaffold.Invalid(str(ex))
 
-        scaffold = Scaffold(zipfile, **config)
+        scaffold = Scaffold(fileobj, **config)
         scaffold.path = path
 
         return scaffold
@@ -146,22 +148,22 @@ class Scaffold(object):
     def write(self, path):
         zip_path = join(path, self.name + Scaffold.FILE_EXT)
 
-        with ZipFile(self.zipfile, 'a') as zip:
-            zip.writestr(Scaffold.CONFIG_FILE, json.dumps(self.json_config))
+        with ZipFile(self.fileobj, 'a') as zipfile:
+            zipfile.writestr(Scaffold.CONFIG_FILE, json.dumps(self.json_config))
 
         with open(zip_path, 'wb') as fp:
-            fp.write(self.zipfile.getvalue())
+            fp.write(self.fileobj.getvalue())
 
         self.path = zip_path
 
     def apply(self, proj_name, out_path):
-        with ZipFile(self.zipfile) as zip:
-            config = json.loads(zip.read(Scaffold.CONFIG_FILE))
+        with ZipFile(self.fileobj) as zipfile:
+            config = json.loads(zipfile.read(Scaffold.CONFIG_FILE))
 
             proj_path = join(out_path, proj_name)
             os.makedirs(proj_path)
 
-            for i, arc_path in enumerate(zip.namelist()):
+            for i, arc_path in enumerate(zipfile.namelist()):
                 if arc_path == Scaffold.CONFIG_FILE:
                     continue
 
@@ -171,11 +173,11 @@ class Scaffold(object):
                     file_path = file_path.replace(Scaffold.NAME_MARKER,
                                                   proj_name)
 
-                content = zip.read(arc_path)
+                content = zipfile.read(arc_path)
 
                 if arc_path in config['marked_files']:
                     content = content.decode('utf-8')
-                    content = Scaffold._render_file(content, {
+                    content = self._render_file(content, {
                         'name': proj_name
                     })
 
@@ -183,7 +185,7 @@ class Scaffold(object):
                         log.cprint("^0[ Template ] ^0^90{}^0", file_path)
                         fp.write(content)
                 else:
-                    if self._is_dir(zip, arc_path):
+                    if Scaffold._is_dir(zipfile, arc_path):
                         log.cprint("^34[    Dir   ] ^90{}^0", file_path)
                         os.mkdir(file_path)
                     else:
@@ -207,7 +209,6 @@ class Scaffold(object):
             with open(path) as fp:
                 lines = []
                 for i, line in enumerate(fp.readlines()):
-                    line = line[:-len(os.linesep)]
                     prepped, marked = Scaffold._prep_line(line, markers)
 
                     if marked:
@@ -215,7 +216,7 @@ class Scaffold(object):
 
                     lines.append(prepped)
 
-                return Scaffold.LINE_SEP.join(lines), is_marked
+                return ''.join(lines), is_marked
 
         except UnicodeDecodeError:
             with open(path, 'rb') as fp:
@@ -240,11 +241,10 @@ class Scaffold(object):
 
         return prepped, is_marked
 
-    @staticmethod
-    def _render_file(content, values):
+    def _render_file(self, content, values):
         lines = []
 
-        for line in content.split(Scaffold.LINE_SEP):
+        for line in content.split(self.config['line_sep']):
             rendered = line
 
             for marker, value in values.items():
@@ -256,11 +256,10 @@ class Scaffold(object):
 
         return os.linesep.join(lines)
 
-    def _is_dir(self, zip, arc_path):
-        zip_info = zip.getinfo(arc_path)
+    @staticmethod
+    def _is_dir(zipfile, arc_path):
+        zip_info = zipfile.getinfo(arc_path)
         if sys.version_info >= (3, 6):
             return zip_info.is_dir()
         else:
             return zip_info.filename.endswith('/')
-
-

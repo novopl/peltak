@@ -10,7 +10,6 @@ jobs:
           key: deps-rev3-{{ checksum "requirements.txt" }}
       - restore_cache:
           key: tox-rev1-{{ checksum "requirements.txt" }}-{{ checksum "ops/devrequirements.txt" }}
-      - run: pip install -r requirements.txt
       - run: python setup.py develop
       - run: tox
       - save_cache:
@@ -38,7 +37,6 @@ jobs:
       - checkout
       - restore_cache:
           key: deps-rev3-{{ checksum "requirements.txt" }}
-      - run: pip install -r requirements.txt
       - run: python setup.py develop
       - run: peltak release gen-pypirc
       - run: peltak release upload pypi
