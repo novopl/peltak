@@ -3,7 +3,7 @@
 Various commands that do not fit another category but there's not enough of them
 to justify a separate module.
 """
-from __future__ import absolute_import, unicode_literals
+from __future__ import absolute_import, unicode_literals, print_function
 
 # stdlib imports
 import os

@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 
-from unittest.mock import Mock, patch
-import time
+from mock import patch
 from peltak.core.util import cached_property
 from datetime import datetime, timedelta
 
