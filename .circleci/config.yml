@@ -38,7 +38,7 @@ jobs:
     steps:
       - checkout
       - run: sudo chown -R circleci:circleci /usr/local/bin
-      - run: sudo chown -R circleci:circleci /usr/local/lib/python3.6/site-packages
+      - run: sudo chown -R circleci:circleci /usr/local/lib/python2.7/site-packages
       - restore_cache:
           key: deps-27-{{ checksum "requirements.txt" }}-{{ checksum "ops/devrequirements.txt" }}
       - run: pip install -r requirements.txt -r ops/devrequirements.txt
@@ -47,7 +47,7 @@ jobs:
           key: deps-27-{{ checksum "requirements.txt" }}-{{ checksum "ops/devrequirements.txt" }}
           paths:
           - /usr/local/bin
-          - /usr/local/lib/python3.6/site-packages
+          - /usr/local/lib/python2.7/site-packages
       - run: peltak clean
       - run: peltak test
       - run: peltak docs
