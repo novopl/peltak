@@ -61,8 +61,11 @@ def filtered_walk(path, exclude):
         raise ValueError("Cannot walk files, only directories")
 
     files = os.listdir(path)
-    for name in (x for x in files if not is_excluded(x, exclude)):
+    for name in files:
         file_path = join(path, name)
+
+        if is_excluded(name, file_path, exclude):
+            continue
 
         yield name, file_path
 
@@ -71,5 +74,6 @@ def filtered_walk(path, exclude):
                 yield n, p
 
 
-def is_excluded(name, excluded):
-    return next((True for x in excluded if fnmatch(name, x)), False)
+def is_excluded(name, path, excluded):
+    matches = lambda pattern: fnmatch(name, pattern) or fnmatch(path, pattern)
+    return next((True for x in excluded if matches(x)), False)
