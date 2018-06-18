@@ -4,18 +4,18 @@ jobs:
   build:
     docker:
         # - image: circleci/python:3.6
-        - image: novopl/circleci:python-slim
+        - image: novopl/circleci:python
     steps:
       - checkout
       - run: sudo chown -R circleci:circleci /usr/local/bin
       - run: sudo chown -R circleci:circleci /usr/local/lib/python3.6/site-packages
       - restore_cache:
-          key: deps-rev1-{{ checksum "requirements.txt" }}-{{ checksum "ops/devrequirements.txt" }}
-      - run: pip install -r requirements.txt -r ops/devrequirements.txt
+          key: deps-rev1-{{ checksum "requirements.txt" }}
+      - run: pip install -r requirements.txt
       - run: python setup.py develop
       - run: tox
       - save_cache:
-          key: deps-rev1-{{ checksum "requirements.txt" }}-{{ checksum "ops/devrequirements.txt" }}
+          key: deps-rev1-{{ checksum "requirements.txt" }}
           paths:
           - .tox
           - /usr/local/bin
@@ -32,14 +32,14 @@ jobs:
   release:
     docker:
       # - image: circleci/python:3.6
-      - image: novopl/circleci:python-slim
+      - image: novopl/circleci:python
     steps:
       - checkout
       - run: sudo chown -R circleci:circleci /usr/local/bin
       - run: sudo chown -R circleci:circleci /usr/local/lib/python3.6/site-packages
       - restore_cache:
-          key: deps-rev1-{{ checksum "requirements.txt" }}-{{ checksum "ops/devrequirements.txt" }}
-      - run: pip install -r requirements.txt -r ops/devrequirements.txt
+          key: deps-rev1-{{ checksum "requirements.txt" }}
+      - run: pip install -r requirements.txt
       - run: python setup.py develop
       - run: peltak release gen-pypirc
       - run: peltak release upload pypi
