@@ -3,12 +3,9 @@ version: 2
 jobs:
   build:
     docker:
-        # - image: circleci/python:3.6
         - image: novopl/circleci:python
     steps:
       - checkout
-      - run: sudo chown -R circleci:circleci /usr/local/bin
-      - run: sudo chown -R circleci:circleci /usr/local/lib/python3.6/site-packages
       - restore_cache:
           key: deps-rev1-{{ checksum "requirements.txt" }}
       - run: pip install -r requirements.txt
@@ -31,12 +28,9 @@ jobs:
 
   release:
     docker:
-      # - image: circleci/python:3.6
       - image: novopl/circleci:python
     steps:
       - checkout
-      - run: sudo chown -R circleci:circleci /usr/local/bin
-      - run: sudo chown -R circleci:circleci /usr/local/lib/python3.6/site-packages
       - restore_cache:
           key: deps-rev1-{{ checksum "requirements.txt" }}
       - run: pip install -r requirements.txt
