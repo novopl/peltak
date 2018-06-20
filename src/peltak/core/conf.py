@@ -199,7 +199,6 @@ def _find_proj_root():
 
     if g_proj_root is None:
         start_paths = [
-            abspath(dirname(__file__)),
             os.getcwd()
         ]
 
