@@ -21,6 +21,5 @@ except ImportError:
     pass
 
 
-from peltak.commands import scaffold
 from peltak.commands import clean
 from peltak.commands import git

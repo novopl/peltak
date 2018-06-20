@@ -1,14 +1,9 @@
 # -*- coding: utf-8 -*-
-"""
-Git helpers.
-"""
+""" Git helpers. """
 from __future__ import absolute_import, unicode_literals
 
 # stdlib imports
 from collections import namedtuple
-from os.path import join, exists
-
-# 3rd party imports
 
 # local imports
 from . import conf
@@ -44,26 +39,3 @@ def commit_author(sha1=''):
         result = conf.run(cmd, capture=True).stdout
         name, email = result.split('||')
         return Author(name, email)
-
-
-def load_gitignore(repo_path):
-    gitignore_path = join(repo_path, '.gitignore')
-
-    exclude_patterns = []
-
-    if exists(gitignore_path):
-        with open(gitignore_path) as fp:
-            for line in fp.readlines():
-                line = line.strip()
-
-                if line.startswith('#'):
-                    continue
-
-                elif line.startswith('/'):
-                    line = line[1:]
-
-                exclude_patterns.append(line)
-
-    return exclude_patterns
-
-
