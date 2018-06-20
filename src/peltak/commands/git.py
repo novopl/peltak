@@ -6,6 +6,7 @@ from __future__ import absolute_import, unicode_literals
 
 # stdlib imports
 import os
+from fnmatch import fnmatch
 
 # 3rd party imports
 import click
@@ -79,11 +80,17 @@ def merged(target=None):
 
     This is to ease the repetitive cleanup of each merged branch.
     """
-    protected_branches = ('master', 'develop')
+    main_branch = conf.get('MAIN_BRANCH', 'develop')
+    master_branch = conf.get('MASTER_BRANCH', 'master')
+    protected_branches = conf.get('PROTECTED_BRANCHES', ('master', 'develop'))
+    release_branch_pattern = conf.get('RELEASE_BRANCH_PATTERN', 'release/*')
     branch = git.current_branch()
 
     if target is None:
-        target = 'master' if branch.startswith('release/') else 'develop'
+        if fnmatch(branch, release_branch_pattern):
+            target = master_branch
+        else:
+            target = main_branch
 
     try:
         conf.run('git rev-parse --verify {}'.format(branch))
