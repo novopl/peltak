@@ -45,7 +45,7 @@ def add_hooks():
             'echo "REPO_PATH=$REPO_PATH"',
             'source "$REPO_PATH/env/bin/activate"',
             '',
-            'fab lint',
+            'peltak lint',
         ]))
 
     log.info("Adding pre-push hook")
@@ -60,7 +60,7 @@ def add_hooks():
             '',
             'source "$REPO_PATH/env/bin/activate"',
             '',
-            'fab test',
+            'peltak test',
         ]))
 
     log.info("Making hooks executable")
