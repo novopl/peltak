@@ -46,6 +46,7 @@ def add_hooks():
             '',
             'peltak lint',
         ]))
+        fp.write('\n')
 
     log.info("Adding pre-push hook")
     with open(conf.proj_path('.git/hooks/pre-push'), 'w') as fp:
@@ -61,6 +62,7 @@ def add_hooks():
             '',
             'peltak test --allow-empty',
         ]))
+        fp.write('\n')
 
     log.info("Making hooks executable")
     os.chmod(conf.proj_path('.git/hooks/pre-commit'), 0o755)
