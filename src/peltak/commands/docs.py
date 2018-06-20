@@ -13,6 +13,7 @@ import sys
 
 # 3rd party imports
 import click
+
 try:
     from refdoc import generate_docs as _generate_docs
 except ImportError:
@@ -22,7 +23,9 @@ except ImportError:
         sys.exit(-1)
 
 # local imports
-from peltak.core import log, conf
+from peltak.core import conf
+from peltak.core import log
+from peltak.core import shell
 from . import cli
 
 
@@ -57,7 +60,7 @@ def docs(recreate=False, no_index=False):
 
     with conf.within_proj_dir(DOC_SRC_PATH):
         log.info('Building docs with ^35sphinx')
-        conf.run('sphinx-build -b html -d {build} {docs} {out}'.format(
+        shell.run('sphinx-build -b html -d {build} {docs} {out}'.format(
             build=DOC_BUILD_PATH,
             docs=DOC_SRC_PATH,
             out=DOC_OUT_PATH,

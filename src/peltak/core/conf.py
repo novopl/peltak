@@ -6,26 +6,17 @@ from __future__ import absolute_import, unicode_literals
 
 # stdlib imports
 import os
-import subprocess
 import sys
-from collections import namedtuple
 from contextlib import contextmanager
-from os.path import abspath, dirname, isabs, join, normpath
+from os.path import isabs, join, normpath
 
 # local imports
-from . import log
 
 
 g_config = {}
 g_proj_path = None
 g_proj_root = None
 PROJ_CONF_FILE = 'pelconf.py'
-
-
-ExecResult = namedtuple(
-    'ExecResult',
-    'command return_code stdout stderr succeeded failed'
-)
 
 
 def init(config):
@@ -97,48 +88,6 @@ def within_proj_dir(path='.', quiet=False):
     yield
 
     os.chdir(curr_dir)
-
-
-def run(cmd, capture=False, shell=True, env=None, exit_on_error=True):
-    options = {
-        'bufsize': 1,       # line buffered
-        'shell': shell
-    }
-
-    if capture:
-        options.update({
-            'stdout': subprocess.PIPE,
-            'stderr': subprocess.PIPE,
-        })
-
-    if env is not None:
-        options['env'] = dict(os.environ)
-        options['env'].update(env)
-
-    p = subprocess.Popen(cmd, **options)
-    stdout, stderr = p.communicate()
-
-    try:
-        if stdout is not None:
-            stdout = stdout.decode('utf-8')
-
-        if stderr is not None:
-            stderr = stderr.decode('utf-8')
-    except AttributeError:
-        # 'str' has no attribute 'decode'
-        pass
-
-    if exit_on_error and p.returncode != 0:
-        sys.exit(p.returncode)
-
-    return ExecResult(
-        cmd,
-        p.returncode,
-        stdout,
-        stderr,
-        p.returncode == 0,
-        p.returncode != 0
-    )
 
 
 def get(name, *default):
