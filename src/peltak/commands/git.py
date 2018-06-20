@@ -42,7 +42,6 @@ def add_hooks():
                 '"$(readlink -fm "$0")")")")'
             ),
             '',
-            'echo "REPO_PATH=$REPO_PATH"',
             'source "$REPO_PATH/env/bin/activate"',
             '',
             'peltak lint',
