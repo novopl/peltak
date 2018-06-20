@@ -76,6 +76,7 @@ def push():
 
 
 @git_group.command()
+@click.argument('target', required=False)
 def merged(target=None):
     """ Checkout develop, pull and delete merged branches.
 

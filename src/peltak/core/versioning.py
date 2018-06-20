@@ -139,6 +139,18 @@ def _bump_version(version, component='patch'):
 
 
 class VersionStorage(object):
+    """ Base class for version storages.
+
+    A version storage is a way to store the project version. Different projects
+    will have different ways of storing the version. The simpliest case is a
+    text file that holds just the version number (probably called VERSION).
+    Python projects can also use a version stored as ``__version__`` variable
+    inside the project package/module. A Node.js project on the other hand will
+    probably keep the version in ``package.json``. All of the above strategies
+    can be (and are) implemented through sublcassing this class.
+
+    @see `PyVersionStorage`, `RawVersionStorage`, `NodeVersionStorage`
+    """
     def __init__(self, version_file):
         self.version_file = version_file
 
@@ -148,18 +160,32 @@ class VersionStorage(object):
             ))
 
     def read(self):
+        """ Read the current project version.
+
+        All subclasses must implement this method.
+        """
         raise NotImplemented("{} must implement .read()".format(
             self.__class__.__name__
         ))
 
     def write(self, version):
+        """ Save the given version as the current project version.
+
+        All subclasses must implement this method.
+        """
         raise NotImplemented("{} must implement .write()".format(
             self.__class__.__name__
         ))
 
 
 class PyVersionStorage(VersionStorage):
+    """ Store project version in one of the py module/package files. """
     def read(self):
+        """ Read the project version from .py file.
+
+        This will regex search in the file for a
+        ``__version__ = VERSION_STRING`` and read the version string.
+        """
         with open(self.version_file) as fp:
             content = fp.read()
             m = RE_PY_VERSION.search(content)
@@ -169,6 +195,12 @@ class PyVersionStorage(VersionStorage):
                 return m.group('version')
 
     def write(self, version):
+        """ Write the project version to .py file.
+
+        This will regex search in the file for a
+        ``__version__ = VERSION_STRING`` and substitue the version string
+        for the new version.
+        """
         with open(self.version_file) as fp:
             content = fp.read()
 
@@ -180,7 +212,13 @@ class PyVersionStorage(VersionStorage):
 
 
 class RawVersionStorage(VersionStorage):
+    """ Store project version as a simple value in a text file. """
     def read(self):
+        """ Read the project version from .py file.
+
+        This will regex search in the file for a
+        ``__version__ = VERSION_STRING`` and read the version string.
+        """
         with open(self.version_file) as fp:
             return fp.read().strip()
 
@@ -190,6 +228,7 @@ class RawVersionStorage(VersionStorage):
 
 
 class NodeVersionStorage(VersionStorage):
+    """ Store project version in package.json. """
     def read(self):
         with open(self.version_file) as fp:
             config = json.load(fp)
@@ -206,6 +245,10 @@ class NodeVersionStorage(VersionStorage):
 
 
 def get_version_storage(version_file):
+    """ Get version storage for the given version file.
+
+    The storage engine used depends on the extension of the *version_file*.
+    """
     if VERSION_FILE.endswith('.py'):
         return PyVersionStorage(version_file)
     elif VERSION_FILE.endswith('package.json'):

@@ -10,8 +10,10 @@ from __future__ import absolute_import, unicode_literals
 
 # stdlib imports
 import sys
-import click
 from os import environ
+
+# 3rd party imports
+import click
 
 # local imports
 from peltak.core import conf
