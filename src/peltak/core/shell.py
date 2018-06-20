@@ -16,12 +16,21 @@ ExecResult = namedtuple(
 )
 
 
+is_tty = sys.stdout.isatty()
+
+if is_tty:
+    OPCODE_SUBST = '\x1b[\\1m'
+else:
+    OPCODE_SUBST = ''
+
+
+
 def fmt(msg, *args, **kw):
     """ Generate shell color opcodes from a pretty coloring syntax. """
     if len(args) or len(kw):
         msg = msg.format(*args, **kw)
 
-    return re.sub(r'\^(\d{1,2})', '\x1b[\\1m', msg)
+    return re.sub(r'\^(\d{1,2})', OPCODE_SUBST, msg)
 
 
 def run(cmd, capture=False, shell=True, env=None, exit_on_error=True):
