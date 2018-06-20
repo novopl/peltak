@@ -59,7 +59,7 @@ def add_hooks():
             '',
             'source "$REPO_PATH/env/bin/activate"',
             '',
-            'peltak test',
+            'peltak test --allow-empty',
         ]))
 
     log.info("Making hooks executable")
