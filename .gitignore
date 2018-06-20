@@ -15,6 +15,7 @@ ___*.py
 *sw[po]
 cache.sqlite
 .cache
+.pytest_cache
 
 ################
 # Python files #
