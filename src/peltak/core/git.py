@@ -7,6 +7,7 @@ from collections import namedtuple
 
 # local imports
 from . import conf
+from . import shell
 
 
 Author = namedtuple('Author', 'name email')
@@ -14,14 +15,14 @@ Author = namedtuple('Author', 'name email')
 
 def current_branch():
     """ Return the name of the currently checked out git branch. """
-    return conf.run('git symbolic-ref --short HEAD', capture=True).stdout
+    return shell.run('git symbolic-ref --short HEAD', capture=True).stdout
 
 
 def is_dirty(path='.'):
     """ Return **True** if there are any changes/unstaged files. """
 
     with conf.within_proj_dir(path, quiet=True):
-        status = conf.run('git status --porcelain', capture=True).stdout
+        status = shell.run('git status --porcelain', capture=True).stdout
         return bool(status.strip())
 
 
@@ -36,6 +37,6 @@ def commit_author(sha1=''):
     """
     with conf.within_proj_dir():
         cmd = 'git show -s --format="%an||%ae" {}'.format(sha1)
-        result = conf.run(cmd, capture=True).stdout
+        result = shell.run(cmd, capture=True).stdout
         name, email = result.split('||')
         return Author(name, email)

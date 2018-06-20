@@ -14,7 +14,9 @@ from os.path import exists, join
 import click
 
 # local imports
-from peltak.core import log, conf
+from peltak.core import conf
+from peltak.core import log
+from peltak.core import shell
 from . import cli
 
 
@@ -32,7 +34,7 @@ FRONTEND_CMDS = conf.get('FRONTEND_CMDS', {
 def _fe_cmd(cmd):
     if FRONTEND_PATH is not None:
         with conf.within_proj_dir(FRONTEND_PATH):
-            conf.run(cmd)
+            shell.run(cmd)
     else:
         log.err("No FRONTEND_PATH defined in the config")
 

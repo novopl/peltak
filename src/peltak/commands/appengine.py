@@ -18,6 +18,7 @@ import click
 # local imports
 from peltak.core import conf
 from peltak.core import log
+from peltak.core import shell
 from . import cli
 
 
@@ -44,7 +45,7 @@ def devserver(port, admin_port, clear):
         args += ['--clear_datastore=yes']
 
     with conf.within_proj_dir():
-        conf.run('dev_appserver.py . {args}'.format(args=' '.join(args)))
+        shell.run('dev_appserver.py . {args}'.format(args=' '.join(args)))
 
 
 @appengine.command()
@@ -64,14 +65,14 @@ def deploy(version, promote):
         else:
             args += ['--no-promote']
 
-        conf.run('gcloud app deploy {} app.yaml '.format(' '.join(args)))
+        shell.run('gcloud app deploy {} app.yaml '.format(' '.join(args)))
 
 
 @appengine.command('setup-ci')
 @click.argument('project', type=str)
 def setup_ci(project):
     """ Setup AppEngine SDK on CircleCI """
-    gcloud_path = conf.run('which gcloud', capture=True).stdout
+    gcloud_path = shell.run('which gcloud', capture=True).stdout
     sdk_path = os.path.normpath(os.path.join(
         gcloud_path, '../../platform/google_appengine'
     ))
@@ -79,18 +80,20 @@ def setup_ci(project):
 
     if not os.path.exists(sdk_path):
         log.info("Installing AppEngine SDK")
-        conf.run('sudo {} components install app-engine-python'.format(gcloud_cmd))
+        shell.run('sudo {} components install app-engine-python'.format(
+            gcloud_cmd
+        ))
     else:
         # Only initialise once. To reinitialise, just build without cache.
         log.info("AppEngine SDK already initialised")
 
     log.info("Using service account authentication")
-    conf.run('{} auth activate-service-account --key-file {}'.format(
+    shell.run('{} auth activate-service-account --key-file {}'.format(
         gcloud_cmd,
         conf.proj_path('ops/client_secret.json')
     ))
 
-    # conf.run('{} config set project {}'.format(gcloud_cmd, project))
+    # shell.run('{} config set project {}'.format(gcloud_cmd, project))
 
 
 def _is_appengine_sdk(path):

@@ -15,6 +15,7 @@ import click
 from peltak.core import conf
 from peltak.core import git
 from peltak.core import log
+from peltak.core import shell
 from . import cli
 
 
@@ -71,7 +72,7 @@ def add_hooks():
 def push():
     """ Push the current branch and set to track remote. """
     branch = git.current_branch()
-    conf.run('git push -u origin {}'.format(branch))
+    shell.run('git push -u origin {}'.format(branch))
 
 
 @git_group.command()
@@ -93,22 +94,22 @@ def merged(target=None):
             target = main_branch
 
     try:
-        conf.run('git rev-parse --verify {}'.format(branch))
+        shell.run('git rev-parse --verify {}'.format(branch))
     except:
         log.err("Branch '{}' does not exist".format(branch))
 
     log.info("Checking out ^33{}".format(target))
-    conf.run('git checkout {}'.format(target))
+    shell.run('git checkout {}'.format(target))
 
     log.info("Pulling latest changes")
-    conf.run('git pull origin {}'.format(target))
+    shell.run('git pull origin {}'.format(target))
 
     if branch not in protected_branches:
         log.info("Deleting branch ^33{}".format(branch))
-        conf.run('git branch -d {}'.format(branch))
+        shell.run('git branch -d {}'.format(branch))
 
     log.info("Pruning")
-    conf.run('git fetch --prune origin')
+    shell.run('git fetch --prune origin')
 
     log.info("Checking out ^33{}^32 branch".format(target))
-    conf.run('git checkout {}'.format(target))
+    shell.run('git checkout {}'.format(target))

@@ -12,7 +12,9 @@ import os.path
 import click
 
 # local imports
-from peltak.core import fs, conf
+from peltak.core import conf
+from peltak.core import fs
+from peltak.core import shell
 from . import cli
 
 
@@ -97,7 +99,7 @@ def test(
 
     test_paths = test_config['paths'] or []
     test_paths = [conf.proj_path(p) for p in test_paths]
-    result = conf.run(
+    result = shell.run(
         'pytest -c {conf} {args} {paths}'.format(
             conf=PYTEST_CFG_PATH,
             args=' '.join(args),

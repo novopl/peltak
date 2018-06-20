@@ -11,6 +11,7 @@ from six import string_types
 from peltak.core import conf
 from peltak.core import fs
 from peltak.core import log
+from peltak.core import shell
 from . import cli
 
 
@@ -35,11 +36,11 @@ def _lint_files(paths):
 
     log.info("Checking PEP8 compatibility")
     pep8_cmd = 'pep8 --config {} {{}}'.format(PEP8_CFG_PATH)
-    pep8_ret = conf.run(pep8_cmd.format(paths)).return_code
+    pep8_ret = shell.run(pep8_cmd.format(paths)).return_code
 
     log.info("Running linter")
     pylint_cmd = 'pylint --rcfile {} {{}}'.format(PYLINT_CFG_PATH)
-    pylint_ret = conf.run(pylint_cmd.format(paths)).return_code
+    pylint_ret = shell.run(pylint_cmd.format(paths)).return_code
 
     if pep8_ret != 0:
         print("pep8 failed with return code {}".format(pep8_ret))

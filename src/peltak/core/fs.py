@@ -14,7 +14,8 @@ from fnmatch import fnmatch
 from six import string_types
 
 # local imports
-from . import conf, log
+from . import log
+from . import shell
 
 
 def surround_paths_with_quotes(paths):
@@ -41,7 +42,7 @@ def rm_glob(pattern, exclude_env=True, exclude_tox=True):
         # Remove entries starting with ./.tox
         cmd.append("| sed '/^\.\/\.tox/d'")
 
-    matches = conf.run(' '.join(cmd), capture=True)
+    matches = shell.run(' '.join(cmd), capture=True)
 
     for path in matches.stdout.splitlines():
         # might be a child of a dir deleted in an earlier iteration

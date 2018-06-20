@@ -14,7 +14,11 @@ from warnings import warn
 import click
 
 # local imports
-from peltak.core import git, log, conf, versioning
+from peltak.core import shell
+from peltak.core import conf
+from peltak.core import git
+from peltak.core import log
+from peltak.core import versioning
 from . import cli
 
 
@@ -46,7 +50,7 @@ def make_release(component, exact):
     3. Create commit with bumped version.
     """
     with conf.within_proj_dir(quiet=True):
-        out = conf.run('git status --porcelain', capture=True).stdout
+        out = shell.run('git status --porcelain', capture=True).stdout
         has_changes = any(
             not l.startswith('??') for l in out.split(os.linesep) if l.strip()
         )
@@ -65,12 +69,13 @@ def make_release(component, exact):
         branch = 'release/' + new_ver
 
         log.info("Checking out new branch ^35{}", branch)
-        conf.run('git checkout -b ' + branch)
+        shell.run('git checkout -b ' + branch)
 
         log.info("Creating commit for the release")
-        conf.run('git add {ver_file} && git commit -m "Release: v{ver}"'.format(
+
+        shell.run('git add {ver_file} && git commit -m "{msg}"'.format(
             ver_file=VERSION_FILE,
-            ver=new_ver
+            msg="Release: v{}".format(new_ver)
         ))
 
 
@@ -89,7 +94,7 @@ def tag_release():
             author,
             release_ver
         )
-        conf.run(cmd)
+        shell.run(cmd)
 
 
 @rel.command()
@@ -98,8 +103,8 @@ def upload(target):
     """ Release to a given pypi server ('local' by default). """
     log.info("Uploading to pypi server ^33{}".format(target))
     with conf.within_proj_dir(quiet=False):
-        conf.run('python setup.py sdist register -r "{}"'.format(target))
-        conf.run('python setup.py sdist upload -r "{}"'.format(target))
+        shell.run('python setup.py sdist register -r "{}"'.format(target))
+        shell.run('python setup.py sdist upload -r "{}"'.format(target))
 
 
 @rel.command('gen-pypirc')
