@@ -99,7 +99,7 @@ def within_proj_dir(path='.', quiet=False):
     os.chdir(curr_dir)
 
 
-def run(cmd, capture=False, shell=True, env=None):
+def run(cmd, capture=False, shell=True, env=None, exit_on_error=True):
     options = {
         'bufsize': 1,       # line buffered
         'shell': shell
@@ -128,7 +128,7 @@ def run(cmd, capture=False, shell=True, env=None):
         # 'str' has no attribute 'decode'
         pass
 
-    if capture is False and p.returncode != 0:
+    if exit_on_error and p.returncode != 0:
         sys.exit(p.returncode)
 
     return ExecResult(
@@ -199,7 +199,6 @@ def _find_proj_root():
 
     if g_proj_root is None:
         start_paths = [
-            abspath(dirname(__file__)),
             os.getcwd()
         ]
 

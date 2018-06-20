@@ -5,6 +5,7 @@ Testing commands
 from __future__ import absolute_import, unicode_literals
 
 # stdlib imports
+import sys
 import os.path
 
 # 3rd party imports
@@ -34,9 +35,13 @@ DJANGO_TEST_SETTINGS = conf.get('DJANGO_TEST_SETTINGS', None)
 @click.option('--junit', is_flag=True)
 @click.option('--no-locals', is_flag=True)
 @click.option('--no-coverage', is_flag=True)
+@click.option('--allow-empty', is_flag=True)
 @click.option('--plugins', type=str, default='')
 # def test(**opts):
-def test(no_sugar, type, verbose, junit, no_locals, no_coverage, plugins):
+def test(
+        no_sugar, type, verbose, junit, no_locals,
+        no_coverage, plugins, allow_empty
+):
     """ Run all tests against the current python version. """
     SRC_DIR = conf.get_path('SRC_DIR')
     SRC_PATH = conf.get_path('SRC_PATH')
@@ -92,11 +97,15 @@ def test(no_sugar, type, verbose, junit, no_locals, no_coverage, plugins):
 
     test_paths = test_config['paths'] or []
     test_paths = [conf.proj_path(p) for p in test_paths]
-    conf.run(
+    result = conf.run(
         'pytest -c {conf} {args} {paths}'.format(
             conf=PYTEST_CFG_PATH,
             args=' '.join(args),
             paths = fs.surround_paths_with_quotes(test_paths)
         ),
-        env={'PYTHONPATH': SRC_DIR}
+        env={'PYTHONPATH': SRC_DIR},
+        exit_on_error=False
     )
+
+    if result.failed and not (allow_empty is True and result.return_code == 5):
+        sys.exit(result.return_code)
