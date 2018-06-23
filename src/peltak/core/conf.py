@@ -34,6 +34,13 @@ def init(config):
 
 
 def load():
+    """ Load configuration from file.
+
+    This will search the directory structure upwards to find the project root
+    (directory containing ``pelconf.py`` file). Once found it will import the
+    config file which should initialize all the configuration (using
+    `peltak.core.conf.init()` function).
+    """
     if proj_path() is None:
         return
 

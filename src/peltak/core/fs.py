@@ -6,9 +6,8 @@ from __future__ import absolute_import, unicode_literals
 
 # stdlib imports
 import os
-from os.path import exists, join, isdir
+from os.path import exists, isdir
 from shutil import rmtree
-from fnmatch import fnmatch
 
 # 3rd party imports
 from six import string_types
@@ -55,26 +54,3 @@ def rm_glob(pattern, exclude_env=True, exclude_tox=True):
         else:
             log.info('  ^91[dir]  ^90{}'.format(path))
             rmtree(path)
-
-
-def filtered_walk(path, exclude):
-    if not isdir(path):
-        raise ValueError("Cannot walk files, only directories")
-
-    files = os.listdir(path)
-    for name in files:
-        file_path = join(path, name)
-
-        if is_excluded(name, file_path, exclude):
-            continue
-
-        yield name, file_path
-
-        if isdir(file_path):
-            for n, p in filtered_walk(file_path, exclude):
-                yield n, p
-
-
-def is_excluded(name, path, excluded):
-    matches = lambda pattern: fnmatch(name, pattern) or fnmatch(path, pattern)
-    return next((True for x in excluded if matches(x)), False)

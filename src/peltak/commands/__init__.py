@@ -1,4 +1,10 @@
 # -*- coding: utf-8 -*-
+""" Commands package.
+
+All commands (and only commands) should be defined inside this package. This
+should be as thin layer as possible. Ideally just processing CLI params and
+displaying results.
+"""
 from __future__ import absolute_import, unicode_literals
 
 # 3rd party imports

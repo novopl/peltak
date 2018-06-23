@@ -42,11 +42,11 @@ def add_hooks():
                 '"$(readlink -fm "$0")")")")'
             ),
             '',
-            'echo "REPO_PATH=$REPO_PATH"',
             'source "$REPO_PATH/env/bin/activate"',
             '',
-            'fab lint',
+            'peltak lint',
         ]))
+        fp.write('\n')
 
     log.info("Adding pre-push hook")
     with open(conf.proj_path('.git/hooks/pre-push'), 'w') as fp:
@@ -60,8 +60,9 @@ def add_hooks():
             '',
             'source "$REPO_PATH/env/bin/activate"',
             '',
-            'fab test',
+            'peltak test --allow-empty',
         ]))
+        fp.write('\n')
 
     log.info("Making hooks executable")
     os.chmod(conf.proj_path('.git/hooks/pre-commit'), 0o755)
@@ -76,6 +77,7 @@ def push():
 
 
 @git_group.command()
+@click.argument('target', required=False)
 def merged(target=None):
     """ Checkout develop, pull and delete merged branches.
 

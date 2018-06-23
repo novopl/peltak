@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
+""" Commands for managing the managed project version. """
 from __future__ import absolute_import, unicode_literals
 
 # 3rd party modules
 import click
 
 # local imports
-from peltak.core import log, conf, versioning
+from peltak.core import log
+from peltak.core import versioning
 from . import cli
 
 
@@ -30,7 +32,7 @@ def version(porcelain):
 @ver.command('bump')
 @click.argument(
     'component',
-    type=click.Choice(['major','minor', 'patch']),
+    type=click.Choice(['major', 'minor', 'patch']),
     required=False,
     default='patch'
 )

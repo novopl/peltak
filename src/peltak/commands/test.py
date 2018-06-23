@@ -32,21 +32,20 @@ DJANGO_TEST_SETTINGS = conf.get('DJANGO_TEST_SETTINGS', None)
 
 @cli.command()
 @click.option('--no-sugar', is_flag=True)
-@click.option('--type', type=str, default='default')
-@click.option('--verbose', count=True)
+@click.option('--type', 'tests_type', type=str, default='default')
+@click.option('-v', '--verbose', count=True)
 @click.option('--junit', is_flag=True)
 @click.option('--no-locals', is_flag=True)
 @click.option('--no-coverage', is_flag=True)
 @click.option('--allow-empty', is_flag=True)
 @click.option('--plugins', type=str, default='')
-# def test(**opts):
 def test(
-        no_sugar, type, verbose, junit, no_locals,
+        no_sugar, tests_type, verbose, junit, no_locals,
         no_coverage, plugins, allow_empty
 ):
     """ Run all tests against the current python version. """
-    SRC_DIR = conf.get_path('SRC_DIR')
-    SRC_PATH = conf.get_path('SRC_PATH')
+    src_dir = conf.get_path('SRC_DIR')
+    src_path = conf.get_path('SRC_PATH')
     plugins = plugins.split(',')
     args = []
 
@@ -54,7 +53,7 @@ def test(
         args += [
             '--durations=3',
             '--cov-config={}'.format(COVERAGE_CFG_PATH),
-            '--cov={}'.format(SRC_PATH),
+            '--cov={}'.format(src_path),
             '--cov-report=term:skip-covered',
             '--cov-report=html:{}'.format(COVERAGE_OUT_PATH),
         ]
@@ -89,9 +88,9 @@ def test(
             else:
                 args += ['-p {}'.format(plug_name)]
 
-    test_config = {'paths': SRC_PATH}
-    if type is not None:
-        test_config = TEST_TYPES.get(type)
+    test_config = {'paths': src_path}
+    if tests_type is not None:
+        test_config = TEST_TYPES.get(tests_type)
         mark = test_config.get('mark')
 
         if mark:
@@ -105,7 +104,7 @@ def test(
             args=' '.join(args),
             paths = fs.surround_paths_with_quotes(test_paths)
         ),
-        env={'PYTHONPATH': SRC_DIR},
+        env={'PYTHONPATH': src_dir},
         exit_on_error=False
     )
 

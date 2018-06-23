@@ -5,7 +5,6 @@ Helpers for nice shell output formatting.
 from __future__ import absolute_import, unicode_literals
 
 # stdlib imports
-import re
 from . import shell
 
 

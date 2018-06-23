@@ -24,7 +24,6 @@ else:
     OPCODE_SUBST = ''
 
 
-
 def fmt(msg, *args, **kw):
     """ Generate shell color opcodes from a pretty coloring syntax. """
     if len(args) or len(kw):

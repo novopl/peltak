@@ -8,7 +8,6 @@ from __future__ import absolute_import, unicode_literals
 import os
 import sys
 from os.path import join
-from warnings import warn
 
 # 3rd party modules
 import click
@@ -34,7 +33,7 @@ def rel():
 @rel.command('make')
 @click.argument(
     'component',
-    type=click.Choice(['major','minor', 'patch']),
+    type=click.Choice(['major', 'minor', 'patch']),
     required=False,
     default='patch'
 )
