@@ -74,7 +74,7 @@ def make_release(component, exact):
 
         shell.run('git add {ver_file} && git commit -m "{msg}"'.format(
             ver_file=VERSION_FILE,
-            msg="Release: v{}".format(new_ver)
+            msg="Releasing v{}".format(new_ver)
         ))
 
 
