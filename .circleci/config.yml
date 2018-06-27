@@ -3,13 +3,14 @@ version: 2
 jobs:
   build:
     docker:
-        - image: novopl/circleci:python
+      - image: novopl/python36:circleci
     steps:
       - checkout
       - restore_cache:
           key: deps-rev3-{{ checksum "requirements.txt" }}
       - restore_cache:
           key: tox-rev1-{{ checksum "requirements.txt" }}-{{ checksum "ops/devrequirements.txt" }}
+      - run: pip uninstall peltak -y
       - run: python setup.py develop
       - run: peltak lint
       - run: tox
@@ -33,7 +34,7 @@ jobs:
 
   release:
     docker:
-      - image: novopl/circleci:python
+      - image: novopl/python36:circleci
     steps:
       - checkout
       - restore_cache:
