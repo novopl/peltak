@@ -39,26 +39,40 @@ jobs:
           path: docs/html
           destination: docs
 
+
+  release:
+    docker:
+      - image: novopl/python36:circleci
+    steps:
+      - checkout
+      - restore_cache:
+          key: deps-rev3-{{ checksum "requirements.txt" }}
+      - run:
+          name: Setup peltak
+          command: |
+            pip uninstall peltak -y
+            python setup.py develop
       - run:
           name: Upload to pypi
           command: |
             peltak release gen-pypirc
             peltak release upload pypi
             rm ~/.pypirc
-          filters:
-            branches:
-              only: master
       - run:
           name: Create release tag
           command: |
             peltak release tag
             git push origin v$(peltak version show --porcelain)
-          filters:
-            branches:
-              only: master
+
 
 workflows:
   version: 2
   full_pipe:
     jobs:
       - build
+      - release:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
