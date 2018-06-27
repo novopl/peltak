@@ -10,10 +10,16 @@ jobs:
           key: deps-rev3-{{ checksum "requirements.txt" }}
       - restore_cache:
           key: tox-rev1-{{ checksum "requirements.txt" }}-{{ checksum "ops/devrequirements.txt" }}
-      - run: pip uninstall peltak -y
-      - run: python setup.py develop
+
+      - run:
+          name: Setup peltak
+          command: |
+            pip uninstall peltak -y
+            python setup.py develop
+
       - run: peltak lint
       - run: tox
+
       - save_cache:
           key: deps-rev3-{{ checksum "requirements.txt" }}
           paths:
@@ -23,6 +29,7 @@ jobs:
           key: tox-rev1-{{ checksum "requirements.txt" }}-{{ checksum "ops/devrequirements.txt" }}
           paths:
           - .tox
+
       - store_test_results:
           path: .build
       - store_artifacts:
@@ -32,29 +39,26 @@ jobs:
           path: docs/html
           destination: docs
 
-  release:
-    docker:
-      - image: novopl/python36:circleci
-    steps:
-      - checkout
-      - restore_cache:
-          key: deps-rev3-{{ checksum "requirements.txt" }}
-      - run: python setup.py develop
-      - run: peltak release gen-pypirc
-      - run: peltak release upload pypi
-      - run: rm ~/.pypirc
-      - run: peltak release tag
-      - run: "git push origin v$(peltak version show --porcelain)"
-
+      - run:
+          name: Upload to pypi
+          command: |
+            peltak release gen-pypirc
+            peltak release upload pypi
+            rm ~/.pypirc
+          filters:
+            branches:
+              only: master
+      - run:
+          name: Create release tag
+          command: |
+            peltak release tag
+            git push origin v$(peltak version show --porcelain)
+          filters:
+            branches:
+              only: master
 
 workflows:
   version: 2
   full_pipe:
     jobs:
       - build
-      - release:
-          requires:
-            - build
-          filters:
-            branches:
-              only: master
