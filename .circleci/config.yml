@@ -17,8 +17,12 @@ jobs:
             pip uninstall peltak -y
             python setup.py develop
 
-      - run: peltak lint
-      - run: tox
+      - run:
+          name: Lint
+          command: peltak lint
+      - run:
+          name: Test
+          command: tox
 
       - save_cache:
           key: deps-rev3-{{ checksum "requirements.txt" }}
