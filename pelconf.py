@@ -35,6 +35,7 @@ conf.init({
 # Import all commands
 from peltak.commands import appengine
 from peltak.commands import django
+from peltak.commands import docker
 from peltak.commands import docs
 from peltak.commands import frontend
 from peltak.commands import lint
