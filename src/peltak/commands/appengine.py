@@ -121,7 +121,7 @@ def _get_appengine_sdk_path():
             ' directly.',
             '^0'
         )
-        log.cprint('\n'.join(msg_lines))
+        shell.cprint('\n'.join(msg_lines))
         sys.exit(1)
 
     return sdk_path
