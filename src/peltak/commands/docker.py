@@ -15,9 +15,9 @@ import requests
 # local imports
 from peltak.commands import cli
 from peltak.core import conf
+from peltak.core import log
 from peltak.core import shell
 from peltak.core import versioning
-from peltak.core import log
 
 
 @cli.group('docker')
@@ -120,7 +120,7 @@ def docker_list(registry_pass):
         r = requests.get(tags_url.format(repo), auth=auth)
         images[repo] = reversed(sorted(r.json()['tags']))
 
-    log.cprint("^32Images in ^34{} ^32registry:^0", registry_url)
+    shell.cprint("^32Images in ^34{} ^32registry:^0", registry_url)
     for image, tags in images.items():
         for tag in tags:
-            log.cprint('  {}:^35{}^0', image, tag)
+            shell.cprint('  {}:^35{}^0', image, tag)

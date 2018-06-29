@@ -32,6 +32,14 @@ def fmt(msg, *args, **kw):
     return re.sub(r'\^(\d{1,2})', OPCODE_SUBST, msg)
 
 
+def cprint(msg, *args, **kw):
+    """ Print colored message to stdout. """
+    if len(args) or len(kw):
+        msg = msg.format(*args, **kw)
+
+    print(fmt(msg))
+
+
 def run(cmd, capture=False, shell=True, env=None, exit_on_error=True):
     """ Run a shell command.
 

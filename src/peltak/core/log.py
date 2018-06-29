@@ -8,14 +8,6 @@ from __future__ import absolute_import, unicode_literals
 from . import shell
 
 
-def cprint(msg, *args, **kw):
-    """ Print colored message to stdout. """
-    if len(args) or len(kw):
-        msg = msg.format(*args, **kw)
-
-    print(shell.fmt(msg))
-
-
 def info(msg, *args, **kw):
     """ Print sys message to stdout.
 
