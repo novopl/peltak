@@ -41,7 +41,7 @@ DOC_BUILD_PATH = os.path.join(BUILD_DIR, 'docs')
 
 @cli.command()
 @click.option('--recreate', is_flag=True)
-@click.option('--no_index', is_flag=False)
+@click.option('--no_index', is_flag=True)
 def docs(recreate=False, no_index=False):
     """ Build project documentation. """
     log.info('Ensuring assets directory ^94{}^32 exists', DOC_ASSETS_PATH)
