@@ -52,11 +52,11 @@ def docs(recreate=False, no_index=False):
         log.info("^91Deleting ^94{}".format(DOC_OUT_PATH))
         shutil.rmtree(DOC_OUT_PATH)
 
-    if DOC_REF_PATH:
+    if REFDOC_PATHS:
         _gen_ref_docs(DOC_REF_PATH, no_index)
     else:
         log.err('Not generating any reference documentation - '
-                'No DOC_REF_PKG_PATHS specified in config')
+                'No REFDOC_PATHS specified in config')
 
     with conf.within_proj_dir(DOC_SRC_PATH):
         log.info('Building docs with ^35sphinx')
