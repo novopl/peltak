@@ -37,7 +37,7 @@ def cprint(msg, *args, **kw):
     if len(args) or len(kw):
         msg = msg.format(*args, **kw)
 
-    print(fmt(msg))
+    print(fmt('{}^0'.format(msg)))
 
 
 def run(cmd, capture=False, shell=True, env=None, exit_on_error=True):
