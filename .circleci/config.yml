@@ -3,7 +3,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: novopl/python36:circleci
+      - image: novopl/python36:ci-alpine
     steps:
       - checkout
       - restore_cache:
@@ -46,7 +46,7 @@ jobs:
 
   release:
     docker:
-      - image: novopl/python36:circleci
+      - image: novopl/python36:ci-alpine
     steps:
       - checkout
       - restore_cache:
