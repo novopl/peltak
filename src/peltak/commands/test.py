@@ -3,31 +3,7 @@
 Testing commands
 """
 from __future__ import absolute_import, unicode_literals
-
-# stdlib imports
-import sys
-import os.path
-
-# 3rd party imports
-import click
-
-# local imports
-from peltak.core import conf
-from peltak.core import fs
-from peltak.core import shell
-from . import cli
-
-
-BUILD_DIR = conf.get_path('BUILD_DIR', '.build')
-
-PYTEST_CFG_PATH = conf.get_path('PYTEST_CFG_PATH', 'ops/tools/pytest.ini')
-TEST_TYPES = conf.get('TEST_TYPES', {})
-
-COVERAGE_OUT_PATH = os.path.join(BUILD_DIR, 'coverage')
-COVERAGE_CFG_PATH = conf.get_path('COVERAGE_CFG_PATH', 'ops/tools/coverage.ini')
-
-DJANGO_SETTINGS = conf.get('DJANGO_SETTINGS', None)
-DJANGO_TEST_SETTINGS = conf.get('DJANGO_TEST_SETTINGS', None)
+from . import cli, click
 
 
 @cli.command()
@@ -44,6 +20,24 @@ def test(
         no_coverage, plugins, allow_empty
 ):
     """ Run all tests against the current python version. """
+    import sys
+    import os.path
+    from peltak.core import conf
+    from peltak.core import fs
+    from peltak.core import shell
+
+    build_dir = conf.get_path('BUILD_DIR', '.build')
+
+    pytest_cfg_path = conf.get_path('PYTEST_CFG_PATH', 'ops/tools/pytest.ini')
+    test_types = conf.get('TEST_TYPES', {})
+
+    coverage_out_path = os.path.join(build_dir, 'coverage')
+    coverage_cfg_path = conf.get_path('COVERAGE_CFG_PATH',
+                                      'ops/tools/coverage.ini')
+
+    django_settings = conf.get('DJANGO_SETTINGS', None)
+    django_test_settings = conf.get('DJANGO_TEST_SETTINGS', None)
+
     src_dir = conf.get_path('SRC_DIR')
     src_path = conf.get_path('SRC_PATH')
     plugins = plugins.split(',')
@@ -52,20 +46,20 @@ def test(
     if not no_coverage:
         args += [
             '--durations=3',
-            '--cov-config={}'.format(COVERAGE_CFG_PATH),
+            '--cov-config={}'.format(coverage_cfg_path),
             '--cov={}'.format(src_path),
             '--cov-report=term:skip-covered',
-            '--cov-report=html:{}'.format(COVERAGE_OUT_PATH),
+            '--cov-report=html:{}'.format(coverage_out_path),
         ]
 
     if junit:
         args += ['--junitxml={}/test-results.xml'.format('.build')]
 
     if '-django' not in plugins:
-        if DJANGO_TEST_SETTINGS is not None:
-            args += ['--ds {}'.format(DJANGO_TEST_SETTINGS)]
-        elif DJANGO_SETTINGS is not None:
-            args += ['--ds {}'.format(DJANGO_SETTINGS)]
+        if django_test_settings is not None:
+            args += ['--ds {}'.format(django_test_settings)]
+        elif django_settings is not None:
+            args += ['--ds {}'.format(django_settings)]
 
     if no_sugar:
         args += ['-p no:sugar']
@@ -90,7 +84,7 @@ def test(
 
     test_config = {'paths': src_path}
     if tests_type is not None:
-        test_config = TEST_TYPES.get(tests_type)
+        test_config = test_types.get(tests_type)
         mark = test_config.get('mark')
 
         if mark:
@@ -100,9 +94,9 @@ def test(
     test_paths = [conf.proj_path(p) for p in test_paths]
     result = shell.run(
         'pytest -c {conf} {args} {paths}'.format(
-            conf=PYTEST_CFG_PATH,
+            conf=pytest_cfg_path,
             args=' '.join(args),
-            paths = fs.surround_paths_with_quotes(test_paths)
+            paths=fs.surround_paths_with_quotes(test_paths)
         ),
         env={'PYTHONPATH': src_dir},
         exit_on_error=False

@@ -3,25 +3,7 @@
 Helper commands for releasing to pypi.
 """
 from __future__ import absolute_import, unicode_literals
-
-# stdlib imports
-import os
-import sys
-from os.path import join
-
-# 3rd party modules
-import click
-
-# local imports
-from peltak.core import shell
-from peltak.core import conf
-from peltak.core import git
-from peltak.core import log
-from peltak.core import versioning
-from . import cli
-
-
-VERSION_FILE = conf.get_path('VERSION_FILE', 'VERSION')
+from . import cli, click
 
 
 @cli.group('release')
@@ -48,6 +30,14 @@ def make_release(component, exact):
     2. Create and checkout release/* branch
     3. Create commit with bumped version.
     """
+    import os
+    from peltak.core import shell
+    from peltak.core import conf
+    from peltak.core import log
+    from peltak.core import versioning
+
+    version_file = conf.get_path('VERSION_FILE', 'VERSION')
+
     with conf.within_proj_dir(quiet=True):
         out = shell.run('git status --porcelain', capture=True).stdout
         has_changes = any(
@@ -73,7 +63,7 @@ def make_release(component, exact):
         log.info("Creating commit for the release")
 
         shell.run('git add {ver_file} && git commit -m "{msg}"'.format(
-            ver_file=VERSION_FILE,
+            ver_file=version_file,
             msg="Releasing v{}".format(new_ver)
         ))
 
@@ -81,6 +71,12 @@ def make_release(component, exact):
 @rel.command('tag')
 def tag_release():
     """ Create a new release tag for the current version. """
+    from peltak.core import shell
+    from peltak.core import conf
+    from peltak.core import git
+    from peltak.core import log
+    from peltak.core import versioning
+
     release_ver = versioning.current()
     author = git.commit_author()
 
@@ -100,6 +96,10 @@ def tag_release():
 @click.argument('target')
 def upload(target):
     """ Release to a given pypi server ('local' by default). """
+    from peltak.core import shell
+    from peltak.core import conf
+    from peltak.core import log
+
     log.info("Uploading to pypi server <33>{}".format(target))
     with conf.within_proj_dir(quiet=False):
         shell.run('python setup.py sdist register -r "{}"'.format(target))
@@ -111,6 +111,11 @@ def upload(target):
 @click.argument('password', required=False)
 def gen_pypirc(username=None, password=None):
     """ Generate .pypirc config with the given credentials. """
+    import sys
+    from os.path import join
+    from peltak.core import conf
+    from peltak.core import log
+
     path = join(conf.getenv('HOME'), '.pypirc')
     username = username or conf.getenv('PYPI_USER', None)
     password = password or conf.getenv('PYPI_PASS', None)

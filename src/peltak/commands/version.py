@@ -1,14 +1,7 @@
 # -*- coding: utf-8 -*-
 """ Commands for managing the managed project version. """
 from __future__ import absolute_import, unicode_literals
-
-# 3rd party modules
-import click
-
-# local imports
-from peltak.core import log
-from peltak.core import versioning
-from . import cli
+from . import cli, click
 
 
 @cli.group('version')
@@ -21,6 +14,8 @@ def ver():
 @click.option('--porcelain', is_flag=True)
 def version(porcelain):
     """ Return current project version. """
+    from peltak.core import log
+    from peltak.core import versioning
     current = versioning.current()
 
     if porcelain:
@@ -42,6 +37,8 @@ def bump_version(component='patch', exact=None):
 
     No tags are created either.
     """
+    from peltak.core import log
+    from peltak.core import versioning
 
     old_ver, new_ver = versioning.bump(component, exact)
 

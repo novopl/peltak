@@ -3,20 +3,7 @@
 git helpers.
 """
 from __future__ import absolute_import, unicode_literals
-
-# stdlib imports
-import os
-from fnmatch import fnmatch
-
-# 3rd party imports
-import click
-
-# local imports
-from peltak.core import conf
-from peltak.core import git
-from peltak.core import log
-from peltak.core import shell
-from . import cli
+from . import cli, click
 
 
 @cli.group('git')
@@ -32,6 +19,10 @@ def add_hooks():
     This will run all the checks before pushing to avoid waiting for the CI
     fail.
     """
+    import os
+    from peltak.core import conf
+    from peltak.core import log
+
     log.info("Adding pre-commit hook")
     with open(conf.proj_path('.git/hooks/pre-commit'), 'w') as fp:
         fp.write('\n'.join([
@@ -72,6 +63,9 @@ def add_hooks():
 @git_group.command()
 def push():
     """ Push the current branch and set to track remote. """
+    from peltak.core import git
+    from peltak.core import shell
+
     branch = git.current_branch()
     shell.run('git push -u origin {}'.format(branch))
 
@@ -83,6 +77,12 @@ def merged(target=None):
 
     This is to ease the repetitive cleanup of each merged branch.
     """
+    from fnmatch import fnmatch
+    from peltak.core import conf
+    from peltak.core import git
+    from peltak.core import log
+    from peltak.core import shell
+
     main_branch = conf.get('MAIN_BRANCH', 'develop')
     master_branch = conf.get('MASTER_BRANCH', 'master')
     protected_branches = conf.get('PROTECTED_BRANCHES', ('master', 'develop'))
@@ -97,7 +97,7 @@ def merged(target=None):
 
     try:
         shell.run('git rev-parse --verify {}'.format(branch))
-    except:
+    except IOError:
         log.err("Branch '{}' does not exist".format(branch))
 
     log.info("Checking out <33>{}".format(target))

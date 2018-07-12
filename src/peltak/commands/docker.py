@@ -4,20 +4,7 @@
 This is mainly for web apps that are deployed with docker.
 """
 from __future__ import absolute_import, unicode_literals
-
-# stdlib imports
-import sys
-
-# 3rd party imports
-import click
-import requests
-
-# local imports
-from peltak.commands import cli
-from peltak.core import conf
-from peltak.core import log
-from peltak.core import shell
-from peltak.core import versioning
+from . import cli, click
 
 
 @cli.group('docker')
@@ -39,6 +26,10 @@ def docker_build():
     root project directory, but the location can be customized with DOCKERFILE
     conf variable.
     """
+    from peltak.core import conf
+    from peltak.core import shell
+    from peltak.core import versioning
+
     with conf.within_proj_dir():
         registry = conf.get('DOCKER_REGISTRY')
         values = {
@@ -63,6 +54,12 @@ def docker_push():
     specified registry. For the details of how the tag name is generated, see
     `peltak docker build --help`.
     """
+    import sys
+    from peltak.core import conf
+    from peltak.core import log
+    from peltak.core import shell
+    from peltak.core import versioning
+
     registry = conf.get('DOCKER_REGISTRY')
     if registry is None:
         log.err("You must define DOCKER_REGISTRY conf variable to push images")
@@ -98,6 +95,12 @@ def docker_list(registry_pass):
     also hard-code the username with the DOCKER_REGISTRY_USER conf variable. You
     will be asked for the password every time though for security reasons.
     """
+    import sys
+    import requests
+    from peltak.core import conf
+    from peltak.core import log
+    from peltak.core import shell
+
     registry = conf.get('DOCKER_REGISTRY')
 
     if registry is None:
