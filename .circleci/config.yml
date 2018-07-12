@@ -7,9 +7,9 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: deps-rev3-{{ checksum "requirements.txt" }}
+          key: deps-rev4-{{ checksum "requirements.txt" }}
       - restore_cache:
-          key: tox-rev1-{{ checksum "requirements.txt" }}-{{ checksum "ops/devrequirements.txt" }}
+          key: tox-rev2-{{ checksum "requirements.txt" }}-{{ checksum "ops/devrequirements.txt" }}
 
       - run:
           name: Setup peltak
@@ -29,7 +29,7 @@ jobs:
           command: tox
 
       - save_cache:
-          key: deps-rev3-{{ checksum "requirements.txt" }}
+          key: deps-rev4-{{ checksum "requirements.txt" }}
           paths:
           - /usr/local/bin
           - /usr/local/lib/python3.6/site-packages
