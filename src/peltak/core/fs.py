@@ -49,8 +49,8 @@ def rm_glob(pattern, exclude_env=True, exclude_tox=True):
             continue
 
         if not isdir(path):
-            log.info('  ^91[file] ^90{}'.format(path))
+            log.info('  <91>[file] <90>{}'.format(path))
             os.remove(path)
         else:
-            log.info('  ^91[dir]  ^90{}'.format(path))
+            log.info('  <91>[dir]  <90>{}'.format(path))
             rmtree(path)

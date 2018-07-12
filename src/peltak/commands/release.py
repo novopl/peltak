@@ -61,13 +61,13 @@ def make_release(component, exact):
     old_ver, new_ver = versioning.bump(component, exact)
 
     log.info("Bumping package version")
-    log.info("  old version: ^35{}".format(old_ver))
-    log.info("  new version: ^35{}".format(new_ver))
+    log.info("  old version: <35>{}".format(old_ver))
+    log.info("  new version: <35>{}".format(new_ver))
 
     with conf.within_proj_dir(quiet=True):
         branch = 'release/' + new_ver
 
-        log.info("Checking out new branch ^35{}", branch)
+        log.info("Checking out new branch <35>{}", branch)
         shell.run('git checkout -b ' + branch)
 
         log.info("Creating commit for the release")
@@ -100,7 +100,7 @@ def tag_release():
 @click.argument('target')
 def upload(target):
     """ Release to a given pypi server ('local' by default). """
-    log.info("Uploading to pypi server ^33{}".format(target))
+    log.info("Uploading to pypi server <33>{}".format(target))
     with conf.within_proj_dir(quiet=False):
         shell.run('python setup.py sdist register -r "{}"'.format(target))
         shell.run('python setup.py sdist upload -r "{}"'.format(target))
@@ -119,7 +119,7 @@ def gen_pypirc(username=None, password=None):
         log.err("You must provide $PYPI_USER and $PYPI_PASS")
         sys.exit(1)
 
-    log.info("Generating .pypirc config ^94{}".format(path))
+    log.info("Generating .pypirc config <94>{}".format(path))
 
     with open(path, 'w') as fp:
         fp.write('\n'.join((

@@ -114,12 +114,12 @@ def _get_appengine_sdk_path():
 
     if sdk_path is None:
         msg_lines = (
-            '^91AppEngine SDK not found!^0',
-            '^90m',
-            '   The Google AppEngine SDK must be in your ^1$PATH^90 or you can'
-            ' use  ^1$APPENGINE_SDK^90 environment variable to specify it'
+            '<91>AppEngine SDK not found!<0>',
+            '<90>',
+            ' The Google AppEngine SDK must be in your <1>$PATH<90> or you can'
+            ' use  <1>$APPENGINE_SDK<90> environment variable to specify it'
             ' directly.',
-            '^0'
+            '<0>'
         )
         shell.cprint('\n'.join(msg_lines))
         sys.exit(1)

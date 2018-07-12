@@ -100,18 +100,18 @@ def merged(target=None):
     except:
         log.err("Branch '{}' does not exist".format(branch))
 
-    log.info("Checking out ^33{}".format(target))
+    log.info("Checking out <33>{}".format(target))
     shell.run('git checkout {}'.format(target))
 
     log.info("Pulling latest changes")
     shell.run('git pull origin {}'.format(target))
 
     if branch not in protected_branches:
-        log.info("Deleting branch ^33{}".format(branch))
+        log.info("Deleting branch <33>{}".format(branch))
         shell.run('git branch -d {}'.format(branch))
 
     log.info("Pruning")
     shell.run('git fetch --prune origin')
 
-    log.info("Checking out ^33{}^32 branch".format(target))
+    log.info("Checking out <33>{}<32> branch".format(target))
     shell.run('git checkout {}'.format(target))

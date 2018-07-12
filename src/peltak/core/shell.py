@@ -29,7 +29,7 @@ def fmt(msg, *args, **kw):
     if len(args) or len(kw):
         msg = msg.format(*args, **kw)
 
-    return re.sub(r'\^(\d{1,2})', OPCODE_SUBST, msg)
+    return re.sub(r'<(\d{1,2})>', OPCODE_SUBST, msg)
 
 
 def cprint(msg, *args, **kw):
@@ -37,7 +37,7 @@ def cprint(msg, *args, **kw):
     if len(args) or len(kw):
         msg = msg.format(*args, **kw)
 
-    print(fmt('{}^0'.format(msg)))
+    print(fmt('{}<0>'.format(msg)))
 
 
 def run(cmd, capture=False, shell=True, env=None, exit_on_error=True):

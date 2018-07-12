@@ -3,18 +3,22 @@ version: 2
 jobs:
   build:
     docker:
-      - image: novopl/python36:circleci
+      - image: novopl/python36:ci-alpine
     steps:
       - checkout
       - restore_cache:
-          key: deps-rev3-{{ checksum "requirements.txt" }}
+          key: deps-rev4-{{ checksum "requirements.txt" }}
       - restore_cache:
-          key: tox-rev1-{{ checksum "requirements.txt" }}-{{ checksum "ops/devrequirements.txt" }}
+          key: tox-rev2-{{ checksum "requirements.txt" }}-{{ checksum "ops/devrequirements.txt" }}
 
       - run:
           name: Setup peltak
           command: |
-            pip uninstall peltak -y
+            which pip
+            which python
+            whoami
+            pip freeze
+            pip uninstall peltak -y || true
             python setup.py develop
 
       - run:
@@ -25,7 +29,7 @@ jobs:
           command: tox
 
       - save_cache:
-          key: deps-rev3-{{ checksum "requirements.txt" }}
+          key: deps-rev4-{{ checksum "requirements.txt" }}
           paths:
           - /usr/local/bin
           - /usr/local/lib/python3.6/site-packages
@@ -46,7 +50,7 @@ jobs:
 
   release:
     docker:
-      - image: novopl/python36:circleci
+      - image: novopl/python36:ci-alpine
     steps:
       - checkout
       - restore_cache:
@@ -71,7 +75,7 @@ jobs:
 
 workflows:
   version: 2
-  full_pipe:
+  main:
     jobs:
       - build
       - release:
