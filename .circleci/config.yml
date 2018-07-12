@@ -17,6 +17,7 @@ jobs:
             which pip
             which python
             whoami
+            pip freeze
             pip uninstall peltak -y || true
             python setup.py develop
 
