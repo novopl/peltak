@@ -10,8 +10,6 @@ import sys
 from contextlib import contextmanager
 from os.path import isabs, join, normpath
 
-# local imports
-
 
 g_config = {}
 g_proj_path = None
@@ -161,9 +159,9 @@ def _find_proj_root():
         # log.info('Finding project root')
         for curr in start_paths:
             while curr.startswith('/') and len(curr) > 1:
-                # log.info('  checking ^94{}', curr)
+                # log.info('  checking <94>{}', curr)
                 if PROJ_CONF_FILE in os.listdir(curr):
-                    # log.info('  ^32Found')
+                    # log.info('  <32>Found')
                     g_proj_root = curr
                     break
                 else:
@@ -173,7 +171,7 @@ def _find_proj_root():
                 break
 
         if g_proj_root is None:
-            # log.info('  ^31Not found')
+            # log.info('  <31>Not found')
             pass
 
     return g_proj_root

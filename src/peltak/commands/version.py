@@ -26,7 +26,7 @@ def version(porcelain):
     if porcelain:
         print(current)
     else:
-        log.info("Version: ^35{}".format(current))
+        log.info("Version: <35>{}".format(current))
 
 
 @ver.command('bump')
@@ -46,5 +46,5 @@ def bump_version(component='patch', exact=None):
     old_ver, new_ver = versioning.bump(component, exact)
 
     log.info("Bumping package version")
-    log.info("  old version: ^35{}".format(old_ver))
-    log.info("  new version: ^35{}".format(new_ver))
+    log.info("  old version: <35>{}".format(old_ver))
+    log.info("  new version: <35>{}".format(new_ver))

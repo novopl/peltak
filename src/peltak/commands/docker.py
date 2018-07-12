@@ -79,7 +79,7 @@ def docker_push():
     ]
 
     for tag in tags:
-        log.info("Pushing ^35{}".format(tag))
+        log.info("Pushing <35>{}".format(tag))
         shell.run('docker push {}'.format(tag))
 
 

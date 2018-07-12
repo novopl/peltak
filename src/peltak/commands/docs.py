@@ -44,12 +44,12 @@ DOC_BUILD_PATH = os.path.join(BUILD_DIR, 'docs')
 @click.option('--no_index', is_flag=True)
 def docs(recreate=False, no_index=False):
     """ Build project documentation. """
-    log.info('Ensuring assets directory ^94{}^32 exists', DOC_ASSETS_PATH)
+    log.info('Ensuring assets directory <94>{}<32> exists', DOC_ASSETS_PATH)
     if not os.path.exists(DOC_ASSETS_PATH):
         os.makedirs(DOC_ASSETS_PATH)
 
     if recreate and os.path.exists(DOC_OUT_PATH):
-        log.info("^91Deleting ^94{}".format(DOC_OUT_PATH))
+        log.info("<91>Deleting <94>{}".format(DOC_OUT_PATH))
         shutil.rmtree(DOC_OUT_PATH)
 
     if REFDOC_PATHS:
@@ -59,7 +59,7 @@ def docs(recreate=False, no_index=False):
                 'No REFDOC_PATHS specified in config')
 
     with conf.within_proj_dir(DOC_SRC_PATH):
-        log.info('Building docs with ^35sphinx')
+        log.info('Building docs with <35>sphinx')
         shell.run('sphinx-build -b html -d {build} {docs} {out}'.format(
             build=DOC_BUILD_PATH,
             docs=DOC_SRC_PATH,
