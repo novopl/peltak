@@ -120,7 +120,8 @@ def docker_list(registry_pass):
         r = requests.get(tags_url.format(repo), auth=auth)
         images[repo] = reversed(sorted(r.json()['tags']))
 
-    shell.cprint("^32Images in ^34{} ^32registry:^0", registry_url)
+    shell.cprint("<32>Images in <34>{} <32>registry:", registry)
     for image, tags in images.items():
+        shell.cprint('  <92>{}', image)
         for tag in tags:
-            shell.cprint('  {}:^35{}^0', image, tag)
+            shell.cprint('      <90>{}:<35>{}', image, tag)

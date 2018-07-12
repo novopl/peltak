@@ -17,7 +17,7 @@ def info(msg, *args, **kw):
     if len(args) or len(kw):
         msg = msg.format(*args, **kw)
 
-    print(shell.fmt('-- ^32{}^0'.format(msg)))
+    shell.cprint('-- <32>{}<0>'.format(msg))
 
 
 def err(msg, *args, **kw):
@@ -29,4 +29,4 @@ def err(msg, *args, **kw):
     if len(args) or len(kw):
         msg = msg.format(*args, **kw)
 
-    print(shell.fmt('-- ^31{}^0'.format(msg)))
+    shell.cprint('-- <31>{}<0>'.format(msg))
