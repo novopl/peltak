@@ -24,4 +24,3 @@ except ImportError:
 
 
 from peltak.commands import clean   # noqa
-from peltak.commands import git     # noqa

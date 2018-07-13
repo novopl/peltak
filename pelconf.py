@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
-"""
-This is fabrics configuration file.
+""" peltak configuration file.
+
+See `peltak <https://github.com/novopl/peltak>`_ for more information.
 """
 from __future__ import absolute_import
 

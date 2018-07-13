@@ -48,4 +48,4 @@ conf.init({
 
 # Import all commands
 #from peltak.commands import version
-       ''')
+''')
