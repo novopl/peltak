@@ -6,20 +6,7 @@ Only useful on appengine projects. If you're not using AppEngine, do not
 import those into your fabfile.
 """
 from __future__ import absolute_import, unicode_literals
-
-# stdlib imports
-import sys
-import os
-import os.path
-
-# 3rd party imports
-import click
-
-# local imports
-from peltak.core import conf
-from peltak.core import log
-from peltak.core import shell
-from . import cli
+from . import cli, click
 
 
 @cli.group()
@@ -34,6 +21,9 @@ def appengine():
 @click.option('--clear', is_flag=True)
 def devserver(port, admin_port, clear):
     """ Run devserver. """
+    from peltak.core import conf
+    from peltak.core import shell
+
     admin_port = admin_port or (port + 1)
 
     args = [
@@ -53,6 +43,9 @@ def devserver(port, admin_port, clear):
 @click.option('--promote', is_flag=True)
 def deploy(version, promote):
     """ Deploy to Google AppEngine. """
+    from peltak.core import conf
+    from peltak.core import shell
+
     with conf.within_proj_dir():
         args = [
             '-q',
@@ -69,9 +62,13 @@ def deploy(version, promote):
 
 
 @appengine.command('setup-ci')
-@click.argument('project', type=str)
-def setup_ci(project):
+def setup_ci():
     """ Setup AppEngine SDK on CircleCI """
+    import os.path
+    from peltak.core import conf
+    from peltak.core import log
+    from peltak.core import shell
+
     gcloud_path = shell.run('which gcloud', capture=True).stdout
     sdk_path = os.path.normpath(os.path.join(
         gcloud_path, '../../platform/google_appengine'
@@ -98,6 +95,8 @@ def setup_ci(project):
 
 def _is_appengine_sdk(path):
     """ Return True if the given *path* contains AppEngine SDK. """
+    import os.path
+
     return all(os.path.exists(os.path.join(path, f)) for f in (
         'appcfg.py',
         'dev_appserver.py',
@@ -107,6 +106,10 @@ def _is_appengine_sdk(path):
 
 
 def _get_appengine_sdk_path():
+    import sys
+    import os.path
+    from peltak.core import shell
+
     sdk_path = os.environ.get('APPENGINE_SDK')
 
     if sdk_path is None:
@@ -129,5 +132,8 @@ def _get_appengine_sdk_path():
 
 def _find_appengine_sdk():
     """ Find appengine_sdk in the current $PATH. """
+    import sys
+    import os.path
+
     paths = sys.path + os.environ.get('PATH').split(':')
     return next((path for path in paths if _is_appengine_sdk(path)), None)

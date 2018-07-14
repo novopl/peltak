@@ -7,17 +7,7 @@ correspond 1 to 1 to their ``./manage.py`` counterparts but the arguments are
 in the fabric format (can't get around this).
 """
 from __future__ import absolute_import, unicode_literals
-
-# stdlib imports
-import sys
-from os import environ
-
-# 3rd party imports
-import click
-
-# local imports
-from peltak.core import conf
-from . import cli
+from . import cli, click
 
 
 @cli.group()
@@ -32,6 +22,10 @@ def _manage_cmd(cmd, settings=None):
     This function eliminates the need for having ``manage.py`` (reduces file
     clutter).
     """
+    import sys
+    from os import environ
+    from peltak.core import conf
+
     sys.path.insert(0, conf.get('SRC_DIR'))
 
     settings = settings or conf.get('DJANGO_SETTINGS', None)

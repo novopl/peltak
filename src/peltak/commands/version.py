@@ -1,32 +1,23 @@
 # -*- coding: utf-8 -*-
 """ Commands for managing the managed project version. """
 from __future__ import absolute_import, unicode_literals
-
-# 3rd party modules
-import click
-
-# local imports
-from peltak.core import log
-from peltak.core import versioning
-from . import cli
+from . import cli, click
 
 
-@cli.group('version')
-def ver():
-    """ Versioning related commands. """
-    pass
+@cli.group('version', invoke_without_command=True)
+@click.option('--porcelain', is_flag=True)
+@click.pass_context
+def ver(ctx, porcelain):
+    """ Show project version. Has subcommands. """
+    if not ctx.invoked_subcommand:
+        _show_version(porcelain)
 
 
 @ver.command('show')
 @click.option('--porcelain', is_flag=True)
-def version(porcelain):
-    """ Return current project version. """
-    current = versioning.current()
-
-    if porcelain:
-        print(current)
-    else:
-        log.info("Version: <35>{}".format(current))
+def show(porcelain):
+    """ Deprecated. Use ``peltak version``. """
+    _show_version(porcelain)
 
 
 @ver.command('bump')
@@ -42,9 +33,22 @@ def bump_version(component='patch', exact=None):
 
     No tags are created either.
     """
+    from peltak.core import log
+    from peltak.core import versioning
 
     old_ver, new_ver = versioning.bump(component, exact)
 
     log.info("Bumping package version")
     log.info("  old version: <35>{}".format(old_ver))
     log.info("  new version: <35>{}".format(new_ver))
+
+
+def _show_version(porcelain):
+    from peltak.core import log
+    from peltak.core import versioning
+    current = versioning.current()
+
+    if porcelain:
+        print(current)
+    else:
+        log.info("Version: <35>{}".format(current))

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
-"""
-This is fabrics configuration file.
+""" peltak configuration file.
+
+See `peltak <https://github.com/novopl/peltak>`_ for more information.
 """
 from __future__ import absolute_import
 
@@ -14,6 +15,7 @@ sys.path.insert(0, join(abspath(dirname(__file__)), 'src'))
 from peltak.core import conf
 
 conf.init({
+    'DOCKER_REGISTRY': 'docker.novocode.net',
     'SRC_DIR': 'src',
     'SRC_PATH': 'src/peltak',
     'BUILD_DIR': '.build',
