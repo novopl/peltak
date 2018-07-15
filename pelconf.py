@@ -40,6 +40,7 @@ from peltak.commands import django
 from peltak.commands import docker
 from peltak.commands import docs
 from peltak.commands import frontend
+from peltak.commands import git
 from peltak.commands import lint
 from peltak.commands import release
 from peltak.commands import test
