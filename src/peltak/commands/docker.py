@@ -13,7 +13,7 @@ def docker_cli():
     pass
 
 
-@cli.command('build')
+@docker_cli.command('build')
 def build_images():
     """ Build and tag a docker image for the project.
 
@@ -49,7 +49,7 @@ def build_images():
         docker.build_image(registry, image)
 
 
-@cli.command('push')
+@docker_cli.command('push')
 def push_images():
     """ Push project docker images to the registry.
 
