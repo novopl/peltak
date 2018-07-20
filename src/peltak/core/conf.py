@@ -8,7 +8,7 @@ from __future__ import absolute_import, unicode_literals
 import os
 import sys
 from contextlib import contextmanager
-from os.path import isabs, join, normpath
+from os.path import exists, isabs, join, normpath
 
 
 g_config = {}
@@ -39,10 +39,10 @@ def load():
     config file which should initialize all the configuration (using
     `peltak.core.conf.init()` function).
     """
-    if proj_path() is None:
-        return
-
     with within_proj_dir():
+        if not exists('pelconf.py'):
+            return
+
         if sys.version_info >= (3, 5):
             from importlib.util import spec_from_file_location
             from importlib.util import module_from_spec
@@ -54,7 +54,7 @@ def load():
         elif sys.version_info >= (3, 3):
             from importlib.machinery import SourceFileLoader
             loader = SourceFileLoader('pelconf', 'pelconf.py')
-            mod = loader.load_module()
+            _ = loader.load_module()
 
         elif sys.version_info <= (3, 0):
             import imp
