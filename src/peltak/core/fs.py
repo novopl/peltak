@@ -48,9 +48,12 @@ def rm_glob(pattern, exclude_env=True, exclude_tox=True):
         if not exists(path):
             continue
 
-        if not isdir(path):
-            log.info('  <91>[file] <90>{}'.format(path))
-            os.remove(path)
-        else:
-            log.info('  <91>[dir]  <90>{}'.format(path))
-            rmtree(path)
+        try:
+            if not isdir(path):
+                log.info('  <91>[file] <90>{}', path)
+                os.remove(path)
+            else:
+                log.info('  <91>[dir]  <90>{}', path)
+                rmtree(path)
+        except OSError:
+            log.info("<33>Failed to remove <90>{}", path)
