@@ -21,6 +21,10 @@ standpoint but not enough examples to fully understand all commands without
 looking at the source code. The testing could be improved as well as now it's
 mostly manually tested by being used in almost all my private projects.
 
+.. note::
+    The CircleCI builds can be found
+    `here <https://circleci.com/gh/novopl/peltak>`_
+
 Installation
 ============
 
