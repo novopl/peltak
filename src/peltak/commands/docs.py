@@ -9,7 +9,7 @@ from . import cli, click
 
 @cli.command()
 @click.option('--recreate', is_flag=True)
-@click.option('--no_index', is_flag=True)
+@click.option('--no-index', is_flag=True)
 def docs(recreate=False, no_index=False):
     """ Build project documentation. """
     import os.path
