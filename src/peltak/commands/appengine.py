@@ -5,7 +5,7 @@ Commands related to Google AppEngine.
 Only useful on appengine projects. If you're not using AppEngine, do not
 import those into your fabfile.
 """
-from __future__ import absolute_import, unicode_literals
+from __future__ import absolute_import
 from . import cli, click
 
 

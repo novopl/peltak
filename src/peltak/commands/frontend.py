@@ -5,7 +5,7 @@ All frontend commands should be implemented through
 ``src/frontend/package.json``. This is just a proxy to allow easily running
 them from the root project directory.
 """
-from __future__ import absolute_import, unicode_literals
+from __future__ import absolute_import
 from . import cli, click
 
 

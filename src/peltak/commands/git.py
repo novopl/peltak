@@ -2,7 +2,7 @@
 """
 git helpers.
 """
-from __future__ import absolute_import, unicode_literals
+from __future__ import absolute_import
 from . import cli, click
 
 
@@ -35,7 +35,7 @@ def add_hooks():
             '',
             'source "$REPO_PATH/env/bin/activate"',
             '',
-            'peltak lint',
+            'peltak lint --commit',
         ]))
         fp.write('\n')
 

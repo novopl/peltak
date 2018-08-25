@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """ Commands for managing the managed project version. """
-from __future__ import absolute_import, unicode_literals
+from __future__ import absolute_import
 from . import cli, click
 
 

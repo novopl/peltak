@@ -2,7 +2,7 @@
 """
 Testing commands
 """
-from __future__ import absolute_import, unicode_literals
+from __future__ import absolute_import
 from . import cli, click
 
 
@@ -23,6 +23,7 @@ def test(
     import sys
     import os.path
     from peltak.core import conf
+    from peltak.core import log
     from peltak.core import fs
     from peltak.core import shell
 
@@ -101,6 +102,10 @@ def test(
         env={'PYTHONPATH': src_dir},
         exit_on_error=False
     )
+
+    log.info("To see the HTML coverage report browse to <34>file://{}".format(
+        conf.proj_path('.build/coverage/index.html')
+    ))
 
     if result.failed and not (allow_empty is True and result.return_code == 5):
         sys.exit(result.return_code)
