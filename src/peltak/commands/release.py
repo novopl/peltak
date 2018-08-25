@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-Helper commands for releasing to pypi.
-"""
+""" Helper commands for releasing to pypi. """
 from __future__ import absolute_import
 from . import cli, click
 

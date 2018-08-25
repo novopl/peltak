@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-git helpers.
-"""
+""" git helpers. """
 from __future__ import absolute_import
 from . import cli, click
 

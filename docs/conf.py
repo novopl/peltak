@@ -28,6 +28,7 @@ extensions = [
     'sphinx.ext.coverage',
     'sphinx.ext.imgmath',
     'sphinx.ext.viewcode',
+    'sphinx_click.ext',
 ]
 
 import peltak

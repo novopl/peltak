@@ -25,7 +25,7 @@ def build_images():
     entry and {version} is the current project version (as shown by
     `peltak version`).
 
-    Here is an example DOCKER_IMAGES:
+    Here is an example DOCKER_IMAGES::
 
         conf.init({
             # ...

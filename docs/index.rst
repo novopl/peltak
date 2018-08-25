@@ -2,13 +2,18 @@
 peltak documentation
 ####################
 
-Reference
-=========
+
+
+Table of Contents
+=================
 
 .. toctree::
     :maxdepth: 2
 
-    ref/peltak/index
+    cli/index
+    custom_commands
+    Code Reference <ref/peltak/index>
+
 
 .. include:: ../README.rst
     :start-after: readme_inclusion_marker
