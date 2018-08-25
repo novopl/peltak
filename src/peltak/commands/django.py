@@ -6,7 +6,7 @@ Those commands replace the usage of ``./manage.py`` (thus it's removed). Those
 correspond 1 to 1 to their ``./manage.py`` counterparts but the arguments are
 in the fabric format (can't get around this).
 """
-from __future__ import absolute_import, unicode_literals
+from __future__ import absolute_import
 from . import cli, click
 
 

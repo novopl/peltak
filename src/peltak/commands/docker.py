@@ -3,7 +3,7 @@
 
 This is mainly for web apps that are deployed with docker.
 """
-from __future__ import absolute_import, unicode_literals
+from __future__ import absolute_import
 from . import cli, click
 
 
