@@ -5,12 +5,12 @@ from . import cli, click
 
 
 @cli.group('git')
-def git_group():
+def git_cli():
     """ Git related commands """
     pass
 
 
-@git_group.command('add-hooks')
+@git_cli.command('add-hooks')
 def add_hooks():
     """ Setup project git hooks.
 
@@ -58,7 +58,7 @@ def add_hooks():
     os.chmod(conf.proj_path('.git/hooks/pre-push'), 0o755)
 
 
-@git_group.command()
+@git_cli.command()
 def push():
     """ Push the current branch and set to track remote. """
     from peltak.core import git
@@ -68,7 +68,7 @@ def push():
     shell.run('git push -u origin {}'.format(branch))
 
 
-@git_group.command()
+@git_cli.command()
 @click.argument('target', required=False)
 def merged(target=None):
     """ Checkout develop, pull and delete merged branches.

@@ -5,12 +5,12 @@ from . import cli, click
 
 
 @cli.group('release')
-def rel():
+def release_cli():
     """ Release related commands. """
     pass
 
 
-@rel.command('make')
+@release_cli.command('make')
 @click.argument(
     'component',
     type=click.Choice(['major', 'minor', 'patch']),
@@ -66,7 +66,7 @@ def make_release(component, exact):
         ))
 
 
-@rel.command('tag')
+@release_cli.command('tag')
 def tag_release():
     """ Create a new release tag for the current version. """
     from peltak.core import shell
@@ -90,7 +90,7 @@ def tag_release():
         shell.run(cmd)
 
 
-@rel.command()
+@release_cli.command()
 @click.argument('target')
 def upload(target):
     """ Release to a given pypi server ('local' by default). """
@@ -104,7 +104,7 @@ def upload(target):
         shell.run('python setup.py sdist upload -r "{}"'.format(target))
 
 
-@rel.command('gen-pypirc')
+@release_cli.command('gen-pypirc')
 @click.argument('username', required=False)
 @click.argument('password', required=False)
 def gen_pypirc(username=None, password=None):

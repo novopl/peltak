@@ -7,20 +7,20 @@ from . import cli, click
 @cli.group('version', invoke_without_command=True)
 @click.option('--porcelain', is_flag=True)
 @click.pass_context
-def ver(ctx, porcelain):
+def version_cli(ctx, porcelain):
     """ Show project version. Has subcommands. """
     if not ctx.invoked_subcommand:
         _show_version(porcelain)
 
 
-@ver.command('show')
+@version_cli.command('show')
 @click.option('--porcelain', is_flag=True)
 def show(porcelain):
     """ Deprecated. Use ``peltak version``. """
     _show_version(porcelain)
 
 
-@ver.command('bump')
+@version_cli.command('bump')
 @click.argument(
     'component',
     type=click.Choice(['major', 'minor', 'patch']),

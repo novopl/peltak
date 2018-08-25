@@ -11,7 +11,7 @@ from . import cli, click
 
 
 @cli.group()
-def django():
+def django_cli():
     """ Commands related to django """
     pass
 
@@ -38,7 +38,7 @@ def _manage_cmd(cmd, settings=None):
     execute_from_command_line(args)
 
 
-@django.command()
+@django_cli.command()
 @click.option(
     '-p', '--port',
     type=int,
@@ -55,13 +55,13 @@ def devserver(port=8000, settings=None):
     _manage_cmd(['runserver', '0.0.0.0:{}'.format(port)], settings)
 
 
-@django.command()
+@django_cli.command()
 def collectstatic():
     """ Collect all static files. """
     _manage_cmd(['collectstatic', '--no-input'])
 
 
-@django.command()
+@django_cli.command()
 @click.argument('app')
 @click.argument('name')
 def mkmigrations(app, name):
@@ -69,19 +69,19 @@ def mkmigrations(app, name):
     _manage_cmd(['makemigrations', '-n', name] + app.split(' '))
 
 
-@django.command()
+@django_cli.command()
 def migrate():
     """ Apply pending migrations. """
     _manage_cmd(['migrate'])
 
 
-@django.command()
+@django_cli.command()
 def createsuperuser():
     """ Create super user (probably needed for the first user). """
     _manage_cmd(['createsuperuser'])
 
 
-@django.command()
+@django_cli.command()
 def shell():
     """ Start django shell """
     _manage_cmd(['shell'])
