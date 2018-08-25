@@ -15,7 +15,8 @@ Author = namedtuple('Author', 'name email')
 
 def current_branch():
     """ Return the name of the currently checked out git branch. """
-    return shell.run('git symbolic-ref --short HEAD', capture=True).stdout
+    cmd = 'git symbolic-ref --short HEAD'
+    return shell.run(cmd, capture=True).stdout.strip()
 
 
 def is_dirty(path='.'):
