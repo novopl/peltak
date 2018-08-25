@@ -5,7 +5,7 @@ import time
 from . import cli, click
 
 
-def _lint_files(paths, include, exclude=None):
+def _lint_files(paths, include=None, exclude=None, pretend=False):
     """ Run static analysis on the given files.
 
     :param paths:   Iterable with each item being path that should be linted..
@@ -40,22 +40,25 @@ def _lint_files(paths, include, exclude=None):
         len(files), t.elapsed_ms
     ))
 
-    log.info("Checking PEP8 compatibility")
-    files = fs.surround_paths_with_quotes(files)
-    pep8_cmd = 'pep8 --config {} {{}}'.format(pep8_cfg_path)
-    pep8_ret = shell.run(pep8_cmd.format(files)).return_code
+    if not pretend:
+        log.info("Checking PEP8 compatibility")
+        files = fs.surround_paths_with_quotes(files)
+        pep8_cmd = 'pep8 --config {} {{}}'.format(pep8_cfg_path)
+        pep8_ret = shell.run(pep8_cmd.format(files)).return_code
 
-    log.info("Running linter")
-    pylint_cmd = 'pylint --rcfile {} {{}}'.format(pylint_cfg_path)
-    pylint_ret = shell.run(pylint_cmd.format(files)).return_code
+        log.info("Running linter")
+        pylint_cmd = 'pylint --rcfile {} {{}}'.format(pylint_cfg_path)
+        pylint_ret = shell.run(pylint_cmd.format(files)).return_code
 
-    if pep8_ret != 0:
-        print("pep8 failed with return code {}".format(pep8_ret))
+        if pep8_ret != 0:
+            print("pep8 failed with return code {}".format(pep8_ret))
 
-    if pylint_ret:
-        print("pylint failed with return code {}".format(pylint_ret))
+        if pylint_ret:
+            print("pylint failed with return code {}".format(pylint_ret))
 
-    return pep8_ret == pylint_ret == 0
+        return pep8_ret == pylint_ret == 0
+
+    return True
 
 
 @cli.command()
@@ -77,7 +80,12 @@ def _lint_files(paths, include, exclude=None):
     help=("Only lint files staged for commit. Useful if you want to clean up "
           "a large code base one commit at a time.")
 )
-def lint(exclude, include_untracked, commit_only):
+@click.option(
+    '-p', '--pretend',
+    is_flag=True,
+    help=("Just print files that would be linted without running anything")
+)
+def lint(exclude, include_untracked, commit_only, pretend):
     """ Run pep8 and pylint on all project files.
 
     You can configure the linting paths using the LINT_PATHS config variable.
@@ -103,7 +111,7 @@ def lint(exclude, include_untracked, commit_only):
     if not include_untracked:
         exclude += git.untracked()
 
-    if not _lint_files(paths, include, exclude):
+    if not _lint_files(paths, include, exclude, pretend):
         exit(1)
 
 
