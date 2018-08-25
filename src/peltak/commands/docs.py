@@ -48,6 +48,8 @@ def docs(recreate=False, no_index=False):
             docs=docs_src_path,
             out=docs_out_path,
         ))
+        log.info('You can view the docs by browsing to <34>file://{}'.format(
+            os.path.join(docs_out_path, 'index.html')
         ))
 
 
