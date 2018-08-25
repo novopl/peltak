@@ -105,7 +105,7 @@ def lint(exclude, include_untracked, commit_only, pretend):
     exclude = list(exclude)     # Convert from tuple to easily concatenate.
 
     if commit_only:
-        include = ['*' + f for f in git.staged() if f.endswith('.py')]
+        include += ['*' + f for f in git.staged() if f.endswith('.py')]
         exclude += git.ignore()
 
     if not include_untracked:
