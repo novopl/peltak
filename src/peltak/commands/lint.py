@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """ Code linting commands. """
 from __future__ import absolute_import
-import time
 from . import cli, click
 
 
@@ -16,6 +15,7 @@ def _lint_files(paths, include=None, exclude=None, pretend=False):
     from peltak.core import fs
     from peltak.core import log
     from peltak.core import shell
+    from peltak.core import util
 
     pylint_cfg_path = conf.get_path('PYLINT_CFG_PATH', 'ops/tools/pylint.ini')
     pep8_cfg_path = conf.get_path('PEP8_CFG_PATH', 'ops/tools/pep8.ini')
@@ -23,18 +23,18 @@ def _lint_files(paths, include=None, exclude=None, pretend=False):
     if isinstance(paths, string_types):
         raise ValueError("paths must be an array of strings")
 
-    with timed_block() as t:
+    with util.timed_block() as t:
         files = list(chain.from_iterable(
             fs.filtered_walk(p, include, exclude) for p in paths
         ))
 
     log.info("Paths to lint:")
     for path in paths:
-        print("--   {}".format(path))
+        log.info("  <0>{}", path)
 
     log.info("Files:")
     for p in files:
-        log.info("  <0>{}".format(p))
+        log.info("  <0>{}", p)
 
     log.info("Collected <33>{} <32>files in <33>{}ms".format(
         len(files), t.elapsed_ms
@@ -43,18 +43,22 @@ def _lint_files(paths, include=None, exclude=None, pretend=False):
     if not pretend:
         log.info("Checking PEP8 compatibility")
         files = fs.surround_paths_with_quotes(files)
-        pep8_cmd = 'pep8 --config {} {{}}'.format(pep8_cfg_path)
-        pep8_ret = shell.run(pep8_cmd.format(files)).return_code
 
-        log.info("Running linter")
-        pylint_cmd = 'pylint --rcfile {} {{}}'.format(pylint_cfg_path)
-        pylint_ret = shell.run(pylint_cmd.format(files)).return_code
+        with util.timed_block() as t:
+            pep8_cmd = 'pep8 --config {} {}'.format(pep8_cfg_path, files)
+            pep8_ret = shell.run(pep8_cmd).return_code
+
+            log.info("Running linter")
+            pylint_cmd = 'pylint --rcfile {} {}'.format(pylint_cfg_path, files)
+            pylint_ret = shell.run(pylint_cmd).return_code
+
+        log.info("Code checked in <33>{}ms", t.elapsed_s)
 
         if pep8_ret != 0:
-            print("pep8 failed with return code {}".format(pep8_ret))
+            log.info("pep8 failed with return code {}", pep8_ret)
 
         if pylint_ret:
-            print("pylint failed with return code {}".format(pylint_ret))
+            log.info("pylint failed with return code {}", pylint_ret)
 
         return pep8_ret == pylint_ret == 0
 
@@ -123,22 +127,3 @@ def lint(exclude, include_untracked, commit_only, pretend):
 
     if not _lint_files(paths, include, exclude, pretend):
         exit(1)
-
-
-class timed_block(object):  # noqa
-    """ Context manager to measure execution time for a give block of code.
-
-    .. code-block:: python
-
-        with timed_block() as t:
-            time.sleep(1)
-
-        print("The block took {}ms to execute".format(t.elapsed_ms)
-    """
-    def __enter__(self):
-        self.t0 = time.time()
-        return self
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        self.elapsed = time.time() - self.t0
-        self.elapsed_ms = round(self.elapsed * 1000, 3)
