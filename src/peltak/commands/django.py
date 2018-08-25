@@ -39,8 +39,17 @@ def _manage_cmd(cmd, settings=None):
 
 
 @django.command()
-@click.option('-p', '--port', type=int, default=8000)
-@click.option('-s', '--settings', type=str)
+@click.option(
+    '-p', '--port',
+    type=int,
+    default=8000,
+    help="Port the server will run on"
+)
+@click.option(
+    '-s', '--settings',
+    type=str,
+    help="Settings module to use. Defaults to DJANGO_SETTINGS conf variable."
+)
 def devserver(port=8000, settings=None):
     """ Run dev server. """
     _manage_cmd(['runserver', '0.0.0.0:{}'.format(port)], settings)
