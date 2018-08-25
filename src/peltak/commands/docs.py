@@ -19,34 +19,35 @@ def docs(recreate=False, no_index=False):
     from peltak.core import shell
 
     build_dir = conf.get_path('BUILD_DIR', '.build')
-    doc_src_path = conf.get_path('DOC_SRC_PATHS', 'docs')
+    docs_src_path = conf.get_path('DOC_SRC_PATHS', 'docs')
     refdoc_paths = conf.get('REFDOC_PATHS', [])
 
-    doc_out_path = os.path.join(doc_src_path, 'html')
-    doc_ref_path = os.path.join(doc_src_path, 'ref')
-    doc_assets_path = os.path.join(doc_src_path, 'assets')
-    doc_build_path = os.path.join(build_dir, 'docs')
+    docs_out_path = os.path.join(docs_src_path, 'html')
+    docs_ref_path = os.path.join(docs_src_path, 'ref')
+    docs_assets_path = os.path.join(docs_src_path, 'assets')
+    docs_build_path = os.path.join(build_dir, 'docs')
 
-    log.info('Ensuring assets directory <94>{}<32> exists', doc_assets_path)
-    if not os.path.exists(doc_assets_path):
-        os.makedirs(doc_assets_path)
+    log.info('Ensuring assets directory <94>{}<32> exists', docs_assets_path)
+    if not os.path.exists(docs_assets_path):
+        os.makedirs(docs_assets_path)
 
-    if recreate and os.path.exists(doc_out_path):
-        log.info("<91>Deleting <94>{}".format(doc_out_path))
-        shutil.rmtree(doc_out_path)
+    if recreate and os.path.exists(docs_out_path):
+        log.info("<91>Deleting <94>{}".format(docs_out_path))
+        shutil.rmtree(docs_out_path)
 
     if refdoc_paths:
-        _gen_ref_docs(doc_ref_path, no_index)
+        _gen_ref_docs(docs_ref_path, no_index)
     else:
         log.err('Not generating any reference documentation - '
                 'No REFDOC_PATHS specified in config')
 
-    with conf.within_proj_dir(doc_src_path):
+    with conf.within_proj_dir(docs_src_path):
         log.info('Building docs with <35>sphinx')
         shell.run('sphinx-build -b html -d {build} {docs} {out}'.format(
-            build=doc_build_path,
-            docs=doc_src_path,
-            out=doc_out_path,
+            build=docs_build_path,
+            docs=docs_src_path,
+            out=docs_out_path,
+        ))
         ))
 
 
