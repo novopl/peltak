@@ -26,9 +26,23 @@ def clean(pretend, exclude):
     You can configure the list of patterns with CLEAN_PATTERNS config variable.
     By default it will remove all files/dirs matching
 
-        *__pycache__*
-        *.py[cod]*
-        *.swp
+    Config example::
+
+        \b
+        conf.init({
+            'CLEAN_PATTERNS': [
+                '*__pycache__*',
+                '*.py[cod]',
+                '*.swp'
+        })
+
+    Examples::
+
+        \b
+        $ peltak clean
+        $ peltak clean -e "*.tox*"
+        $ peltak clean --pretend
+
     """
     import os
     from os.path import isdir
@@ -65,6 +79,11 @@ def init():
 
     If ``pelconf.py`` already exists the user will be prompted to confirm
     before continuing.
+
+    Example::
+
+        $ peltak init
+
     """
     from os.path import exists
     from peltak.core import log

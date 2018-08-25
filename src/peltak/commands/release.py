@@ -9,7 +9,8 @@ from . import cli, click
     '-c', '--component',
     type=click.Choice(['major', 'minor', 'patch']),
     required=False,
-    default='patch'
+    default='patch',
+    help=("Which version component to bump with this release.")
 )
 @click.option(
     '--exact',
@@ -23,7 +24,14 @@ def release_cli(ctx, component, exact):
     It will bump the current version number and create a release branch called
     `release/<version>` with one new commit (the version bump).
 
-    Examples:
+    **Example Config**::
+
+        \b
+        conf.init({
+            'VERSION_FILE': 'src/mypkg/__init__.py'
+        })
+
+    **Examples**::
 
         \b
         $ peltak release --component=patch    # Make a new patch release
@@ -81,7 +89,14 @@ def tag_release():
     This should be the same commit as the one that's uploaded as the release
     (to pypi for example).
 
-    Examples:
+    **Example Config**::
+
+        \b
+        conf.init({
+            'VERSION_FILE': 'src/mypkg/__init__.py'
+        })
+
+    Examples::
 
         $ peltak release tag          # Tag the current commit as release
 
@@ -110,7 +125,15 @@ def tag_release():
 @release_cli.command()
 @click.argument('target')
 def upload(target):
-    """ Upload to a given pypi target. """
+    """ Upload to a given pypi target.
+
+    Examples::
+
+        \b
+        $ peltak release uplaod pypi    # Upload the current release to pypi
+        $ peltak release uplaod private # Upload to pypi server 'private'
+
+    """
     from peltak.core import shell
     from peltak.core import conf
     from peltak.core import log
@@ -125,7 +148,14 @@ def upload(target):
 @click.argument('username', required=False)
 @click.argument('password', required=False)
 def gen_pypirc(username=None, password=None):
-    """ Generate .pypirc config with the given credentials. """
+    """
+    Generate .pypirc config with the given credentials.
+
+    Example::
+
+        $ peltak release gen-pypirc my_pypi_user my_pypi_pass
+
+    """
     import sys
     from os.path import join
     from peltak.core import conf
@@ -153,14 +183,3 @@ def gen_pypirc(username=None, password=None):
             'password: {}'.format(password),
             '',
         )))
-
-
-def _make_release(component, exact):
-    """ Make a new release.
-
-    It will bump the current version number and create a release branch called
-    `release/<version>` with one new commit (the version bump).
-
-    :param str component:
-    :param str exact:
-    """

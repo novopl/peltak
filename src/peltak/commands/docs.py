@@ -8,10 +8,48 @@ from . import cli, click
 
 
 @cli.command()
-@click.option('--recreate', is_flag=True)
-@click.option('--no-index', is_flag=True)
+@click.option(
+    '--recreate',
+    is_flag=True,
+    help="Delete build and out directories before running."
+)
+@click.option(
+    '--no-index',
+    is_flag=True,
+    help="Do not generate main index"
+)
 def docs(recreate=False, no_index=False):
-    """ Build project documentation. """
+    """ Build project documentation.
+
+    This command will run sphinx-refdoc first to generate the reference
+    documentation for the code base. Then it will run sphinx to generate the
+    final docs. You can configure the directory that stores the docs source
+    (index.rst, conf.py, etc.) using the DOC_SRC_PATH conf variable. In case you
+    need it, the sphinx build directory is located in ``BUILD_DIR/docs``.
+
+    The reference documentation will be generated for all directories listed
+    under 'REFDOC_PATHS conf variable. By default it is empty so no reference
+    docs are generated.
+
+    Sample Config::
+
+        \b
+        conf.init({
+            'BUILD_DIR': '.build',
+            'DOC_SRC_PATH': 'docs',
+            'REFDOC_PATHS': [
+                'src/mypkg'
+            ]
+        })
+
+    Examples::
+
+        \b
+        $ peltak docs                           # Generate docs for the project
+        $ peltak docs --no-index                # Skip main reference index
+        $ peltak docs --recreate --no-index     # Build docs from clean slate
+
+    """
     import os.path
     import shutil
     from peltak.core import conf

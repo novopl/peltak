@@ -101,7 +101,18 @@ def lint(exclude, include_untracked, commit_only, pretend):
     and ops/tools/pylint.ini. You can customise those paths in your config with
     PEP8_CFG_PATH and PYLINT_CFG_PATH variables.
 
-    Examples:
+    **Config Example**::
+
+        \b
+        conf.init({
+            'PYLINT_CFG_PATH': 'ops/tools/pylint.ini',
+            'PEP8_CFG_PATH': 'ops/tools/pep8.ini',
+            'LINT_PATHS': [
+                'src/mypkg'
+            ],
+        })
+
+    **Examples**::
 
         \b
         $ peltak lint               # Run linter in default mode, skip untracked

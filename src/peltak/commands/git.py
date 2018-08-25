@@ -16,6 +16,10 @@ def add_hooks():
 
     This will run all the checks before pushing to avoid waiting for the CI
     fail.
+
+    Example::
+
+        $ peltak git add-hooks
     """
     import os
     from peltak.core import conf
@@ -60,7 +64,13 @@ def add_hooks():
 
 @git_cli.command()
 def push():
-    """ Push the current branch and set to track remote. """
+    """ Push the current branch and set to track remote.
+
+    Example::
+
+        $ peltak git push
+
+    """
     from peltak.core import git
     from peltak.core import shell
 
@@ -71,9 +81,26 @@ def push():
 @git_cli.command()
 @click.argument('target', required=False)
 def merged(target=None):
-    """ Checkout develop, pull and delete merged branches.
+    """ Checkout the target branch, pull and delete the merged branch.
 
     This is to ease the repetitive cleanup of each merged branch.
+
+    Example Config (those the are defaults)::
+
+        \b
+        conf.init({
+            'MAIN_BRANCH': 'develop',
+            'MASTER_BRANCH': 'master',
+            'PROTECTED_BRANCHES': ['master', 'develop'],
+            'RELEASE_BRANCH_PATTERN: 'release/*'
+        })
+
+    Example::
+
+        $ peltak git merged develop # Branch was merged to develop
+        $ peltak git merged master  # Branch was merged to master
+        $ peltak git merged         # Autodetect where the branch was merged
+
     """
     from fnmatch import fnmatch
     from peltak.core import conf
