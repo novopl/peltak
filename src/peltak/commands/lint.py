@@ -49,9 +49,16 @@ def _lint_files(paths, excluded=None):
 
 @cli.command()
 @click.option(
-    '--ignore',
-    type=str,
-    help='Comma separated list of paths to ignore'
+    '-e', '--exclude',
+    multiple=True,
+    metavar='PATTERN',
+    help=("Specify patterns to exclude from linting. For multiple patterns, "
+          "use the --exclude option multiple times")
+)
+@click.option(
+    '--all', 'include_untracked',
+    is_flag=True,
+    help="Also include files not tracked by git."
 )
 def lint(ignore):
     """ Run pep8 and pylint on all project files.
@@ -71,12 +78,12 @@ def lint(ignore):
     from peltak.core import fs
     from peltak.core import log
 
-    ignore = ignore or []
+    untracked = git.untracked()
 
-    if ignore:
-        ignore = ignore.split(',')
 
     paths = [conf.proj_path(p) for p in conf.get('LINT_PATHS', [])]
+    if not include_untracked:
+        exclude = list(exclude) + untracked
 
     t0 = time.time()
     files = list(chain.from_iterable(

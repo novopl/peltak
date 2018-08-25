@@ -3,6 +3,7 @@
 from __future__ import absolute_import, unicode_literals
 
 # stdlib imports
+import os
 from collections import namedtuple
 
 # local imports
@@ -41,3 +42,20 @@ def commit_author(sha1=''):
         result = shell.run(cmd, capture=True).stdout
         name, email = result.split('||')
         return Author(name, email)
+
+
+def untracked():
+    """ Return a list of untracked files in the project repository.
+
+    :return List[str]:
+        The list of files not tracked by project git repo.
+    """
+    with conf.within_proj_dir(quiet=True):
+        status = shell.run('git status --porcelain', capture=True).stdout
+        results = []
+
+        for file_status in status.split(os.linesep):
+            if file_status.startswith('?? '):
+                results.append(file_status[3:].strip())
+
+        return results
