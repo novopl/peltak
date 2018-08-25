@@ -19,7 +19,8 @@ do it manually and you probably don't even have to know python.
 for all commands. There are a few that are well documented from a user
 standpoint but not enough examples to fully understand all commands without
 looking at the source code. The testing could be improved as well as now it's
-mostly manually tested by being used in almost all my private projects.
+mostly manually tested by being used in almost all my private projects and all
+of their CIs.
 
 .. note::
     The CircleCI builds can be found
