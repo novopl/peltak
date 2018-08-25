@@ -4,66 +4,63 @@ from __future__ import absolute_import
 from . import cli, click
 
 
-@cli.group('release')
-def release_cli():
-    """ Release related commands. """
-    pass
-
-
-@release_cli.command('make')
+@cli.group('release', invoke_without_command=True)
 @click.argument(
     'component',
     type=click.Choice(['major', 'minor', 'patch']),
     required=False,
     default='patch'
 )
-@click.option('--exact', type=str)
-def make_release(component, exact):
-    """ Release a new version of the project.
+@click.option(
+    '--exact',
+    type=str,
+    help="Set the newly released version to be exactly as specified."
+)
+@click.pass_context
+def release_cli(ctx, component, exact):
+    """ Create a new release branch.
 
-    This will bump the version number (patch component by default) + add and tag
-    a commit with that change. Finally it will upload the package to pypi.
-
-    1. Bump version.
-    2. Create and checkout release/* branch
-    3. Create commit with bumped version.
+    It will bump the current version number and create a release branch called
+    `release/<version>` with one new commit (the version bump).
     """
-    import os
-    from peltak.core import shell
-    from peltak.core import conf
-    from peltak.core import log
-    from peltak.core import versioning
+    if not ctx.invoked_subcommand:
+        import os
+        from peltak.core import shell
+        from peltak.core import conf
+        from peltak.core import log
+        from peltak.core import versioning
 
-    version_file = conf.get_path('VERSION_FILE', 'VERSION')
+        version_file = conf.get_path('VERSION_FILE', 'VERSION')
 
-    with conf.within_proj_dir(quiet=True):
-        out = shell.run('git status --porcelain', capture=True).stdout
-        has_changes = any(
-            not l.startswith('??') for l in out.split(os.linesep) if l.strip()
-        )
+        with conf.within_proj_dir(quiet=True):
+            out = shell.run('git status --porcelain', capture=True).stdout
+            lines = out.split(os.linesep)
+            has_changes = any(
+                not l.startswith('??') for l in lines if l.strip()
+            )
 
-    if has_changes:
-        log.info("Cannot release: there are uncommitted changes")
-        exit(1)
+        if has_changes:
+            log.info("Cannot release: there are uncommitted changes")
+            exit(1)
 
-    old_ver, new_ver = versioning.bump(component, exact)
+        old_ver, new_ver = versioning.bump(component, exact)
 
-    log.info("Bumping package version")
-    log.info("  old version: <35>{}".format(old_ver))
-    log.info("  new version: <35>{}".format(new_ver))
+        log.info("Bumping package version")
+        log.info("  old version: <35>{}".format(old_ver))
+        log.info("  new version: <35>{}".format(new_ver))
 
-    with conf.within_proj_dir(quiet=True):
-        branch = 'release/' + new_ver
+        with conf.within_proj_dir(quiet=True):
+            branch = 'release/' + new_ver
 
-        log.info("Checking out new branch <35>{}", branch)
-        shell.run('git checkout -b ' + branch)
+            log.info("Checking out new branch <35>{}", branch)
+            shell.run('git checkout -b ' + branch)
 
-        log.info("Creating commit for the release")
+            log.info("Creating commit for the release")
 
-        shell.run('git add {ver_file} && git commit -m "{msg}"'.format(
-            ver_file=version_file,
-            msg="Releasing v{}".format(new_ver)
-        ))
+            shell.run('git add {ver_file} && git commit -m "{msg}"'.format(
+                ver_file=version_file,
+                msg="Releasing v{}".format(new_ver)
+            ))
 
 
 @release_cli.command('tag')
@@ -136,3 +133,14 @@ def gen_pypirc(username=None, password=None):
             'password: {}'.format(password),
             '',
         )))
+
+
+def _make_release(component, exact):
+    """ Make a new release.
+
+    It will bump the current version number and create a release branch called
+    `release/<version>` with one new commit (the version bump).
+
+    :param str component:
+    :param str exact:
+    """
