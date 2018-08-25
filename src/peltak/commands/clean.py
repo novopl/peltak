@@ -8,30 +8,64 @@ from . import cli, click
 
 
 @cli.command()
-def clean():
-    """ Remove temporary files like python cache, swap files, etc. """
+@click.option(
+    '-p', '--pretend',
+    is_flag=True,
+    help=("Just print files that would be deleted, without actually "
+          "deleting them")
+)
+@click.option(
+    '-e', '--exclude',
+    multiple=True,
+    metavar='PATTERN',
+    help='Comma separated list of paths to exclude from deletion'
+)
+def clean(pretend, exclude):
+    """ Remove temporary files like python cache, swap files, etc.
+
+    You can configure the list of patterns with CLEAN_PATTERNS config variable.
+    By default it will remove all files/dirs matching
+
+        *__pycache__*
+        *.py[cod]*
+        *.swp
+    """
     import os
+    from os.path import isdir
+    from shutil import rmtree
     from peltak.core import conf
     from peltak.core import fs
+    from peltak.core import log
 
-    cwd = os.getcwd()
     clean_patterns = conf.get('CLEAN_PATTERNS', [
-        '__pycache__',
+        '*__pycache__*',
         '*.py[cod]',
-        '.swp',
+        '*.swp',
     ])
 
-    os.chdir(conf.proj_path('.'))
+    files = fs.filtered_walk(conf.proj_path(), clean_patterns, exclude)
 
-    for pattern in clean_patterns:
-        fs.rm_glob(pattern)
-
-    os.chdir(cwd)
+    for path in files:
+        try:
+            if not isdir(path):
+                log.info('  <91>[file] <90>{}', path)
+                if not pretend:
+                    os.remove(path)
+            else:
+                log.info('  <91>[dir]  <90>{}', path)
+                if not pretend:
+                    rmtree(path)
+        except OSError:
+            log.info("<33>Failed to remove <90>{}", path)
 
 
 @cli.command()
 def init():
-    """ Create new peltak config file in the current directory """
+    """ Create new peltak config file in the current directory.
+
+    If ``pelconf.py`` already exists the user will be prompted to confirm
+    before continuing.
+    """
     from os.path import exists
     from peltak.core import log
     from peltak.core import shell
@@ -48,7 +82,7 @@ def init():
         fp.write('''# -*- coding: utf-8 -*-
 """ peltak configuration file.
 
-See `peltak <https://github.com/novopl/peltak>`_ for more information.
+See https://github.com/novopl/peltak for more information.
 """
 from __future__ import absolute_import
 
