@@ -5,7 +5,7 @@ All commands (and only commands) should be defined inside this package. This
 should be as thin layer as possible. Ideally just processing CLI params and
 displaying results.
 """
-from __future__ import absolute_import, unicode_literals
+from __future__ import absolute_import
 
 # 3rd party imports
 import click
