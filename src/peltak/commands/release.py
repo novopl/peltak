@@ -5,8 +5,8 @@ from . import cli, click
 
 
 @cli.group('release', invoke_without_command=True)
-@click.argument(
-    'component',
+@click.option(
+    '-c', '--component',
     type=click.Choice(['major', 'minor', 'patch']),
     required=False,
     default='patch'
@@ -22,6 +22,17 @@ def release_cli(ctx, component, exact):
 
     It will bump the current version number and create a release branch called
     `release/<version>` with one new commit (the version bump).
+
+    Examples:
+
+        \b
+        $ peltak release --component=patch    # Make a new patch release
+        $ peltak release -c minor             # Make a new minor release
+        $ peltak release -c major             # Make a new major release
+        $ peltak release                      # same as release -c patch
+        $ peltak release tag                  # Tag current commit as release
+        $ peltak release upload pypi          # Upload to pypi
+
     """
     if not ctx.invoked_subcommand:
         import os
@@ -65,7 +76,16 @@ def release_cli(ctx, component, exact):
 
 @release_cli.command('tag')
 def tag_release():
-    """ Create a new release tag for the current version. """
+    """ Tag the current commit with as the current version release.
+
+    This should be the same commit as the one that's uploaded as the release
+    (to pypi for example).
+
+    Examples:
+
+        $ peltak release tag          # Tag the current commit as release
+
+    """
     from peltak.core import shell
     from peltak.core import conf
     from peltak.core import git
@@ -90,7 +110,7 @@ def tag_release():
 @release_cli.command()
 @click.argument('target')
 def upload(target):
-    """ Release to a given pypi server ('local' by default). """
+    """ Upload to a given pypi target. """
     from peltak.core import shell
     from peltak.core import conf
     from peltak.core import log

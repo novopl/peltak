@@ -8,16 +8,44 @@ from . import cli, click
 @click.option('--porcelain', is_flag=True)
 @click.pass_context
 def version_cli(ctx, porcelain):
-    """ Show project version. Has subcommands. """
+    """ Show project version. Has sub commands.
+
+    For this command to work you must specify where the project version is
+    stored. You can do that with VERSION_FILE conf variable. peltak supports
+    multiple ways to store the project version. Right now you can store it in a
+    python file using built-in __version__ variable. You can use node.js
+    package.json and keep the version there or you can just use a plain text
+    file that just holds the raw project version. The appropriate storage is
+    guessed based on the file type and name.
+
+    Example configuration::
+
+        conf.init({
+            'VERSION_FILE': 'src/mypackage/__init__.py'
+        })
+
+    Examples:
+
+        \b
+        $ peltak version                        # Pretty print current version
+        $ peltak version --porcelain            # Print version as raw string
+        $ peltak version bump patch             # Bump patch version component
+        $ peltak version bump minor             # Bump minor version component
+        $ peltak version bump major             # Bump major version component
+        $ peltak version bump release           # same as version bump patch
+        $ peltak version bump --exact=1.2.1     # Set project version to 1.2.1
+
+    """
     if not ctx.invoked_subcommand:
-        _show_version(porcelain)
+        from peltak.core import log
+        from peltak.core import versioning
 
+        current = versioning.current()
 
-@version_cli.command('show')
-@click.option('--porcelain', is_flag=True)
-def show(porcelain):
-    """ Deprecated. Use ``peltak version``. """
-    _show_version(porcelain)
+        if porcelain:
+            print(current)
+        else:
+            log.info("Version: <35>{}".format(current))
 
 
 @version_cli.command('bump')
@@ -32,6 +60,16 @@ def bump_version(component='patch', exact=None):
     """ Bump current project version without committing anything.
 
     No tags are created either.
+
+    Examples:
+
+        \b
+        $ peltak version bump patch             # Bump patch version component
+        $ peltak version bump minor             # Bump minor version component
+        $ peltak version bump major             # Bump major version component
+        $ peltak version bump release           # same as version bump patch
+        $ peltak version bump --exact=1.2.1     # Set project version to 1.2.1
+
     """
     from peltak.core import log
     from peltak.core import versioning
@@ -41,14 +79,3 @@ def bump_version(component='patch', exact=None):
     log.info("Bumping package version")
     log.info("  old version: <35>{}".format(old_ver))
     log.info("  new version: <35>{}".format(new_ver))
-
-
-def _show_version(porcelain):
-    from peltak.core import log
-    from peltak.core import versioning
-    current = versioning.current()
-
-    if porcelain:
-        print(current)
-    else:
-        log.info("Version: <35>{}".format(current))

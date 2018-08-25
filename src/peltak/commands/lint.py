@@ -96,6 +96,16 @@ def lint(exclude, include_untracked, commit_only, pretend):
     The pep8 and pylint config paths are by default stored in ops/tools/pep8.ini
     and ops/tools/pylint.ini. You can customise those paths in your config with
     PEP8_CFG_PATH and PYLINT_CFG_PATH variables.
+
+    Examples:
+
+        \b
+        $ peltak lint               # Run linter in default mode, skip untracked
+        $ peltak lint --commit      # Lint only files staged for commit
+        $ peltak lint --all         # Lint all files, including untracked.
+        $ peltak lint --pretend     # Print the list of files to lint
+        $ peltak lint -e "*.tox*"   # Don't lint files inside .tox directory
+
     """
     from peltak.core import conf
     from peltak.core import git

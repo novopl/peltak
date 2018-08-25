@@ -8,4 +8,9 @@ Command Line Interface
     django
     docker
     docs
+    frontend
+    git
     lint
+    release
+    test
+    version

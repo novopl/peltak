@@ -1,7 +1,6 @@
-
+####################
 peltak documentation
 ####################
-
 
 
 Table of Contents
@@ -12,6 +11,7 @@ Table of Contents
 
     cli/index
     custom_commands
+    conf_reference
     Code Reference <ref/peltak/index>
 
 
