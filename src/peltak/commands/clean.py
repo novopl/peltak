@@ -4,7 +4,7 @@ Various commands that do not fit another category but there's not enough of them
 to justify a separate module.
 """
 from __future__ import absolute_import
-from . import cli
+from . import cli, click
 
 
 @cli.command()
@@ -32,6 +32,18 @@ def clean():
 @cli.command()
 def init():
     """ Create new peltak config file in the current directory """
+    from os.path import exists
+    from peltak.core import log
+    from peltak.core import shell
+
+    config_file = 'pelconf.py'
+    prompt = "-- <35>{} <32>already exists. Wipe it?<0>".format(config_file)
+
+    if exists(config_file) and not click.confirm(shell.fmt(prompt)):
+        log.info("Canceled")
+        return
+
+    log.info('Writing <35>{}'.format(config_file))
     with open('pelconf.py', 'w') as fp:
         fp.write('''# -*- coding: utf-8 -*-
 """ peltak configuration file.
