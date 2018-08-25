@@ -59,3 +59,33 @@ def untracked():
                 results.append(file_status[3:].strip())
 
         return results
+
+
+def staged():
+    """ Return a list of project files staged for commit.
+
+    :return List[str]:
+        The list of project files staged for commit.
+    """
+    with conf.within_proj_dir(quiet=True):
+        status = shell.run('git status --porcelain', capture=True).stdout
+        results = []
+
+        for file_status in status.split(os.linesep):
+            if file_status and file_status[0] in ('A', 'M'):
+                results.append(file_status[3:].strip())
+
+        return results
+
+
+def ignore():
+    """ Return a list of patterns in the project .gitignore
+
+    :return List[str]:
+        List of patterns set to be ignored by git.
+    """
+    with conf.within_proj_dir(quiet=True):
+        with open('.gitignore') as fp:
+            return [
+                l.split('#', 1)[0] for l in fp.readlines() if l.strip()
+            ]

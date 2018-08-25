@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 """ Code linting commands. """
 from __future__ import absolute_import
+import time
 from . import cli, click
 
 
-def _lint_files(paths, excluded=None):
+def _lint_files(paths, include, exclude=None):
     """ Run static analysis on the given files.
 
     :param paths:   Iterable with each item being path that should be linted..
@@ -22,15 +23,25 @@ def _lint_files(paths, excluded=None):
     if isinstance(paths, string_types):
         raise ValueError("paths must be an array of strings")
 
-    log.info("Linting")
+    with timed_block() as t:
+        files = list(chain.from_iterable(
+            fs.filtered_walk(p, include, exclude) for p in paths
+        ))
+
+    log.info("Paths to lint:")
     for path in paths:
         print("--   {}".format(path))
 
-    files = fs.surround_paths_with_quotes(chain.from_iterable(
-        fs.filtered_walk(p, include=["*.py"], exclude=excluded) for p in paths
+    log.info("Files:")
+    for p in files:
+        log.info("  <0>{}".format(p))
+
+    log.info("Collected <33>{} <32>files in <33>{}ms".format(
+        len(files), t.elapsed_ms
     ))
 
     log.info("Checking PEP8 compatibility")
+    files = fs.surround_paths_with_quotes(files)
     pep8_cmd = 'pep8 --config {} {{}}'.format(pep8_cfg_path)
     pep8_ret = shell.run(pep8_cmd.format(files)).return_code
 
@@ -60,7 +71,13 @@ def _lint_files(paths, excluded=None):
     is_flag=True,
     help="Also include files not tracked by git."
 )
-def lint(ignore):
+@click.option(
+    '--commit', 'commit_only',
+    is_flag=True,
+    help=("Only lint files staged for commit. Useful if you want to clean up "
+          "a large code base one commit at a time.")
+)
+def lint(exclude, include_untracked, commit_only):
     """ Run pep8 and pylint on all project files.
 
     You can configure the linting paths using the LINT_PATHS config variable.
@@ -72,29 +89,38 @@ def lint(ignore):
     and ops/tools/pylint.ini. You can customise those paths in your config with
     PEP8_CFG_PATH and PYLINT_CFG_PATH variables.
     """
-    import time
-    from itertools import chain
     from peltak.core import conf
-    from peltak.core import fs
-    from peltak.core import log
-
-    untracked = git.untracked()
-
+    from peltak.core import git
 
     paths = [conf.proj_path(p) for p in conf.get('LINT_PATHS', [])]
+    include = ['*.py']
+    exclude = list(exclude)     # Convert from tuple to easily concatenate.
+
+    if commit_only:
+        include = ['*' + f for f in git.staged() if f.endswith('.py')]
+        exclude += git.ignore()
+
     if not include_untracked:
-        exclude = list(exclude) + untracked
+        exclude += git.untracked()
 
-    t0 = time.time()
-    files = list(chain.from_iterable(
-        fs.filtered_walk(p, include=["*.py"], exclude=ignore) for p in paths
-    ))
-    elapsed_ms = round((time.time() - t0) * 1000, 3)
-
-    for p in files:
-        log.info("  - <34>{}".format(p))
-
-    log.info("Collected {} files in {}ms".format(len(files), elapsed_ms))
-
-    if not _lint_files(paths, ignore):
+    if not _lint_files(paths, include, exclude):
         exit(1)
+
+
+class timed_block(object):  # noqa
+    """ Context manager to measure execution time for a give block of code.
+
+    .. code-block:: python
+
+        with timed_block() as t:
+            time.sleep(1)
+
+        print("The block took {}ms to execute".format(t.elapsed_ms)
+    """
+    def __enter__(self):
+        self.t0 = time.time()
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.elapsed = time.time() - self.t0
+        self.elapsed_ms = round(self.elapsed * 1000, 3)

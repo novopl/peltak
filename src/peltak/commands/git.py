@@ -35,7 +35,7 @@ def add_hooks():
             '',
             'source "$REPO_PATH/env/bin/activate"',
             '',
-            'peltak lint',
+            'peltak lint --commit',
         ]))
         fp.write('\n')
 
