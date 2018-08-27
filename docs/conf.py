@@ -5,7 +5,7 @@ import sphinx_rtd_theme
 
 
 project = u"peltak"
-copyright = u"2016-2017, Mateusz 'novo' Klos"
+copyright = u"2016-2018, Mateusz 'novo' Klos"
 author = u"Mateusz 'novo' Klos"
 
 
@@ -28,13 +28,12 @@ extensions = [
     'sphinx.ext.coverage',
     'sphinx.ext.imgmath',
     'sphinx.ext.viewcode',
+    'sphinx_click.ext',
 ]
 
 import peltak
 version = peltak.__version__
 release = peltak.__version__
-# version = read('../VERSION').strip()
-# release = read('../VERSION').strip()
 doctest_test_doctest_blocks='default'
 templates_path = [repo_path('docs/_templates')]
 source_suffix = '.rst'

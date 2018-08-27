@@ -19,24 +19,26 @@ def build_images():
 
     It requires a DOCKER_IMAGES conf variable to be set and contain the
     definitions for all the images built by the project. If DOCKER_REGISTRY is
-    also set, then the resulting images will a have name of {registry}/{image}.
-    This will create two tags for each image: {name}:{version} and
-    {name}:latest where {name} is the image name as specified in DOCKER_IMAGES
-    entry and {version} is the current project version (as shown by
-    `peltak version`).
+    also set, then the resulting images will a have name of
+    ``<registry>/<image>``. This will create two tags for each image:
+    ``<name>:<version>`` and ``<name>:latest`` where <name> is the image name
+    as specified in DOCKER_IMAGES entry and <version> is the current project
+    version (as shown by ``peltak version``).
 
-    Here is an example DOCKER_IMAGES:
+    Config example::
 
+        \b
         conf.init({
-            # ...
+            'DOCKER_REGISTRY': 'registry.mydomain.com',
             'DOCKER_IMAGES': [
-                {
-                    'name': 'myapp',
-                    'path': '.',
-                    'file': './ops/Dockerfile'
-                }
+                {'name': 'myapp',}
             ]
         })
+
+    Example::
+
+        \b
+        $ peltak docker build
 
     """
     from peltak.core import conf
@@ -54,9 +56,25 @@ def push_images():
     """ Push project docker images to the registry.
 
     This command requires both DOCKER_IMAGES and DOCKER_REGISTRY conf variables
-    to be set. This will push the images built by `peltak docker build` to the
+    to be set. This will push the images built by ``peltak docker build`` to the
     specified registry. For the details of how the names and tags are generated,
-    see `peltak docker build --help`.
+    see ``peltak docker build --help``.
+
+    Config example::
+
+        \b
+        conf.init({
+            'DOCKER_REGISTRY': 'registry.mydomain.com',
+            'DOCKER_IMAGES': [
+                {'name': 'myapp',}
+            ]
+        })
+
+    Example::
+
+        \b
+        $ peltak docker push
+
     """
     import sys
     from peltak.core import conf
@@ -88,6 +106,21 @@ def docker_list(registry_pass):
     This command requires the DOCKER_REGISTRY conf variable to be set. You can
     also hard-code the username with the DOCKER_REGISTRY_USER conf variable. You
     will be asked for the password every time though for security reasons.
+
+    Config example::
+
+        \b
+        conf.init({
+            'DOCKER_REGISTRY': 'registry.mydomain.com',
+            'DOCKER_REGISTRY_USER': 'myuser'
+        })
+
+    Example::
+
+        \b
+        $ peltak docker list            # List images in the docker registry
+        $ peltak docker list -p mypass  # List registry images, use give pw
+
     """
     import sys
     from peltak.core import conf

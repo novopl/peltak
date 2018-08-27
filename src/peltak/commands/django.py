@@ -11,7 +11,7 @@ from . import cli, click
 
 
 @cli.group()
-def django():
+def django_cli():
     """ Commands related to django """
     pass
 
@@ -38,41 +38,125 @@ def _manage_cmd(cmd, settings=None):
     execute_from_command_line(args)
 
 
-@django.command()
-@click.option('-p', '--port', type=int, default=8000)
-@click.option('-s', '--settings', type=str)
+@django_cli.command()
+@click.option(
+    '-p', '--port',
+    type=int,
+    default=8000,
+    help="Port the server will run on"
+)
+@click.option(
+    '-s', '--settings',
+    type=str,
+    help="Settings module to use. Defaults to DJANGO_SETTINGS conf variable."
+)
 def devserver(port=8000, settings=None):
     """ Run dev server. """
     _manage_cmd(['runserver', '0.0.0.0:{}'.format(port)], settings)
 
 
-@django.command()
+@django_cli.command()
 def collectstatic():
-    """ Collect all static files. """
+    """ Collect all static files.
+
+    This command won't ask for permission as manage.py does.
+
+    Sample Config::
+
+        \b
+        conf.init({
+            'SRC_DIR': './src'
+            'DJANGO_SETTINGS': 'mypkg.settings',
+        })
+
+    Example::
+
+        $ peltak django collectstatic
+
+    """
     _manage_cmd(['collectstatic', '--no-input'])
 
 
-@django.command()
+@django_cli.command()
 @click.argument('app')
 @click.argument('name')
 def mkmigrations(app, name):
-    """ Create migrations for a given app. """
+    """ Create a named migration for a given app.
+
+    This will require the user to name every migration he creates thus improving
+    the source code. Otherwise it's just a simple wrapper around ./manage.py.
+
+    Sample Config::
+
+        \b
+        conf.init({
+            'SRC_DIR': './src'
+            'DJANGO_SETTINGS': 'mypkg.settings',
+        })
+
+    Example::
+
+        $ peltak django mkmigrations mypkg.app add_new_fields_to_mytable
+
+    """
     _manage_cmd(['makemigrations', '-n', name] + app.split(' '))
 
 
-@django.command()
+@django_cli.command()
 def migrate():
-    """ Apply pending migrations. """
+    """ Apply pending migrations.
+
+    Sample Config::
+
+        \b
+        conf.init({
+            'SRC_DIR': './src'
+            'DJANGO_SETTINGS': 'mypkg.settings',
+        })
+
+    Example::
+
+        $ peltak django migrate
+
+    """
     _manage_cmd(['migrate'])
 
 
-@django.command()
+@django_cli.command()
 def createsuperuser():
-    """ Create super user (probably needed for the first user). """
+    """ Create super user (probably needed for the first user).
+
+    Sample Config::
+
+        \b
+        conf.init({
+            'SRC_DIR': './src'
+            'DJANGO_SETTINGS': 'mypkg.settings',
+        })
+
+    Example::
+
+        $ peltak django createsuperuser
+
+    """
     _manage_cmd(['createsuperuser'])
 
 
-@django.command()
+@django_cli.command()
 def shell():
-    """ Start django shell """
+    """ Start django shell
+
+    Sample Config::
+
+        \b
+        conf.init({
+            'SRC_DIR': './src'
+            'DJANGO_SETTINGS': 'mypkg.settings',
+        })
+
+    Example::
+
+        $ peltak django shell
+
+    """
     _manage_cmd(['shell'])

@@ -1,76 +1,106 @@
 # -*- coding: utf-8 -*-
-"""
-Helper commands for releasing to pypi.
-"""
+""" Helper commands for releasing to pypi. """
 from __future__ import absolute_import
 from . import cli, click
 
 
-@cli.group('release')
-def rel():
-    """ Release related commands. """
-    pass
-
-
-@rel.command('make')
-@click.argument(
-    'component',
+@cli.group('release', invoke_without_command=True)
+@click.option(
+    '-c', '--component',
     type=click.Choice(['major', 'minor', 'patch']),
     required=False,
-    default='patch'
+    default='patch',
+    help=("Which version component to bump with this release.")
 )
-@click.option('--exact', type=str)
-def make_release(component, exact):
-    """ Release a new version of the project.
+@click.option(
+    '--exact',
+    type=str,
+    help="Set the newly released version to be exactly as specified."
+)
+@click.pass_context
+def release_cli(ctx, component, exact):
+    """ Create a new release branch.
 
-    This will bump the version number (patch component by default) + add and tag
-    a commit with that change. Finally it will upload the package to pypi.
+    It will bump the current version number and create a release branch called
+    `release/<version>` with one new commit (the version bump).
 
-    1. Bump version.
-    2. Create and checkout release/* branch
-    3. Create commit with bumped version.
+    **Example Config**::
+
+        \b
+        conf.init({
+            'VERSION_FILE': 'src/mypkg/__init__.py'
+        })
+
+    **Examples**::
+
+        \b
+        $ peltak release --component=patch    # Make a new patch release
+        $ peltak release -c minor             # Make a new minor release
+        $ peltak release -c major             # Make a new major release
+        $ peltak release                      # same as release -c patch
+        $ peltak release tag                  # Tag current commit as release
+        $ peltak release upload pypi          # Upload to pypi
+
     """
-    import os
-    from peltak.core import shell
-    from peltak.core import conf
-    from peltak.core import log
-    from peltak.core import versioning
+    if not ctx.invoked_subcommand:
+        import os
+        from peltak.core import shell
+        from peltak.core import conf
+        from peltak.core import log
+        from peltak.core import versioning
 
-    version_file = conf.get_path('VERSION_FILE', 'VERSION')
+        version_file = conf.get_path('VERSION_FILE', 'VERSION')
 
-    with conf.within_proj_dir(quiet=True):
-        out = shell.run('git status --porcelain', capture=True).stdout
-        has_changes = any(
-            not l.startswith('??') for l in out.split(os.linesep) if l.strip()
-        )
+        with conf.within_proj_dir(quiet=True):
+            out = shell.run('git status --porcelain', capture=True).stdout
+            lines = out.split(os.linesep)
+            has_changes = any(
+                not l.startswith('??') for l in lines if l.strip()
+            )
 
-    if has_changes:
-        log.info("Cannot release: there are uncommitted changes")
-        exit(1)
+        if has_changes:
+            log.info("Cannot release: there are uncommitted changes")
+            exit(1)
 
-    old_ver, new_ver = versioning.bump(component, exact)
+        old_ver, new_ver = versioning.bump(component, exact)
 
-    log.info("Bumping package version")
-    log.info("  old version: <35>{}".format(old_ver))
-    log.info("  new version: <35>{}".format(new_ver))
+        log.info("Bumping package version")
+        log.info("  old version: <35>{}".format(old_ver))
+        log.info("  new version: <35>{}".format(new_ver))
 
-    with conf.within_proj_dir(quiet=True):
-        branch = 'release/' + new_ver
+        with conf.within_proj_dir(quiet=True):
+            branch = 'release/' + new_ver
 
-        log.info("Checking out new branch <35>{}", branch)
-        shell.run('git checkout -b ' + branch)
+            log.info("Checking out new branch <35>{}", branch)
+            shell.run('git checkout -b ' + branch)
 
-        log.info("Creating commit for the release")
+            log.info("Creating commit for the release")
 
-        shell.run('git add {ver_file} && git commit -m "{msg}"'.format(
-            ver_file=version_file,
-            msg="Releasing v{}".format(new_ver)
-        ))
+            shell.run('git add {ver_file} && git commit -m "{msg}"'.format(
+                ver_file=version_file,
+                msg="Releasing v{}".format(new_ver)
+            ))
 
 
-@rel.command('tag')
+@release_cli.command('tag')
 def tag_release():
-    """ Create a new release tag for the current version. """
+    """ Tag the current commit with as the current version release.
+
+    This should be the same commit as the one that's uploaded as the release
+    (to pypi for example).
+
+    **Example Config**::
+
+        \b
+        conf.init({
+            'VERSION_FILE': 'src/mypkg/__init__.py'
+        })
+
+    Examples::
+
+        $ peltak release tag          # Tag the current commit as release
+
+    """
     from peltak.core import shell
     from peltak.core import conf
     from peltak.core import git
@@ -92,10 +122,18 @@ def tag_release():
         shell.run(cmd)
 
 
-@rel.command()
+@release_cli.command()
 @click.argument('target')
 def upload(target):
-    """ Release to a given pypi server ('local' by default). """
+    """ Upload to a given pypi target.
+
+    Examples::
+
+        \b
+        $ peltak release uplaod pypi    # Upload the current release to pypi
+        $ peltak release uplaod private # Upload to pypi server 'private'
+
+    """
     from peltak.core import shell
     from peltak.core import conf
     from peltak.core import log
@@ -106,11 +144,18 @@ def upload(target):
         shell.run('python setup.py sdist upload -r "{}"'.format(target))
 
 
-@rel.command('gen-pypirc')
+@release_cli.command('gen-pypirc')
 @click.argument('username', required=False)
 @click.argument('password', required=False)
 def gen_pypirc(username=None, password=None):
-    """ Generate .pypirc config with the given credentials. """
+    """
+    Generate .pypirc config with the given credentials.
+
+    Example::
+
+        $ peltak release gen-pypirc my_pypi_user my_pypi_pass
+
+    """
     import sys
     from os.path import join
     from peltak.core import conf

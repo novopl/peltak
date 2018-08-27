@@ -1,21 +1,20 @@
 # -*- coding: utf-8 -*-
-"""
-Commands related to Google AppEngine.
+""" Commands related to Google AppEngine.
 
 Only useful on appengine projects. If you're not using AppEngine, do not
-import those into your fabfile.
+import inside `pelconf.py`.
 """
 from __future__ import absolute_import
 from . import cli, click
 
 
 @cli.group()
-def appengine():
+def appengine_cli():
     """ Google AppEngine related commands. """
     pass
 
 
-@appengine.command()
+@appengine_cli.command()
 @click.option('-p', '--port', type=int, default=8080)
 @click.option('--admin-port', type=int, default=None)
 @click.option('--clear', is_flag=True)
@@ -38,7 +37,7 @@ def devserver(port, admin_port, clear):
         shell.run('dev_appserver.py . {args}'.format(args=' '.join(args)))
 
 
-@appengine.command()
+@appengine_cli.command()
 @click.option('-v', '--version', type=str, default='playground')
 @click.option('--promote', is_flag=True)
 def deploy(version, promote):
@@ -61,7 +60,7 @@ def deploy(version, promote):
         shell.run('gcloud app deploy {} app.yaml '.format(' '.join(args)))
 
 
-@appengine.command('setup-ci')
+@appengine_cli.command('setup-ci')
 def setup_ci():
     """ Setup AppEngine SDK on CircleCI """
     import os.path
