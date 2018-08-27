@@ -69,9 +69,11 @@ def docs(recreate=False, no_index=False):
     if not os.path.exists(docs_assets_path):
         os.makedirs(docs_assets_path)
 
-    if recreate and os.path.exists(docs_out_path):
-        log.info("<91>Deleting <94>{}".format(docs_out_path))
-        shutil.rmtree(docs_out_path)
+    if recreate:
+        for path in (docs_out_path, docs_build_path):
+            if os.path.exists(path):
+                log.info("<91>Deleting <94>{}".format(path))
+                shutil.rmtree(path)
 
     if refdoc_paths:
         _gen_ref_docs(docs_ref_path, no_index)
