@@ -116,7 +116,6 @@ def test(
 
     if not no_coverage:
         args += [
-            '--durations=3',
             '--cov-config={}'.format(coverage_cfg_path),
             '--cov={}'.format(src_path),
             '--cov-report=term:skip-covered',
