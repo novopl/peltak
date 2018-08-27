@@ -57,12 +57,12 @@ def docs(recreate=False, no_index=False):
     from peltak.core import shell
 
     build_dir = conf.get_path('BUILD_DIR', '.build')
-    docs_src_path = conf.get_path('DOC_SRC_PATHS', 'docs')
+    doc_src_path = conf.get_path('DOC_SRC_PATH', 'docs')
     refdoc_paths = conf.get('REFDOC_PATHS', [])
 
-    docs_out_path = os.path.join(docs_src_path, 'html')
-    docs_ref_path = os.path.join(docs_src_path, 'ref')
-    docs_assets_path = os.path.join(docs_src_path, 'assets')
+    docs_out_path = os.path.join(doc_src_path, 'html')
+    docs_ref_path = os.path.join(doc_src_path, 'ref')
+    docs_assets_path = os.path.join(doc_src_path, 'assets')
     docs_build_path = os.path.join(build_dir, 'docs')
 
     log.info('Ensuring assets directory <94>{}<32> exists', docs_assets_path)
@@ -81,11 +81,11 @@ def docs(recreate=False, no_index=False):
         log.err('Not generating any reference documentation - '
                 'No REFDOC_PATHS specified in config')
 
-    with conf.within_proj_dir(docs_src_path):
+    with conf.within_proj_dir(doc_src_path):
         log.info('Building docs with <35>sphinx')
         shell.run('sphinx-build -b html -d {build} {docs} {out}'.format(
             build=docs_build_path,
-            docs=docs_src_path,
+            docs=doc_src_path,
             out=docs_out_path,
         ))
         log.info('You can view the docs by browsing to <34>file://{}'.format(

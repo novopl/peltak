@@ -52,7 +52,7 @@ def _lint_files(paths, include=None, exclude=None, pretend=False):
             pylint_cmd = 'pylint --rcfile {} {}'.format(pylint_cfg_path, files)
             pylint_ret = shell.run(pylint_cmd).return_code
 
-        log.info("Code checked in <33>{}ms", t.elapsed_s)
+        log.info("Code checked in <33>{}s", t.elapsed_s)
 
         if pep8_ret != 0:
             log.info("pep8 failed with return code {}", pep8_ret)
