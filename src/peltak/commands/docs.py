@@ -14,11 +14,11 @@ from . import cli, click
     help="Delete build and out directories before running."
 )
 @click.option(
-    '--no-index',
+    '--gen-index',
     is_flag=True,
-    help="Do not generate main index"
+    help="Generate main index for code reference"
 )
-def docs(recreate=False, no_index=False):
+def docs(recreate, gen_index):
     """ Build project documentation.
 
     This command will run sphinx-refdoc first to generate the reference
@@ -76,7 +76,7 @@ def docs(recreate=False, no_index=False):
                 shutil.rmtree(path)
 
     if refdoc_paths:
-        _gen_ref_docs(docs_ref_path, no_index)
+        _gen_ref_docs(docs_ref_path, not gen_index)
     else:
         log.err('Not generating any reference documentation - '
                 'No REFDOC_PATHS specified in config')
@@ -101,9 +101,12 @@ def _gen_ref_docs(ref_path, no_index=False):
     from peltak.core import log
     try:
         from refdoc import generate_docs as _generate_docs
-    except ImportError:
-        print("You need to install sphinx-refdoc to use the 'docs' command",
-              file=sys.stderr)
+    except ImportError as ex:
+        msg = ("You need to install sphinx-refdoc if you want to generate "
+               "code reference docs.")
+
+        print(msg, file=sys.stderr)
+        log.err("Exception: {}".format(ex))
         sys.exit(-1)
 
     refdoc_paths = conf.get('REFDOC_PATHS', [])
