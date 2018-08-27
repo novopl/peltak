@@ -107,6 +107,8 @@ def test(
     from peltak.core import fs
     from peltak.core import shell
 
+    log.info("Running <33>{} <32>tests".format(tests_type))
+
     build_dir = conf.get_path('BUILD_DIR', '.build')
 
     pytest_cfg_path = conf.get_path('PYTEST_CFG_PATH', 'ops/tools/pytest.ini')
@@ -163,13 +165,22 @@ def test(
             else:
                 args += ['-p {}'.format(plug_name)]
 
-    test_config = {'paths': src_path}
-    if tests_type is not None:
-        test_config = test_types.get(tests_type)
-        mark = test_config.get('mark')
+    test_config = test_types.get(tests_type)
+    if test_config is None:
+        log.info("Test type configuration missing: '{}'".format(src_path))
 
-        if mark:
-            args += ['-m "{}"'.format(mark)]
+        for possible_path in (conf.proj_path('test'), conf.proj_path('tests')):
+            if os.path.exists(possible_path):
+                test_config = {'paths': possible_path}
+                break
+        else:
+            log.err("No tests detected. Configure your TEST_TYPES.")
+            sys.exit(-1)
+
+    mark = test_config.get('mark')
+
+    if mark:
+        args += ['-m "{}"'.format(mark)]
 
     test_paths = test_config['paths'] or []
     test_paths = [conf.proj_path(p) for p in test_paths]
