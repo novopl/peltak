@@ -7,17 +7,11 @@ from . import cli, click
 
 
 @cli.command()
+@click.argument('tests_type', metavar='<type>', type=str, default='default')
 @click.option(
     '--no-sugar',
     is_flag=True,
     help="Disable py-test sugar."
-)
-@click.option(
-    '--type', 'tests_type',
-    type=str,
-    default='default',
-    help=("Type of tests to run. Test types can be defined with TEST_TYPES "
-          "conf variable.")
 )
 @click.option(
     '-v', '--verbose',
@@ -54,7 +48,7 @@ from . import cli, click
           "will be enabled.")
 )
 def test(
-        no_sugar, tests_type, verbose, junit, no_locals,
+        tests_type, no_sugar, verbose, junit, no_locals,
         no_coverage, plugins, allow_empty
 ):
     """ Run tests against the current python version.
