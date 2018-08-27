@@ -36,7 +36,8 @@ setup(
     package_dir={'': 'src'},
     packages=find_packages('src'),
     install_requires=[
-        l.strip() for l in read('requirements.txt').split() if '==' in l
+        l.strip() for l in read('requirements.txt').split()
+        if l.strip() and not l.lstrip().startswith('#')
     ],
     entry_points={
         'console_scripts': [
