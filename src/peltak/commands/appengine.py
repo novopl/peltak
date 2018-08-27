@@ -8,10 +8,83 @@ from __future__ import absolute_import
 from . import cli, click
 
 
-@cli.group()
+@cli.group('appengine')
 def appengine_cli():
     """ Google AppEngine related commands. """
     pass
+
+
+@appengine_cli.command('deploy')
+@click.option(
+    '--pretend',
+    is_flag=True,
+    help=("Do not actually deploy to AppEngine.This will only collect all "
+          "static files and compile i18n messages and tell you where the "
+          "app would be deployed and what version would that be. Locally this "
+          "is the same as just running the command but no changes will be done "
+          "to the remote deployment.")
+)
+@click.option(
+    '--promote',
+    is_flag=True,
+    help=("If specified, the currently deployed version will become the active "
+          "one")
+)
+def deploy(pretend, promote):
+    """ Deploy the app to the target environment.
+
+    The target environments can be configured using the ENVIRONMENTS conf
+    variable. This will also collect all static files and compile translation
+    messages
+    """
+    import sys
+    from fnmatch import fnmatch
+    from peltak.core import conf
+    from peltak.core import fs
+    from peltak.core import git
+    from peltak.core import log
+    from peltak.core import shell
+    from peltak.core import versioning
+
+    environments = conf.get('APPENGINE_ENVS')
+    branch = git.current_branch()
+    env = next((e for e in environments if fnmatch(branch, e['branch'])), None)
+    args = []
+
+    if env is None:
+        log.err("Can't find an environment setup for branch <35>{}", branch)
+        sys.exit(1)
+
+    if promote:
+        args += ['--promote']
+    else:
+        args += ['--no-promote']
+
+    if branch.startswith('feature/'):
+        app_version = '{ver}-{feature}'.format(
+            ver=versioning.current().replace('.', '-'),
+            feature=versioning.current().replace('.', '-')
+        )
+    else:
+        app_version = versioning.current().replace('.', '-')
+
+    args += ['--version {}'.format(app_version)]
+
+    with conf.within_proj_dir():
+        if not pretend:
+            log.info("Deploying version <35>{ver} <32>to <35>{url}".format(
+                ver=app_version,
+                url=env['url']
+            ))
+            shell.run('gcloud app deploy {args} {deployables}'.format(
+                deployables=fs.surround_paths_with_quotes([
+                    env['config'],
+                    'cron.yaml',
+                    'index.yaml',
+                    'queue.yaml',
+                ]),
+                args=' '.join(args)
+            ))
 
 
 @appengine_cli.command()
@@ -35,29 +108,6 @@ def devserver(port, admin_port, clear):
 
     with conf.within_proj_dir():
         shell.run('dev_appserver.py . {args}'.format(args=' '.join(args)))
-
-
-@appengine_cli.command()
-@click.option('-v', '--version', type=str, default='playground')
-@click.option('--promote', is_flag=True)
-def deploy(version, promote):
-    """ Deploy to Google AppEngine. """
-    from peltak.core import conf
-    from peltak.core import shell
-
-    with conf.within_proj_dir():
-        args = [
-            '-q',
-            '--project=worclock',
-            '--version={}'.format(version)
-        ]
-
-        if promote:
-            args += ['--promote']
-        else:
-            args += ['--no-promote']
-
-        shell.run('gcloud app deploy {} app.yaml '.format(' '.join(args)))
 
 
 @appengine_cli.command('setup-ci')
