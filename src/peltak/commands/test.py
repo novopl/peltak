@@ -9,11 +9,6 @@ from . import cli, click
 @cli.command()
 @click.argument('tests_type', metavar='<type>', type=str, default='default')
 @click.option(
-    '--no-sugar',
-    is_flag=True,
-    help="Disable py-test sugar."
-)
-@click.option(
     '-v', '--verbose',
     count=True,
     help=("Be verbose. Can specify multiple times for more verbosity. This "
@@ -48,8 +43,7 @@ from . import cli, click
           "will be enabled.")
 )
 def test(
-        tests_type, no_sugar, verbose, junit, no_locals,
-        no_coverage, plugins, allow_empty
+        tests_type, verbose, junit, no_locals, no_coverage, plugins, allow_empty
 ):
     """ Run tests against the current python version.
 
@@ -137,9 +131,6 @@ def test(
             args += ['--ds {}'.format(django_test_settings)]
         elif django_settings is not None:
             args += ['--ds {}'.format(django_settings)]
-
-    if no_sugar:
-        args += ['-p no:sugar']
 
     if verbose >= 1:
         args += ['-v']
