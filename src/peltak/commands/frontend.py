@@ -23,7 +23,7 @@ def _fe_cmd(cmd):
         log.err("No FRONTEND_PATH defined in the config")
 
 
-@cli.command()
+@cli.command('fe')
 @click.argument('cmd')
 def fe(cmd):
     """ Run a predefined frontend command.

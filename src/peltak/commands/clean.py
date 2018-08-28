@@ -7,7 +7,7 @@ from __future__ import absolute_import
 from . import cli, click
 
 
-@cli.command()
+@cli.command('clean')
 @click.option(
     '-p', '--pretend',
     is_flag=True,
@@ -73,7 +73,7 @@ def clean(pretend, exclude):
             log.info("<33>Failed to remove <90>{}", path)
 
 
-@cli.command()
+@cli.command('init')
 def init():
     """ Create new peltak config file in the current directory.
 

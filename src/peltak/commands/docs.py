@@ -7,7 +7,7 @@ from __future__ import absolute_import, print_function
 from . import cli, click
 
 
-@cli.command()
+@cli.command('docs')
 @click.option(
     '--recreate',
     is_flag=True,

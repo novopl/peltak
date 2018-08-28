@@ -6,7 +6,7 @@ from __future__ import absolute_import
 from . import cli, click
 
 
-@cli.command()
+@cli.command('test')
 @click.argument('tests_type', metavar='<type>', type=str, default='default')
 @click.option(
     '-v', '--verbose',

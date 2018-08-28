@@ -10,7 +10,7 @@ from __future__ import absolute_import
 from . import cli, click
 
 
-@cli.group()
+@cli.group('django')
 def django_cli():
     """ Commands related to django """
     pass
@@ -38,7 +38,7 @@ def _manage_cmd(cmd, settings=None):
     execute_from_command_line(args)
 
 
-@django_cli.command()
+@django_cli.command('devserver')
 @click.option(
     '-p', '--port',
     type=int,
@@ -55,7 +55,7 @@ def devserver(port=8000, settings=None):
     _manage_cmd(['runserver', '0.0.0.0:{}'.format(port)], settings)
 
 
-@django_cli.command()
+@django_cli.command('collectstatic')
 def collectstatic():
     """ Collect all static files.
 
@@ -77,7 +77,7 @@ def collectstatic():
     _manage_cmd(['collectstatic', '--no-input'])
 
 
-@django_cli.command()
+@django_cli.command('mkmigrations')
 @click.argument('app')
 @click.argument('name')
 def mkmigrations(app, name):
@@ -102,7 +102,7 @@ def mkmigrations(app, name):
     _manage_cmd(['makemigrations', '-n', name] + app.split(' '))
 
 
-@django_cli.command()
+@django_cli.command('migrate')
 def migrate():
     """ Apply pending migrations.
 
@@ -122,7 +122,7 @@ def migrate():
     _manage_cmd(['migrate'])
 
 
-@django_cli.command()
+@django_cli.command('createsuperuser')
 def createsuperuser():
     """ Create super user (probably needed for the first user).
 
@@ -142,7 +142,7 @@ def createsuperuser():
     _manage_cmd(['createsuperuser'])
 
 
-@django_cli.command()
+@django_cli.command('shell')
 def shell():
     """ Start django shell
 
