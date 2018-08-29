@@ -63,7 +63,7 @@ def deploy(pretend, promote):
     if branch.startswith('feature/'):
         app_version = '{ver}-{feature}'.format(
             ver=versioning.current().replace('.', '-'),
-            feature=versioning.current().replace('.', '-')
+            feature=branch[8:].replace('_', '-')
         )
     else:
         app_version = versioning.current().replace('.', '-')

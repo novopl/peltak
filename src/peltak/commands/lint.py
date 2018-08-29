@@ -65,7 +65,7 @@ def _lint_files(paths, include=None, exclude=None, pretend=False):
     return True
 
 
-@cli.command()
+@cli.command('lint')
 @click.option(
     '-e', '--exclude',
     multiple=True,

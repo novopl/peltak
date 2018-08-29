@@ -62,7 +62,7 @@ def add_hooks():
     os.chmod(conf.proj_path('.git/hooks/pre-push'), 0o755)
 
 
-@git_cli.command()
+@git_cli.command('push')
 def push():
     """ Push the current branch and set to track remote.
 
@@ -78,7 +78,7 @@ def push():
     shell.run('git push -u origin {}'.format(branch))
 
 
-@git_cli.command()
+@git_cli.command('merged')
 @click.argument('target', required=False)
 def merged(target=None):
     """ Checkout the target branch, pull and delete the merged branch.
