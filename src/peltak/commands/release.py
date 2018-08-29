@@ -237,7 +237,7 @@ def merged():
     log.info("Checking out <33>{}".format(develop_branch))
     shell.run('git checkout {}'.format(develop_branch))
 
-    log.info("Merging {} into <33>{}".format(branch, develop_branch))
+    log.info("Merging <35>{} <32>into <33>{}".format(branch, develop_branch))
     shell.run('git merge {}'.format(branch))
 
     log.info("Checking out <33>{}".format(master_branch))
@@ -247,8 +247,8 @@ def merged():
     shell.run('git pull origin {}'.format(master_branch))
 
     if branch not in protected_branches:
-        log.info("Deleting branch <33>{}".format(master_branch))
-        shell.run('git branch -d {}'.format(master_branch))
+        log.info("Deleting branch <33>{}".format(branch))
+        shell.run('git branch -d {}'.format(branch))
 
     log.info("Pruning")
     shell.run('git fetch --prune origin')
