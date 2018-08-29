@@ -183,3 +183,75 @@ def gen_pypirc(username=None, password=None):
             'password: {}'.format(password),
             '',
         )))
+
+
+@release_cli.command('merged')
+def merged():
+    """ Checkout the target branch, pull and delete the merged branch.
+
+    This is to ease the repetitive cleanup of each merged branch.
+
+    Example Config (those the are defaults)::
+
+        \b
+        conf.init({
+            'MAIN_BRANCH': 'develop',
+            'MASTER_BRANCH': 'master',
+            'PROTECTED_BRANCHES': ['master', 'develop'],
+            'RELEASE_BRANCH_PATTERN: 'release/*'
+        })
+
+    Example::
+
+        $ peltak release merged     # Must be ran on the relase branch
+
+    """
+    import sys
+    from fnmatch import fnmatch
+    from peltak.core import conf
+    from peltak.core import git
+    from peltak.core import log
+    from peltak.core import shell
+
+    develop_branch = conf.get('DEVELOP_BRANCH', 'develop')
+    master_branch = conf.get('MASTER_BRANCH', 'master')
+    protected_branches = conf.get(
+        'PROTECTED_BRANCHES',
+        (master_branch, develop_branch)
+    )
+    release_branch_pattern = conf.get('RELEASE_BRANCH_PATTERN', 'release/*')
+    branch = git.current_branch()
+
+    if not fnmatch(branch, release_branch_pattern):
+        log.err("You can only merge from release branches. You can specify "
+                "The release branch pattern with RELEASE_BRANCH_PATTERN "
+                "conf variable (defaults to release/*).")
+        sys.exit(1)
+
+    try:
+        shell.run('git rev-parse --verify {}'.format(branch))
+    except IOError:
+        log.err("Branch '{}' does not exist".format(branch))
+
+    # Checkout develop and merge the release
+    log.info("Checking out <33>{}".format(develop_branch))
+    shell.run('git checkout {}'.format(develop_branch))
+
+    log.info("Merging {} into <33>{}".format(branch, develop_branch))
+    shell.run('git merge {}'.format(branch))
+
+    log.info("Checking out <33>{}".format(master_branch))
+    shell.run('git checkout {}'.format(master_branch))
+
+    log.info("Pulling latest changes")
+    shell.run('git pull origin {}'.format(master_branch))
+
+    if branch not in protected_branches:
+        log.info("Deleting branch <33>{}".format(master_branch))
+        shell.run('git branch -d {}'.format(master_branch))
+
+    log.info("Pruning")
+    shell.run('git fetch --prune origin')
+
+    log.info("Checking out <33>{}<32> branch".format(develop_branch))
+    shell.run('git checkout {}'.format(develop_branch))
