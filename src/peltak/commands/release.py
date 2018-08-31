@@ -247,7 +247,7 @@ def merged():
     shell.run('git pull origin {}'.format(master_branch))
 
     if branch not in protected_branches:
-        log.info("Deleting branch <33>{}".format(branch))
+        log.info("Deleting branch <35>{}".format(branch))
         shell.run('git branch -d {}'.format(branch))
 
     log.info("Pruning")
