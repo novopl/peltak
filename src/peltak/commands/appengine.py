@@ -30,7 +30,14 @@ def appengine_cli():
     help=("If specified, the currently deployed version will become the active "
           "one")
 )
-def deploy(pretend, promote):
+@click.option(
+    '--all', 'deploy_all',
+    is_flag=True,
+    help=("If specified, the command will deploy all deployables, and not only "
+          "the app file. If you don't specify it, the command will only deploy "
+          "app.yaml (for the given env ofc). ")
+)
+def deploy(pretend, promote, deploy_all):
     """ Deploy the app to the target environment.
 
     The target environments can be configured using the ENVIRONMENTS conf
@@ -50,6 +57,7 @@ def deploy(pretend, promote):
     branch = git.current_branch()
     env = next((e for e in environments if fnmatch(branch, e['branch'])), None)
     args = []
+    deployables = []
 
     if env is None:
         log.err("Can't find an environment setup for branch <35>{}", branch)
@@ -68,23 +76,39 @@ def deploy(pretend, promote):
     else:
         app_version = versioning.current().replace('.', '-')
 
-    args += ['--version {}'.format(app_version)]
+    args += [
+        '--version {}'.format(app_version),
+        '--project {}'.format(env['url']),
+    ]
+
+    deployables += [env['config']]
+
+    if deploy_all:
+        deployables += conf.get('APPENGINE_DEPLOYABLES', [
+            'cron.yaml',
+            'index.yaml',
+            'queue.yaml',
+        ])
 
     with conf.within_proj_dir():
+        cmd = 'gcloud app deploy {args} {deployables}'.format(
+            deployables=fs.surround_paths_with_quotes(deployables),
+            args=' '.join(args)
+        )
+
+        if pretend:
+            log.info("Would deploy version <35>{ver} <32>to <35>{url}".format(
+                ver=app_version,
+                url=env['url']
+            ))
+            shell.cprint('<90>{}', cmd)
+
         if not pretend:
             log.info("Deploying version <35>{ver} <32>to <35>{url}".format(
                 ver=app_version,
                 url=env['url']
             ))
-            shell.run('gcloud app deploy {args} {deployables}'.format(
-                deployables=fs.surround_paths_with_quotes([
-                    env['config'],
-                    'cron.yaml',
-                    'index.yaml',
-                    'queue.yaml',
-                ]),
-                args=' '.join(args)
-            ))
+            shell.run(cmd)
 
 
 @appengine_cli.command()
