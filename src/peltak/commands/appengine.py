@@ -71,20 +71,24 @@ def deploy(pretend, promote):
     args += ['--version {}'.format(app_version)]
 
     with conf.within_proj_dir():
+        cmd = 'gcloud app deploy {args} {deployables}'.format(
+            deployables=fs.surround_paths_with_quotes(deployables),
+            args=' '.join(args)
+        )
+
+        if pretend:
+            log.info("Would deploy version <35>{ver} <32>to <35>{url}".format(
+                ver=app_version,
+                url=env['url']
+            ))
+            shell.cprint('<90>{}', cmd)
+
         if not pretend:
             log.info("Deploying version <35>{ver} <32>to <35>{url}".format(
                 ver=app_version,
                 url=env['url']
             ))
-            shell.run('gcloud app deploy {args} {deployables}'.format(
-                deployables=fs.surround_paths_with_quotes([
-                    env['config'],
-                    'cron.yaml',
-                    'index.yaml',
-                    'queue.yaml',
-                ]),
-                args=' '.join(args)
-            ))
+            shell.run(cmd)
 
 
 @appengine_cli.command()
