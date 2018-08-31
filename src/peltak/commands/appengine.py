@@ -68,7 +68,10 @@ def deploy(pretend, promote):
     else:
         app_version = versioning.current().replace('.', '-')
 
-    args += ['--version {}'.format(app_version)]
+    args += [
+        '--version {}'.format(app_version),
+        '--project {}'.format(env['url']),
+    ]
 
     with conf.within_proj_dir():
         cmd = 'gcloud app deploy {args} {deployables}'.format(
