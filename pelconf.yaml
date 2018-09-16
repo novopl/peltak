@@ -10,7 +10,7 @@ commands:
   - peltak.commands.django
   - peltak.commands.docker
   - peltak.commands.docs
-  - peltak.commands.frontend
+  - peltak.commands.fe
   - peltak.commands.git
   - peltak.commands.lint
   - peltak.commands.release

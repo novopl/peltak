@@ -19,7 +19,7 @@ RE_PY_VERSION = re.compile(
     r'(?P<version>\d+(\.\d+(\.\d+)?)?)'
     r'["\']'
 )
-VERSION_FILE = conf.get_path('VERSION_FILE', 'VERSION')
+VERSION_FILE = conf.get_path('version_file', 'VERSION')
 
 
 # MAJOR.MINOR[.PATCH[-BUILD]]

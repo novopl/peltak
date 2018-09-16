@@ -15,53 +15,35 @@ sys.path.insert(0, join(abspath(dirname(__file__)), 'src'))
 # Configure the build
 from peltak.core import conf
 
+
 conf.init({
-    'DOCKER_REGISTRY': 'docker.novocode.net',
-    'SRC_DIR': 'src',
-    'SRC_PATH': 'src/peltak',
-    'BUILD_DIR': '.build',
-    'VERSION_FILE': 'src/peltak/__init__.py',
-    'LINT_PATHS': [
-        'src/peltak',
-    ],
-    'REFDOC_PATHS': [
-        'src/peltak',
-    ],
-    'TEST_TYPES': {
-        'default': {'paths': [
+    'docker': {
+        'registry': 'docker.novocode.net',
+    },
+    'src_dir': 'src',
+    'src_path': 'src/peltak',
+    'build_dir': '.build',
+    'version_file': 'src/peltak/__init__.py',
+    'lint': {
+        'paths': [
             'src/peltak',
-            'test/unit'
-        ]}
+        ]
+    },
+    'docs': {
+        'path': 'docs',
+        'reference': [
+            'src/peltak',
+        ]
+    },
+    'test': {
+        'types': {
+            'default': {'paths': [
+                'src/peltak',
+                'test/unit'
+            ]}
+        },
     },
 })
-
-# conf.init({
-#     'docker': {
-#         'registry': 'docker.novocode.net',
-#     },
-#     'src_dir': 'src',
-#     'src_path': 'src/peltak',
-#     'build_dir': '.build',
-#     'version_file': 'src/peltak/__init__.py',
-#     'lint': {
-#         'paths': [
-#             'src/peltak',
-#         ]
-#     },
-#     'docs': {
-#         'reference': [
-#             'src/peltak',
-#         ]
-#     },
-#     'test': {
-#         'types': {
-#             'default': {'paths': [
-#                 'src/peltak',
-#                 'test/unit'
-#             ]}
-#         },
-#     },
-# })
 
 
 # Import all commands

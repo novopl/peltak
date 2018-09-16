@@ -23,9 +23,9 @@ def docs(recreate, gen_index):
         If set to **True**, it will generate top-level index file for the
         reference documentation.
     """
-    build_dir = conf.get_path('BUILD_DIR', '.build')
-    doc_src_path = conf.get_path('DOC_SRC_PATH', 'docs')
-    refdoc_paths = conf.get('REFDOC_PATHS', [])
+    build_dir = conf.get_path('build_dir', '.build')
+    doc_src_path = conf.get_path('docs.path', 'docs')
+    refdoc_paths = conf.get('docs.reference', [])
 
     docs_out_path = os.path.join(doc_src_path, 'html')
     docs_ref_path = os.path.join(doc_src_path, 'ref')
@@ -46,7 +46,7 @@ def docs(recreate, gen_index):
         _gen_ref_docs(docs_ref_path, not gen_index)
     else:
         log.err('Not generating any reference documentation - '
-                'No REFDOC_PATHS specified in config')
+                'No docs.reference specified in config')
 
     with conf.within_proj_dir(doc_src_path):
         log.info('Building docs with <35>sphinx')
@@ -71,7 +71,7 @@ def _gen_ref_docs(ref_path, no_index=False):
         log.err("Exception: {}".format(ex))
         sys.exit(-1)
 
-    refdoc_paths = conf.get('REFDOC_PATHS', [])
+    refdoc_paths = conf.get('docs.reference', [])
 
     log.info('Removing previously generated reference documentation')
     if os.path.exists(ref_path):

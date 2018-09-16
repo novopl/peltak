@@ -31,24 +31,26 @@ from . import cli, click
 def lint(exclude, include_untracked, commit_only, pretend):
     """ Run pep8 and pylint on all project files.
 
-    You can configure the linting paths using the LINT_PATHS config variable.
+    You can configure the linting paths using the lint.paths config variable.
     This should be a list of paths that will be linted. If a path to a directory
     is given, all files in that directory and it's subdirectories will be
     used.
 
     The pep8 and pylint config paths are by default stored in ops/tools/pep8.ini
     and ops/tools/pylint.ini. You can customise those paths in your config with
-    PEP8_CFG_PATH and PYLINT_CFG_PATH variables.
+    lint.pep8_cfg and lint.pylint_cfg variables.
 
     **Config Example**::
 
         \b
         conf.init({
-            'PYLINT_CFG_PATH': 'ops/tools/pylint.ini',
-            'PEP8_CFG_PATH': 'ops/tools/pep8.ini',
-            'LINT_PATHS': [
-                'src/mypkg'
-            ],
+            'lint': {
+                'pylint_cfg': 'ops/tools/pylint.ini',
+                'pep8_cfg': 'ops/tools/pep8.ini',
+                'paths': [
+                    'src/mypkg'
+                ],
+            }
         })
 
     **Examples**::

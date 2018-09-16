@@ -14,9 +14,9 @@ from . import cli, click
 def fe(cmd):
     """ Run a predefined frontend command.
 
-    The commands can be defined through the FRONTEND_CMDS project configuration
-    value. It should be a dict of commands mapped to the actual scripts ran
-    inside the FRONTEND_DIR.
+    The commands can be defined through the frontend.commands project
+    configuration value. It should be a dict of commands mapped to the actual
+    scripts ran inside the frontend.path.
 
     This command is mostly helpful if frontend code base is a subdirectory of
     the project. This is a very thin wrapper around javascript task runners,
@@ -30,10 +30,12 @@ def fe(cmd):
 
         \b
         conf.init({
-            'FRONTEND_DIR': 'client/webui',
-            'FRONTEND_CMDS': {
-                'build': 'npm run build',
-                'watch': 'npm run watch'
+            'frontend': {
+                'path': 'client/webui',
+                'commands': {
+                    'build': 'npm run build',
+                    'watch': 'npm run watch'
+                }
             }
         })
 
@@ -68,7 +70,9 @@ def init_fe(skip_if_exists):
 
         \b
         conf.init({
-            'FRONTEND_PATH': 'client/webui'
+            'frontend': {
+                'path': 'client/webui'
+            }
         })
 
     Examples::

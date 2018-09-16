@@ -17,22 +17,24 @@ def docker_cli():
 def build_images():
     """ Build and tag a docker image for the project.
 
-    It requires a DOCKER_IMAGES conf variable to be set and contain the
-    definitions for all the images built by the project. If DOCKER_REGISTRY is
+    It requires a docker.images conf variable to be set and contain the
+    definitions for all the images built by the project. If docker.registry is
     also set, then the resulting images will a have name of
     ``<registry>/<image>``. This will create two tags for each image:
     ``<name>:<version>`` and ``<name>:latest`` where <name> is the image name
-    as specified in DOCKER_IMAGES entry and <version> is the current project
+    as specified in docker.images entry and <version> is the current project
     version (as shown by ``peltak version``).
 
     Config example::
 
         \b
         conf.init({
-            'DOCKER_REGISTRY': 'registry.mydomain.com',
-            'DOCKER_IMAGES': [
-                {'name': 'myapp',}
-            ]
+            'docker': {
+                'registry': 'registry.mydomain.com',
+                'images': [
+                    {'name': 'myapp'}
+                ]
+            }
         })
 
     Example::
@@ -50,7 +52,7 @@ def build_images():
 def push_images():
     """ Push project docker images to the registry.
 
-    This command requires both DOCKER_IMAGES and DOCKER_REGISTRY conf variables
+    This command requires both docker.images and docker.registry conf variables
     to be set. This will push the images built by ``peltak docker build`` to the
     specified registry. For the details of how the names and tags are generated,
     see ``peltak docker build --help``.
@@ -59,10 +61,12 @@ def push_images():
 
         \b
         conf.init({
-            'DOCKER_REGISTRY': 'registry.mydomain.com',
-            'DOCKER_IMAGES': [
-                {'name': 'myapp',}
-            ]
+            'docker': {
+                'registry': 'registry.mydomain.com',
+                'images': [
+                    {'name': 'myapp'}
+                ]
+            }
         })
 
     Example::
@@ -87,16 +91,18 @@ def push_images():
 def docker_list(registry_pass):
     """ List docker images and their tags on the remote registry.
 
-    This command requires the DOCKER_REGISTRY conf variable to be set. You can
-    also hard-code the username with the DOCKER_REGISTRY_USER conf variable. You
+    This command requires the docker.registry conf variable to be set. You can
+    also hard-code the username with the docker.registry_user conf variable. You
     will be asked for the password every time though for security reasons.
 
     Config example::
 
         \b
         conf.init({
-            'DOCKER_REGISTRY': 'registry.mydomain.com',
-            'DOCKER_REGISTRY_USER': 'myuser'
+            'docker': {
+                'registry': 'registry.mydomain.com',
+                'registry_user': 'myuser'
+            }
         })
 
     Example::

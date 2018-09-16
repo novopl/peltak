@@ -19,7 +19,7 @@ def fe(cmd):
     :param str cmd:
         Frontend command to run.
     """
-    frontend_cmds = conf.get('FRONTEND_CMDS', {
+    frontend_cmds = conf.get('frontend.commands', {
         'build': 'npm run build',
         'start': 'npm start',
         'watch': 'npm run watch',
@@ -31,7 +31,7 @@ def fe(cmd):
     if cmd in frontend_cmds:
         _fe_cmd(frontend_cmds[cmd])
     else:
-        log.err("No {} in FRONTEND_CMDS".format(cmd))
+        log.err("No {} in frontend.commands".format(cmd))
 
 
 def init_fe(skip_if_exists):
@@ -46,7 +46,7 @@ def init_fe(skip_if_exists):
     :param skip_if_exists:
     :return:
     """
-    frontend_path = conf.get_path('FRONTEND_PATH', None)
+    frontend_path = conf.get_path('frontend.path', None)
     initialized = exists(join(frontend_path, 'node_modules'))
 
     if not initialized or not skip_if_exists:
@@ -54,10 +54,10 @@ def init_fe(skip_if_exists):
 
 
 def _fe_cmd(cmd):
-    frontend_path = conf.get_path('FRONTEND_PATH', None)
+    frontend_path = conf.get_path('frontend.path', None)
 
     if frontend_path is not None:
         with conf.within_proj_dir(frontend_path):
             shell.run(cmd)
     else:
-        log.err("No FRONTEND_PATH defined in the config")
+        log.err("No frontend.path defined in the config")

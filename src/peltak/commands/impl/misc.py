@@ -26,7 +26,7 @@ def clean(pretend, exclude):
     :param List[str] exclude:
         A list of path patterns to exclude from deletion.
     """
-    clean_patterns = conf.get('CLEAN_PATTERNS', [
+    clean_patterns = conf.get('clean_patterns', [
         '*__pycache__*',
         '*.py[cod]',
         '*.swp',

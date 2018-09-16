@@ -50,7 +50,7 @@ def cli():
 def clean(pretend, exclude):
     """ Remove temporary files like python cache, swap files, etc.
 
-    You can configure the list of patterns with CLEAN_PATTERNS config variable.
+    You can configure the list of patterns with clean_patterns config variable.
     By default it will remove all files/dirs matching
 
     Config example::

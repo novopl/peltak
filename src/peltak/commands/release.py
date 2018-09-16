@@ -28,7 +28,7 @@ def release_cli(ctx, component, exact):
 
         \b
         conf.init({
-            'VERSION_FILE': 'src/mypkg/__init__.py'
+            'version_file': 'src/mypkg/__init__.py'
         })
 
     **Examples**::
@@ -60,7 +60,7 @@ def tag_release():
 
         \b
         conf.init({
-            'VERSION_FILE': 'src/mypkg/__init__.py'
+            'version_file': 'src/mypkg/__init__.py'
         })
 
     Examples::
@@ -69,7 +69,7 @@ def tag_release():
 
     """
     from .impl import release
-    release.upload(target)
+    release.tag_release()
 
 
 @release_cli.command()
@@ -114,10 +114,10 @@ def merged():
 
         \b
         conf.init({
-            'MAIN_BRANCH': 'develop',
-            'MASTER_BRANCH': 'master',
-            'PROTECTED_BRANCHES': ['master', 'develop'],
-            'RELEASE_BRANCH_PATTERN: 'release/*'
+            'main_branch': 'develop',
+            'master_branch': 'master',
+            'protected_branches': ['master', 'develop'],
+            'release_branch_pattern: 'release/*'
         })
 
     Example::

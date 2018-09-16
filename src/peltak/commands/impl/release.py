@@ -27,7 +27,7 @@ def release(component, exact):
         argument. This allows to re-release a version if something went wrong
         with the release upload.
     """
-    version_file = conf.get_path('VERSION_FILE', 'VERSION')
+    version_file = conf.get_path('version_file', 'VERSION')
 
     with conf.within_proj_dir():
         out = shell.run('git status --porcelain', capture=True).stdout
@@ -128,13 +128,13 @@ def gen_pypirc(username=None, password=None):
 
 def merged():
     """ Cleanup the release branch after it was remotely merged to master. """
-    develop_branch = conf.get('DEVELOP_BRANCH', 'develop')
-    master_branch = conf.get('MASTER_BRANCH', 'master')
+    develop_branch = conf.get('develop_branch', 'develop')
+    master_branch = conf.get('master_branch', 'master')
     protected_branches = conf.get(
-        'PROTECTED_BRANCHES',
+        'protected_branches',
         (master_branch, develop_branch)
     )
-    release_branch_pattern = conf.get('RELEASE_BRANCH_PATTERN', 'release/*')
+    release_branch_pattern = conf.get('release_branch_pattern', 'release/*')
     branch = git.current_branch()
 
     if not fnmatch(branch, release_branch_pattern):

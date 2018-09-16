@@ -51,10 +51,10 @@ def merged(target=None):
 
         \b
         conf.init({
-            'MAIN_BRANCH': 'develop',
-            'MASTER_BRANCH': 'master',
-            'PROTECTED_BRANCHES': ['master', 'develop'],
-            'RELEASE_BRANCH_PATTERN: 'release/*'
+            'main_branch': 'develop',
+            'master_branch': 'master',
+            'protected_branches': ['master', 'develop'],
+            'release_branch_pattern: 'release/*'
         })
 
     Example::

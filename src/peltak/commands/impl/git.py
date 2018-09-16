@@ -67,10 +67,10 @@ def push():
 
 def merged(target=None):
     """ Cleanup a remotely merged branch. """
-    main_branch = conf.get('MAIN_BRANCH', 'develop')
-    master_branch = conf.get('MASTER_BRANCH', 'master')
-    protected_branches = conf.get('PROTECTED_BRANCHES', ('master', 'develop'))
-    release_branch_pattern = conf.get('RELEASE_BRANCH_PATTERN', 'release/*')
+    main_branch = conf.get('main_branch', 'develop')
+    master_branch = conf.get('master_branch', 'master')
+    protected_branches = conf.get('protected_branches', ('master', 'develop'))
+    release_branch_pattern = conf.get('release_branch_pattern', 'release/*')
     branch = git.current_branch()
 
     if target is None:

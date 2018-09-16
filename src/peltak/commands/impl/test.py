@@ -41,20 +41,20 @@ def test(tests_type,
     """
     log.info("Running <33>{} <32>tests".format(tests_type))
 
-    build_dir = conf.get_path('BUILD_DIR', '.build')
+    build_dir = conf.get_path('build_dir', '.build')
 
-    pytest_cfg_path = conf.get_path('PYTEST_CFG_PATH', 'ops/tools/pytest.ini')
-    test_types = conf.get('TEST_TYPES', {})
+    pytest_cfg_path = conf.get_path('test.pytest_cfg', 'ops/tools/pytest.ini')
+    test_types = conf.get('test.types', {})
 
     coverage_out_path = os.path.join(build_dir, 'coverage')
-    coverage_cfg_path = conf.get_path('COVERAGE_CFG_PATH',
+    coverage_cfg_path = conf.get_path('coverage_cfg_path',
                                       'ops/tools/coverage.ini')
 
-    django_settings = conf.get('DJANGO_SETTINGS', None)
-    django_test_settings = conf.get('DJANGO_TEST_SETTINGS', None)
+    django_settings = conf.get('django_settings', None)
+    django_test_settings = conf.get('django_test_settings', None)
 
-    src_dir = conf.get_path('SRC_DIR')
-    src_path = conf.get_path('SRC_PATH')
+    src_dir = conf.get_path('src_dir')
+    src_path = conf.get_path('src_path')
     plugins = plugins.split(',')
     args = []
 

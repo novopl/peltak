@@ -21,8 +21,8 @@ def _lint_files(paths, include=None, exclude=None, pretend=False):
     :param paths:   Iterable with each item being path that should be linted..
     """
 
-    pylint_cfg_path = conf.get_path('PYLINT_CFG_PATH', 'ops/tools/pylint.ini')
-    pep8_cfg_path = conf.get_path('PEP8_CFG_PATH', 'ops/tools/pep8.ini')
+    pylint_cfg_path = conf.get_path('lint.pylint_cfg', 'ops/tools/pylint.ini')
+    pep8_cfg_path = conf.get_path('lint.pep8_cfg', 'ops/tools/pep8.ini')
 
     if isinstance(paths, string_types):
         raise ValueError("paths must be an array of strings")
@@ -74,7 +74,7 @@ def lint(exclude, include_untracked, commit_only, pretend):
 
     TODO: Introduce a test runner interface to allow support for arbitrary tools
     """
-    paths = [conf.proj_path(p) for p in conf.get('LINT_PATHS', [])]
+    paths = [conf.proj_path(p) for p in conf.get('lint.paths', [])]
     exclude = list(exclude)     # Convert from tuple to easily concatenate.
 
     if commit_only:

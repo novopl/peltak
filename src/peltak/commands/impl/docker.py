@@ -17,8 +17,8 @@ from peltak.core import docker
 
 def build_images():
     """ Build all docker images for the project. """
-    registry = conf.get('DOCKER_REGISTRY')
-    docker_images = conf.get('DOCKER_IMAGES', [])
+    registry = conf.get('docker.registry')
+    docker_images = conf.get('docker.images', [])
 
     for image in docker_images:
         docker.build_image(registry, image)
@@ -26,11 +26,11 @@ def build_images():
 
 def push_images():
     """ Push all project docker images to a remote registry. """
-    registry = conf.get('DOCKER_REGISTRY')
-    docker_images = conf.get('DOCKER_IMAGES', [])
+    registry = conf.get('docker.registry')
+    docker_images = conf.get('docker.images', [])
 
     if registry is None:
-        log.err("You must define DOCKER_REGISTRY conf variable to push images")
+        log.err("You must define docker.registry conf variable to push images")
         sys.exit(-1)
 
     for image in docker_images:
@@ -39,13 +39,13 @@ def push_images():
 
 def docker_list(registry_pass):
     """ List docker images stored in the remote registry. """
-    registry = conf.get('DOCKER_REGISTRY', None)
+    registry = conf.get('docker.registry', None)
 
     if registry is None:
-        log.err("You must define DOCKER_REGISTRY conf variable to list images")
+        log.err("You must define docker.registry conf variable to list images")
         sys.exit(-1)
 
-    registry_user = conf.get('DOCKER_REGISTRY_USER', None)
+    registry_user = conf.get('docker.registry_user', None)
 
     if registry_user is None:
         registry_user = click.prompt("Username")

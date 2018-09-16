@@ -35,11 +35,13 @@ def docs(recreate, gen_index):
 
         \b
         conf.init({
-            'BUILD_DIR': '.build',
-            'DOC_SRC_PATH': 'docs',
-            'REFDOC_PATHS': [
-                'src/mypkg'
-            ]
+            'build_dir': '.build',
+            'docs': {
+                'path': 'docs',
+                'reference': [
+                    'src/mypkg'
+                ]
+            }
         })
 
     Examples::
