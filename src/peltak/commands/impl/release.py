@@ -29,7 +29,7 @@ def release(component, exact):
     """
     version_file = conf.get_path('VERSION_FILE', 'VERSION')
 
-    with conf.within_proj_dir(quiet=True):
+    with conf.within_proj_dir():
         out = shell.run('git status --porcelain', capture=True).stdout
         lines = out.split(os.linesep)
         has_changes = any(
@@ -46,7 +46,7 @@ def release(component, exact):
     log.info("  old version: <35>{}".format(old_ver))
     log.info("  new version: <35>{}".format(new_ver))
 
-    with conf.within_proj_dir(quiet=True):
+    with conf.within_proj_dir():
         branch = 'release/' + new_ver
 
         log.info("Checking out new branch <35>{}", branch)
@@ -65,7 +65,7 @@ def tag_release():
     release_ver = versioning.current()
     author = git.commit_author()
 
-    with conf.within_proj_dir(quiet=False):
+    with conf.within_proj_dir():
         log.info("Creating tag that marks the release")
         cmd = (
             'git -c "user.name={0.name}" -c "user.email={0.email}" '
@@ -86,7 +86,7 @@ def upload(target):
         pypi target as defined in ~/.pypirc
     """
     log.info("Uploading to pypi server <33>{}".format(target))
-    with conf.within_proj_dir(quiet=False):
+    with conf.within_proj_dir():
         shell.run('python setup.py sdist register -r "{}"'.format(target))
         shell.run('python setup.py sdist upload -r "{}"'.format(target))
 

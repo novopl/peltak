@@ -14,6 +14,7 @@ from os.path import exists, isabs, join, normpath
 g_config = {}
 g_proj_path = None
 g_proj_root = None
+
 PROJ_CONF_FILE = 'pelconf.py'
 
 
@@ -40,26 +41,29 @@ def load():
     `peltak.core.conf.init()` function).
     """
     with within_proj_dir():
-        if not exists('pelconf.py'):
-            return
+        if exists('pelconf.py'):
+            _load_py_config('pelconf.py')
 
-        if sys.version_info >= (3, 5):
-            from importlib.util import spec_from_file_location
-            from importlib.util import module_from_spec
 
-            spec = spec_from_file_location('pelconf', 'pelconf.py')
-            mod = module_from_spec(spec)
-            spec.loader.exec_module(mod)
+def _load_py_config(conf_file):
+    """ Import pelconf.py """
+    if sys.version_info >= (3, 5):
+        from importlib.util import spec_from_file_location
+        from importlib.util import module_from_spec
 
-        elif sys.version_info >= (3, 3):
-            from importlib.machinery import SourceFileLoader
-            loader = SourceFileLoader('pelconf', 'pelconf.py')
-            _ = loader.load_module()
+        spec = spec_from_file_location('pelconf', conf_file)
+        mod = module_from_spec(spec)
+        spec.loader.exec_module(mod)
 
-        elif sys.version_info <= (3, 0):
-            import imp
+    elif sys.version_info >= (3, 3):
+        from importlib.machinery import SourceFileLoader
+        loader = SourceFileLoader('pelconf', conf_file)
+        _ = loader.load_module()
 
-            imp.load_source('pelconf', 'pelconf.py')
+    elif sys.version_info <= (3, 0):
+        import imp
+
+        imp.load_source('pelconf', conf_file)
 
 
 def getenv(name, default=None):
@@ -84,8 +88,15 @@ def proj_path(path=None):
 
 
 @contextmanager
-def within_proj_dir(path='.', quiet=False):
-    """ Return absolute path to the repo dir (root project directory). """
+def within_proj_dir(path='.'):
+    """ Return an absolute path to the given project relative path.
+
+    :param str path:
+        Project relative path that will be converted to the system wide absolute
+        path.
+    :return str:
+        Absolute path.
+    """
     curr_dir = os.getcwd()
 
     os.chdir(proj_path(path))

@@ -3,7 +3,7 @@
 Various commands that do not fit another category but there's not enough of them
 to justify a separate module.
 """
-from __future__ import absolute_import, print_function
+from __future__ import absolute_import
 from . import cli, click
 
 

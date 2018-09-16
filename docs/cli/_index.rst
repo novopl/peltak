@@ -3,14 +3,14 @@ Command Line Interface
 ######################
 
 .. toctree::
-    clean
     appengine
     django
     docker
     docs
-    frontend
+    fe
     git
     lint
+    misc
     release
     test
     version

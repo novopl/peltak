@@ -11,7 +11,6 @@ Table of Contents
 
     cli/_index
     guides/_index
-    conf_reference
     Code Reference <ref/peltak/index>
 
 

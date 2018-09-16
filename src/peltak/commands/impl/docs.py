@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """ Documentation commands implementation. """
-from __future__ import absolute_import, unicode_literals
+from __future__ import absolute_import, unicode_literals, print_function
 
 # stdlib imports
 import os.path
