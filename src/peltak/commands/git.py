@@ -25,8 +25,9 @@ def add_hooks():
     from peltak.core import conf
     from peltak.core import log
 
-    log.info("Adding pre-commit hook")
-    with open(conf.proj_path('.git/hooks/pre-commit'), 'w') as fp:
+    commit_hook = conf.proj_path('.git/hooks/pre-commit')
+    log.info("Adding pre-commit hook <33>{}", commit_hook)
+    with open(commit_hook, 'w') as fp:
         fp.write('\n'.join([
             '#!/bin/bash',
             'PATH="/opt/local/libexec/gnubin:$PATH"',
@@ -35,14 +36,15 @@ def add_hooks():
                 '"$(readlink -fm "$0")")")")'
             ),
             '',
-            'source "$REPO_PATH/env/bin/activate"',
+            'source "$REPO_PATH/.venv/bin/activate"',
             '',
             'peltak lint --commit',
         ]))
         fp.write('\n')
 
-    log.info("Adding pre-push hook")
-    with open(conf.proj_path('.git/hooks/pre-push'), 'w') as fp:
+    push_hook = conf.proj_path('.git/hooks/pre-push')
+    log.info("Adding pre-push hook: <33>{}", push_hook)
+    with open(push_hook, 'w') as fp:
         fp.write('\n'.join([
             '#!/bin/bash',
             'PATH="/opt/local/libexec/gnubin:$PATH"',
@@ -51,7 +53,7 @@ def add_hooks():
                 '"$(readlink -fm "$0")")")")'
             ),
             '',
-            'source "$REPO_PATH/env/bin/activate"',
+            'source "$REPO_PATH/.venv/bin/activate"',
             '',
             'peltak test --allow-empty',
         ]))
