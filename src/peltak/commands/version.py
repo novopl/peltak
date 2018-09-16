@@ -36,16 +36,18 @@ def version_cli(ctx, porcelain):
         $ peltak version bump --exact=1.2.1     # Set project version to 1.2.1
 
     """
-    if not ctx.invoked_subcommand:
-        from peltak.core import log
-        from peltak.core import versioning
+    if ctx.invoked_subcommand:
+        return
 
-        current = versioning.current()
+    from peltak.core import log
+    from peltak.core import versioning
 
-        if porcelain:
-            print(current)
-        else:
-            log.info("Version: <35>{}".format(current))
+    current = versioning.current()
+
+    if porcelain:
+        print(current)
+    else:
+        log.info("Version: <35>{}".format(current))
 
 
 @version_cli.command('bump')

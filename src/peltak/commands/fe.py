@@ -9,20 +9,6 @@ from __future__ import absolute_import
 from . import cli, click
 
 
-def _fe_cmd(cmd):
-    from peltak.core import conf
-    from peltak.core import log
-    from peltak.core import shell
-
-    frontend_path = conf.get_path('FRONTEND_PATH', None)
-
-    if frontend_path is not None:
-        with conf.within_proj_dir(frontend_path):
-            shell.run(cmd)
-    else:
-        log.err("No FRONTEND_PATH defined in the config")
-
-
 @cli.command('fe')
 @click.argument('cmd')
 def fe(cmd):
@@ -57,22 +43,9 @@ def fe(cmd):
         $ peltak fe build       # Run frontend command named 'build'
         $ peltak fe watch       # Run frontend command named 'watch'
     """
-    from peltak.core import conf
-    from peltak.core import log
+    from .impl import fe
 
-    frontend_cmds = conf.get('FRONTEND_CMDS', {
-        'build': 'npm run build',
-        'start': 'npm start',
-        'watch': 'npm run watch',
-        'test': 'npm test',
-        'lint': 'npm lint',
-        'check': 'npm run lint && npm run test'
-    })
-
-    if cmd in frontend_cmds:
-        _fe_cmd(frontend_cmds[cmd])
-    else:
-        log.err("No {} in FRONTEND_CMDS".format(cmd))
+    fe.fe(cmd)
 
 
 @cli.command('init-fe')
@@ -105,11 +78,6 @@ def init_fe(skip_if_exists):
         $ peltak init-fe --no-recreate  # Run only if node_modules is missing
 
     """
-    from os.path import exists, join
-    from peltak.core import conf
+    from .impl import fe
 
-    frontend_path = conf.get_path('FRONTEND_PATH', None)
-    initialized = exists(join(frontend_path, 'node_modules'))
-
-    if not initialized or not skip_if_exists:
-        _fe_cmd('npm install')
+    fe.init_fe(skip_if_exists)

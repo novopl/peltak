@@ -41,14 +41,9 @@ def build_images():
         $ peltak docker build
 
     """
-    from peltak.core import conf
-    from peltak.core import docker
+    from .impl import docker
 
-    registry = conf.get('DOCKER_REGISTRY')
-    docker_images = conf.get('DOCKER_IMAGES', [])
-
-    for image in docker_images:
-        docker.build_image(registry, image)
+    docker.build_images()
 
 
 @docker_cli.command('push')
@@ -76,20 +71,9 @@ def push_images():
         $ peltak docker push
 
     """
-    import sys
-    from peltak.core import conf
-    from peltak.core import docker
-    from peltak.core import log
+    from .impl import docker
 
-    registry = conf.get('DOCKER_REGISTRY')
-    docker_images = conf.get('DOCKER_IMAGES', [])
-
-    if registry is None:
-        log.err("You must define DOCKER_REGISTRY conf variable to push images")
-        sys.exit(-1)
-
-    for image in docker_images:
-        docker.push_image(registry, image)
+    docker.push_images()
 
 
 @docker_cli.command('list')
@@ -122,28 +106,6 @@ def docker_list(registry_pass):
         $ peltak docker list -p mypass  # List registry images, use give pw
 
     """
-    import sys
-    from peltak.core import conf
-    from peltak.core import docker
-    from peltak.core import log
-    from peltak.core import shell
+    from .impl import docker
 
-    registry = conf.get('DOCKER_REGISTRY', None)
-
-    if registry is None:
-        log.err("You must define DOCKER_REGISTRY conf variable to list images")
-        sys.exit(-1)
-
-    registry_user = conf.get('DOCKER_REGISTRY_USER', None)
-
-    if registry_user is None:
-        registry_user = click.prompt("Username")
-
-    rc = docker.RegistryClient(registry, registry_user, registry_pass)
-    images = {x: rc.list_tags(x) for x in rc.list_images()}
-
-    shell.cprint("<32>Images in <34>{} <32>registry:", registry)
-    for image, tags in images.items():
-        shell.cprint('  <92>{}', image)
-        for tag in tags:
-            shell.cprint('      <90>{}:<35>{}', image, tag)
+    docker.docker_list(registry_pass)

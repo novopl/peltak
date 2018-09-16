@@ -21,47 +21,9 @@ def add_hooks():
 
         $ peltak git add-hooks
     """
-    import os
-    from peltak.core import conf
-    from peltak.core import log
+    from .impl import git
 
-    commit_hook = conf.proj_path('.git/hooks/pre-commit')
-    log.info("Adding pre-commit hook <33>{}", commit_hook)
-    with open(commit_hook, 'w') as fp:
-        fp.write('\n'.join([
-            '#!/bin/bash',
-            'PATH="/opt/local/libexec/gnubin:$PATH"',
-            (
-                'REPO_PATH=$(dirname "$(dirname "$(dirname '
-                '"$(readlink -fm "$0")")")")'
-            ),
-            '',
-            'source "$REPO_PATH/.venv/bin/activate"',
-            '',
-            'peltak lint --commit',
-        ]))
-        fp.write('\n')
-
-    push_hook = conf.proj_path('.git/hooks/pre-push')
-    log.info("Adding pre-push hook: <33>{}", push_hook)
-    with open(push_hook, 'w') as fp:
-        fp.write('\n'.join([
-            '#!/bin/bash',
-            'PATH="/opt/local/libexec/gnubin:$PATH"',
-            (
-                'REPO_PATH=$(dirname "$(dirname "$(dirname '
-                '"$(readlink -fm "$0")")")")'
-            ),
-            '',
-            'source "$REPO_PATH/.venv/bin/activate"',
-            '',
-            'peltak test --allow-empty',
-        ]))
-        fp.write('\n')
-
-    log.info("Making hooks executable")
-    os.chmod(conf.proj_path('.git/hooks/pre-commit'), 0o755)
-    os.chmod(conf.proj_path('.git/hooks/pre-push'), 0o755)
+    git.add_hooks()
 
 
 @git_cli.command('push')
@@ -73,11 +35,9 @@ def push():
         $ peltak git push
 
     """
-    from peltak.core import git
-    from peltak.core import shell
+    from .impl import git
 
-    branch = git.current_branch()
-    shell.run('git push -u origin {}'.format(branch))
+    git.push()
 
 
 @git_cli.command('merged')
@@ -104,41 +64,6 @@ def merged(target=None):
         $ peltak git merged         # Autodetect where the branch was merged
 
     """
-    from fnmatch import fnmatch
-    from peltak.core import conf
-    from peltak.core import git
-    from peltak.core import log
-    from peltak.core import shell
+    from .impl import git
 
-    main_branch = conf.get('MAIN_BRANCH', 'develop')
-    master_branch = conf.get('MASTER_BRANCH', 'master')
-    protected_branches = conf.get('PROTECTED_BRANCHES', ('master', 'develop'))
-    release_branch_pattern = conf.get('RELEASE_BRANCH_PATTERN', 'release/*')
-    branch = git.current_branch()
-
-    if target is None:
-        if fnmatch(branch, release_branch_pattern):
-            target = master_branch
-        else:
-            target = main_branch
-
-    try:
-        shell.run('git rev-parse --verify {}'.format(branch))
-    except IOError:
-        log.err("Branch '{}' does not exist".format(branch))
-
-    log.info("Checking out <33>{}".format(target))
-    shell.run('git checkout {}'.format(target))
-
-    log.info("Pulling latest changes")
-    shell.run('git pull origin {}'.format(target))
-
-    if branch not in protected_branches:
-        log.info("Deleting branch <33>{}".format(branch))
-        shell.run('git branch -d {}'.format(branch))
-
-    log.info("Pruning")
-    shell.run('git fetch --prune origin')
-
-    log.info("Checking out <33>{}<32> branch".format(target))
-    shell.run('git checkout {}'.format(target))
+    git.merged(target)

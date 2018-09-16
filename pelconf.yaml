@@ -1,0 +1,36 @@
+version: '0.1'
+
+src_dir: src
+src_path: 'src/peltak'
+build_dir: .build
+version_file: 'src/peltak/__init__.py'
+
+commands:
+  - peltak.commands.appengine
+  - peltak.commands.django
+  - peltak.commands.docker
+  - peltak.commands.docs
+  - peltak.commands.frontend
+  - peltak.commands.git
+  - peltak.commands.lint
+  - peltak.commands.release
+  - peltak.commands.test
+  - peltak.commands.version
+
+docker:
+  registry: docker.novocode.net
+
+lint:
+  paths:
+    - src/peltak
+
+docs:
+  reference:
+    - src/peltak
+
+test:
+  types:
+    default:
+      paths:
+        - src/peltak
+        - test/unit
