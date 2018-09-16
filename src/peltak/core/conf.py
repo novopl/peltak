@@ -121,12 +121,18 @@ def get(name, *default):
     """
     global g_config
 
-    if name in g_config:
-        return g_config[name]
-    elif default:
-        return default[0]
-    else:
-        raise AttributeError("Config value '{}' does not exist".format(name))
+    curr = g_config
+    for part in name.split('.'):
+        if part in curr:
+            curr = curr[part]
+        elif default:
+            return default[0]
+        else:
+            raise AttributeError("Config value '{}' does not exist".format(
+                name
+            ))
+
+    return curr
 
 
 def get_path(name, *default):
@@ -147,15 +153,12 @@ def get_path(name, *default):
     """
     global g_config
 
-    if name in g_config:
-        return proj_path(g_config[name])
-    elif default:
-        if default[0] is None:
-            return None
-        else:
-            return proj_path(default[0])
-    else:
-        raise AttributeError("Config value '{}' does not exist".format(name))
+    value = get(name, *default)
+
+    if value is None:
+        return None
+
+    return proj_path(value)
 
 
 def _find_proj_root():
