@@ -6,6 +6,9 @@ from __future__ import absolute_import, unicode_literals
 import os
 from collections import namedtuple
 
+# 3rd party imports
+from six import string_types
+
 # local imports
 from . import conf
 from . import shell
@@ -84,8 +87,17 @@ def ignore():
     :return List[str]:
         List of patterns set to be ignored by git.
     """
+
+    def parse_line(line):   # pylint: disable=missing-docstring
+        # Strip comment
+        line = line.split('#', 1)[0].strip()
+
+        # Decode if necessary
+        if not isinstance(line, string_types):
+            line = line.decode('utf-8')
+
+        return line
+
     with conf.within_proj_dir(quiet=True):
         with open('.gitignore') as fp:
-            return [
-                l.split('#', 1)[0] for l in fp.readlines() if l.strip()
-            ]
+            return [parse_line(l) for l in fp.readlines() if l.strip()]
