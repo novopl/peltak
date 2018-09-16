@@ -23,21 +23,21 @@ def _lint_files(paths, include=None, exclude=None, pretend=False):
     if isinstance(paths, string_types):
         raise ValueError("paths must be an array of strings")
 
+    log.info("Paths to lint:")
+    for path in paths:
+        log.info("  <0>{}", path)
+
     with util.timed_block() as t:
         files = list(chain.from_iterable(
             fs.filtered_walk(p, include, exclude) for p in paths
         ))
 
-    log.info("Paths to lint:")
-    for path in paths:
-        log.info("  <0>{}", path)
-
     log.info("Files:")
     for p in files:
         log.info("  <0>{}", p)
 
-    log.info("Collected <33>{} <32>files in <33>{}ms".format(
-        len(files), t.elapsed_ms
+    log.info("Collected <33>{} <32>files in <33>{}s".format(
+        len(files), t.elapsed_s
     ))
 
     if not pretend:
@@ -126,12 +126,13 @@ def lint(exclude, include_untracked, commit_only, pretend):
     from peltak.core import git
 
     paths = [conf.proj_path(p) for p in conf.get('LINT_PATHS', [])]
-    include = ['*.py']
     exclude = list(exclude)     # Convert from tuple to easily concatenate.
 
     if commit_only:
-        include += ['*' + f for f in git.staged() if f.endswith('.py')]
+        include = ['*' + f for f in git.staged() if f.endswith('.py')]
         exclude += git.ignore()
+    else:
+        include = ['*.py']
 
     if not include_untracked:
         exclude += git.untracked()
