@@ -5,7 +5,7 @@ name = "pypi"
 
 [packages]
 click = "==6.7"
-click-completion = "*"
+click-completion = "==0.4.1"
 "pep8" = "==1.7.0"
 pyyaml = "==3.13"
 
