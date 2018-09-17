@@ -21,6 +21,7 @@ def _lint_files(paths, include=None, exclude=None, pretend=False):
     :param paths:   Iterable with each item being path that should be linted..
     """
 
+    allow_empty = True
     pylint_cfg_path = conf.get_path('lint.pylint_cfg', 'ops/tools/pylint.ini')
     pep8_cfg_path = conf.get_path('lint.pep8_cfg', 'ops/tools/pep8.ini')
 
@@ -36,9 +37,13 @@ def _lint_files(paths, include=None, exclude=None, pretend=False):
             fs.filtered_walk(p, include, exclude) for p in paths
         ))
 
-    log.info("Files:")
-    for p in files:
-        log.info("  <0>{}", p)
+    if files:
+        log.info("Files:")
+        for p in files:
+            log.info("  <0>{}", p)
+    else:
+        log.err("No files found for linting, exiting...")
+        return allow_empty
 
     log.info("Collected <33>{} <32>files in <33>{}s".format(
         len(files), t.elapsed_s
