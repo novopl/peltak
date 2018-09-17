@@ -10,6 +10,9 @@ import sys
 from contextlib import contextmanager
 from os.path import exists, isabs, join, normpath
 
+# 3rd party imports
+import yaml
+
 
 g_config = {}
 g_proj_path = None
@@ -41,8 +44,20 @@ def load():
     `peltak.core.conf.init()` function).
     """
     with within_proj_dir():
-        if exists('pelconf.py'):
+        if exists('pelconf.yaml'):
+            _load_yaml_config('pelconf.yaml')
+        elif exists('pelconf.py'):
             _load_py_config('pelconf.py')
+
+
+def _load_yaml_config(conf_file):
+    global g_config
+
+    with open(conf_file) as fp:
+        g_config = yaml.load(fp)
+
+        for cmd in get('commands'):
+            __import__(cmd)
 
 
 def _load_py_config(conf_file):
