@@ -25,14 +25,16 @@ def init(config):
     """ Initialize configuration with the given values.
 
     This should be called from within the project fabfile, before any
-    other commands are imported
+    other commands are imported.
+
+    This will not update the existing configuration but replace it entirely.
 
     :param dict config:
         The dictionary containing the project configuration.
     """
     global g_config
 
-    g_config.update(config)
+    g_config = config
 
 
 def load():
@@ -42,26 +44,49 @@ def load():
     (directory containing ``pelconf.py`` file). Once found it will import the
     config file which should initialize all the configuration (using
     `peltak.core.conf.init()` function).
+
+    You can also have both yaml (configuration) and python (custom commands)
+    living together. Just remember that calling `conf.init()` will overwrite
+    the config defined in YAML.
     """
     with within_proj_dir():
         if exists('pelconf.yaml'):
-            _load_yaml_config('pelconf.yaml')
-        elif exists('pelconf.py'):
-            _load_py_config('pelconf.py')
+            load_yaml_config('pelconf.yaml')
+
+        if exists('pelconf.py'):
+            load_py_config('pelconf.py')
 
 
-def _load_yaml_config(conf_file):
+def load_yaml_config(conf_file):
+    """ Load a YAML configuration.
+
+    This will not update the configuration but replace it entirely.
+
+    :param str conf_file:
+        Path to the YAML config. This function will not check the file name
+        or extension and will just crash if the given file does not exist or
+        is not a valid YAML file.
+    """
     global g_config
 
     with open(conf_file) as fp:
         g_config = yaml.load(fp)
 
-        for cmd in get('commands'):
-            __import__(cmd)
+        for cmd in get('commands', []):
+            _import(cmd)
 
 
-def _load_py_config(conf_file):
-    """ Import pelconf.py """
+def load_py_config(conf_file):
+    """ Import configuration from a python file.
+
+    This will just import the file into python. Sky is the limit. The file
+    has to deal with the configuration all by itself (i.e. call conf.init()).
+
+    :param str conf_file:
+        Path to the YAML config. This function will not check the file name
+        or extension and will just crash if the given file does not exist or
+        is not a valid python file.
+    """
     if sys.version_info >= (3, 5):
         from importlib.util import spec_from_file_location
         from importlib.util import module_from_spec
@@ -79,6 +104,10 @@ def _load_py_config(conf_file):
         import imp
 
         imp.load_source('pelconf', conf_file)
+
+
+def _import(module):
+    return __import__(module)
 
 
 def getenv(name, default=None):
