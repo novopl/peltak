@@ -9,6 +9,7 @@ from __future__ import absolute_import
 import json
 import os
 import re
+from collections import OrderedDict
 from os.path import exists
 
 from . import conf
@@ -19,7 +20,6 @@ RE_PY_VERSION = re.compile(
     r'(?P<version>\d+(\.\d+(\.\d+)?)?)'
     r'["\']'
 )
-VERSION_FILE = conf.get_path('version_file', 'VERSION')
 
 
 # MAJOR.MINOR[.PATCH[-BUILD]]
@@ -40,34 +40,32 @@ def is_valid(version_str):
     :return bool:
         **True** if the given string is a version.
     """
-    return version_str and RE_VERSION.match(version_str)
+    return bool(version_str and RE_VERSION.match(version_str))
 
 
 def current():
-    """ Return the current project version read from *version_file*.
+    """ Return the project's current version.
 
-    :param {str|unicode} version_file:
-        Path to the file storing the current version. If not given, it will
-        look for file called VERSION in the project root directory.
-    :return str|unicode:
+    :return Union[str,unicode]:
         The current project version in MAJOR.MINOR.PATCH format. PATCH might be
         omitted if it's 0, so 1.0.0 becomes 1.0 and 0.1.0 becomes 0.1.
     """
-    storage = get_version_storage(VERSION_FILE)
+    storage = get_version_storage()
     return storage.read()
 
 
 def write(version):
     """ Write the given version to the VERSION_FILE """
-    storage = get_version_storage(VERSION_FILE)
+    if not is_valid(version):
+        raise ValueError("Invalid version: ".format(version))
+
+    storage = get_version_storage()
     storage.write(version)
 
 
 def bump(component='patch', exact=None):
     """ Bump the given version component.
 
-    :param str version:
-        The current version. The format is: MAJOR.MINOR[.PATCH].
     :param str component:
         What part of the version should be bumped. Can be one of:
 
@@ -75,15 +73,18 @@ def bump(component='patch', exact=None):
         - minor
         - patch
 
+    :param Optional[str] exact:
+        The exact version that should be set instead of bumping the current one.
+
     :return str:
         Bumped version as a string.
     """
     old_ver = current()
 
-    if is_valid(exact):
-        new_ver = exact
-    else:
+    if exact is None:
         new_ver = _bump_version(old_ver, component)
+    else:
+        new_ver = exact
 
     write(new_ver)
     return old_ver, new_ver
@@ -164,7 +165,7 @@ class VersionStorage(object):
 
         All subclasses must implement this method.
         """
-        raise NotImplemented("{} must implement .read()".format(
+        raise NotImplementedError("{} must implement .read()".format(
             self.__class__.__name__
         ))
 
@@ -173,7 +174,7 @@ class VersionStorage(object):
 
         All subclasses must implement this method.
         """
-        raise NotImplemented("{} must implement .write()".format(
+        raise NotImplementedError("{} must implement .write()".format(
             self.__class__.__name__
         ))
 
@@ -190,7 +191,7 @@ class PyVersionStorage(VersionStorage):
             content = fp.read()
             m = RE_PY_VERSION.search(content)
             if not m:
-                print("Not found")
+                return None
             else:
                 return m.group('version')
 
@@ -198,7 +199,7 @@ class PyVersionStorage(VersionStorage):
         """ Write the project version to .py file.
 
         This will regex search in the file for a
-        ``__version__ = VERSION_STRING`` and substitue the version string
+        ``__version__ = VERSION_STRING`` and substitute the version string
         for the new version.
         """
         with open(self.version_file) as fp:
@@ -220,7 +221,12 @@ class RawVersionStorage(VersionStorage):
         ``__version__ = VERSION_STRING`` and read the version string.
         """
         with open(self.version_file) as fp:
-            return fp.read().strip()
+            version = fp.read().strip()
+
+            if is_valid(version):
+                return version
+
+            return None
 
     def write(self, version):
         with open(self.version_file, 'w') as fp:
@@ -236,22 +242,24 @@ class NodeVersionStorage(VersionStorage):
 
     def write(self, version):
         with open(self.version_file, 'rw') as fp:
-            config = json.load(fp)
+            config = json.load(fp, object_pairs_hook=OrderedDict)
 
             config['version'] = version
+            data = json.dumps(config, indent=2)
 
             fp.seek(0, os.SEEK_SET)
-            fp.write(version)
+            fp.write(data)
 
 
-def get_version_storage(version_file):
+def get_version_storage():
     """ Get version storage for the given version file.
 
     The storage engine used depends on the extension of the *version_file*.
     """
-    if VERSION_FILE.endswith('.py'):
+    version_file = conf.get_path('version_file', 'VERSION')
+    if version_file.endswith('.py'):
         return PyVersionStorage(version_file)
-    elif VERSION_FILE.endswith('package.json'):
+    elif version_file.endswith('package.json'):
         return NodeVersionStorage(version_file)
     else:
         return RawVersionStorage(version_file)

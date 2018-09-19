@@ -3,9 +3,9 @@
 from __future__ import absolute_import, unicode_literals
 
 # stdlib imports
-import os.path
 import sys
 from fnmatch import fnmatch
+from os.path import exists, join, normpath
 
 # local imports
 from peltak.core import conf
@@ -113,14 +113,11 @@ def deploy(pretend, promote, deploy_all):
 
 def setup_ci():
     """ Setup AppEngine SDK on CircleCI """
-
     gcloud_path = shell.run('which gcloud', capture=True).stdout.strip()
-    sdk_path = os.path.normpath(os.path.join(
-        gcloud_path, '../../platform/google_appengine'
-    ))
-    gcloud_cmd = '/opt/google-cloud-sdk/bin/gcloud --quiet'
+    sdk_path = normpath(join(gcloud_path, '../../platform/google_appengine'))
+    gcloud_cmd = gcloud_path + ' --quiet'
 
-    if not os.path.exists(sdk_path):
+    if not exists(sdk_path):
         log.info("Installing AppEngine SDK")
         shell.run('sudo {} components install app-engine-python'.format(
             gcloud_cmd
@@ -138,38 +135,6 @@ def setup_ci():
     # shell.run('{} config set project {}'.format(gcloud_cmd, project))
 
 
-def _is_appengine_sdk(path):
-    """ Return True if the given *path* contains AppEngine SDK. """
-    return all(os.path.exists(os.path.join(path, f)) for f in (
-        'appcfg.py',
-        'dev_appserver.py',
-        'google',
-        'lib',
-    ))
-
-
-def _get_appengine_sdk_path():
-    sdk_path = os.environ.get('APPENGINE_SDK')
-
-    if sdk_path is None:
-        sdk_path = _find_appengine_sdk()
-
-    if sdk_path is None:
-        msg_lines = (
-            '<91>AppEngine SDK not found!<0>',
-            '<90>',
-            ' The Google AppEngine SDK must be in your <1>$PATH<90> or you can'
-            ' use  <1>$APPENGINE_SDK<90> environment variable to specify it'
-            ' directly.',
-            '<0>'
-        )
-        shell.cprint('\n'.join(msg_lines))
-        sys.exit(1)
-
-    return sdk_path
-
-
 def _find_appengine_sdk():
-    """ Find appengine_sdk in the current $PATH. """
-    paths = sys.path + os.environ.get('PATH').split(':')
-    return next((path for path in paths if _is_appengine_sdk(path)), None)
+    gcloud_path = shell.run('which gcloud', capture=True).stdout.strip()
+    return normpath(join(gcloud_path, '../../platform/google_appengine'))

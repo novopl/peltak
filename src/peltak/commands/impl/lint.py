@@ -55,11 +55,11 @@ def _lint_files(paths, include=None, exclude=None, pretend=False):
 
         with util.timed_block() as t:
             pep8_cmd = 'pep8 --config {} {}'.format(pep8_cfg_path, files)
-            pep8_ret = shell.run(pep8_cmd).return_code
+            pep8_ret = shell.run(pep8_cmd, exit_on_error=False).return_code
 
             log.info("Running linter")
             pylint_cmd = 'pylint --rcfile {} {}'.format(pylint_cfg_path, files)
-            pylint_ret = shell.run(pylint_cmd).return_code
+            pylint_ret = shell.run(pylint_cmd, exit_on_error=False).return_code
 
         log.info("Code checked in <33>{}s", t.elapsed_s)
 

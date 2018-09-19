@@ -16,6 +16,7 @@ jobs:
           command: |
             which pip
             which python
+            python --version
             whoami
             pip freeze
             pip uninstall peltak -y || true

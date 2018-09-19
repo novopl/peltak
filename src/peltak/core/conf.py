@@ -8,7 +8,7 @@ from __future__ import absolute_import, unicode_literals
 import os
 import sys
 from contextlib import contextmanager
-from os.path import exists, isabs, join, normpath
+from os.path import dirname, exists, isabs, join, normpath
 
 # 3rd party imports
 import yaml
@@ -16,7 +16,6 @@ import yaml
 
 g_config = {}
 g_proj_path = None
-g_proj_root = None
 
 PROJ_CONF_FILE = 'pelconf.py'
 
@@ -88,16 +87,15 @@ def load_py_config(conf_file):
         is not a valid python file.
     """
     if sys.version_info >= (3, 5):
-        from importlib.util import spec_from_file_location
-        from importlib.util import module_from_spec
+        from importlib import util
 
-        spec = spec_from_file_location('pelconf', conf_file)
-        mod = module_from_spec(spec)
+        spec = util.spec_from_file_location('pelconf', conf_file)
+        mod = util.module_from_spec(spec)
         spec.loader.exec_module(mod)
 
     elif sys.version_info >= (3, 3):
-        from importlib.machinery import SourceFileLoader
-        loader = SourceFileLoader('pelconf', conf_file)
+        from importlib import machinery
+        loader = machinery.SourceFileLoader('pelconf', conf_file)
         _ = loader.load_module()
 
     elif sys.version_info <= (3, 0):
@@ -206,30 +204,18 @@ def get_path(name, *default):
 
 
 def _find_proj_root():
-    """ Find appengine_sdk in the current $PATH. """
-    global g_proj_root
+    """ Find the project path by going up the file tree.
 
-    if g_proj_root is None:
-        start_paths = [
-            os.getcwd()
-        ]
+    This will look in the current directory and upwards for the pelconf file
+    (.yaml or .py)
+    """
+    proj_files = frozenset(('pelconf.py', 'pelconf.yaml'))
+    curr = os.getcwd()
 
-        # log.info('Finding project root')
-        for curr in start_paths:
-            while curr.startswith('/') and len(curr) > 1:
-                # log.info('  checking <94>{}', curr)
-                if PROJ_CONF_FILE in os.listdir(curr):
-                    # log.info('  <32>Found')
-                    g_proj_root = curr
-                    break
-                else:
-                    curr = normpath(join(curr, '..'))
+    while curr.startswith('/') and len(curr) > 1:
+        if proj_files & frozenset(os.listdir(curr)):
+            return curr
+        else:
+            curr = dirname(curr)
 
-            if g_proj_root is not None:
-                break
-
-        if g_proj_root is None:
-            # log.info('  <31>Not found')
-            pass
-
-    return g_proj_root
+    return None
