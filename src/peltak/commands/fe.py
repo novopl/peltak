@@ -9,28 +9,14 @@ from __future__ import absolute_import
 from . import cli, click
 
 
-def _fe_cmd(cmd):
-    from peltak.core import conf
-    from peltak.core import log
-    from peltak.core import shell
-
-    frontend_path = conf.get_path('FRONTEND_PATH', None)
-
-    if frontend_path is not None:
-        with conf.within_proj_dir(frontend_path):
-            shell.run(cmd)
-    else:
-        log.err("No FRONTEND_PATH defined in the config")
-
-
 @cli.command('fe')
 @click.argument('cmd')
 def fe(cmd):
     """ Run a predefined frontend command.
 
-    The commands can be defined through the FRONTEND_CMDS project configuration
-    value. It should be a dict of commands mapped to the actual scripts ran
-    inside the FRONTEND_DIR.
+    The commands can be defined through the frontend.commands project
+    configuration value. It should be a dict of commands mapped to the actual
+    scripts ran inside the frontend.path.
 
     This command is mostly helpful if frontend code base is a subdirectory of
     the project. This is a very thin wrapper around javascript task runners,
@@ -44,10 +30,12 @@ def fe(cmd):
 
         \b
         conf.init({
-            'FRONTEND_DIR': 'client/webui',
-            'FRONTEND_CMDS': {
-                'build': 'npm run build',
-                'watch': 'npm run watch'
+            'frontend': {
+                'path': 'client/webui',
+                'commands': {
+                    'build': 'npm run build',
+                    'watch': 'npm run watch'
+                }
             }
         })
 
@@ -57,22 +45,9 @@ def fe(cmd):
         $ peltak fe build       # Run frontend command named 'build'
         $ peltak fe watch       # Run frontend command named 'watch'
     """
-    from peltak.core import conf
-    from peltak.core import log
+    from .impl import fe
 
-    frontend_cmds = conf.get('FRONTEND_CMDS', {
-        'build': 'npm run build',
-        'start': 'npm start',
-        'watch': 'npm run watch',
-        'test': 'npm test',
-        'lint': 'npm lint',
-        'check': 'npm run lint && npm run test'
-    })
-
-    if cmd in frontend_cmds:
-        _fe_cmd(frontend_cmds[cmd])
-    else:
-        log.err("No {} in FRONTEND_CMDS".format(cmd))
+    fe.fe(cmd)
 
 
 @cli.command('init-fe')
@@ -95,7 +70,9 @@ def init_fe(skip_if_exists):
 
         \b
         conf.init({
-            'FRONTEND_PATH': 'client/webui'
+            'frontend': {
+                'path': 'client/webui'
+            }
         })
 
     Examples::
@@ -105,11 +82,6 @@ def init_fe(skip_if_exists):
         $ peltak init-fe --no-recreate  # Run only if node_modules is missing
 
     """
-    from os.path import exists, join
-    from peltak.core import conf
+    from .impl import fe
 
-    frontend_path = conf.get_path('FRONTEND_PATH', None)
-    initialized = exists(join(frontend_path, 'node_modules'))
-
-    if not initialized or not skip_if_exists:
-        _fe_cmd('npm install')
+    fe.init_fe(skip_if_exists)

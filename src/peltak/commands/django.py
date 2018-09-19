@@ -16,28 +16,6 @@ def django_cli():
     pass
 
 
-def _manage_cmd(cmd, settings=None):
-    """ Run django ./manage.py command manually.
-
-    This function eliminates the need for having ``manage.py`` (reduces file
-    clutter).
-    """
-    import sys
-    from os import environ
-    from peltak.core import conf
-
-    sys.path.insert(0, conf.get('SRC_DIR'))
-
-    settings = settings or conf.get('DJANGO_SETTINGS', None)
-    environ.setdefault("DJANGO_SETTINGS_MODULE", settings)
-
-    from django.core.management import execute_from_command_line
-
-    args = sys.argv[0:-1] + cmd
-
-    execute_from_command_line(args)
-
-
 @django_cli.command('devserver')
 @click.option(
     '-p', '--port',
@@ -160,3 +138,25 @@ def shell():
 
     """
     _manage_cmd(['shell'])
+
+
+def _manage_cmd(cmd, settings=None):
+    """ Run django ./manage.py command manually.
+
+    This function eliminates the need for having ``manage.py`` (reduces file
+    clutter).
+    """
+    import sys
+    from os import environ
+    from peltak.core import conf
+
+    sys.path.insert(0, conf.get('SRC_DIR'))
+
+    settings = settings or conf.get('DJANGO_SETTINGS', None)
+    environ.setdefault("DJANGO_SETTINGS_MODULE", settings)
+
+    from django.core.management import execute_from_command_line
+
+    args = sys.argv[0:-1] + cmd
+
+    execute_from_command_line(args)

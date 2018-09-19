@@ -11,7 +11,7 @@ def version_cli(ctx, porcelain):
     """ Show project version. Has sub commands.
 
     For this command to work you must specify where the project version is
-    stored. You can do that with VERSION_FILE conf variable. peltak supports
+    stored. You can do that with version_file conf variable. peltak supports
     multiple ways to store the project version. Right now you can store it in a
     python file using built-in __version__ variable. You can use node.js
     package.json and keep the version there or you can just use a plain text
@@ -21,7 +21,7 @@ def version_cli(ctx, porcelain):
     Example configuration::
 
         conf.init({
-            'VERSION_FILE': 'src/mypackage/__init__.py'
+            'version_file': 'src/mypackage/__init__.py'
         })
 
     Examples:
@@ -36,16 +36,18 @@ def version_cli(ctx, porcelain):
         $ peltak version bump --exact=1.2.1     # Set project version to 1.2.1
 
     """
-    if not ctx.invoked_subcommand:
-        from peltak.core import log
-        from peltak.core import versioning
+    if ctx.invoked_subcommand:
+        return
 
-        current = versioning.current()
+    from peltak.core import log
+    from peltak.core import versioning
 
-        if porcelain:
-            print(current)
-        else:
-            log.info("Version: <35>{}".format(current))
+    current = versioning.current()
+
+    if porcelain:
+        print(current)
+    else:
+        log.info("Version: <35>{}".format(current))
 
 
 @version_cli.command('bump')

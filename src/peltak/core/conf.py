@@ -10,10 +10,14 @@ import sys
 from contextlib import contextmanager
 from os.path import exists, isabs, join, normpath
 
+# 3rd party imports
+import yaml
+
 
 g_config = {}
 g_proj_path = None
 g_proj_root = None
+
 PROJ_CONF_FILE = 'pelconf.py'
 
 
@@ -21,14 +25,16 @@ def init(config):
     """ Initialize configuration with the given values.
 
     This should be called from within the project fabfile, before any
-    other commands are imported
+    other commands are imported.
+
+    This will not update the existing configuration but replace it entirely.
 
     :param dict config:
         The dictionary containing the project configuration.
     """
     global g_config
 
-    g_config.update(config)
+    g_config = config
 
 
 def load():
@@ -38,28 +44,70 @@ def load():
     (directory containing ``pelconf.py`` file). Once found it will import the
     config file which should initialize all the configuration (using
     `peltak.core.conf.init()` function).
+
+    You can also have both yaml (configuration) and python (custom commands)
+    living together. Just remember that calling `conf.init()` will overwrite
+    the config defined in YAML.
     """
     with within_proj_dir():
-        if not exists('pelconf.py'):
-            return
+        if exists('pelconf.yaml'):
+            load_yaml_config('pelconf.yaml')
 
-        if sys.version_info >= (3, 5):
-            from importlib.util import spec_from_file_location
-            from importlib.util import module_from_spec
+        if exists('pelconf.py'):
+            load_py_config('pelconf.py')
 
-            spec = spec_from_file_location('pelconf', 'pelconf.py')
-            mod = module_from_spec(spec)
-            spec.loader.exec_module(mod)
 
-        elif sys.version_info >= (3, 3):
-            from importlib.machinery import SourceFileLoader
-            loader = SourceFileLoader('pelconf', 'pelconf.py')
-            _ = loader.load_module()
+def load_yaml_config(conf_file):
+    """ Load a YAML configuration.
 
-        elif sys.version_info <= (3, 0):
-            import imp
+    This will not update the configuration but replace it entirely.
 
-            imp.load_source('pelconf', 'pelconf.py')
+    :param str conf_file:
+        Path to the YAML config. This function will not check the file name
+        or extension and will just crash if the given file does not exist or
+        is not a valid YAML file.
+    """
+    global g_config
+
+    with open(conf_file) as fp:
+        g_config = yaml.load(fp)
+
+        for cmd in get('commands', []):
+            _import(cmd)
+
+
+def load_py_config(conf_file):
+    """ Import configuration from a python file.
+
+    This will just import the file into python. Sky is the limit. The file
+    has to deal with the configuration all by itself (i.e. call conf.init()).
+
+    :param str conf_file:
+        Path to the YAML config. This function will not check the file name
+        or extension and will just crash if the given file does not exist or
+        is not a valid python file.
+    """
+    if sys.version_info >= (3, 5):
+        from importlib.util import spec_from_file_location
+        from importlib.util import module_from_spec
+
+        spec = spec_from_file_location('pelconf', conf_file)
+        mod = module_from_spec(spec)
+        spec.loader.exec_module(mod)
+
+    elif sys.version_info >= (3, 3):
+        from importlib.machinery import SourceFileLoader
+        loader = SourceFileLoader('pelconf', conf_file)
+        _ = loader.load_module()
+
+    elif sys.version_info <= (3, 0):
+        import imp
+
+        imp.load_source('pelconf', conf_file)
+
+
+def _import(module):
+    return __import__(module)
 
 
 def getenv(name, default=None):
@@ -84,8 +132,15 @@ def proj_path(path=None):
 
 
 @contextmanager
-def within_proj_dir(path='.', quiet=False):
-    """ Return absolute path to the repo dir (root project directory). """
+def within_proj_dir(path='.'):
+    """ Return an absolute path to the given project relative path.
+
+    :param str path:
+        Project relative path that will be converted to the system wide absolute
+        path.
+    :return str:
+        Absolute path.
+    """
     curr_dir = os.getcwd()
 
     os.chdir(proj_path(path))
@@ -110,12 +165,18 @@ def get(name, *default):
     """
     global g_config
 
-    if name in g_config:
-        return g_config[name]
-    elif default:
-        return default[0]
-    else:
-        raise AttributeError("Config value '{}' does not exist".format(name))
+    curr = g_config
+    for part in name.split('.'):
+        if part in curr:
+            curr = curr[part]
+        elif default:
+            return default[0]
+        else:
+            raise AttributeError("Config value '{}' does not exist".format(
+                name
+            ))
+
+    return curr
 
 
 def get_path(name, *default):
@@ -136,15 +197,12 @@ def get_path(name, *default):
     """
     global g_config
 
-    if name in g_config:
-        return proj_path(g_config[name])
-    elif default:
-        if default[0] is None:
-            return None
-        else:
-            return proj_path(default[0])
-    else:
-        raise AttributeError("Config value '{}' does not exist".format(name))
+    value = get(name, *default)
+
+    if value is None:
+        return None
+
+    return proj_path(value)
 
 
 def _find_proj_root():
