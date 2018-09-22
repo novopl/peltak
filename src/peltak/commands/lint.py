@@ -13,7 +13,7 @@ from . import cli, click
           "use the --exclude option multiple times")
 )
 @click.option(
-    '--all', 'include_untracked',
+    '--skip-untracked',
     is_flag=True,
     help="Also include files not tracked by git."
 )
@@ -28,7 +28,7 @@ from . import cli, click
     is_flag=True,
     help=("Just print files that would be linted without running anything")
 )
-def lint(exclude, include_untracked, commit_only, pretend):
+def lint(exclude, skip_untracked, commit_only, pretend):
     """ Run pep8 and pylint on all project files.
 
     You can configure the linting paths using the lint.paths config variable.
@@ -65,4 +65,4 @@ def lint(exclude, include_untracked, commit_only, pretend):
     """
     from .impl import lint
 
-    lint.lint(exclude, include_untracked, commit_only, pretend)
+    lint.lint(exclude, skip_untracked, commit_only, pretend)

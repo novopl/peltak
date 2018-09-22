@@ -74,10 +74,10 @@ def _lint_files(paths, include=None, exclude=None, pretend=False):
     return True
 
 
-def lint(exclude, include_untracked, commit_only, pretend):
+def lint(exclude, skip_untracked, commit_only, pretend):
     """ Lint python files.
 
-    TODO: Introduce a test runner interface to allow support for arbitrary tools
+    TODO: Introduce a linter interface to allow support for arbitrary tools
     """
     paths = [conf.proj_path(p) for p in conf.get('lint.paths', [])]
     exclude = list(exclude)     # Convert from tuple to easily concatenate.
@@ -88,7 +88,7 @@ def lint(exclude, include_untracked, commit_only, pretend):
     else:
         include = ['*.py']
 
-    if not include_untracked:
+    if skip_untracked:
         exclude += git.untracked()
 
     if not _lint_files(paths, include, exclude, pretend):
