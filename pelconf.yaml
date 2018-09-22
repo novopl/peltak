@@ -23,6 +23,7 @@ docker:
 lint:
   paths:
     - src/peltak
+    - test/unit
 
 docs:
   reference:

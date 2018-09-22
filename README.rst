@@ -15,12 +15,14 @@ Docker commands are a good example here as docker has a great python support
 but reading through the command implementation you know exactly what to do to
 do it manually and you probably don't even have to know python.
 
-**WARNING: Pre release state:** The project is mainly lacking good documentation
-for all commands. There are a few that are well documented from a user
-standpoint but not enough examples to fully understand all commands without
-looking at the source code. The testing could be improved as well as now it's
-mostly manually tested by being used in almost all my private projects and all
-of their CIs.
+**WARNING: Beta:** The project is mainly lacking good documentation and
+tutorials. The commands themselves are documented quite well, but there is
+no generic documentation or guides on how to extend and customize peltak.
+
+Right now only ``peltak.core`` is unit tested. The commands themselves are
+tested manually in multiple projects that use peltak for day to day management
+and CI runs. Before 1.0, the commands implementation should also be unit tested.
+Only the CLI interface shouldn't (e2e tests for that if any).
 
 .. note::
     The CircleCI builds can be found

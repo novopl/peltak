@@ -73,7 +73,7 @@ def build_image(registry, image):
 
     with conf.within_proj_dir(image.get('path', '.')):
         log.info("Building <33>{registry}<35>/{image}".format(**values))
-        shell.run('docker build {args} . '.format(args=' '.join(args)))
+        shell.run('docker build {args} .'.format(args=' '.join(args)))
 
 
 def push_image(registry, image):

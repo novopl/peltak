@@ -23,14 +23,6 @@ def current_branch():
     return shell.run(cmd, capture=True).stdout.strip()
 
 
-def is_dirty(path='.'):
-    """ Return **True** if there are any changes/unstaged files. """
-
-    with conf.within_proj_dir(path):
-        status = shell.run('git status --porcelain', capture=True).stdout
-        return bool(status.strip())
-
-
 def commit_author(sha1=''):
     """ Return the author of the given commit.
 
@@ -89,12 +81,12 @@ def ignore():
     """
 
     def parse_line(line):   # pylint: disable=missing-docstring
-        # Strip comment
-        line = line.split('#', 1)[0].strip()
-
         # Decode if necessary
         if not isinstance(line, string_types):
             line = line.decode('utf-8')
+
+        # Strip comment
+        line = line.split('#', 1)[0].strip()
 
         return line
 

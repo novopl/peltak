@@ -8,15 +8,10 @@ from __future__ import absolute_import, unicode_literals
 import fnmatch
 import os
 import re
-from os.path import exists, isdir, join, normpath
-from shutil import rmtree
+from os.path import isdir, join, normpath
 
 # 3rd party imports
 from six import string_types
-
-# local imports
-from . import log
-from . import shell
 
 
 def surround_paths_with_quotes(paths):
@@ -27,38 +22,6 @@ def surround_paths_with_quotes(paths):
             "Use array with one element instead."
         )
     return ' '.join('"' + path + '"' for path in paths)
-
-
-def rm_glob(pattern, exclude_env=True, exclude_tox=True):
-    """ Remove all files matching the given glob *pattern*. """
-    log.info("Removing files matching {}", pattern)
-
-    cmd = ['find . -name "{}"'.format(pattern)]
-
-    if exclude_env:
-        # Remove entries starting with ./env
-        cmd.append("| sed '/^\.\/env/d'")
-
-    if exclude_tox:
-        # Remove entries starting with ./.tox
-        cmd.append("| sed '/^\.\/\.tox/d'")
-
-    matches = shell.run(' '.join(cmd), capture=True)
-
-    for path in matches.stdout.splitlines():
-        # might be a child of a dir deleted in an earlier iteration
-        if not exists(path):
-            continue
-
-        try:
-            if not isdir(path):
-                log.info('  <91>[file] <90>{}', path)
-                os.remove(path)
-            else:
-                log.info('  <91>[dir]  <90>{}', path)
-                rmtree(path)
-        except OSError:
-            log.info("<33>Failed to remove <90>{}", path)
 
 
 def filtered_walk(path, include=None, exclude=None):
@@ -99,7 +62,7 @@ def filtered_walk(path, include=None, exclude=None):
 
 
 def match_globs(path, patterns):
-    """ Test whether the given *path* matches any patterns in *excluded*
+    """ Test whether the given *path* matches any patterns in *patterns*
 
     :param str path:
         A file path to test for matches.
@@ -107,16 +70,27 @@ def match_globs(path, patterns):
         A list of glob string patterns to test against. If *path* matches any
         of those patters, it will return True.
     :return bool:
-        True if the *path* matches any pattern in *excluded*.
+        **True** if the *path* matches any pattern in *patterns*.
     """
-    return next(
-        (True for ptrn in patterns if ptrn and fnmatch.fnmatch(path, ptrn)),
-        False
-    )
+    for pattern in (p for p in patterns if p):
+        if pattern.startswith('/'):
+            regex = fnmatch.translate(pattern[1:])
+            regex = regex.replace('\\Z', '')
+
+            temp_path = path[1:] if path.startswith('/') else path
+
+            m = re.search(regex, temp_path)
+
+            if m and m.start() == 0:
+                return True
+        else:
+            return fnmatch.fnmatch(path, pattern)
+
+    return False
 
 
 def search_globs(path, patterns):
-    """ Test whether the given *path* matches any patterns in *excluded*
+    """ Test whether the given *path* contains any patterns in *patterns*
 
     :param str path:
         A file path to test for matches.
@@ -124,19 +98,24 @@ def search_globs(path, patterns):
         A list of glob string patterns to test against. If *path* matches any
         of those patters, it will return True.
     :return bool:
-        True if the *path* matches any pattern in *excluded*.
+        True if the *path* matches any pattern in *patterns*.
     """
     for pattern in (p for p in patterns if p):
         if pattern.startswith('/'):
             # If pattern starts with root it means it match from root only
             regex = fnmatch.translate(pattern[1:])
-            m = re.search(regex, path)
+            regex = regex.replace('\\Z', '')
 
-            if m and m.start == 0:
+            temp_path = path[1:] if path.startswith('/') else path
+            m = re.search(regex, temp_path)
+
+            if m and m.start() == 0:
                 return True
 
         else:
             regex = fnmatch.translate(pattern)
+            regex = regex.replace('\\Z', '')
+
             if re.search(regex, path):
                 return True
 

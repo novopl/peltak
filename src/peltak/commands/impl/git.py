@@ -6,6 +6,9 @@ from __future__ import absolute_import, unicode_literals
 import os
 from fnmatch import fnmatch
 
+# 3rd party imports
+import click
+
 # local imports
 from peltak.core import conf
 from peltak.core import git
@@ -15,35 +18,47 @@ from peltak.core import shell
 
 def add_hooks():
     """ Add git hooks for commit and push to run linting and tests. """
+
+    # Detect virtualenv the hooks should use
+    virtual_env = conf.getenv('VIRTUAL_ENV')
+    if virtual_env is None:
+        log.err("You are not inside a virtualenv")
+        confirm_msg = (
+            "Are you sure you want to use global python installation "
+            "to run your git hooks? [y/N] "
+        )
+        click.prompt(confirm_msg, default=False)
+        if not click.confirm(confirm_msg):
+            log.info("Cancelling")
+            return
+
+        load_venv = ''
+    else:
+        load_venv = 'source "{}/bin/activate"'.format(virtual_env)
+
+    # Write pre-commit hook
     commit_hook = conf.proj_path('.git/hooks/pre-commit')
     log.info("Adding pre-commit hook <33>{}", commit_hook)
     with open(commit_hook, 'w') as fp:
         fp.write('\n'.join([
             '#!/bin/bash',
             'PATH="/opt/local/libexec/gnubin:$PATH"',
-            (
-                'REPO_PATH=$(dirname "$(dirname "$(dirname '
-                '"$(readlink -fm "$0")")")")'
-            ),
             '',
-            'source "$REPO_PATH/.venv/bin/activate"',
+            load_venv,
             '',
             'peltak lint --commit',
         ]))
         fp.write('\n')
 
+    # Write pre-push hook
     push_hook = conf.proj_path('.git/hooks/pre-push')
     log.info("Adding pre-push hook: <33>{}", push_hook)
     with open(push_hook, 'w') as fp:
         fp.write('\n'.join([
             '#!/bin/bash',
             'PATH="/opt/local/libexec/gnubin:$PATH"',
-            (
-                'REPO_PATH=$(dirname "$(dirname "$(dirname '
-                '"$(readlink -fm "$0")")")")'
-            ),
             '',
-            'source "$REPO_PATH/.venv/bin/activate"',
+            load_venv,
             '',
             'peltak test --allow-empty',
         ]))

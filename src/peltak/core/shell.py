@@ -18,18 +18,16 @@ ExecResult = namedtuple(
 
 is_tty = sys.stdout.isatty()
 
-if is_tty:
-    OPCODE_SUBST = '\x1b[\\1m'
-else:
-    OPCODE_SUBST = ''
-
 
 def fmt(msg, *args, **kw):
     """ Generate shell color opcodes from a pretty coloring syntax. """
+    global is_tty
+
     if len(args) or len(kw):
         msg = msg.format(*args, **kw)
 
-    return re.sub(r'<(\d{1,2})>', OPCODE_SUBST, msg)
+    opcode_subst = '\x1b[\\1m' if is_tty else ''
+    return re.sub(r'<(\d{1,2})>', opcode_subst, msg)
 
 
 def cprint(msg, *args, **kw):
@@ -40,7 +38,7 @@ def cprint(msg, *args, **kw):
     print(fmt('{}<0>'.format(msg)))
 
 
-def run(cmd, capture=False, shell=True, env=None, exit_on_error=True):
+def run(cmd, capture=False, shell=True, env=None, exit_on_error=None):
     """ Run a shell command.
 
     :param str cmd:
@@ -63,6 +61,9 @@ def run(cmd, capture=False, shell=True, env=None, exit_on_error=True):
         'bufsize': 1,       # line buffered
         'shell': shell
     }
+
+    if exit_on_error is None:
+        exit_on_error = not capture
 
     if capture:
         options.update({

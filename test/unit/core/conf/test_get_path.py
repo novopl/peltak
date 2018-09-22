@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from __future__ import absolute_import, unicode_literals
+# pylint: disable=missing-docstring
 from __future__ import absolute_import, unicode_literals
 
 # stdlib imports

@@ -9,8 +9,8 @@ Table of Contents
 .. toctree::
     :maxdepth: 2
 
-    cli/_index
     guides/_index
+    cli/_index
     Code Reference <ref/peltak/index>
 
 

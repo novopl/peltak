@@ -62,7 +62,7 @@ def test(tests_type,
         args += [
             '--cov-config={}'.format(coverage_cfg_path),
             '--cov={}'.format(src_path),
-            '--cov-report=term:skip-covered',
+            '--cov-report=term',
             '--cov-report=html:{}'.format(coverage_out_path),
         ]
 
@@ -76,7 +76,7 @@ def test(tests_type,
             args += ['--ds {}'.format(django_settings)]
 
     if verbose >= 1:
-        args += ['-v']
+        args += ['-' + 'v' * verbose]
     if verbose >= 2:
         args += ['--full-trace']
 
