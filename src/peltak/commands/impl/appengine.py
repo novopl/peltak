@@ -53,14 +53,14 @@ def deploy(pretend, promote, deploy_all):
     :param bool deploy_all:
     :return:
     """
-    environments = conf.get('APPENGINE_ENVS')
+    gae_projects = conf.get('appengine.projects')
     branch = git.current_branch()
-    env = next((e for e in environments if fnmatch(branch, e['branch'])), None)
+    gae_proj = next((e for e in gae_projects if fnmatch(branch, e['branch'])),
+                    None)
     args = []
-    deployables = []
 
-    if env is None:
-        log.err("Can't find an environment setup for branch <35>{}", branch)
+    if gae_proj is None:
+        log.err("Can't find an GAE project setup for branch <35>{}", branch)
         sys.exit(1)
 
     if promote:
@@ -78,13 +78,13 @@ def deploy(pretend, promote, deploy_all):
 
     args += [
         '--version {}'.format(app_version),
-        '--project {}'.format(env['url']),
+        '--project {}'.format(gae_proj['url']),
     ]
 
-    deployables += [env['config']]
+    deployables = [gae_proj['config']]
 
     if deploy_all:
-        deployables += conf.get('APPENGINE_DEPLOYABLES', [
+        deployables += conf.get('appengine.deployables', [
             'cron.yaml',
             'index.yaml',
             'queue.yaml',
@@ -99,14 +99,14 @@ def deploy(pretend, promote, deploy_all):
         if pretend:
             log.info("Would deploy version <35>{ver} <32>to <35>{url}".format(
                 ver=app_version,
-                url=env['url']
+                url=gae_proj['url']
             ))
             shell.cprint('<90>{}', cmd)
 
         if not pretend:
             log.info("Deploying version <35>{ver} <32>to <35>{url}".format(
                 ver=app_version,
-                url=env['url']
+                url=gae_proj['url']
             ))
             shell.run(cmd)
 

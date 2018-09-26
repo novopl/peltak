@@ -44,9 +44,9 @@ def deploy(pretend, promote, deploy_all):
     variable. This will also collect all static files and compile translation
     messages
     """
-    from .impl.appengine import devserver
+    from .impl.appengine import deploy
 
-    devserver(pretend, promote, deploy_all)
+    deploy(pretend, promote, deploy_all)
 
 
 @appengine_cli.command()
