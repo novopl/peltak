@@ -2,9 +2,6 @@
 """ Helpers for related docker commands. """
 from __future__ import absolute_import, unicode_literals
 
-# 3rd party imports
-import requests
-
 # local imports
 from . import conf
 from . import log
@@ -20,13 +17,23 @@ class RegistryClient(object):
         self.auth = (username, password)
         self.registry_url = 'https://' + registry
 
+    def get(self, *args, **kw):
+        """ Proxy over requests.get
+
+        Do not include requests globally so it's not required to build and
+        push images. Otherwise, the project needs to install requests even
+        when not using registry in any way.
+        """
+        import requests
+        return requests.get(*args, **kw)
+
     def list_images(self):
         """ List images stored in the registry.
 
         :return List[str]:
             List of image names.
         """
-        r = requests.get(self.registry_url + '/v2/_catalog', auth=self.auth)
+        r = self.get(self.registry_url + '/v2/_catalog', auth=self.auth)
         return r.json()['repositories']
 
     def list_tags(self, image_name):
@@ -40,7 +47,7 @@ class RegistryClient(object):
         """
         tags_url = self.registry_url + '/v2/{}/tags/list'
 
-        r = requests.get(tags_url.format(image_name), auth=self.auth)
+        r = self.get(tags_url.format(image_name), auth=self.auth)
         data = r.json()
 
         if 'tags' in data:
@@ -59,15 +66,28 @@ def build_image(registry, image):
         The dict containing the information about the built image. This is the
         same dictionary as defined in DOCKER_IMAGES variable.
     """
+    if ':' in image['name']:
+        name, tag = image['name'].split(':', 1)
+    else:
+        name, tag = image['name'], None
+
     values = {
         'registry': '' if registry is None else registry + '/',
-        'image': image['name'],
+        'image': name,
+        'tag': tag,
         'version': versioning.current(),
     }
-    args = [
-        '-t {registry}{image}'.format(**values),
-        '-t {registry}{image}:{version}'.format(**values),
-    ]
+
+    if tag is not None:
+        args = [
+            '-t {registry}{image}:{tag}'.format(**values),
+        ]
+    else:
+        args = [
+            '-t {registry}{image}'.format(**values),
+            '-t {registry}{image}:{version}'.format(**values),
+        ]
+
     if 'file' in image:
         args.append('-f {}'.format(conf.proj_path(image['file'])))
 
