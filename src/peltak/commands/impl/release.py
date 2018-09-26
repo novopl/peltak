@@ -128,13 +128,13 @@ def gen_pypirc(username=None, password=None):
 
 def merged():
     """ Cleanup the release branch after it was remotely merged to master. """
-    develop_branch = conf.get('develop_branch', 'develop')
-    master_branch = conf.get('master_branch', 'master')
+    develop_branch = conf.get('git.devel_branch', 'develop')
+    master_branch = conf.get('git.master_branch', 'master')
     protected_branches = conf.get(
-        'protected_branches',
+        'git.protected_branches',
         (master_branch, develop_branch)
     )
-    release_branch_pattern = conf.get('release_branch_pattern', 'release/*')
+    release_branch_pattern = conf.get('git.release_branch', 'release/*')
     branch = git.current_branch()
 
     if not fnmatch(branch, release_branch_pattern):
