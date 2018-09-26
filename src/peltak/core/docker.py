@@ -66,15 +66,28 @@ def build_image(registry, image):
         The dict containing the information about the built image. This is the
         same dictionary as defined in DOCKER_IMAGES variable.
     """
+    if ':' in image['name']:
+        name, tag = image['name'].split(':', 1)
+    else:
+        name, tag = image['name'], None
+
     values = {
         'registry': '' if registry is None else registry + '/',
-        'image': image['name'],
+        'image': name,
+        'tag': tag,
         'version': versioning.current(),
     }
-    args = [
-        '-t {registry}{image}'.format(**values),
-        '-t {registry}{image}:{version}'.format(**values),
-    ]
+
+    if tag is not None:
+        args = [
+            '-t {registry}{image}:{tag}'.format(**values),
+        ]
+    else:
+        args = [
+            '-t {registry}{image}'.format(**values),
+            '-t {registry}{image}:{version}'.format(**values),
+        ]
+
     if 'file' in image:
         args.append('-f {}'.format(conf.proj_path(image['file'])))
 
