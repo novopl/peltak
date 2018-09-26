@@ -26,7 +26,6 @@ def devserver(port, admin_port, clear):
     :param bool clear:
         If set to **True**, clear the datastore on startup.
     """
-
     admin_port = admin_port or (port + 1)
 
     args = [
@@ -45,7 +44,7 @@ def deploy(pretend, promote, deploy_all):
     """ Deploy the app to AppEngine.
 
     :param bool pretend:
-        If set to **True**, do not actually deploy anything but show the deply
+        If set to **True**, do not actually deploy anything but show the deploy
         command that would be used.
     :param bool promote:
         If set to **True** promote the current remote app version to the one

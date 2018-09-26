@@ -25,7 +25,7 @@ def pytest_itemcollected(item):
     name = name[0].upper() + name[1:]
 
     rel_path = relpath(item.fspath.strpath, dirname(item.fspath.dirname))
-    item._nodeid = '{location:45} {name}'.format(
+    item._nodeid = '{location:50} {name}'.format(
         name=name,
         location='{}:{}'.format(rel_path, item.location[1]),
     )
