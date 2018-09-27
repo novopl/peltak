@@ -15,6 +15,7 @@ from . import shell
 
 
 Author = namedtuple('Author', 'name email')
+BranchDetails = namedtuple('BranchDetails', 'type title name')
 
 
 def current_branch():
@@ -93,3 +94,16 @@ def ignore():
     with conf.within_proj_dir():
         with open('.gitignore') as fp:
             return [parse_line(l) for l in fp.readlines() if l.strip()]
+
+
+def branch_details():
+    """
+
+    :return BranchDetails:
+    """
+    branch_name = current_branch()
+    if '/' in branch_name:
+        branch_type, branch_title = branch_name.rsplit('/', 1)
+        return BranchDetails(branch_type, branch_title, branch_name)
+
+    return BranchDetails(branch_name, None, branch_name)

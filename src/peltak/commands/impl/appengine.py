@@ -26,7 +26,6 @@ def devserver(port, admin_port, clear):
     :param bool clear:
         If set to **True**, clear the datastore on startup.
     """
-
     admin_port = admin_port or (port + 1)
 
     args = [
@@ -45,7 +44,7 @@ def deploy(pretend, promote, deploy_all):
     """ Deploy the app to AppEngine.
 
     :param bool pretend:
-        If set to **True**, do not actually deploy anything but show the deply
+        If set to **True**, do not actually deploy anything but show the deploy
         command that would be used.
     :param bool promote:
         If set to **True** promote the current remote app version to the one
@@ -54,9 +53,11 @@ def deploy(pretend, promote, deploy_all):
     :return:
     """
     gae_projects = conf.get('appengine.projects')
-    branch = git.current_branch()
-    gae_proj = next((e for e in gae_projects if fnmatch(branch, e['branch'])),
-                    None)
+    branch = git.branch_details()
+    gae_proj = next(
+        (e for e in gae_projects if fnmatch(branch.name, e['branch'])),
+        None
+    )
     args = []
 
     if gae_proj is None:
@@ -68,17 +69,17 @@ def deploy(pretend, promote, deploy_all):
     else:
         args += ['--no-promote']
 
-    if branch.startswith('feature/'):
-        app_version = '{ver}-{feature}'.format(
+    if branch.type == 'feature':
+        app_version = '{ver}-{title}'.format(
             ver=versioning.current().replace('.', '-'),
-            feature=branch[8:].replace('_', '-')
+            title=branch.title.replace('_', '-')
         )
     else:
         app_version = versioning.current().replace('.', '-')
 
     args += [
         '--version {}'.format(app_version),
-        '--project {}'.format(gae_proj['url']),
+        '--project {}'.format(gae_proj['name']),
     ]
 
     deployables = [gae_proj['config']]
@@ -97,16 +98,16 @@ def deploy(pretend, promote, deploy_all):
         )
 
         if pretend:
-            log.info("Would deploy version <35>{ver} <32>to <35>{url}".format(
+            log.info("Would deploy version <35>{ver} <32>to <35>{proj}".format(
                 ver=app_version,
-                url=gae_proj['url']
+                proj=gae_proj['name']
             ))
             shell.cprint('<90>{}', cmd)
 
         if not pretend:
-            log.info("Deploying version <35>{ver} <32>to <35>{url}".format(
+            log.info("Deploying version <35>{ver} <32>to <35>{proj}".format(
                 ver=app_version,
-                url=gae_proj['url']
+                proj=gae_proj['name']
             ))
             shell.run(cmd)
 

@@ -41,7 +41,7 @@ def cprint(msg, *args, **kw):
 def run(cmd, capture=False, shell=True, env=None, exit_on_error=None):
     """ Run a shell command.
 
-    :param str cmd:
+    :param Union[str, unicode] cmd:
         The shell command to execute.
     :param bool shell:
         Same as in `subprocess.Popen()`.
