@@ -29,8 +29,13 @@ class timed_block(object):  # noqa
 
 
 def mark_experimental(fn):
+    """ Mark function as experimental.
+
+    :param Function fn:
+        The command function to decorate.
+    """
     @wraps(fn)
-    def wrapper(*args, **kw):
+    def wrapper(*args, **kw):   # pylint: disable=missing-docstring
         warnings.warn("This command is has experimental status. The interface "
                       "is not yet stable and might change without notice and "
                       "with a minor version. Use at your own risk")
@@ -40,9 +45,14 @@ def mark_experimental(fn):
 
 
 def mark_deprecated(replaced_by):
-    def decorator(fn):
+    """ Mark command as deprecated.
+
+    :param str replaced_by:
+        The command that deprecated this command and should be used instead.
+    """
+    def decorator(fn):   # pylint: disable=missing-docstring
         @wraps(fn)
-        def wrapper(*args, **kw):
+        def wrapper(*args, **kw):   # pylint: disable=missing-docstring
             warnings.warn("This command is has been deprecated. Please use "
                           "{new} instead.".format(new=replaced_by))
 
