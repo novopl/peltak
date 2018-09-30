@@ -14,6 +14,7 @@ from peltak.core import conf
 from peltak.core import git
 from peltak.core import log
 from peltak.core import shell
+from peltak.core import util
 
 
 def add_hooks():
@@ -80,6 +81,7 @@ def push():
     shell.run('git push -u origin {}'.format(branch))
 
 
+@util.mark_deprecated(replaced_by="peltak release merged")
 def merged(target=None):
     """ Cleanup a remotely merged branch. """
     devel_branch = conf.get('git.devel_branch', 'develop')

@@ -14,8 +14,10 @@ from peltak.core import git
 from peltak.core import log
 from peltak.core import shell
 from peltak.core import versioning
+from peltak.core import util
 
 
+@util.mark_experimental
 def devserver(port, admin_port, clear):
     """ Run devserver.
 
@@ -40,6 +42,7 @@ def devserver(port, admin_port, clear):
         shell.run('dev_appserver.py . {args}'.format(args=' '.join(args)))
 
 
+@util.mark_experimental
 def deploy(pretend, promote, deploy_all):
     """ Deploy the app to AppEngine.
 
@@ -112,6 +115,7 @@ def deploy(pretend, promote, deploy_all):
             shell.run(cmd)
 
 
+@util.mark_experimental
 def setup_ci():
     """ Setup AppEngine SDK on CircleCI """
     gcloud_path = shell.run('which gcloud', capture=True).stdout.strip()
