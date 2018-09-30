@@ -95,11 +95,11 @@ def test(tests_type,
 
     test_config = test_types.get(tests_type)
     if test_config is None:
-        log.info("Test type configuration missing: '{}'".format(src_path))
+        log.info("Test type configuration missing: <34>{}".format(src_path))
 
         for possible_path in (conf.proj_path('test'), conf.proj_path('tests')):
             if os.path.exists(possible_path):
-                test_config = {'paths': possible_path}
+                test_config = {'paths': [possible_path]}
                 break
         else:
             log.err("No tests detected. Configure your TEST_TYPES.")
