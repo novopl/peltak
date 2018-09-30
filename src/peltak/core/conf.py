@@ -69,7 +69,14 @@ def load_yaml_config(conf_file):
     global g_config
 
     with open(conf_file) as fp:
+        # Initialize config
         g_config = yaml.load(fp)
+
+        # Add src_dir to sys.paths if it's set. This is only done with YAML
+        # configs, py configs have to do this manually.
+        src_dir = get_path('src_dir')
+        if src_dir is not None:
+            sys.path.insert(0, src_dir)
 
         for cmd in get('commands', []):
             _import(cmd)
@@ -80,6 +87,9 @@ def load_py_config(conf_file):
 
     This will just import the file into python. Sky is the limit. The file
     has to deal with the configuration all by itself (i.e. call conf.init()).
+    You will also need to add your src directory to sys.paths if it's not the
+    current working directory. This is done automatically if you use yaml
+    config as well.
 
     :param str conf_file:
         Path to the YAML config. This function will not check the file name
