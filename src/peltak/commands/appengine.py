@@ -16,6 +16,20 @@ def appengine_cli():
 
 @appengine_cli.command('deploy')
 @click.option(
+    '--project',
+    type=str,
+    metavar='APP_ID',
+    help=("The AppEngine project to deploy to. This overrides the value"
+          "configured using appengine.projects config variable.")
+)
+@click.option(
+    '--version',
+    type=str,
+    metavar='APP_VERSION',
+    help=("The AppEngine version to deploy. This overrides the value"
+          "configured using appengine.projects config variable.")
+)
+@click.option(
     '--pretend',
     is_flag=True,
     help=("Do not actually deploy to AppEngine.This will only collect all "
@@ -37,7 +51,7 @@ def appengine_cli():
           "the app file. If you don't specify it, the command will only deploy "
           "app.yaml (for the given env ofc). ")
 )
-def deploy(pretend, promote, deploy_all):
+def deploy(project, version, pretend, promote, deploy_all):
     """ Deploy the app to the target environment.
 
     The target environments can be configured using the ENVIRONMENTS conf
@@ -46,7 +60,7 @@ def deploy(pretend, promote, deploy_all):
     """
     from .impl.appengine import deploy
 
-    deploy(pretend, promote, deploy_all)
+    deploy(project, version, pretend, promote, deploy_all)
 
 
 @appengine_cli.command()
