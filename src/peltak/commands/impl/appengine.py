@@ -43,9 +43,13 @@ def devserver(port, admin_port, clear):
 
 
 @util.mark_experimental
-def deploy(pretend, promote, deploy_all):
+def deploy(project, version, pretend, promote, deploy_all):
     """ Deploy the app to AppEngine.
 
+    :param str project:
+        AppEngine project ID. Overrides config values if given.
+    :param str version:
+        AppEngine project version. Overrides config values if given.
     :param bool pretend:
         If set to **True**, do not actually deploy anything but show the deploy
         command that would be used.
@@ -72,7 +76,9 @@ def deploy(pretend, promote, deploy_all):
     else:
         args += ['--no-promote']
 
-    if branch.type == 'feature':
+    if version is not None:
+        app_version = version
+    elif branch.type == 'feature':
         app_version = '{ver}-{title}'.format(
             ver=versioning.current().replace('.', '-'),
             title=branch.title.replace('_', '-')
@@ -80,9 +86,10 @@ def deploy(pretend, promote, deploy_all):
     else:
         app_version = versioning.current().replace('.', '-')
 
+    app_id = project or gae_proj.get('name')
     args += [
         '--version {}'.format(app_version),
-        '--project {}'.format(gae_proj['name']),
+        '--project {}'.format(app_id),
     ]
 
     deployables = [gae_proj['config']]

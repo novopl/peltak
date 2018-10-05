@@ -81,6 +81,7 @@ def lint(exclude, skip_untracked, commit_only, pretend):
     """
     paths = [conf.proj_path(p) for p in conf.get('lint.paths', [])]
     exclude = list(exclude)     # Convert from tuple to easily concatenate.
+    exclude = exclude or conf.get('lint.exclude', [])
 
     if commit_only:
         include = ['*' + f for f in git.staged() if f.endswith('.py')]

@@ -37,8 +37,9 @@ def mark_experimental(fn):
     @wraps(fn)
     def wrapper(*args, **kw):   # pylint: disable=missing-docstring
         warnings.warn("This command is has experimental status. The interface "
-                      "is not yet stable and might change without notice and "
-                      "with a minor version. Use at your own risk")
+                      "is not yet stable and might change without notice "
+                      "within with a patch version update. "
+                      "Use at your own risk")
         return fn(*args, **kw)
 
     return wrapper

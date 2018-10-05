@@ -74,7 +74,7 @@ def load_yaml_config(conf_file):
 
         # Add src_dir to sys.paths if it's set. This is only done with YAML
         # configs, py configs have to do this manually.
-        src_dir = get_path('src_dir')
+        src_dir = get_path('src_dir', None)
         if src_dir is not None:
             sys.path.insert(0, src_dir)
 
