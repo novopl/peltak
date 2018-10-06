@@ -6,9 +6,9 @@ from __future__ import absolute_import, unicode_literals
 
 # stdlib imports
 import os
+import os.path
 import sys
 from contextlib import contextmanager
-from os.path import dirname, exists, isabs, join, normpath
 
 # 3rd party imports
 import yaml
@@ -50,10 +50,10 @@ def load():
     the config defined in YAML.
     """
     with within_proj_dir():
-        if exists('pelconf.yaml'):
+        if os.path.exists('pelconf.yaml'):
             load_yaml_config('pelconf.yaml')
 
-        if exists('pelconf.py'):
+        if os.path.exists('pelconf.py'):
             load_py_config('pelconf.py')
 
 
@@ -128,11 +128,11 @@ def proj_path(path=None):
     """ Return absolute path to the repo dir (root project directory). """
     path = path or '.'
 
-    if not isabs(path):
+    if not os.path.isabs(path):
         proj_path = _find_proj_root()
 
         if proj_path is not None:
-            path = normpath(join(proj_path, path))
+            path = os.path.normpath(os.path.join(proj_path, path))
 
     return path
 
@@ -225,6 +225,6 @@ def _find_proj_root():
         if proj_files & frozenset(os.listdir(curr)):
             return curr
         else:
-            curr = dirname(curr)
+            curr = os.path.dirname(curr)
 
     return None

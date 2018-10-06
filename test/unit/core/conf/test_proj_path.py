@@ -4,11 +4,11 @@ from __future__ import absolute_import, unicode_literals
 
 # 3rd party imports
 import pytest
-from mock import patch
 
 # local imports
 from peltak import testing
 from peltak.core import conf
+from peltak.core import util
 
 
 @pytest.mark.parametrize('proj_path,abs_path', [
@@ -16,9 +16,12 @@ from peltak.core import conf
     ('sub/testfile', '/fake/proj/sub/testfile'),
     ('/abs/path', '/abs/path'),
 ])
-@patch('peltak.core.conf.g_proj_path', '/fake/proj')
 def test_converts_project_path_to_an_absolute_path(proj_path, abs_path):
+    # Patch project root location
+    setattr(conf._find_proj_root, util.cached_result.CACHE_VAR, '/fake/proj')
     assert conf.proj_path(proj_path) == abs_path
+
+    util.cached_result.clear(conf._find_proj_root)
 
 
 @testing.patch_proj_root(None)

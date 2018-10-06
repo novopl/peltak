@@ -36,7 +36,6 @@ class patch_proj_root(object):
 
         @patch('os.getcwd', Mock(return_value=cwd))
         @patch('os.listdir', Mock(side_effect=dirs))
-        @patch('peltak.core.conf.g_proj_path', None)
         @wraps(fn)
         def wrapper(*args, **kw):       # pylint: disable=missing-docstring
             return fn(*args, **kw)

@@ -5,6 +5,7 @@ from __future__ import absolute_import, unicode_literals
 # local imports
 from peltak import testing
 from peltak.core import conf
+from peltak.core import util
 
 
 @testing.patch_proj_root('/fake/proj/root')
@@ -19,4 +20,5 @@ def test_works_with_multiple_levels_of_nesting():
 
 @testing.patch_proj_root(None)
 def test_returns_none_if_not_found():
+    util.cached_result.clear(conf._find_proj_root)
     assert conf._find_proj_root() is None
