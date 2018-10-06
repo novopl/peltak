@@ -44,14 +44,7 @@ def appengine_cli():
     help=("If specified, the currently deployed version will become the active "
           "one")
 )
-@click.option(
-    '--all', 'deploy_all',
-    is_flag=True,
-    help=("If specified, the command will deploy all deployables, and not only "
-          "the app file. If you don't specify it, the command will only deploy "
-          "app.yaml (for the given env ofc). ")
-)
-def deploy(project, version, pretend, promote, deploy_all):
+def deploy(project, version, pretend, promote):
     """ Deploy the app to the target environment.
 
     The target environments can be configured using the ENVIRONMENTS conf
@@ -60,7 +53,7 @@ def deploy(project, version, pretend, promote, deploy_all):
     """
     from .impl.appengine import deploy
 
-    deploy(project, version, pretend, promote, deploy_all)
+    deploy(project, version, pretend, promote)
 
 
 @appengine_cli.command()

@@ -68,7 +68,7 @@ def mark_deprecated(replaced_by):
 
 
 class cached_result(object):
-    """ Decorator that cached the function result.
+    """ Decorator that caches the function result.
 
     This is especially useful for functions whose output won't change during
     a single *peltak* execution run and are expensive (i.e. call external

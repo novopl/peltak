@@ -7,6 +7,9 @@ import sys
 from fnmatch import fnmatch
 from os.path import exists, join, normpath
 
+# 3rd party imports
+import attr
+
 # local imports
 from peltak.core import conf
 from peltak.core import fs
@@ -43,11 +46,11 @@ def devserver(port, admin_port, clear):
 
 
 @util.mark_experimental
-def deploy(project, version, pretend, promote, deploy_all):
+def deploy(app_id, version, pretend, promote):
     """ Deploy the app to AppEngine.
 
-    :param str project:
-        AppEngine project ID. Overrides config values if given.
+    :param str app_id:
+        AppEngine App ID. Overrides config value app_id if given.
     :param str version:
         AppEngine project version. Overrides config values if given.
     :param bool pretend:
@@ -56,70 +59,24 @@ def deploy(project, version, pretend, promote, deploy_all):
     :param bool promote:
         If set to **True** promote the current remote app version to the one
         that's being deployed.
-    :param bool deploy_all:
-    :return:
     """
-    gae_projects = conf.get('appengine.projects')
-    branch = git.branch_details()
-    gae_proj = next(
-        (e for e in gae_projects if fnmatch(branch.name, e['branch'])),
-        None
-    )
-    args = []
+    gae_app = GaeApp.for_branch(git.current_branch())
 
-    if gae_proj is None:
-        log.err("Can't find an GAE project setup for branch <35>{}", branch)
+    if gae_app is None and None in (app_id,  version):
+        msg = (
+            "Can't find an AppEngine app setup for branch <35>{}<32> and"
+            "--project and --version were not given."
+        )
+        log.err(msg, git.current_branch())
         sys.exit(1)
 
-    if promote:
-        args += ['--promote']
-    else:
-        args += ['--no-promote']
-
     if version is not None:
-        app_version = version
-    elif branch.type == 'feature':
-        app_version = '{ver}-{title}'.format(
-            ver=versioning.current().replace('.', '-'),
-            title=branch.title.replace('_', '-')
-        )
-    else:
-        app_version = versioning.current().replace('.', '-')
+        gae_app.version = version
 
-    app_id = project or gae_proj.get('name')
-    args += [
-        '--version {}'.format(app_version),
-        '--project {}'.format(app_id),
-    ]
+    if app_id is not None:
+        gae_app.app_id = app_id
 
-    deployables = [gae_proj['config']]
-
-    if deploy_all:
-        deployables += conf.get('appengine.deployables', [
-            'cron.yaml',
-            'index.yaml',
-            'queue.yaml',
-        ])
-
-    with conf.within_proj_dir():
-        cmd = 'gcloud app deploy {args} {deployables}'.format(
-            deployables=fs.surround_paths_with_quotes(deployables),
-            args=' '.join(args)
-        )
-
-        if pretend:
-            log.info("Would deploy version <35>{ver} <32>to <35>{proj}".format(
-                ver=app_version,
-                proj=gae_proj['name']
-            ))
-            shell.cprint('<90>{}', cmd)
-
-        if not pretend:
-            log.info("Deploying version <35>{ver} <32>to <35>{proj}".format(
-                ver=app_version,
-                proj=gae_proj['name']
-            ))
-            shell.run(cmd)
+    gae_app.deploy(promote, pretend)
 
 
 @util.mark_experimental
@@ -150,3 +107,93 @@ def setup_ci():
 def _find_appengine_sdk():
     gcloud_path = shell.run('which gcloud', capture=True).stdout.strip()
     return normpath(join(gcloud_path, '../../platform/google_appengine'))
+
+
+@attr.s
+class GaeApp(object):
+    """ Represents an AppEngine app."""
+    app_id = attr.ib(type=str)
+    config = attr.ib(type=str, default=None)
+    deployables = attr.ib(type=list, default=['.'])
+    version = attr.ib(type=str, default=None)
+
+    @classmethod
+    def for_branch(cls, branch_name):
+        """ Return app configuration for the given branch.
+
+        This will look for the configuration in the `appengine.projects` config
+        variable.
+
+        :param str branch_name:
+            The name of the branch we want the configuration for.
+        :return Optional[GaeApp]:
+            The `GaeApp` instance with the configuration or **None** if none
+            found.
+        """
+        for proj in conf.get('appengine.projects', []):
+            if fnmatch(branch_name, proj['branch']):
+                return cls(**proj)
+
+        return None
+
+    @property
+    def app_version(self):
+        """ Return the AppEngine compatible app version.
+
+        This assumes git-flow branching strategy and has a few predefined ways
+        to automatically generate the version string.
+
+        :return str:
+            Version string that can be directly passed to ``gcloud app deploy``.
+        """
+        branch = git.branch_details()
+
+        if self.version is not None:
+            return self.version
+
+        elif branch.type == 'develop':
+            return '{ver}-c{commit_nr}'.format(
+                ver=versioning.current().replace('.', '-'),
+                commit_nr=git.num_commits(),
+            )
+
+        elif branch.type == 'feature':
+            return '{ver}-{title}'.format(
+                ver=versioning.current().replace('.', '-'),
+                title=branch.title.replace('_', '-')
+            )
+
+        return versioning.current().replace('.', '-')
+
+    def deploy(self, promote=False, pretend=False):
+        """ Deploy the code to AppEngine.
+
+        :param bool promote:
+            Migrate the traffic to the deployed version.
+        :param bool pretend:
+            Instead of deploying, print the deploy command.
+        """
+        args = [
+            '--promote' if promote else '--no-promote',
+            '--version {}'.format(self.app_version),
+            '--project {}'.format(self.app_id),
+        ]
+
+        cmd = 'gcloud app deploy {args} {deployables}'.format(
+            deployables=fs.surround_paths_with_quotes(self.deployables),
+            args=' '.join(args)
+        )
+
+        if pretend:
+            log.info("Would deploy version <35>{ver}<32> to <35>{app}".format(
+                ver=self.app_version,
+                app=self.app_id
+            ))
+            shell.cprint('<90>{}', cmd)
+
+        if not pretend:
+            log.info("Deploying version <35>{ver}<32> to <35>{app}".format(
+                ver=self.app_version,
+                app=self.app_id,
+            ))
+            shell.run(cmd)
