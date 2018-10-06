@@ -72,7 +72,7 @@ def staged():
         results = []
 
         for file_status in status.split(os.linesep):
-            if file_status and file_status[0] in ('A', 'M'):
+            if file_status and file_status[0] in ('A', 'M', 'D'):
                 results.append(file_status[3:].strip())
 
         return results
