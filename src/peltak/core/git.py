@@ -93,7 +93,8 @@ def ignore():
 
     with conf.within_proj_dir():
         with open('.gitignore') as fp:
-            return [parse_line(l) for l in fp.readlines() if l.strip()]
+            parsed = (parse_line(l) for l in fp.readlines())
+            return [x for x in parsed if x]
 
 
 def branch_details():
