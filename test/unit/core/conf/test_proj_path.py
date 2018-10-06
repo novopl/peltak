@@ -26,4 +26,7 @@ def test_converts_project_path_to_an_absolute_path(proj_path, abs_path):
 
 @testing.patch_proj_root(None)
 def test_returns_input_path_if_no_project_root_found():
+    setattr(conf._find_proj_root, util.cached_result.CACHE_VAR, None)
     assert conf.proj_path('hello/world') == 'hello/world'
+
+    util.cached_result.clear(conf._find_proj_root)
