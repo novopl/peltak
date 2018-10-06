@@ -15,6 +15,7 @@ from peltak.core import docker
 @pytest.fixture()
 def registry_client():
     """ Return fake RegistryClient
+
     :return docker.RegistryClient:
         Fake registry client
     """

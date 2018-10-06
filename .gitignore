@@ -33,6 +33,7 @@ env
 .tox
 .build
 docs/html
+docs/doctest
 docs/ref
 
 ##############

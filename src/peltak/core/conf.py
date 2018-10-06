@@ -6,18 +6,19 @@ from __future__ import absolute_import, unicode_literals
 
 # stdlib imports
 import os
+import os.path
 import sys
 from contextlib import contextmanager
-from os.path import dirname, exists, isabs, join, normpath
 
 # 3rd party imports
 import yaml
 
+# local imports
+from . import util
 
-g_config = {}
-g_proj_path = None
 
 PROJ_CONF_FILE = 'pelconf.py'
+g_config = {}
 
 
 def init(config):
@@ -49,10 +50,10 @@ def load():
     the config defined in YAML.
     """
     with within_proj_dir():
-        if exists('pelconf.yaml'):
+        if os.path.exists('pelconf.yaml'):
             load_yaml_config('pelconf.yaml')
 
-        if exists('pelconf.py'):
+        if os.path.exists('pelconf.py'):
             load_py_config('pelconf.py')
 
 
@@ -125,16 +126,13 @@ def getenv(name, default=None):
 
 def proj_path(path=None):
     """ Return absolute path to the repo dir (root project directory). """
-    global g_proj_path
-
     path = path or '.'
 
-    if not isabs(path):
-        if g_proj_path is None:
-            g_proj_path = _find_proj_root()
+    if not os.path.isabs(path):
+        proj_path = _find_proj_root()
 
-        if g_proj_path is not None:
-            path = normpath(join(g_proj_path, path))
+        if proj_path is not None:
+            path = os.path.normpath(os.path.join(proj_path, path))
 
     return path
 
@@ -213,6 +211,7 @@ def get_path(name, *default):
     return proj_path(value)
 
 
+@util.cached_result()
 def _find_proj_root():
     """ Find the project path by going up the file tree.
 
@@ -226,6 +225,6 @@ def _find_proj_root():
         if proj_files & frozenset(os.listdir(curr)):
             return curr
         else:
-            curr = dirname(curr)
+            curr = os.path.dirname(curr)
 
     return None

@@ -4,7 +4,8 @@
 This is mainly for web apps that are deployed with docker.
 """
 from __future__ import absolute_import
-from . import cli, click
+
+from peltak.commands import cli, click
 
 
 @cli.group('docker')
@@ -43,9 +44,9 @@ def build_images():
         $ peltak docker build
 
     """
-    from .impl import docker
+    from . import impl
 
-    docker.build_images()
+    impl.build_images()
 
 
 @docker_cli.command('push')
@@ -75,9 +76,9 @@ def push_images():
         $ peltak docker push
 
     """
-    from .impl import docker
+    from . import impl
 
-    docker.push_images()
+    impl.push_images()
 
 
 @docker_cli.command('list')
@@ -112,6 +113,6 @@ def docker_list(registry_pass):
         $ peltak docker list -p mypass  # List registry images, use give pw
 
     """
-    from .impl import docker
+    from . import impl
 
-    docker.docker_list(registry_pass)
+    impl.docker_list(registry_pass)

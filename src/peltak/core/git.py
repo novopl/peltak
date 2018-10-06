@@ -12,12 +12,14 @@ from six import string_types
 # local imports
 from . import conf
 from . import shell
+from . import util
 
 
 Author = namedtuple('Author', 'name email')
 BranchDetails = namedtuple('BranchDetails', 'type title name')
 
 
+@util.cached_result()
 def current_branch():
     """ Return the name of the currently checked out git branch. """
     cmd = 'git symbolic-ref --short HEAD'
@@ -40,6 +42,7 @@ def commit_author(sha1=''):
         return Author(name, email)
 
 
+@util.cached_result()
 def untracked():
     """ Return a list of untracked files in the project repository.
 
@@ -57,6 +60,7 @@ def untracked():
         return results
 
 
+@util.cached_result()
 def staged():
     """ Return a list of project files staged for commit.
 
@@ -68,12 +72,13 @@ def staged():
         results = []
 
         for file_status in status.split(os.linesep):
-            if file_status and file_status[0] in ('A', 'M'):
+            if file_status and file_status[0] in ('A', 'M', 'D'):
                 results.append(file_status[3:].strip())
 
         return results
 
 
+@util.cached_result()
 def ignore():
     """ Return a list of patterns in the project .gitignore
 
@@ -93,9 +98,11 @@ def ignore():
 
     with conf.within_proj_dir():
         with open('.gitignore') as fp:
-            return [parse_line(l) for l in fp.readlines() if l.strip()]
+            parsed = (parse_line(l) for l in fp.readlines())
+            return [x for x in parsed if x]
 
 
+@util.cached_result()
 def branch_details():
     """
 
@@ -107,3 +114,16 @@ def branch_details():
         return BranchDetails(branch_type, branch_title, branch_name)
 
     return BranchDetails(branch_name, None, branch_name)
+
+
+def num_commits():
+    """ Return the number of commits from beginning till current.
+
+    This function will basically count the number of commits in the history
+    from the current commit perspective (ignores all other branches).
+
+    :return int:
+        Number of commits in the repo from beginning till current commit.
+    """
+    out = shell.run('git log --oneline', capture=True).stdout.strip()
+    return len(out.splitlines())

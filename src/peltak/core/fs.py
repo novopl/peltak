@@ -75,7 +75,6 @@ def match_globs(path, patterns):
     for pattern in (p for p in patterns if p):
         if pattern.startswith('/'):
             regex = fnmatch.translate(pattern[1:])
-            regex = regex.replace('\\Z', '')
 
             temp_path = path[1:] if path.startswith('/') else path
 
@@ -83,8 +82,9 @@ def match_globs(path, patterns):
 
             if m and m.start() == 0:
                 return True
-        else:
-            return fnmatch.fnmatch(path, pattern)
+
+        elif fnmatch.fnmatch(path, pattern):
+                return True
 
     return False
 
