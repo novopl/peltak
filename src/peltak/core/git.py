@@ -12,12 +12,14 @@ from six import string_types
 # local imports
 from . import conf
 from . import shell
+from . import util
 
 
 Author = namedtuple('Author', 'name email')
 BranchDetails = namedtuple('BranchDetails', 'type title name')
 
 
+@util.cached_result()
 def current_branch():
     """ Return the name of the currently checked out git branch. """
     cmd = 'git symbolic-ref --short HEAD'
@@ -40,6 +42,7 @@ def commit_author(sha1=''):
         return Author(name, email)
 
 
+@util.cached_result()
 def untracked():
     """ Return a list of untracked files in the project repository.
 
@@ -57,6 +60,7 @@ def untracked():
         return results
 
 
+@util.cached_result()
 def staged():
     """ Return a list of project files staged for commit.
 
@@ -74,6 +78,7 @@ def staged():
         return results
 
 
+@util.cached_result()
 def ignore():
     """ Return a list of patterns in the project .gitignore
 
@@ -97,6 +102,7 @@ def ignore():
             return [x for x in parsed if x]
 
 
+@util.cached_result()
 def branch_details():
     """
 

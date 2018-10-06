@@ -13,11 +13,12 @@ from os.path import dirname, exists, isabs, join, normpath
 # 3rd party imports
 import yaml
 
+# local imports
+from . import util
 
-g_config = {}
-g_proj_path = None
 
 PROJ_CONF_FILE = 'pelconf.py'
+g_config = {}
 
 
 def init(config):
@@ -125,16 +126,13 @@ def getenv(name, default=None):
 
 def proj_path(path=None):
     """ Return absolute path to the repo dir (root project directory). """
-    global g_proj_path
-
     path = path or '.'
 
     if not isabs(path):
-        if g_proj_path is None:
-            g_proj_path = _find_proj_root()
+        proj_path = _find_proj_root()
 
-        if g_proj_path is not None:
-            path = normpath(join(g_proj_path, path))
+        if proj_path is not None:
+            path = normpath(join(proj_path, path))
 
     return path
 
@@ -213,6 +211,7 @@ def get_path(name, *default):
     return proj_path(value)
 
 
+@util.cached_result()
 def _find_proj_root():
     """ Find the project path by going up the file tree.
 

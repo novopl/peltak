@@ -11,12 +11,15 @@ from functools import wraps
 class timed_block(object):  # noqa
     """ Context manager to measure execution time for a give block of code.
 
-    .. code-block:: python
+    >>> import time
+    >>> from peltak.core import util
+    >>>
+    >>> with util.timed_block() as t:
+    ...     time.sleep(1)
+    >>>
+    >>> print("Code executed in {}s".format(int(t.elapsed_s)))
+    Code executed in 1s
 
-        with timed_block() as t:
-            time.sleep(1)
-
-        print("The block took {}ms to execute".format(t.elapsed_ms)
     """
     def __enter__(self):
         self.t0 = time.time()
@@ -62,3 +65,65 @@ def mark_deprecated(replaced_by):
         return wrapper
 
     return decorator
+
+
+class cached_result(object):
+    """ Decorator that cached the function result.
+
+    This is especially useful for functions whose output won't change during
+    a single *peltak* execution run and are expensive (i.e. call external
+    shell commands).
+
+
+    >>> from peltak.core import util
+    >>>
+    >>> @util.cached_result()
+    ... def foo():
+    ...     call_count = getattr(foo, 'call_count', 0)
+    ...     call_count += 1
+    ...     setattr(foo, 'call_count', call_count)
+    >>> foo()
+    >>> print(foo.call_count)
+    1
+    >>> foo()
+    >>> print(foo.call_count)
+    1
+    >>> util.cached_result.clear(foo)
+    >>> foo()
+    >>> print(foo.call_count)
+    2
+    """
+    CACHE_VAR = '__cached_result'
+
+    def __init__(self):
+        pass
+
+    def __call__(self, fn):
+        """ Apply the decorator to the given function.
+
+        :param Function fn:
+            The function to decorate.
+        :return Function:
+            The function wrapped in caching logic.
+        """
+        @wraps(fn)
+        def wrapper():   # pylint: disable=missing-docstring
+            if not hasattr(wrapper, self.CACHE_VAR):
+                result = fn()
+                setattr(wrapper, self.CACHE_VAR, result)
+
+            return getattr(wrapper, self.CACHE_VAR)
+
+        return wrapper
+
+    @classmethod
+    def clear(cls, fn):
+        """ Clear result cache on the given function.
+
+        If the function has no cached result, this call will do nothing.
+
+        :param Function fn:
+            The function whose cache should be cleared.
+        """
+        if hasattr(fn, cls.CACHE_VAR):
+            delattr(fn, cls.CACHE_VAR)
