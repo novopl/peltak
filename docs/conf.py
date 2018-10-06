@@ -53,7 +53,7 @@ intersphinx_mapping = {'https://docs.python.org/': None}
 pygments_style = 'monokai'
 html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 html_theme = "sphinx_rtd_theme"
-html_static_path = [repo_path('docs/assets')]
+html_static_path = []
 htmlhelp_basename = 'peltak'
 
 latex_elements = {}

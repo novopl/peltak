@@ -13,7 +13,7 @@ from peltak.core import log
 from peltak.core import shell
 
 
-def docs(recreate, gen_index):
+def docs(recreate, gen_index, run_doctests):
     """ Build the documentation for the project.
 
     :param bool recreate:
@@ -24,39 +24,44 @@ def docs(recreate, gen_index):
         reference documentation.
     """
     build_dir = conf.get_path('build_dir', '.build')
-    doc_src_path = conf.get_path('docs.path', 'docs')
+    docs_dir = conf.get_path('docs.path', 'docs')
     refdoc_paths = conf.get('docs.reference', [])
 
-    docs_out_path = os.path.join(doc_src_path, 'html')
-    docs_ref_path = os.path.join(doc_src_path, 'ref')
-    docs_assets_path = os.path.join(doc_src_path, 'assets')
-    docs_build_path = os.path.join(build_dir, 'docs')
-
-    log.info('Ensuring assets directory <94>{}<32> exists', docs_assets_path)
-    if not os.path.exists(docs_assets_path):
-        os.makedirs(docs_assets_path)
+    docs_html_dir = os.path.join(docs_dir, 'html')
+    docs_tests_dir = os.path.join(docs_dir, 'doctest')
+    docs_ref_dir = os.path.join(docs_dir, 'ref')
+    docs_build_dir = os.path.join(build_dir, 'docs')
 
     if recreate:
-        for path in (docs_out_path, docs_build_path):
+        for path in (docs_html_dir, docs_build_dir):
             if os.path.exists(path):
                 log.info("<91>Deleting <94>{}".format(path))
                 shutil.rmtree(path)
 
     if refdoc_paths:
-        _gen_ref_docs(docs_ref_path, not gen_index)
+        _gen_ref_docs(docs_ref_dir, not gen_index)
     else:
         log.err('Not generating any reference documentation - '
                 'No docs.reference specified in config')
 
-    with conf.within_proj_dir(doc_src_path):
-        log.info('Building docs with <35>sphinx')
+    with conf.within_proj_dir(docs_dir):
+        log.info('Building docs')
         shell.run('sphinx-build -b html -d {build} {docs} {out}'.format(
-            build=docs_build_path,
-            docs=doc_src_path,
-            out=docs_out_path,
+            build=docs_build_dir,
+            docs=docs_dir,
+            out=docs_html_dir,
         ))
+
+        if run_doctests:
+            log.info('Running doctests')
+            shell.run('sphinx-build -b doctest -d {build} {docs} {out}'.format(
+                build=docs_build_dir,
+                docs=docs_dir,
+                out=docs_tests_dir,
+            ))
+
         log.info('You can view the docs by browsing to <34>file://{}'.format(
-            os.path.join(docs_out_path, 'index.html')
+            os.path.join(docs_html_dir, 'index.html')
         ))
 
 
