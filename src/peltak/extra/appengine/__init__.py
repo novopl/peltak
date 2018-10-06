@@ -5,7 +5,8 @@ Only useful on appengine projects. If you're not using AppEngine, do not
 import inside `pelconf.py`.
 """
 from __future__ import absolute_import
-from . import cli, click
+
+from peltak.commands import cli, click
 
 
 @cli.group('appengine')
@@ -51,9 +52,9 @@ def deploy(project, version, pretend, promote):
     variable. This will also collect all static files and compile translation
     messages
     """
-    from .impl.appengine import deploy
+    from . import impl
 
-    deploy(project, version, pretend, promote)
+    impl.deploy(project, version, pretend, promote)
 
 
 @appengine_cli.command()
@@ -62,14 +63,14 @@ def deploy(project, version, pretend, promote):
 @click.option('--clear', is_flag=True)
 def devserver(port, admin_port, clear):
     """ Run devserver. """
-    from .impl.appengine import devserver
+    from . import impl
 
-    devserver(port, admin_port, clear)
+    impl.devserver(port, admin_port, clear)
 
 
 @appengine_cli.command('setup-ci')
 def setup_ci():
     """ Setup AppEngine SDK on CircleCI """
-    from .impl.appengine import setup_ci
+    from . import impl
 
-    setup_ci()
+    impl.setup_ci()

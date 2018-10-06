@@ -6,7 +6,6 @@ build_dir: '.build'
 version_file: 'src/peltak/__init__.py'
 
 commands:
-  - peltak.commands.docker
   - peltak.commands.docs
   - peltak.commands.git
   - peltak.commands.lint
