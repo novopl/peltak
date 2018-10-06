@@ -114,3 +114,16 @@ def branch_details():
         return BranchDetails(branch_type, branch_title, branch_name)
 
     return BranchDetails(branch_name, None, branch_name)
+
+
+def num_commits():
+    """ Return the number of commits from beginning till current.
+
+    This function will basically count the number of commits in the history
+    from the current commit perspective (ignores all other branches).
+
+    :return int:
+        Number of commits in the repo from beginning till current commit.
+    """
+    out = shell.run('git log --oneline', capture=True).stdout.strip()
+    return len(out.splitlines())
