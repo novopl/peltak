@@ -15,8 +15,8 @@ def hotfix_cli(ctx, name):
     if ctx.invoked_subcommand:
         return
 
-    from peltak.extra.gitflow import commands
-    commands.hotfix.start(name)
+    from peltak.extra.gitflow import impl
+    impl.hotfix.start(name)
 
 
 @hotfix_cli.command('rename')
@@ -28,26 +28,26 @@ def hotfix_cli(ctx, name):
 )
 def rename(name):
     """ Give the currently developed hotfix a new name. """
-    from peltak.extra.gitflow import commands
-    commands.hotfix.rename(name)
+    from peltak.extra.gitflow import impl
+    impl.hotfix.rename(name)
 
 
 @hotfix_cli.command('update')
 def update():
     """ Update the hotfix with updates committed to master. """
-    from peltak.extra.gitflow import commands
-    commands.hotfix.update()
+    from peltak.extra.gitflow import impl
+    impl.hotfix.update()
 
 
 @hotfix_cli.command('finish')
 def finish():
     """ Merge current hotfix into master. """
-    from peltak.extra.gitflow import commands
-    commands.hotfix.finish()
+    from peltak.extra.gitflow import impl
+    impl.hotfix.finish()
 
 
 @hotfix_cli.command('merged')
 def merged():
     """ Cleanup a remotely merged hotfix. """
-    from peltak.extra.gitflow import commands
-    commands.hotfix.merged()
+    from peltak.extra.gitflow import impl
+    impl.hotfix.merged()

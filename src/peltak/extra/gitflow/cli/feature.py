@@ -15,8 +15,8 @@ def feature_cli(ctx, name):
     if ctx.invoked_subcommand:
         return
 
-    from peltak.extra.gitflow import commands
-    commands.feature.start(name)
+    from peltak.extra.gitflow import impl
+    impl.feature.start(name)
 
 
 @feature_cli.command('rename')
@@ -27,26 +27,26 @@ def feature_cli(ctx, name):
 )
 def rename(name):
     """ Give the currently developed feature a new name. """
-    from peltak.extra.gitflow import commands
-    commands.feature.rename(name)
+    from peltak.extra.gitflow import impl
+    impl.feature.rename(name)
 
 
 @feature_cli.command('update')
 def update():
     """ Update the feature with updates committed to develop. """
-    from peltak.extra.gitflow import commands
-    commands.feature.update()
+    from peltak.extra.gitflow import impl
+    impl.feature.update()
 
 
 @feature_cli.command('finish')
 def finish():
     """ Merge current feature into develop. """
-    from peltak.extra.gitflow import commands
-    commands.feature.finish()
+    from peltak.extra.gitflow import impl
+    impl.feature.finish()
 
 
 @feature_cli.command('merged')
 def merged():
     """ Cleanup a remotely merged branch. """
-    from peltak.extra.gitflow import commands
-    commands.feature.merged()
+    from peltak.extra.gitflow import impl
+    impl.feature.merged()
