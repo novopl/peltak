@@ -113,7 +113,7 @@ def ignore():
 
     result = []
     for ignore_file in ignore_files:
-        if not os.path.exists(ignore_file):
+        if not (ignore_file and os.path.exists(ignore_file)):
             continue
 
         with open(ignore_file) as fp:

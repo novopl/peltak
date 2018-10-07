@@ -71,9 +71,8 @@ def clean(pretend, exclude):
         $ peltak clean --pretend
 
     """
-    from .impl.misc import clean
-
-    clean(pretend, exclude)
+    from peltak.commands import misc
+    misc.clean(pretend, exclude)
 
 
 @cli.command('init')
@@ -88,6 +87,5 @@ def init():
         $ peltak init
 
     """
-    from .impl.misc import init
-
-    init()
+    from peltak.commands import misc
+    misc.init()

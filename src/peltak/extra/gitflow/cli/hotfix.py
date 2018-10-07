@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 """ git flow hotfix commands. """
-from __future__ import absolute_import, unicode_literals
 from peltak.cli import cli, click
 
 

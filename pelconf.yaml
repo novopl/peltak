@@ -7,6 +7,7 @@ commands:
   - peltak.cli.release
   - peltak.cli.test
   - peltak.cli.version
+  - peltak.extra.gitflow
 
 src_dir: 'src'
 src_path: 'src/peltak'

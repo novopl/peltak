@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 """ git flow release commands. """
-from __future__ import absolute_import, unicode_literals
 
 # 3rd party imports
 import click
