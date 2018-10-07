@@ -36,7 +36,7 @@ def update():
 
     This will merge current develop into the current branch.
     """
-    branch = git.current_branch()
+    branch = git.current_branch(refresh=True)
     master = conf.get('git.master_branch', 'master')
 
     common.assert_branch_type('feature')
@@ -50,7 +50,7 @@ def finish():
     """ Merge current feature into develop. """
     develop = conf.get('git.devel_branch', 'develop')
     master = conf.get('git.master_branch', 'master')
-    branch = git.current_branch()
+    branch = git.current_branch(refresh=True)
 
     common.assert_branch_type('hotfix')
 
