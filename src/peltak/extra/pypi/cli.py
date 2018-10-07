@@ -10,7 +10,7 @@ def pypi_cli():
     pass
 
 
-@pypi_cli.command()
+@pypi_cli.command('upload')
 @click.argument('target')
 def upload(target):
     """ Upload to a given pypi target.
@@ -22,21 +22,29 @@ def upload(target):
         $ peltak pypi upload private # Upload to pypi server 'private'
 
     """
-    from peltak.commands import impl
+    from peltak.extra.pypi import impl
     impl.upload(target)
 
 
-@pypi_cli.command('gen-pypirc')
-@click.argument('username', required=False)
-@click.argument('password', required=False)
-def gen_pypirc(username=None, password=None):
+@pypi_cli.command('configure')
+@click.option(
+    '-u', '--username',
+    type=str,
+    help="PyPi username"
+)
+@click.option(
+    '-p', '--password',
+    type=str,
+    help="PyPi username"
+)
+def configure(username, password):
     """
     Generate .pypirc config with the given credentials.
 
     Example::
 
-        $ peltak pypi gen-pypirc my_pypi_user my_pypi_pass
+        $ peltak pypi configure my_pypi_user my_pypi_pass
 
     """
-    from . import impl
+    from peltak.extra.pypi import impl
     impl.gen_pypirc(username, password)

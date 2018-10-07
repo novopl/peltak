@@ -64,8 +64,8 @@ jobs:
       - run:
           name: Upload to pypi
           command: |
-            peltak release gen-pypirc
-            peltak release upload pypi
+            peltak pypi configure
+            peltak pypi upload pypi
             rm ~/.pypirc
       - run:
           name: Create release tag
