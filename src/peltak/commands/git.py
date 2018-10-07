@@ -1,69 +1,121 @@
 # -*- coding: utf-8 -*-
-""" git helpers. """
-from __future__ import absolute_import
-from . import cli, click
+""" Git commands implementation. """
+from __future__ import absolute_import, unicode_literals
+
+# stdlib imports
+import os
+from fnmatch import fnmatch
+
+# 3rd party imports
+import click
+
+# local imports
+from peltak.core import conf
+from peltak.core import git
+from peltak.core import log
+from peltak.core import shell
+from peltak.core import util
 
 
-@cli.group('git')
-def git_cli():
-    """ Git related commands """
-    pass
-
-
-@git_cli.command('add-hooks')
 def add_hooks():
-    """ Setup project git hooks.
+    """ Add git hooks for commit and push to run linting and tests. """
 
-    This will run all the checks before pushing to avoid waiting for the CI
-    fail.
+    # Detect virtualenv the hooks should use
+    virtual_env = conf.getenv('VIRTUAL_ENV')
+    if virtual_env is None:
+        log.err("You are not inside a virtualenv")
+        confirm_msg = (
+            "Are you sure you want to use global python installation "
+            "to run your git hooks? [y/N] "
+        )
+        click.prompt(confirm_msg, default=False)
+        if not click.confirm(confirm_msg):
+            log.info("Cancelling")
+            return
 
-    Example::
+        load_venv = ''
+    else:
+        load_venv = 'source "{}/bin/activate"'.format(virtual_env)
 
-        $ peltak git add-hooks
-    """
-    from .impl import git
+    # Write pre-commit hook
+    commit_hook = conf.proj_path('.git/hooks/pre-commit')
+    log.info("Adding pre-commit hook <33>{}", commit_hook)
+    with open(commit_hook, 'w') as fp:
+        fp.write('\n'.join([
+            '#!/bin/bash',
+            'PATH="/opt/local/libexec/gnubin:$PATH"',
+            '',
+            load_venv,
+            '',
+            'peltak lint --commit',
+        ]))
+        fp.write('\n')
 
-    git.add_hooks()
+    # Write pre-push hook
+    push_hook = conf.proj_path('.git/hooks/pre-push')
+    log.info("Adding pre-push hook: <33>{}", push_hook)
+    with open(push_hook, 'w') as fp:
+        fp.write('\n'.join([
+            '#!/bin/bash',
+            'PATH="/opt/local/libexec/gnubin:$PATH"',
+            '',
+            load_venv,
+            '',
+            'peltak test --allow-empty',
+        ]))
+        fp.write('\n')
+
+    log.info("Making hooks executable")
+    os.chmod(conf.proj_path('.git/hooks/pre-commit'), 0o755)
+    os.chmod(conf.proj_path('.git/hooks/pre-push'), 0o755)
 
 
-@git_cli.command('push')
 def push():
-    """ Push the current branch and set to track remote.
+    """ Push the current branch to origin.
 
-    Example::
-
-        $ peltak git push
-
+    This is an equivalent of ``git push -u origin <branch>``. Mainly useful for
+    the first push as afterwards ``git push`` is just quicker. Free's you from
+    having to manually type the current branch name in the first push.
     """
-    from .impl import git
+    branch = git.current_branch()
+    shell.run('git push -u origin {}'.format(branch))
 
-    git.push()
 
-
-@git_cli.command('merged')
-@click.argument('target', required=False)
+@util.mark_deprecated(replaced_by="peltak release merged")
 def merged(target=None):
-    """ Checkout the target branch, pull and delete the merged branch.
+    """ Cleanup a remotely merged branch. """
+    devel_branch = conf.get('git.devel_branch', 'develop')
+    master_branch = conf.get('git.master_branch', 'master')
+    protected_branches = conf.get(
+        'git.protected_branches',
+        (master_branch, devel_branch)
+    )
+    release_branch_pattern = conf.get('git.release_branch', 'release/*')
+    branch = git.current_branch()
 
-    This is to ease the repetitive cleanup of each merged branch.
+    if target is None:
+        if fnmatch(branch, release_branch_pattern):
+            target = master_branch
+        else:
+            target = devel_branch
 
-    Example Config (those the are defaults)::
+    try:
+        shell.run('git rev-parse --verify {}'.format(branch))
+    except IOError:
+        log.err("Branch '{}' does not exist".format(branch))
 
-        \b
-        conf.init({
-            'main_branch': 'develop',
-            'master_branch': 'master',
-            'protected_branches': ['master', 'develop'],
-            'release_branch_pattern: 'release/*'
-        })
+    log.info("Checking out <33>{}".format(target))
+    shell.run('git checkout {}'.format(target))
 
-    Example::
+    log.info("Pulling latest changes")
+    shell.run('git pull origin {}'.format(target))
 
-        $ peltak git merged develop # Branch was merged to develop
-        $ peltak git merged master  # Branch was merged to master
-        $ peltak git merged         # Autodetect where the branch was merged
+    if branch not in protected_branches:
+        log.info("Deleting branch <33>{}".format(branch))
+        shell.run('git branch -d {}'.format(branch))
 
-    """
-    from .impl import git
+    log.info("Pruning")
+    shell.run('git fetch --prune origin')
 
-    git.merged(target)
+    log.info("Checking out <33>{}<32> branch".format(target))
+    shell.run('git checkout {}'.format(target))

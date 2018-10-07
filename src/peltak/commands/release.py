@@ -1,129 +1,172 @@
 # -*- coding: utf-8 -*-
-""" Helper commands for releasing to pypi. """
-from __future__ import absolute_import
-from . import cli, click
+""" Release commands implementation. """
+from __future__ import absolute_import, unicode_literals
+
+# stdlib imports
+import sys
+import os
+from fnmatch import fnmatch
+from os.path import join
+
+# local imports
+from peltak.core import shell
+from peltak.core import conf
+from peltak.core import git
+from peltak.core import log
+from peltak.core import versioning
 
 
-@cli.group('release', invoke_without_command=True)
-@click.option(
-    '-c', '--component',
-    type=click.Choice(['major', 'minor', 'patch']),
-    required=False,
-    default='patch',
-    help=("Which version component to bump with this release.")
-)
-@click.option(
-    '--exact',
-    type=str,
-    help="Set the newly released version to be exactly as specified."
-)
-@click.pass_context
-def release_cli(ctx, component, exact):
+def release(component, exact):
     """ Create a new release branch.
 
-    It will bump the current version number and create a release branch called
-    `release/<version>` with one new commit (the version bump).
-
-    **Example Config**::
-
-        \b
-        conf.init({
-            'version_file': 'src/mypkg/__init__.py'
-        })
-
-    **Examples**::
-
-        \b
-        $ peltak release --component=patch    # Make a new patch release
-        $ peltak release -c minor             # Make a new minor release
-        $ peltak release -c major             # Make a new major release
-        $ peltak release                      # same as release -c patch
-        $ peltak release tag                  # Tag current commit as release
-        $ peltak release upload pypi          # Upload to pypi
-
+    :param str component:
+        Version component to bump when creating the release. Can be *major*,
+        *minor* or *patch*.
+    :param str exact:
+        The exact version to set for the release. Overrides the component
+        argument. This allows to re-release a version if something went wrong
+        with the release upload.
     """
-    if ctx.invoked_subcommand:
-        return
+    version_file = conf.get_path('version_file', 'VERSION')
 
-    from .impl import release
-    release.release(component, exact)
+    with conf.within_proj_dir():
+        out = shell.run('git status --porcelain', capture=True).stdout
+        lines = out.split(os.linesep)
+        has_changes = any(
+            not l.startswith('??') for l in lines if l.strip()
+        )
+
+    if has_changes:
+        log.info("Cannot release: there are uncommitted changes")
+        exit(1)
+
+    old_ver, new_ver = versioning.bump(component, exact)
+
+    log.info("Bumping package version")
+    log.info("  old version: <35>{}".format(old_ver))
+    log.info("  new version: <35>{}".format(new_ver))
+
+    with conf.within_proj_dir():
+        branch = 'release/' + new_ver
+
+        log.info("Checking out new branch <35>{}", branch)
+        shell.run('git checkout -b ' + branch)
+
+        log.info("Creating commit for the release")
+
+        shell.run('git add {ver_file} && git commit -m "{msg}"'.format(
+            ver_file=version_file,
+            msg="Releasing v{}".format(new_ver)
+        ))
 
 
-@release_cli.command('tag')
 def tag_release():
-    """ Tag the current commit with as the current version release.
+    """ Tag the current commit with the release version. """
+    release_ver = versioning.current()
+    author = git.commit_author()
 
-    This should be the same commit as the one that's uploaded as the release
-    (to pypi for example).
-
-    **Example Config**::
-
-        \b
-        conf.init({
-            'version_file': 'src/mypkg/__init__.py'
-        })
-
-    Examples::
-
-        $ peltak release tag          # Tag the current commit as release
-
-    """
-    from .impl import release
-    release.tag_release()
+    with conf.within_proj_dir():
+        log.info("Creating tag that marks the release")
+        cmd = (
+            'git -c "user.name={0.name}" -c "user.email={0.email}" '
+            'tag -a "v{1}" -m "Mark v{1} release"'
+        ).format(
+            author,
+            release_ver
+        )
+        shell.run(cmd)
 
 
-@release_cli.command()
-@click.argument('target')
 def upload(target):
-    """ Upload to a given pypi target.
+    """ Upload the release to a pypi server.
 
-    Examples::
+    TODO: Make sure the git directory is clean before allowing a release.
 
-        \b
-        $ peltak release upload pypi    # Upload the current release to pypi
-        $ peltak release upload private # Upload to pypi server 'private'
-
+    :param str target:
+        pypi target as defined in ~/.pypirc
     """
-    from .impl import release
-    release.upload(target)
+    log.info("Uploading to pypi server <33>{}".format(target))
+    with conf.within_proj_dir():
+        shell.run('python setup.py sdist register -r "{}"'.format(target))
+        shell.run('python setup.py sdist upload -r "{}"'.format(target))
 
 
-@release_cli.command('gen-pypirc')
-@click.argument('username', required=False)
-@click.argument('password', required=False)
 def gen_pypirc(username=None, password=None):
+    """ Generate ~/.pypirc with the given credentials.
+
+    Useful for CI builds. Can also get credentials through env variables
+    ``PYPI_USER`` and ``PYPI_PASS``.
+
+    :param str username:
+        pypi username.
+    :param str password:
+        pypi password.
     """
-    Generate .pypirc config with the given credentials.
+    path = join(conf.getenv('HOME'), '.pypirc')
+    username = username or conf.getenv('PYPI_USER', None)
+    password = password or conf.getenv('PYPI_PASS', None)
 
-    Example::
+    if username is None or password is None:
+        log.err("You must provide $PYPI_USER and $PYPI_PASS")
+        sys.exit(1)
 
-        $ peltak release gen-pypirc my_pypi_user my_pypi_pass
+    log.info("Generating .pypirc config <94>{}".format(path))
 
-    """
-    from .impl import release
-    release.gen_pypirc(username, password)
+    with open(path, 'w') as fp:
+        fp.write('\n'.join((
+            '[distutils]',
+            'index-servers = ',
+            '    pypi',
+            '',
+            '[pypi]',
+            'repository: https://upload.pypi.org/legacy/',
+            'username: {}'.format(username),
+            'password: {}'.format(password),
+            '',
+        )))
 
 
-@release_cli.command('merged')
 def merged():
-    """ Checkout the target branch, pull and delete the merged branch.
+    """ Cleanup the release branch after it was remotely merged to master. """
+    develop_branch = conf.get('git.devel_branch', 'develop')
+    master_branch = conf.get('git.master_branch', 'master')
+    protected_branches = conf.get(
+        'git.protected_branches',
+        (master_branch, develop_branch)
+    )
+    release_branch_pattern = conf.get('git.release_branch', 'release/*')
+    branch = git.current_branch()
 
-    This is to ease the repetitive cleanup of each merged branch.
+    if not fnmatch(branch, release_branch_pattern):
+        log.err("You can only run `peltak release merged` on release branches. "
+                "You can specify The release branch pattern with "
+                "release_branch_pattern conf variable (defaults to release/*).")
+        sys.exit(1)
 
-    Example Config (those the are defaults)::
+    try:
+        shell.run('git rev-parse --verify ' + branch)
+    except IOError:
+        log.err("Branch '{}' does not exist".format(branch))
 
-        \b
-        conf.init({
-            'main_branch': 'develop',
-            'master_branch': 'master',
-            'protected_branches': ['master', 'develop'],
-            'release_branch_pattern: 'release/*'
-        })
+    # Checkout develop and merge the release
+    log.info("Checking out <33>{}".format(develop_branch))
+    shell.run('git checkout ' + develop_branch)
 
-    Example::
+    log.info("Merging <35>{} <32>into <33>{}".format(branch, develop_branch))
+    shell.run('git merge ' + branch)
 
-        $ peltak release merged     # Must be ran on the relase branch
+    log.info("Checking out <33>{}".format(master_branch))
+    shell.run('git checkout ' + master_branch)
 
-    """
-    from .impl import release
-    release.merged()
+    log.info("Pulling latest changes")
+    shell.run('git pull origin ' + master_branch)
+
+    if branch not in protected_branches:
+        log.info("Deleting branch <35>{}".format(branch))
+        shell.run('git branch -d ' + branch)
+
+    log.info("Pruning")
+    shell.run('git fetch --prune origin')
+
+    log.info("Checking out <33>{}<32> branch".format(develop_branch))
+    shell.run('git checkout ' + develop_branch)

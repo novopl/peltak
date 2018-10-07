@@ -5,7 +5,7 @@ from __future__ import absolute_import, unicode_literals
 
 # local imports
 from peltak.core import conf
-from peltak.commands import cli
+from peltak.cli import cli
 __all__ = [
     'cli'
 ]
@@ -23,4 +23,4 @@ except ImportError:
     pass
 
 
-from peltak.commands import clean   # noqa
+from peltak.cli import clean   # noqa

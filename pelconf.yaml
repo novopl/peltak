@@ -1,12 +1,12 @@
 version: '0.1'
 
 commands:
-  - peltak.commands.docs
-  - peltak.commands.git
-  - peltak.commands.lint
-  - peltak.commands.release
-  - peltak.commands.test
-  - peltak.commands.version
+  - peltak.cli.docs
+  - peltak.cli.git
+  - peltak.cli.lint
+  - peltak.cli.release
+  - peltak.cli.test
+  - peltak.cli.version
 
 src_dir: 'src'
 src_path: 'src/peltak'

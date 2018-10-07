@@ -1,8 +1,8 @@
 
-.. click:: peltak.commands.fe:fe
+.. click:: peltak.cli.fe:fe
     :prog: peltak fe
     :show-nested:
 
-.. click:: peltak.commands.fe:init_fe
+.. click:: peltak.cli.fe:init_fe
     :prog: peltak init-fe
     :show-nested:

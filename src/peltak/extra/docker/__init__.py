@@ -5,7 +5,7 @@ This is mainly for web apps that are deployed with docker.
 """
 from __future__ import absolute_import
 
-from peltak.commands import cli, click
+from peltak.cli import cli, click
 
 
 @cli.group('docker')

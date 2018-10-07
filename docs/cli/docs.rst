@@ -3,6 +3,6 @@ peltak docs
 ###########
 
 
-.. click:: peltak.commands.docs:docs
+.. click:: peltak.cli.docs:docs
     :prog: peltak docs
     :show-nested:
