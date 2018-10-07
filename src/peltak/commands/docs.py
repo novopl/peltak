@@ -18,7 +18,17 @@ from . import cli, click
     is_flag=True,
     help="Generate main index for code reference"
 )
-def docs(recreate, gen_index):
+@click.option(
+    '--run-doctests',
+    is_flag=True,
+    help="Generate main index for code reference"
+)
+@click.option(
+    '-v', 'verbose',
+    count=True,
+    help="Be more verbose"
+)
+def docs(recreate, gen_index, run_doctests, verbose):
     """ Build project documentation.
 
     This command will run sphinx-refdoc first to generate the reference
@@ -54,4 +64,4 @@ def docs(recreate, gen_index):
     """
     from .impl import docs
 
-    docs.docs(recreate, gen_index)
+    docs.docs(recreate, gen_index, run_doctests, verbose)

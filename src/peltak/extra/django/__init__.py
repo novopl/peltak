@@ -7,7 +7,8 @@ correspond 1 to 1 to their ``./manage.py`` counterparts. Those commands mainly
 exists so that manage.py can be deleted (less top-level files in project dir).
 """
 from __future__ import absolute_import
-from . import cli, click
+
+from peltak.commands import cli, click
 
 
 @cli.group('django')

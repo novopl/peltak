@@ -36,7 +36,6 @@ def filtered_walk(path, include=None, exclude=None):
         A generator yielding all the files that do not match any pattern in
         *exclude*.
     """
-    include = include or []
     exclude = exclude or []
 
     if not isdir(path):
@@ -53,7 +52,7 @@ def filtered_walk(path, include=None, exclude=None):
         # If we have a whitelist and the pattern matches, yield it. If the
         # pattern didn't match and it's a dir, it will still be recursively
         # processed.
-        if not include or match_globs(filename, include):
+        if include is None or match_globs(filename, include):
             yield filename
 
         if isdir(filename):
