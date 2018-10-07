@@ -3,7 +3,7 @@
 from peltak.cli import cli, click
 
 
-@cli.group('feature')
+@cli.group('feature', invoke_without_command=True)
 @click.option(
     '-n', '--name',
     type=str,

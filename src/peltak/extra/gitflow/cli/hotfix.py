@@ -3,7 +3,7 @@
 from peltak.cli import cli, click
 
 
-@cli.group('hotfix')
+@cli.group('hotfix', invoke_without_command=True)
 @click.option(
     '-n', '--name',
     type=str,
