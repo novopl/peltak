@@ -112,7 +112,7 @@ def git_merge(base, head, no_ff=False):
 
     log.info("Merging <33>{}<32> into <33>{}<32>", head, base)
     shell.run('git merge {args} {branch}'.format(
-        args=args,
+        args=' '.join(args),
         branch=head,
     ))
 
