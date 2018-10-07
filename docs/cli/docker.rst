@@ -3,7 +3,7 @@ peltak docker
 #############
 
 
-.. click:: peltak.cli.docker:docker_cli
+.. click:: peltak.extra.docker.cli:docker_cli
     :prog: peltak docker
     :show-nested:
 
