@@ -13,7 +13,7 @@ from peltak.core import log
 from peltak.core import shell
 
 
-def docs(recreate, gen_index, run_doctests):
+def docs(recreate, gen_index, run_doctests, verbose):
     """ Build the documentation for the project.
 
     :param bool recreate:
@@ -39,7 +39,7 @@ def docs(recreate, gen_index, run_doctests):
                 shutil.rmtree(path)
 
     if refdoc_paths:
-        _gen_ref_docs(docs_ref_dir, not gen_index)
+        _gen_ref_docs(docs_ref_dir, verbose, gen_index)
     else:
         log.err('Not generating any reference documentation - '
                 'No docs.reference specified in config')
@@ -65,7 +65,7 @@ def docs(recreate, gen_index, run_doctests):
         ))
 
 
-def _gen_ref_docs(ref_path, no_index=False):
+def _gen_ref_docs(ref_path, verbose, gen_index=False):
     try:
         from refdoc import generate_docs as _generate_docs
     except ImportError as ex:
@@ -82,13 +82,14 @@ def _gen_ref_docs(ref_path, no_index=False):
     if os.path.exists(ref_path):
         shutil.rmtree(ref_path)
 
-    os.makedirs(ref_path)
-
     log.info('Generating reference documentation')
-    args = {'out_dir': ref_path}
+    args = {
+        'out_dir': ref_path,
+        'verbose': verbose,
+    }
 
-    if no_index:
-        args['no_index'] = True
+    if gen_index:
+        args['gen_index'] = True
 
     pkg_paths = [conf.proj_path(p) for p in refdoc_paths]
 
