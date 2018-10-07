@@ -28,6 +28,9 @@ jobs:
       - run:
           name: Test
           command: tox
+      - run:
+          name: Build Documentation
+          command: peltak docs --recreate --run-doctests
 
       - save_cache:
           key: deps-rev4-{{ checksum "requirements.txt" }}
