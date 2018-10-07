@@ -1,10 +1,5 @@
 version: '0.1'
 
-src_dir: 'src'
-src_path: 'src/peltak'
-build_dir: '.build'
-version_file: 'src/peltak/__init__.py'
-
 commands:
   - peltak.commands.docs
   - peltak.commands.git
@@ -12,6 +7,16 @@ commands:
   - peltak.commands.release
   - peltak.commands.test
   - peltak.commands.version
+
+src_dir: 'src'
+src_path: 'src/peltak'
+build_dir: '.build'
+version_file: 'src/peltak/__init__.py'
+
+clean:
+  exclude:
+    - ".tox"
+    - ".venv"
 
 docker:
   registry: docker.novocode.net
