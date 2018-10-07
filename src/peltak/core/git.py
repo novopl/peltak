@@ -96,10 +96,22 @@ def ignore():
 
         return line
 
-    with conf.within_proj_dir():
-        with open('.gitignore') as fp:
+    ignore_files = [
+        conf.proj_path('.gitignore'),
+        conf.proj_path('.git/info/exclude'),
+        config().get('core.excludesfile')
+    ]
+
+    result = []
+    for ignore_file in ignore_files:
+        if not os.path.exists(ignore_file):
+            continue
+
+        with open(ignore_file) as fp:
             parsed = (parse_line(l) for l in fp.readlines())
-            return [x for x in parsed if x]
+            result += [x for x in parsed if x]
+
+    return result
 
 
 @util.cached_result()
@@ -127,3 +139,20 @@ def num_commits():
     """
     out = shell.run('git log --oneline', capture=True).stdout.strip()
     return len(out.splitlines())
+
+
+@util.cached_result()
+def config():
+    """ Return the current git configuration.
+
+    :return dict:
+        The current git config taken from ``git config --list``.
+    """
+    out = shell.run('git config --list', capture=True).stdout.strip()
+
+    result = {}
+    for line in out.splitlines():
+        name, value = line.split('=', 1)
+        result[name.strip()] = value.strip()
+
+    return result
