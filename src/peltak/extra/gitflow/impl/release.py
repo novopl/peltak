@@ -67,15 +67,20 @@ def finish():
 
     common.assert_branch_type('release')
 
+    # Merge release into master
     common.git_checkout(develop)
     common.git_pull(develop)
     common.git_merge(develop, branch.name)
 
+    # Merge hotfix into develop
     common.git_checkout(master)
     common.git_pull(master)
     common.git_merge(master, branch.name, no_ff=True)
+
+    # Tag the release commit with version number
     tag()
 
+    # Cleanup
     common.git_branch_delete(branch.name)
     common.git_prune()
 
@@ -90,12 +95,16 @@ def merged():
 
     common.assert_branch_type('release')
 
+    # Pull master with the merged release
+    common.git_checkout(master)
+    common.git_pull(master)
+
+    # Merge to develop
     common.git_checkout(develop)
     common.git_pull(develop)
     common.git_merge(develop, branch.name)
 
-    common.git_checkout(master)
-    common.git_pull(master)
+    # Cleanup
     common.git_branch_delete(branch.name)
     common.git_prune()
 
