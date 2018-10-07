@@ -75,7 +75,7 @@ def merged():
     """ Cleanup a remotely merged branch. """
     develop = conf.get('git.devel_branch', 'develop')
     master = conf.get('git.master_branch', 'master')
-    branch = git.current_branch()
+    branch = git.current_branch(refresh=True)
 
     common.assert_branch_type('hotfix')
 
