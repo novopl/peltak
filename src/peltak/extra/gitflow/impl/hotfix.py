@@ -48,6 +48,7 @@ def update():
 
 def finish():
     """ Merge current feature into develop. """
+    develop = conf.get('git.devel_branch', 'develop')
     master = conf.get('git.master_branch', 'master')
     branch = git.current_branch()
 
@@ -55,6 +56,9 @@ def finish():
     common.git_checkout(master)
     common.git_pull(master)
     common.git_merge(master, branch.name)
+    common.git_checkout(develop)
+    common.git_pull(develop)
+    common.git_merge(develop, branch.name)
     common.git_branch_delete(branch.name)
     common.git_prune()
     common.git_checkout(master)
@@ -68,6 +72,9 @@ def merged():
     common.assert_branch_type('hotfix')
     common.git_checkout(master)
     common.git_pull(master)
+    common.git_checkout(develop)
+    common.git_pull(develop)
+    common.git_merge(develop, branch.name)
     common.git_branch_delete(branch.name)
     common.git_prune()
     common.git_checkout(master)
