@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-""" Release commands implementation. """
+""" pypi related commands implementation. """
 from __future__ import absolute_import, unicode_literals
 
 # stdlib imports

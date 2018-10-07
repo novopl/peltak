@@ -4,9 +4,9 @@ commands:
   - peltak.cli.docs
   - peltak.cli.git
   - peltak.cli.lint
-  - peltak.cli.release
   - peltak.cli.test
   - peltak.cli.version
+  - peltak.extra.pypi
   - peltak.extra.gitflow
 
 src_dir: 'src'
