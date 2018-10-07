@@ -12,7 +12,8 @@ import click
 from peltak.core import shell
 from peltak.core import log
 from peltak.core import conf
-from peltak.core import docker
+from . import logic
+from . import client
 
 
 def build_images():
@@ -21,7 +22,7 @@ def build_images():
     docker_images = conf.get('docker.images', [])
 
     for image in docker_images:
-        docker.build_image(registry, image)
+        logic.build_image(registry, image)
 
 
 def push_images():
@@ -34,7 +35,7 @@ def push_images():
         sys.exit(-1)
 
     for image in docker_images:
-        docker.push_image(registry, image)
+        logic.push_image(registry, image)
 
 
 def docker_list(registry_pass):
@@ -50,7 +51,7 @@ def docker_list(registry_pass):
     if registry_user is None:
         registry_user = click.prompt("Username")
 
-    rc = docker.RegistryClient(registry, registry_user, registry_pass)
+    rc = client.RegistryClient(registry, registry_user, registry_pass)
     images = {x: rc.list_tags(x) for x in rc.list_images()}
 
     shell.cprint("<32>Images in <34>{} <32>registry:", registry)

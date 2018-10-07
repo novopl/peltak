@@ -3,11 +3,11 @@
 from __future__ import absolute_import, unicode_literals
 
 # local imports
-from peltak.core import docker
+from peltak.extra.docker.client import RegistryClient
 
 
 def test_works_as_expected():
-    client = docker.RegistryClient('docker.example.com', 'john', 'secret99')
+    client = RegistryClient('docker.example.com', 'john', 'secret99')
 
     assert client.user == 'john'
     assert client.pw == 'secret99'
