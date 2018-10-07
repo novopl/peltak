@@ -4,7 +4,6 @@ from __future__ import absolute_import, unicode_literals
 
 # stdlib imports
 import os
-from fnmatch import fnmatch
 
 # 3rd party imports
 import click
@@ -14,7 +13,6 @@ from peltak.core import conf
 from peltak.core import git
 from peltak.core import log
 from peltak.core import shell
-from peltak.core import util
 
 
 def add_hooks():
@@ -77,45 +75,5 @@ def push():
     the first push as afterwards ``git push`` is just quicker. Free's you from
     having to manually type the current branch name in the first push.
     """
-    branch = git.current_branch()
+    branch = git.current_branch().name
     shell.run('git push -u origin {}'.format(branch))
-
-
-@util.mark_deprecated(replaced_by="peltak release merged")
-def merged(target=None):
-    """ Cleanup a remotely merged branch. """
-    devel_branch = conf.get('git.devel_branch', 'develop')
-    master_branch = conf.get('git.master_branch', 'master')
-    protected_branches = conf.get(
-        'git.protected_branches',
-        (master_branch, devel_branch)
-    )
-    release_branch_pattern = conf.get('git.release_branch', 'release/*')
-    branch = git.current_branch()
-
-    if target is None:
-        if fnmatch(branch, release_branch_pattern):
-            target = master_branch
-        else:
-            target = devel_branch
-
-    try:
-        shell.run('git rev-parse --verify {}'.format(branch))
-    except IOError:
-        log.err("Branch '{}' does not exist".format(branch))
-
-    log.info("Checking out <33>{}".format(target))
-    shell.run('git checkout {}'.format(target))
-
-    log.info("Pulling latest changes")
-    shell.run('git pull origin {}'.format(target))
-
-    if branch not in protected_branches:
-        log.info("Deleting branch <33>{}".format(branch))
-        shell.run('git branch -d {}'.format(branch))
-
-    log.info("Pruning")
-    shell.run('git fetch --prune origin')
-
-    log.info("Checking out <33>{}<32> branch".format(target))
-    shell.run('git checkout {}'.format(target))

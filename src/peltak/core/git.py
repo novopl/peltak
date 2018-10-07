@@ -21,9 +21,18 @@ BranchDetails = namedtuple('BranchDetails', 'type title name')
 
 @util.cached_result()
 def current_branch():
-    """ Return the name of the currently checked out git branch. """
+    """
+
+    :return BranchDetails:
+    """
     cmd = 'git symbolic-ref --short HEAD'
-    return shell.run(cmd, capture=True).stdout.strip()
+    branch_name = shell.run(cmd, capture=True).stdout.strip()
+
+    if '/' in branch_name:
+        branch_type, branch_title = branch_name.rsplit('/', 1)
+        return BranchDetails(branch_type, branch_title, branch_name)
+
+    return BranchDetails(branch_name, None, branch_name)
 
 
 def commit_author(sha1=''):
@@ -114,20 +123,6 @@ def ignore():
     return result
 
 
-@util.cached_result()
-def branch_details():
-    """
-
-    :return BranchDetails:
-    """
-    branch_name = current_branch()
-    if '/' in branch_name:
-        branch_type, branch_title = branch_name.rsplit('/', 1)
-        return BranchDetails(branch_type, branch_title, branch_name)
-
-    return BranchDetails(branch_name, None, branch_name)
-
-
 def num_commits():
     """ Return the number of commits from beginning till current.
 
@@ -156,3 +151,32 @@ def config():
         result[name.strip()] = value.strip()
 
     return result
+
+
+def verify_branch(branch_name):
+    """ Verify if the given branch exists.
+
+    :param str branch_name:
+        The name of the branch to check.
+    :return bool:
+        **True** if a branch with name *branch_name* exits, **False** otherwise.
+    """
+    try:
+        shell.run('git rev-parse --verify {}'.format(branch_name))
+        return True
+    except IOError:
+        return False
+
+
+@util.cached_result()
+def protected_branches():
+    """ Return branches protected by deletion.
+
+    By default those are master and devel branches as configured in pelconf.
+
+    :return List[str]:
+        Names of important branches that should not be deleted.
+    """
+    master = conf.get('git.master_branch', 'master')
+    develop = conf.get('git.devel_branch', 'develop')
+    return conf.get('git.protected_branches', (master, develop))

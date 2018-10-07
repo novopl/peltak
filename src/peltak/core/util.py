@@ -107,8 +107,8 @@ class cached_result(object):
             The function wrapped in caching logic.
         """
         @wraps(fn)
-        def wrapper():   # pylint: disable=missing-docstring
-            if not hasattr(wrapper, self.CACHE_VAR):
+        def wrapper(refresh=False):   # pylint: disable=missing-docstring
+            if refresh or not hasattr(wrapper, self.CACHE_VAR):
                 result = fn()
                 setattr(wrapper, self.CACHE_VAR, result)
 
