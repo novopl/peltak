@@ -100,7 +100,7 @@ def git_merge(base, head, no_ff=False):
         If set to **True** it will force git to create merge commit. If set to
         **False** (default) it will do a fast-forward merge if possible.
     """
-    branch = git.current_branch()
+    branch = git.current_branch(refresh=True)
 
     if branch.name != base:
         git_checkout(base)
@@ -112,7 +112,7 @@ def git_merge(base, head, no_ff=False):
 
     log.info("Merging <33>{}<32> into <33>{}<32>", head, base)
     shell.run('git merge {args} {branch}'.format(
-        args=args,
+        args=' '.join(args),
         branch=head,
     ))
 
