@@ -7,7 +7,7 @@ import pytest
 from mock import patch, Mock, MagicMock
 
 # local imports
-from peltak.core import docker
+from peltak.extra.docker import logic
 
 
 @pytest.mark.parametrize('image,expected_cmd', [
@@ -26,7 +26,7 @@ from peltak.core import docker
 def test_build_image_generates_proper_shell_command(p_run, image, expected_cmd):
     registry = 'fake.test.com'
 
-    docker.build_image(registry, image)
+    logic.build_image(registry, image)
 
     p_run.assert_called_once_with(expected_cmd.format(
         reg=registry,

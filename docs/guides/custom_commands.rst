@@ -13,5 +13,5 @@ Sharing commands across projects
 ================================
 
 
-Create python packages and import commands from them. Like ``peltak.commands``
+Create python packages and import commands from them. Like ``peltak.cli``
 does.

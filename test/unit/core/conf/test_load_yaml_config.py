@@ -21,10 +21,10 @@ build_dir: .build
 version_file: 'src/peltak/__init__.py'
 
 commands:
-  - peltak.commands.git
-  - peltak.commands.lint
-  - peltak.commands.test
-  - peltak.commands.version
+  - peltak.cli.git
+  - peltak.cli.lint
+  - peltak.cli.test
+  - peltak.cli.version
 
 docker:
   registry: docker.novocode.net
@@ -61,10 +61,9 @@ def test_imports_commands(p_import):
     conf.load_yaml_config('pelconf.yaml')
 
     p_import.has_calls([
-        call('peltak.commands.git'),
-        call('peltak.commands.lint'),
-        call('peltak.commands.test'),
-        call('peltak.commands.version'),
-
+        call('peltak.cli.git'),
+        call('peltak.cli.lint'),
+        call('peltak.cli.test'),
+        call('peltak.cli.version'),
     ])
     assert conf.g_config == test_config

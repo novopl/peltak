@@ -1,8 +1,8 @@
 
-.. click:: peltak.commands:init
+.. click:: peltak.cli:init
     :prog: peltak init
     :show-nested:
 
-.. click:: peltak.commands:clean
+.. click:: peltak.cli:clean
     :prog: peltak clean
     :show-nested:

@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
-""" Helper commands for releasing to pypi. """
-from __future__ import absolute_import
-from . import cli, click
+""" git flow release commands. """
+from peltak.cli import cli, click
 
 
 @cli.group('release', invoke_without_command=True)
@@ -19,7 +18,7 @@ from . import cli, click
 )
 @click.pass_context
 def release_cli(ctx, component, exact):
-    """ Create a new release branch.
+    """ Create a new release.
 
     It will bump the current version number and create a release branch called
     `release/<version>` with one new commit (the version bump).
@@ -45,8 +44,8 @@ def release_cli(ctx, component, exact):
     if ctx.invoked_subcommand:
         return
 
-    from .impl import release
-    release.release(component, exact)
+    from peltak.extra.gitflow import impl
+    impl.release.start(component, exact)
 
 
 @release_cli.command('tag')
@@ -68,40 +67,19 @@ def tag_release():
         $ peltak release tag          # Tag the current commit as release
 
     """
-    from .impl import release
-    release.tag_release()
+    from peltak.extra.gitflow import impl
+    impl.release.tag()
 
 
-@release_cli.command()
-@click.argument('target')
-def upload(target):
-    """ Upload to a given pypi target.
+@release_cli.command('finish')
+def finish():
+    """ Merge the current release to both develop and master.
 
-    Examples::
-
-        \b
-        $ peltak release upload pypi    # Upload the current release to pypi
-        $ peltak release upload private # Upload to pypi server 'private'
-
+    This will perform a FF merge with develop if possible and --no-ff merge
+    with master and then tag the merge commit with the current version.
     """
-    from .impl import release
-    release.upload(target)
-
-
-@release_cli.command('gen-pypirc')
-@click.argument('username', required=False)
-@click.argument('password', required=False)
-def gen_pypirc(username=None, password=None):
-    """
-    Generate .pypirc config with the given credentials.
-
-    Example::
-
-        $ peltak release gen-pypirc my_pypi_user my_pypi_pass
-
-    """
-    from .impl import release
-    release.gen_pypirc(username, password)
+    from peltak.extra.gitflow import impl
+    impl.release.finish()
 
 
 @release_cli.command('merged')
@@ -125,5 +103,5 @@ def merged():
         $ peltak release merged     # Must be ran on the relase branch
 
     """
-    from .impl import release
-    release.merged()
+    from peltak.extra.gitflow import impl
+    impl.release.merged()

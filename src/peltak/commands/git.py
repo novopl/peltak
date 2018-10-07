@@ -1,69 +1,79 @@
 # -*- coding: utf-8 -*-
-""" git helpers. """
-from __future__ import absolute_import
-from . import cli, click
+""" Git commands implementation. """
+from __future__ import absolute_import, unicode_literals
+
+# stdlib imports
+import os
+
+# 3rd party imports
+import click
+
+# local imports
+from peltak.core import conf
+from peltak.core import git
+from peltak.core import log
+from peltak.core import shell
 
 
-@cli.group('git')
-def git_cli():
-    """ Git related commands """
-    pass
-
-
-@git_cli.command('add-hooks')
 def add_hooks():
-    """ Setup project git hooks.
+    """ Add git hooks for commit and push to run linting and tests. """
 
-    This will run all the checks before pushing to avoid waiting for the CI
-    fail.
+    # Detect virtualenv the hooks should use
+    virtual_env = conf.getenv('VIRTUAL_ENV')
+    if virtual_env is None:
+        log.err("You are not inside a virtualenv")
+        confirm_msg = (
+            "Are you sure you want to use global python installation "
+            "to run your git hooks? [y/N] "
+        )
+        click.prompt(confirm_msg, default=False)
+        if not click.confirm(confirm_msg):
+            log.info("Cancelling")
+            return
 
-    Example::
+        load_venv = ''
+    else:
+        load_venv = 'source "{}/bin/activate"'.format(virtual_env)
 
-        $ peltak git add-hooks
-    """
-    from .impl import git
+    # Write pre-commit hook
+    commit_hook = conf.proj_path('.git/hooks/pre-commit')
+    log.info("Adding pre-commit hook <33>{}", commit_hook)
+    with open(commit_hook, 'w') as fp:
+        fp.write('\n'.join([
+            '#!/bin/bash',
+            'PATH="/opt/local/libexec/gnubin:$PATH"',
+            '',
+            load_venv,
+            '',
+            'peltak lint --commit',
+        ]))
+        fp.write('\n')
 
-    git.add_hooks()
+    # Write pre-push hook
+    push_hook = conf.proj_path('.git/hooks/pre-push')
+    log.info("Adding pre-push hook: <33>{}", push_hook)
+    with open(push_hook, 'w') as fp:
+        fp.write('\n'.join([
+            '#!/bin/bash',
+            'PATH="/opt/local/libexec/gnubin:$PATH"',
+            '',
+            load_venv,
+            '',
+            'peltak test --allow-empty',
+        ]))
+        fp.write('\n')
+
+    log.info("Making hooks executable")
+    os.chmod(conf.proj_path('.git/hooks/pre-commit'), 0o755)
+    os.chmod(conf.proj_path('.git/hooks/pre-push'), 0o755)
 
 
-@git_cli.command('push')
 def push():
-    """ Push the current branch and set to track remote.
+    """ Push the current branch to origin.
 
-    Example::
-
-        $ peltak git push
-
+    This is an equivalent of ``git push -u origin <branch>``. Mainly useful for
+    the first push as afterwards ``git push`` is just quicker. Free's you from
+    having to manually type the current branch name in the first push.
     """
-    from .impl import git
-
-    git.push()
-
-
-@git_cli.command('merged')
-@click.argument('target', required=False)
-def merged(target=None):
-    """ Checkout the target branch, pull and delete the merged branch.
-
-    This is to ease the repetitive cleanup of each merged branch.
-
-    Example Config (those the are defaults)::
-
-        \b
-        conf.init({
-            'main_branch': 'develop',
-            'master_branch': 'master',
-            'protected_branches': ['master', 'develop'],
-            'release_branch_pattern: 'release/*'
-        })
-
-    Example::
-
-        $ peltak git merged develop # Branch was merged to develop
-        $ peltak git merged master  # Branch was merged to master
-        $ peltak git merged         # Autodetect where the branch was merged
-
-    """
-    from .impl import git
-
-    git.merged(target)
+    branch = git.current_branch().name
+    shell.run('git push -u origin {}'.format(branch))

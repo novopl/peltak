@@ -3,7 +3,7 @@ peltak lint
 ###########
 
 
-.. click:: peltak.commands.lint:lint
+.. click:: peltak.cli.lint:lint
     :prog: peltak lint
     :show-nested:
 

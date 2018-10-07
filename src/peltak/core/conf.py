@@ -116,12 +116,12 @@ def load_py_config(conf_file):
 
 
 def _import(module):
-    return __import__(module)
+    return __import__(module)   # nocov
 
 
 def getenv(name, default=None):
     """ Get the value of an ENV variable. """
-    return os.environ.get(name, default)
+    return os.environ.get(name, default)   # nocov
 
 
 def proj_path(path=None):

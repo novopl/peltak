@@ -9,7 +9,7 @@ from __future__ import absolute_import, unicode_literals
 import pytest
 
 # local imports
-from peltak.core import docker
+from peltak.extra.docker import client
 
 
 @pytest.fixture()
@@ -19,4 +19,4 @@ def registry_client():
     :return docker.RegistryClient:
         Fake registry client
     """
-    return docker.RegistryClient('docker.example.com', 'john', 'secret99')
+    return client.RegistryClient('docker.example.com', 'john', 'secret99')

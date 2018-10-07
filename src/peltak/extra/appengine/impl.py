@@ -60,14 +60,14 @@ def deploy(app_id, version, pretend, promote):
         If set to **True** promote the current remote app version to the one
         that's being deployed.
     """
-    gae_app = GaeApp.for_branch(git.current_branch())
+    gae_app = GaeApp.for_branch(git.current_branch().name)
 
     if gae_app is None and None in (app_id,  version):
         msg = (
             "Can't find an AppEngine app setup for branch <35>{}<32> and"
             "--project and --version were not given."
         )
-        log.err(msg, git.current_branch())
+        log.err(msg, git.current_branch().name)
         sys.exit(1)
 
     if version is not None:

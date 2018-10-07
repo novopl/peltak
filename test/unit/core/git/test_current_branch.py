@@ -15,7 +15,7 @@ from peltak.core import util
 def test_calls_git_cli(p_run):
     util.cached_result.clear(git.current_branch)
 
-    git.current_branch()
+    git.current_branch().name
 
     p_run.assert_called_once_with('git symbolic-ref --short HEAD', capture=True)
 
@@ -24,4 +24,4 @@ def test_calls_git_cli(p_run):
 def test_strips_output_from_git_porcelain():
     util.cached_result.clear(git.current_branch)
 
-    assert git.current_branch() == 'test'
+    assert git.current_branch().name == 'test'

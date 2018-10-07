@@ -21,9 +21,18 @@ BranchDetails = namedtuple('BranchDetails', 'type title name')
 
 @util.cached_result()
 def current_branch():
-    """ Return the name of the currently checked out git branch. """
+    """
+
+    :return BranchDetails:
+    """
     cmd = 'git symbolic-ref --short HEAD'
-    return shell.run(cmd, capture=True).stdout.strip()
+    branch_name = shell.run(cmd, capture=True).stdout.strip()
+
+    if '/' in branch_name:
+        branch_type, branch_title = branch_name.rsplit('/', 1)
+        return BranchDetails(branch_type, branch_title, branch_name)
+
+    return BranchDetails(branch_name, None, branch_name)
 
 
 def commit_author(sha1=''):
@@ -96,24 +105,22 @@ def ignore():
 
         return line
 
-    with conf.within_proj_dir():
-        with open('.gitignore') as fp:
+    ignore_files = [
+        conf.proj_path('.gitignore'),
+        conf.proj_path('.git/info/exclude'),
+        config().get('core.excludesfile')
+    ]
+
+    result = []
+    for ignore_file in ignore_files:
+        if not (ignore_file and os.path.exists(ignore_file)):
+            continue
+
+        with open(ignore_file) as fp:
             parsed = (parse_line(l) for l in fp.readlines())
-            return [x for x in parsed if x]
+            result += [x for x in parsed if x]
 
-
-@util.cached_result()
-def branch_details():
-    """
-
-    :return BranchDetails:
-    """
-    branch_name = current_branch()
-    if '/' in branch_name:
-        branch_type, branch_title = branch_name.rsplit('/', 1)
-        return BranchDetails(branch_type, branch_title, branch_name)
-
-    return BranchDetails(branch_name, None, branch_name)
+    return result
 
 
 def num_commits():
@@ -127,3 +134,49 @@ def num_commits():
     """
     out = shell.run('git log --oneline', capture=True).stdout.strip()
     return len(out.splitlines())
+
+
+@util.cached_result()
+def config():
+    """ Return the current git configuration.
+
+    :return dict:
+        The current git config taken from ``git config --list``.
+    """
+    out = shell.run('git config --list', capture=True).stdout.strip()
+
+    result = {}
+    for line in out.splitlines():
+        name, value = line.split('=', 1)
+        result[name.strip()] = value.strip()
+
+    return result
+
+
+def verify_branch(branch_name):
+    """ Verify if the given branch exists.
+
+    :param str branch_name:
+        The name of the branch to check.
+    :return bool:
+        **True** if a branch with name *branch_name* exits, **False** otherwise.
+    """
+    try:
+        shell.run('git rev-parse --verify {}'.format(branch_name))
+        return True
+    except IOError:
+        return False
+
+
+@util.cached_result()
+def protected_branches():
+    """ Return branches protected by deletion.
+
+    By default those are master and devel branches as configured in pelconf.
+
+    :return List[str]:
+        Names of important branches that should not be deleted.
+    """
+    master = conf.get('git.master_branch', 'master')
+    develop = conf.get('git.devel_branch', 'develop')
+    return conf.get('git.protected_branches', (master, develop))

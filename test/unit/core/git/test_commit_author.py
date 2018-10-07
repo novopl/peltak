@@ -12,7 +12,7 @@ from peltak.core import git
 
 @patch('peltak.core.shell.run')
 def test_works_as_expected(p_run):
-    git.current_branch()
+    git.current_branch().name()
 
     p_run.assert_called_once_with('git symbolic-ref --short HEAD', capture=True)
 
