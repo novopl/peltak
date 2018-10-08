@@ -45,7 +45,12 @@ def appengine_cli():
     help=("If specified, the currently deployed version will become the active "
           "one")
 )
-def deploy(project, version, pretend, promote):
+@click.option(
+    '-q', '--quiet',
+    is_flag=True,
+    help="Do not prompt for input"
+)
+def deploy(project, version, pretend, promote, quiet):
     """ Deploy the app to the target environment.
 
     The target environments can be configured using the ENVIRONMENTS conf
@@ -54,7 +59,7 @@ def deploy(project, version, pretend, promote):
     """
     from . import impl
 
-    impl.deploy(project, version, pretend, promote)
+    impl.deploy(project, version, pretend, promote, quiet)
 
 
 @appengine_cli.command()

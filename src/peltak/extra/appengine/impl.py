@@ -21,7 +21,7 @@ from peltak.core import util
 
 
 @util.mark_experimental
-def deploy(app_id, version, pretend, promote):
+def deploy(app_id, version, pretend, promote, quiet):
     """ Deploy the app to AppEngine.
 
     :param str app_id:
@@ -34,6 +34,9 @@ def deploy(app_id, version, pretend, promote):
     :param bool promote:
         If set to **True** promote the current remote app version to the one
         that's being deployed.
+    :param bool quiet:
+        If set to **True** this will pass the ``--quiet`` flag to gcloud
+        command.
     """
     gae_app = GaeApp.for_branch(git.current_branch().name)
 
@@ -167,7 +170,7 @@ class GaeApp(object):
 
         return versioning.current().replace('.', '-')
 
-    def deploy(self, promote=False, pretend=False):
+    def deploy(self, promote=False, pretend=False, quiet=False):
         """ Deploy the code to AppEngine.
 
         :param bool promote:
@@ -180,6 +183,9 @@ class GaeApp(object):
             '--version {}'.format(self.app_version),
             '--project {}'.format(self.app_id),
         ]
+
+        if quiet:
+            args += ['--quiet']
 
         cmd = 'gcloud app deploy {args} {deployables}'.format(
             deployables=fs.surround_paths_with_quotes(self.deployables),
