@@ -31,7 +31,10 @@ jobs:
           command: tox
       - run:
           name: Build Documentation
-          command: peltak docs --recreate --run-doctests
+          command: |
+            peltak docs --recreate --run-doctests
+            mv docs/html docs/peltak-docs
+            cd docs && zip -r ../.build/peltak-docs.zip peltak-docs
 
       - save_cache:
           key: deps-rev4-{{ checksum "requirements.txt" }}
@@ -49,8 +52,7 @@ jobs:
           path: .build/coverage/
           destination: coverage
       - store_artifacts:
-          path: docs/html
-          destination: docs
+          path: .build/peltak-docs.zip
 
 
   release:
