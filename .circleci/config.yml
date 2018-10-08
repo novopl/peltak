@@ -19,6 +19,7 @@ jobs:
             python --version
             whoami
             pip freeze
+            pip install -r ops/devrequirements.txt
             pip uninstall peltak -y || true
             python setup.py develop
 
