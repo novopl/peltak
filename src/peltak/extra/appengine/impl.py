@@ -54,7 +54,7 @@ def deploy(app_id, version, pretend, promote, quiet):
     if app_id is not None:
         gae_app.app_id = app_id
 
-    gae_app.deploy(promote, pretend)
+    gae_app.deploy(promote, pretend, quiet)
 
 
 @util.mark_experimental
