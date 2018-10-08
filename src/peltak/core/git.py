@@ -17,6 +17,7 @@ from . import util
 
 Author = namedtuple('Author', 'name email')
 BranchDetails = namedtuple('BranchDetails', 'type title name')
+CommitDetails = namedtuple('CommitDetails', 'id author title desc number')
 
 
 @util.cached_result()
@@ -33,6 +34,36 @@ def current_branch():
         return BranchDetails(branch_type, branch_title, branch_name)
 
     return BranchDetails(branch_name, None, branch_name)
+
+
+@util.cached_result()
+def latest_commit():
+    """ Return details for the latest commit.
+
+    :return CommitDetails:
+        The `CommitDetails` instance for the latest commit on the current
+        branch.
+    """
+    return commit_details()
+
+
+def commit_details(sha1=''):
+    """ Return details about a given commit.
+
+    :param str sha1:
+        The sha1 of the commit to query. If not given, it will return the
+        details for the latest commit.
+    :return CommitDetails:
+        A named tuple ``(name, email)`` with the commit author details.
+    """
+    with conf.within_proj_dir():
+        cmd = 'git show -s --format="%h||%an||%ae||%s||%b" {}'.format(sha1)
+        result = shell.run(cmd, capture=True).stdout
+        commit_id, name, email, title, desc = result.split('||')
+        commit_nr = num_commits(refresh=True)
+        author = Author(name, email)
+
+        return CommitDetails(commit_id, author, title, desc, commit_nr)
 
 
 def commit_author(sha1=''):
@@ -123,6 +154,7 @@ def ignore():
     return result
 
 
+@util.cached_result()
 def num_commits():
     """ Return the number of commits from beginning till current.
 

@@ -114,7 +114,7 @@ def merged():
 def tag():
     """ Tag the current commit with the current version. """
     release_ver = versioning.current()
-    author = git.commit_author()
+    commit = git.latest_commit()
 
     with conf.within_proj_dir():
         log.info("Creating tag that marks the release")
@@ -122,7 +122,7 @@ def tag():
             'git -c "user.name={0.name}" -c "user.email={0.email}" '
             'tag -a "v{1}" -m "Mark v{1} release"'
         ).format(
-            author,
+            commit.author,
             release_ver
         )
         shell.run(cmd)

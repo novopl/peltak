@@ -113,9 +113,8 @@ def _find_appengine_sdk():
 class GaeApp(object):
     """ Represents an AppEngine app."""
     app_id = attr.ib(type=str)
-    config = attr.ib(type=str, default=None)
-    deployables = attr.ib(type=list, default=['.'])
     version = attr.ib(type=str, default=None)
+    deployables = attr.ib(type=list, default=['.'])
 
     @classmethod
     def for_branch(cls, branch_name):
@@ -154,9 +153,10 @@ class GaeApp(object):
             return self.version
 
         elif branch.type == 'develop':
-            return '{ver}-c{commit_nr}'.format(
+            return '{ver}-c{commit_nr}-{commit_id}'.format(
                 ver=versioning.current().replace('.', '-'),
                 commit_nr=git.num_commits(),
+                commit_id=git.latest_commit().hash[:7]
             )
 
         elif branch.type == 'feature':
