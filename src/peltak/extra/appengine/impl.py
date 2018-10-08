@@ -148,7 +148,7 @@ class GaeApp(object):
         :return str:
             Version string that can be directly passed to ``gcloud app deploy``.
         """
-        branch = git.branch_details()
+        branch = git.current_branch()
 
         if self.version is not None:
             return self.version
