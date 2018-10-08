@@ -159,7 +159,7 @@ class GaeApp(object):
             return '{ver}-c{commit_nr}-{commit_id}'.format(
                 ver=versioning.current().replace('.', '-'),
                 commit_nr=git.num_commits(),
-                commit_id=git.latest_commit().hash[:7]
+                commit_id=git.latest_commit().id
             )
 
         elif branch.type == 'feature':
