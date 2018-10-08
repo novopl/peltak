@@ -25,7 +25,7 @@ def update():
 
     This will merge current develop into the current branch.
     """
-    branch = git.current_branch()
+    branch = git.current_branch(refresh=True)
     develop = conf.get('git.devel_branch', 'develop')
 
     common.assert_branch_type('feature')
@@ -49,7 +49,7 @@ def rename(name):
 def finish():
     """ Merge current feature branch into develop. """
     develop = conf.get('git.devel_branch', 'develop')
-    branch = git.current_branch()
+    branch = git.current_branch(refresh=True)
 
     common.assert_branch_type('feature')
 
@@ -68,7 +68,7 @@ def finish():
 def merged():
     """ Cleanup a remotely merged branch. """
     develop = conf.get('git.devel_branch', 'develop')
-    branch_name = git.current_branch().name()
+    branch_name = git.current_branch(refresh=True).name()
 
     common.assert_branch_type('feature')
 

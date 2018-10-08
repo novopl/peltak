@@ -63,7 +63,7 @@ def finish():
     """ Merge current release into develop and master and tag it. """
     develop = conf.get('git.devel_branch', 'develop')
     master = conf.get('git.master_branch', 'master')
-    branch = git.current_branch()
+    branch = git.current_branch(refresh=True)
 
     common.assert_branch_type('release')
 
@@ -91,7 +91,7 @@ def merged():
     """ Cleanup the release branch after it was remotely merged to master. """
     develop = conf.get('git.devel_branch', 'develop')
     master = conf.get('git.master_branch', 'master')
-    branch = git.current_branch()
+    branch = git.current_branch(refresh=True)
 
     common.assert_branch_type('release')
 

@@ -8,9 +8,12 @@ Command Line Interface
     docker
     docs
     fe
+    feature
     git
+    hotfix
     lint
     misc
+    pypi
     release
     test
     version
