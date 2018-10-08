@@ -21,31 +21,6 @@ from peltak.core import util
 
 
 @util.mark_experimental
-def devserver(port, admin_port, clear):
-    """ Run devserver.
-
-    :param int port:
-        Port on which the app will be served.
-    :param int admin_port:
-        Port on which the admin interface is served.
-    :param bool clear:
-        If set to **True**, clear the datastore on startup.
-    """
-    admin_port = admin_port or (port + 1)
-
-    args = [
-        '--port={}'.format(port),
-        '--admin_port={}'.format(admin_port)
-    ]
-
-    if clear:
-        args += ['--clear_datastore=yes']
-
-    with conf.within_proj_dir():
-        shell.run('dev_appserver.py . {args}'.format(args=' '.join(args)))
-
-
-@util.mark_experimental
 def deploy(app_id, version, pretend, promote):
     """ Deploy the app to AppEngine.
 
@@ -77,6 +52,31 @@ def deploy(app_id, version, pretend, promote):
         gae_app.app_id = app_id
 
     gae_app.deploy(promote, pretend)
+
+
+@util.mark_experimental
+def devserver(port, admin_port, clear):
+    """ Run devserver.
+
+    :param int port:
+        Port on which the app will be served.
+    :param int admin_port:
+        Port on which the admin interface is served.
+    :param bool clear:
+        If set to **True**, clear the datastore on startup.
+    """
+    admin_port = admin_port or (port + 1)
+
+    args = [
+        '--port={}'.format(port),
+        '--admin_port={}'.format(admin_port)
+    ]
+
+    if clear:
+        args += ['--clear_datastore=yes']
+
+    with conf.within_proj_dir():
+        shell.run('dev_appserver.py . {args}'.format(args=' '.join(args)))
 
 
 @util.mark_experimental
@@ -132,7 +132,9 @@ class GaeApp(object):
         """
         for proj in conf.get('appengine.projects', []):
             if fnmatch(branch_name, proj['branch']):
-                return cls(**proj)
+                app_config = dict(proj)
+                app_config.pop('branch')
+                return cls(**app_config)
 
         return None
 
