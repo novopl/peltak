@@ -4,6 +4,7 @@ from __future__ import absolute_import, unicode_literals
 
 # stdlib imports
 import os
+import sys
 
 # local imports
 from peltak.core import shell
@@ -61,6 +62,10 @@ def start(component, exact):
 
 def finish():
     """ Merge current release into develop and master and tag it. """
+    if git.staged() or git.unstaged():
+        log.err("You have uncommitted changes in your repo!")
+        sys.exit(1)
+
     develop = conf.get('git.devel_branch', 'develop')
     master = conf.get('git.master_branch', 'master')
     branch = git.current_branch(refresh=True)
