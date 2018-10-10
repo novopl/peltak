@@ -158,7 +158,7 @@ class GaeApp(object):
         elif branch.type == 'develop':
             return '{ver}-c{commit_nr}-{commit_id}'.format(
                 ver=versioning.current().replace('.', '-'),
-                commit_nr=git.num_commits(),
+                commit_nr=git.latest_commit().number,
                 commit_id=git.latest_commit().id
             )
 

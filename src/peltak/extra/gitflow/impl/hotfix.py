@@ -2,9 +2,13 @@
 """ git flow hotfix commands implementation. """
 from __future__ import absolute_import, unicode_literals
 
+# stdlib imports
+import sys
+
 # local imports
 from peltak.core import conf
 from peltak.core import git
+from peltak.core import log
 from . import common
 
 
@@ -16,8 +20,11 @@ def start(name):
     :param str name:
         The name of the new feature.
     """
-    branch_name = 'hotfix/' + name.strip().replace(' ', '_')
-    common.git_checkout(branch_name, create=True)
+    hotfix_branch = 'hotfix/' + common.to_branch_name(name)
+    master = conf.get('git.master_branch', 'master')
+
+    common.assert_on_branch(master)
+    common.git_checkout(hotfix_branch, create=True)
 
 
 def rename(name):
@@ -48,6 +55,10 @@ def update():
 
 def finish():
     """ Merge current feature into develop. """
+    if git.staged() or git.unstaged():
+        log.err("You have uncommitted changes in your repo!")
+        sys.exit(1)
+
     develop = conf.get('git.devel_branch', 'develop')
     master = conf.get('git.master_branch', 'master')
     branch = git.current_branch(refresh=True)
