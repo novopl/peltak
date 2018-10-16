@@ -20,14 +20,14 @@ def appengine_cli():
     '--project',
     type=str,
     metavar='APP_ID',
-    help=("The AppEngine project to deploy to. This overrides the value"
+    help=("The AppEngine project to deploy to. This overrides the value "
           "configured using appengine.projects config variable.")
 )
 @click.option(
     '--version',
     type=str,
     metavar='APP_VERSION',
-    help=("The AppEngine version to deploy. This overrides the value"
+    help=("The AppEngine version to deploy. This overrides the value "
           "configured using appengine.projects config variable.")
 )
 @click.option(

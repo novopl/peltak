@@ -7,7 +7,7 @@ from __future__ import absolute_import
 from . import cli, click
 
 
-@cli.command('docs')
+@cli.group('docs', invoke_without_command=True)
 @click.option(
     '--recreate',
     is_flag=True,
@@ -28,7 +28,8 @@ from . import cli, click
     count=True,
     help="Be more verbose"
 )
-def docs(recreate, gen_index, run_doctests, verbose):
+@click.pass_context
+def docs_cli(ctx, recreate, gen_index, run_doctests, verbose):
     """ Build project documentation.
 
     This command will run sphinx-refdoc first to generate the reference
@@ -62,6 +63,8 @@ def docs(recreate, gen_index, run_doctests, verbose):
         $ peltak docs --recreate --no-index     # Build docs from clean slate
 
     """
-    from peltak.commands import docs
+    if ctx.invoked_subcommand:
+        return
 
+    from peltak.commands import docs
     docs.docs(recreate, gen_index, run_doctests, verbose)

@@ -228,6 +228,7 @@ def guess_base_branch():
         return None
 
 
+@util.mark_deprecated('CommitDetails.get().author')
 def commit_author(sha1=''):
     """ Return the author of the given commit.
 

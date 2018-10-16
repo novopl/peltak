@@ -162,11 +162,9 @@ class GaeApp(object):
                 commit_id=git.latest_commit().id
             )
 
-        elif branch.type == 'feature':
-            return '{ver}-{title}'.format(
-                ver=versioning.current().replace('.', '-'),
-                title=branch.title.replace('_', '-')
-            )
+        elif branch.type in ('feature', 'hotfix', 'task'):
+            # We don't need version when we have the title.
+            return branch.title.replace('_', '-')
 
         return versioning.current().replace('.', '-')
 
