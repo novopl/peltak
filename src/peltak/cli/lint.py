@@ -4,7 +4,7 @@ from __future__ import absolute_import
 from . import cli, click
 
 
-@cli.command('lint')
+@cli.group('lint', invoke_without_command=True)
 @click.option(
     '-e', '--exclude',
     multiple=True,
@@ -28,7 +28,8 @@ from . import cli, click
     is_flag=True,
     help=("Just print files that would be linted without running anything")
 )
-def lint(exclude, skip_untracked, commit_only, pretend):
+@click.pass_context
+def lint_cli(ctx, exclude, skip_untracked, commit_only, pretend):
     """ Run pep8 and pylint on all project files.
 
     You can configure the linting paths using the lint.paths config variable.
@@ -63,6 +64,8 @@ def lint(exclude, skip_untracked, commit_only, pretend):
         $ peltak lint -e "*.tox*"   # Don't lint files inside .tox directory
 
     """
-    from peltak.commands import lint
+    if ctx.invoked_subcommand:
+        return
 
+    from peltak.commands import lint
     lint.lint(exclude, skip_untracked, commit_only, pretend)
