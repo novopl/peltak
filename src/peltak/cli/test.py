@@ -6,7 +6,7 @@ from __future__ import absolute_import
 from . import cli, click
 
 
-@cli.command('test')
+@cli.group('test', invoke_without_command=True)
 @click.argument('tests_type', metavar='<type>', type=str, default='default')
 @click.option(
     '-v', '--verbose',
@@ -42,9 +42,9 @@ from . import cli, click
           "of the plugins starts with '-' it will be disabled, otherwise it "
           "will be enabled.")
 )
-def test(
-        tests_type, verbose, junit, no_locals, no_coverage, plugins, allow_empty
-):
+@click.pass_context
+def test_cli(ctx, tests_type, verbose, junit, no_locals, no_coverage, plugins,
+             allow_empty):
     """ Run tests against the current python version.
 
     This command uses pytest internally and is just a thing wrapper over it
@@ -90,7 +90,16 @@ def test(
         $ peltak test --no-sugar -vv    # Be extra verbose
 
     """
+    if ctx.invoked_subcommand:
+        return
+
     from peltak.commands import test
     test.test(
-        tests_type, verbose, junit, no_locals, no_coverage, plugins, allow_empty
+        tests_type,
+        verbose,
+        junit,
+        no_locals,
+        no_coverage,
+        plugins,
+        allow_empty
     )
