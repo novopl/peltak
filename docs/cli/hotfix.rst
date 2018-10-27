@@ -3,6 +3,6 @@ peltak hotfix
 #############
 
 
-.. click:: peltak.extra.gitflow.cli.hotfix:hotfix_cli
+.. click:: peltak.extra.gitflow:hotfix_cli
     :prog: peltak hotfix
     :show-nested:

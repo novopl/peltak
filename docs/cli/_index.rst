@@ -2,12 +2,12 @@
 Command Line Interface
 ######################
 
+
 .. toctree::
     appengine
     django
     docker
     docs
-    fe
     feature
     git
     hotfix
@@ -15,5 +15,11 @@ Command Line Interface
     misc
     pypi
     release
+    task
     test
     version
+
+
+.. click:: peltak.cli:cli
+    :prog: peltak
+    :show-nested:
