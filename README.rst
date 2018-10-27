@@ -84,6 +84,13 @@ pytest configuration is defined in ``ops/tools/pytest.ini``.
 
     $ peltak test
 
+.. admonition:: **How to test for all supported python versions?**
+
+    To run tox you need to first generate the requirements files. You
+    can do this with ``pipenv lock -d --requirements > requirements.txt``. Once
+    it's done, you can just run ``tox`` to test against python2.7, python3.4
+    and python3.6 all in one go.
+
 Linting
 .......
 

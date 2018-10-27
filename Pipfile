@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 click = "~=7.0"
 pyyaml = "~=3.13"
+six = "~=1.11"
 
 [dev-packages]
 coverage = "~=4.5"

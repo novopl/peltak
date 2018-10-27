@@ -7,21 +7,31 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: deps-rev4-{{ checksum "requirements.txt" }}
+          key: deps-rev1-{{ checksum "Pipfile.lock" }}
       - restore_cache:
-          key: tox-rev2-{{ checksum "requirements.txt" }}-{{ checksum "ops/devrequirements.txt" }}
+          key: tox-rev1-{{ checksum "Pipfile.lock" }}
 
       - run:
           name: Setup peltak
           command: |
             which pip
+            echo '------------------------------------'
             which python
+            echo '------------------------------------'
             python --version
+            echo '------------------------------------'
             whoami
-            pip freeze
-            pip install -r ops/devrequirements.txt
+            echo '------------------------------------'
+            time pipenv lock -d --requirements | tee requirements.txt
+            echo '------------------------------------'
+            time pip install -r requirements.txt
+            echo '------------------------------------'
             pip uninstall peltak -y || true
+            echo '------------------------------------'
             python setup.py develop
+            echo '------------------------------------'
+            cat requirements.txt
+            echo '------------------------------------'
 
       - run:
           name: Lint
@@ -37,12 +47,12 @@ jobs:
             cd docs && zip -r ../.build/peltak-docs.zip peltak-docs
 
       - save_cache:
-          key: deps-rev4-{{ checksum "requirements.txt" }}
+          key: deps-rev1-{{ checksum "Pipfile.lock" }}
           paths:
           - /usr/local/bin
           - /usr/local/lib/python3.6/site-packages
       - save_cache:
-          key: tox-rev2-{{ checksum "requirements.txt" }}-{{ checksum "ops/devrequirements.txt" }}
+          key: tox-rev1-{{ checksum "Pipfile.lock" }}
           paths:
           - .tox
 
@@ -61,7 +71,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: deps-rev3-{{ checksum "requirements.txt" }}
+          key: deps-rev1-{{ checksum "Pipfile.lock" }}
       - run:
           name: Setup peltak
           command: |
@@ -78,7 +88,6 @@ jobs:
           command: |
             peltak release tag
             git push origin v$(peltak version --porcelain)
-
 
 workflows:
   version: 2

@@ -28,6 +28,7 @@ __pycache__
 # Generated files #
 ###################
 env
+requirements.txt
 .venv
 .coverage
 .tox
