@@ -49,15 +49,11 @@ def lint_cli(ctx, exclude, skip_untracked, commit_only, pretend):
     **Config Example**::
 
         \b
-        conf.init({
-            'lint': {
-                'pylint_cfg': 'ops/tools/pylint.ini',
-                'pep8_cfg': 'ops/tools/pep8.ini',
-                'paths': [
-                    'src/mypkg'
-                ],
-            }
-        })
+        lint:
+          pylint_cfg: 'ops/tools/pylint.ini'
+          pep8_cfg: 'ops/tools/pep8.ini'
+          paths:
+            - 'src/mypkg'
 
     **Examples**::
 

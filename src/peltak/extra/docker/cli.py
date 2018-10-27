@@ -31,14 +31,12 @@ def build_images():
     Config example::
 
         \b
-        conf.init({
-            'docker': {
-                'registry': 'registry.mydomain.com',
-                'images': [
-                    {'name': 'myapp'}
-                ]
-            }
-        })
+        docker:
+          registry: 'registry.mydomain.com'
+          images:
+            - name: 'myapp:1.0'
+              path: '.'
+              file: 'Dockerfile'
 
     Example::
 
@@ -64,14 +62,12 @@ def push_images():
     Config example::
 
         \b
-        conf.init({
-            'docker': {
-                'registry': 'registry.mydomain.com',
-                'images': [
-                    {'name': 'myapp'}
-                ]
-            }
-        })
+        docker:
+          registry: 'registry.mydomain.com'
+          images:
+            - name: 'myapp:1.0'
+              path: '.'
+              file: 'Dockerfile'
 
     Example::
 
@@ -103,12 +99,13 @@ def docker_list(registry_pass):
     Config example::
 
         \b
-        conf.init({
-            'docker': {
-                'registry': 'registry.mydomain.com',
-                'registry_user': 'myuser'
-            }
-        })
+        docker:
+          registry: 'registry.mydomain.com'
+          registry_user: 'myuser'
+          images:
+            - name: 'myapp:1.0'
+              path: '.'
+              file: 'Dockerfile'
 
     Example::
 

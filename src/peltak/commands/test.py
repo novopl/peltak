@@ -50,7 +50,7 @@ def test(tests_type,
     test_types = conf.get('test.types', {})
 
     coverage_out_path = os.path.join(build_dir, 'coverage')
-    coverage_cfg_path = conf.get_path('coverage_cfg_path',
+    coverage_cfg_path = conf.get_path('test.coverage_cfg_path',
                                       'ops/tools/coverage.ini')
 
     django_settings = conf.get('django_settings', None)

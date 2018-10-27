@@ -19,11 +19,9 @@ def version_cli(ctx, porcelain):
     file that just holds the raw project version. The appropriate storage is
     guessed based on the file type and name.
 
-    Example configuration::
+    Example Configuration::
 
-        conf.init({
-            'version_file': 'src/mypackage/__init__.py'
-        })
+        version_file: 'src/mypackage/__init__.py'
 
     Examples:
 

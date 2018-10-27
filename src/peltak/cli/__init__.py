@@ -62,12 +62,14 @@ def clean(pretend, exclude):
     Config example::
 
         \b
-        conf.init({
-            'CLEAN_PATTERNS': [
-                '*__pycache__*',
-                '*.py[cod]',
-                '*.swp'
-        })
+        clean:
+          patterns:
+            - '*__pycache__*',
+            - '*.py[cod]',
+            - '*.swp'
+          exclude:
+            - '.tox'
+            - '.venv'
 
     Examples::
 

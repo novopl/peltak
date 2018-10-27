@@ -46,10 +46,9 @@ def collectstatic():
     Sample Config::
 
         \b
-        conf.init({
-            'SRC_DIR': './src'
-            'DJANGO_SETTINGS': 'mypkg.settings',
-        })
+        src_dir: 'src'
+        django:
+          settings: 'mypkg.settings'
 
     Example::
 
@@ -72,10 +71,9 @@ def mkmigrations(app, name):
     Sample Config::
 
         \b
-        conf.init({
-            'SRC_DIR': './src'
-            'DJANGO_SETTINGS': 'mypkg.settings',
-        })
+        src_dir: 'src'
+        django:
+          settings: 'mypkg.settings'
 
     Example::
 
@@ -93,10 +91,9 @@ def migrate():
     Sample Config::
 
         \b
-        conf.init({
-            'SRC_DIR': './src'
-            'DJANGO_SETTINGS': 'mypkg.settings',
-        })
+        src_dir: 'src'
+        django:
+          settings: 'mypkg.settings'
 
     Example::
 
@@ -113,10 +110,10 @@ def createsuperuser():
     Sample Config::
 
         \b
-        conf.init({
-            'SRC_DIR': './src'
-            'DJANGO_SETTINGS': 'mypkg.settings',
-        })
+        src_dir: 'src'
+
+        django:
+          settings: 'mypkg.settings'
 
     Example::
 
@@ -134,10 +131,9 @@ def shell():
     Sample Config::
 
         \b
-        conf.init({
-            'SRC_DIR': './src'
-            'DJANGO_SETTINGS': 'mypkg.settings',
-        })
+        src_dir: 'src'
+        django:
+          settings: 'mypkg.settings'
 
     Example::
 
@@ -158,9 +154,9 @@ def _manage_cmd(cmd, settings=None):
     from os import environ
     from peltak.core import conf
 
-    sys.path.insert(0, conf.get('SRC_DIR'))
+    sys.path.insert(0, conf.get('src_dir'))
 
-    settings = settings or conf.get('DJANGO_SETTINGS', None)
+    settings = settings or conf.get('django.settings', None)
     environ.setdefault("DJANGO_SETTINGS_MODULE", settings)
 
     from django.core.management import execute_from_command_line

@@ -48,15 +48,12 @@ def docs_cli(ctx, recreate, gen_index, run_doctests, verbose):
     Sample Config::
 
         \b
-        conf.init({
-            'build_dir': '.build',
-            'docs': {
-                'path': 'docs',
-                'reference': [
-                    'src/mypkg'
-                ]
-            }
-        })
+        build_dir: '.build'
+
+        docs:
+          path: 'docs'
+          reference:
+            - 'src/mypkg'
 
     Examples::
 
