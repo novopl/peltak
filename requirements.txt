@@ -1,4 +1,2 @@
-click==6.7
-click-completion==0.4.1
-cached-property==1.4.3
+click~=7.0
 PyYAML==3.13

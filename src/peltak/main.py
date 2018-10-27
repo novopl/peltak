@@ -14,13 +14,4 @@ __all__ = [
 conf.load()
 
 
-try:
-    # Only enable click_completion if psutil (shell auto detection) is present.
-    import psutil
-    import click_completion
-    click_completion.init()
-except ImportError:
-    pass
-
-
 from peltak.cli import clean   # noqa

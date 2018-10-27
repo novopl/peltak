@@ -35,6 +35,28 @@ Installation
 
     $ pip install peltak
 
+Enabling auto-completion
+------------------------
+**peltak** has a great auto-completion thanks to the underlying click library.
+The steps to enable it vary slightly depending on what shell you are using
+
+**Bash users**
+
+    Either run this command or to make the change permanent add it to your
+    ``~/.bashrc``:
+
+    .. code-block:: shell
+
+        eval "$(_PELTAK_COMPLETE=source peltak)"
+
+**ZSH users**
+    Either run this command or to make the change permanent add it to your
+    ``~/.zshrc``:
+
+    .. code-block:: shell
+
+        eval "$(_PELTAK_COMPLETE=source_zsh peltak)"
+
 
 Contributing
 ============
