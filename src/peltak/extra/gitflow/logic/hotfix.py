@@ -56,7 +56,10 @@ def update():
 def finish():
     """ Merge current feature into develop. """
     if git.staged() or git.unstaged():
-        log.err("You have uncommitted changes in your repo!")
+        log.err(
+            "You have uncommitted changes in your repo!\n"
+            "You need to stash them before you merge the hotfix branch"
+        )
         sys.exit(1)
 
     develop = conf.get('git.devel_branch', 'develop')

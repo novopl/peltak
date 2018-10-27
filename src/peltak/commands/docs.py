@@ -29,7 +29,6 @@ def docs(recreate, gen_index, run_doctests, verbose):
 
     docs_html_dir = os.path.join(docs_dir, 'html')
     docs_tests_dir = os.path.join(docs_dir, 'doctest')
-    docs_ref_dir = os.path.join(docs_dir, 'ref')
     docs_build_dir = os.path.join(build_dir, 'docs')
 
     if recreate:
@@ -39,7 +38,7 @@ def docs(recreate, gen_index, run_doctests, verbose):
                 shutil.rmtree(path)
 
     if refdoc_paths:
-        _gen_ref_docs(docs_ref_dir, verbose, gen_index)
+        gen_ref_docs(verbose, gen_index)
     else:
         log.err('Not generating any reference documentation - '
                 'No docs.reference specified in config')
@@ -65,7 +64,21 @@ def docs(recreate, gen_index, run_doctests, verbose):
         ))
 
 
-def _gen_ref_docs(ref_path, verbose, gen_index=False):
+def gen_ref_docs(verbose, gen_index=False):
+    """ Generate reference documentation for the project.
+
+    This will use **sphinx-refdoc** to generate the source .rst files for the
+    reference documentation.
+
+    :param verbose:
+        Verbosity level. This will be passed directly to sphinx-refdoc.
+    :param gen_index:
+        Set it to **True** if you want to generate the index file with the list
+        of top-level packages. This is set to default as in most cases you only
+        have one package per project so you can link directly to that package
+        reference (and if index were generated sphinx would complain about file
+        not included in toctree).
+    """
     try:
         from refdoc import generate_docs as _generate_docs
     except ImportError as ex:
@@ -76,15 +89,17 @@ def _gen_ref_docs(ref_path, verbose, gen_index=False):
         log.err("Exception: {}".format(ex))
         sys.exit(-1)
 
+    docs_dir = conf.get_path('docs.path', 'docs')
+    docs_ref_dir = os.path.join(docs_dir, 'ref')
     refdoc_paths = conf.get('docs.reference', [])
 
     log.info('Removing previously generated reference documentation')
-    if os.path.exists(ref_path):
-        shutil.rmtree(ref_path)
+    if os.path.exists(docs_ref_dir):
+        shutil.rmtree(docs_ref_dir)
 
     log.info('Generating reference documentation')
     args = {
-        'out_dir': ref_path,
+        'out_dir': docs_ref_dir,
         'verbose': verbose,
     }
 

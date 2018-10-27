@@ -44,8 +44,8 @@ def release_cli(ctx, component, exact):
     if ctx.invoked_subcommand:
         return
 
-    from peltak.extra.gitflow import impl
-    impl.release.start(component, exact)
+    from peltak.extra.gitflow import logic
+    logic.release.start(component, exact)
 
 
 @release_cli.command('tag')
@@ -67,8 +67,8 @@ def tag_release():
         $ peltak release tag          # Tag the current commit as release
 
     """
-    from peltak.extra.gitflow import impl
-    impl.release.tag()
+    from peltak.extra.gitflow import logic
+    logic.release.tag()
 
 
 @release_cli.command('finish')
@@ -78,8 +78,8 @@ def finish():
     This will perform a FF merge with develop if possible and --no-ff merge
     with master and then tag the merge commit with the current version.
     """
-    from peltak.extra.gitflow import impl
-    impl.release.finish()
+    from peltak.extra.gitflow import logic
+    logic.release.finish()
 
 
 @release_cli.command('merged')
@@ -103,5 +103,5 @@ def merged():
         $ peltak release merged     # Must be ran on the relase branch
 
     """
-    from peltak.extra.gitflow import impl
-    impl.release.merged()
+    from peltak.extra.gitflow import logic
+    logic.release.merged()

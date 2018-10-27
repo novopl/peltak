@@ -44,9 +44,9 @@ def build_images():
         $ peltak docker build
 
     """
-    from . import impl
+    from . import logic
 
-    impl.build_images()
+    logic.build_images()
 
 
 @docker_cli.command('push')
@@ -76,9 +76,9 @@ def push_images():
         $ peltak docker push
 
     """
-    from . import impl
+    from . import logic
 
-    impl.push_images()
+    logic.push_images()
 
 
 @docker_cli.command('list')
@@ -113,6 +113,6 @@ def docker_list(registry_pass):
         $ peltak docker list -p mypass  # List registry images, use give pw
 
     """
-    from . import impl
+    from . import logic
 
-    impl.docker_list(registry_pass)
+    logic.docker_list(registry_pass)

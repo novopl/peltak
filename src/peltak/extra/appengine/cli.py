@@ -57,9 +57,9 @@ def deploy(project, version, pretend, promote, quiet):
     variable. This will also collect all static files and compile translation
     messages
     """
-    from . import impl
+    from . import logic
 
-    impl.deploy(project, version, pretend, promote, quiet)
+    logic.deploy(project, version, pretend, promote, quiet)
 
 
 @appengine_cli.command()
@@ -68,14 +68,14 @@ def deploy(project, version, pretend, promote, quiet):
 @click.option('--clear', is_flag=True)
 def devserver(port, admin_port, clear):
     """ Run devserver. """
-    from . import impl
+    from . import logic
 
-    impl.devserver(port, admin_port, clear)
+    logic.devserver(port, admin_port, clear)
 
 
 @appengine_cli.command('setup-ci')
 def setup_ci():
     """ Setup AppEngine SDK on CircleCI """
-    from . import impl
+    from . import logic
 
-    impl.setup_ci()
+    logic.setup_ci()

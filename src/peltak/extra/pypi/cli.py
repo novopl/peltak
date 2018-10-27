@@ -22,8 +22,8 @@ def upload(target):
         $ peltak pypi upload private # Upload to pypi server 'private'
 
     """
-    from peltak.extra.pypi import impl
-    impl.upload(target)
+    from peltak.extra.pypi import logic
+    logic.upload(target)
 
 
 @pypi_cli.command('configure')
@@ -46,5 +46,5 @@ def configure(username, password):
         $ peltak pypi configure my_pypi_user my_pypi_pass
 
     """
-    from peltak.extra.pypi import impl
-    impl.gen_pypirc(username, password)
+    from peltak.extra.pypi import logic
+    logic.gen_pypirc(username, password)

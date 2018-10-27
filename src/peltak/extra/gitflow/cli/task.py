@@ -21,8 +21,8 @@ def task_cli(ctx, name):
     if name is None:
         name = click.prompt('Name of the new task')
 
-    from peltak.extra.gitflow import impl
-    impl.task.start(name)
+    from peltak.extra.gitflow import logic
+    logic.task.start(name)
 
 
 @task_cli.command('rename')
@@ -33,26 +33,26 @@ def task_cli(ctx, name):
 )
 def rename(name):
     """ Give the currently developed feature a new name. """
-    from peltak.extra.gitflow import impl
-    impl.task.rename(name)
+    from peltak.extra.gitflow import logic
+    logic.task.rename(name)
 
 
 @task_cli.command('update')
 def update():
     """ Update the feature with updates committed to develop. """
-    from peltak.extra.gitflow import impl
-    impl.task.update()
+    from peltak.extra.gitflow import logic
+    logic.task.update()
 
 
 @task_cli.command('finish')
 def finish():
     """ Merge current feature into develop. """
-    from peltak.extra.gitflow import impl
-    impl.task.finish()
+    from peltak.extra.gitflow import logic
+    logic.task.finish()
 
 
 @task_cli.command('merged')
 def merged():
     """ Cleanup a remotely merged branch. """
-    from peltak.extra.gitflow import impl
-    impl.task.merged()
+    from peltak.extra.gitflow import logic
+    logic.task.merged()

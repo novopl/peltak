@@ -63,7 +63,10 @@ def rename(name):
 def finish():
     """ Merge current feature branch into develop. """
     if git.staged() or git.unstaged():
-        log.err("You have uncommitted changes in your repo!")
+        log.err(
+            "You have uncommitted changes in your repo!\n"
+            "You need to stash them before you merge the hotfix branch"
+        )
         sys.exit(1)
 
     branch = git.current_branch(refresh=True)

@@ -63,7 +63,10 @@ def start(component, exact):
 def finish():
     """ Merge current release into develop and master and tag it. """
     if git.staged() or git.unstaged():
-        log.err("You have uncommitted changes in your repo!")
+        log.err(
+            "You have uncommitted changes in your repo!\n"
+            "You need to stash them before you merge the release branch"
+        )
         sys.exit(1)
 
     develop = conf.get('git.devel_branch', 'develop')
