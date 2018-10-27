@@ -10,12 +10,14 @@ from peltak.cli import cli, click
 
 @cli.group('docker')
 def docker_cli():
+    # type: () -> None
     """ Commands for building the project docker images. """
     pass
 
 
 @docker_cli.command('build')
 def build_images():
+    # type: () -> None
     """ Build and tag a docker image for the project.
 
     It requires a docker.images conf variable to be set and contain the
@@ -51,6 +53,7 @@ def build_images():
 
 @docker_cli.command('push')
 def push_images():
+    # type: () -> None
     """ Push project docker images to the registry.
 
     This command requires both docker.images and docker.registry conf variables
@@ -90,6 +93,7 @@ def push_images():
     help='Registry password'
 )
 def docker_list(registry_pass):
+    # type: (str) -> None
     """ List docker images and their tags on the remote registry.
 
     This command requires the docker.registry conf variable to be set. You can

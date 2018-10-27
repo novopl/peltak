@@ -9,13 +9,15 @@ import fnmatch
 import os
 import re
 from os.path import isdir, join, normpath
+from typing import List, Generator
 
 # 3rd party imports
 from six import string_types
 
 
 def surround_paths_with_quotes(paths):
-    """ Put quotes around all paths and join them with space in between. """
+    # type: (list[str]) -> str
+    """ Put quotes around all paths and join them with space in-between. """
     if isinstance(paths, string_types):
         raise ValueError(
             "paths cannot be a string. "
@@ -25,16 +27,22 @@ def surround_paths_with_quotes(paths):
 
 
 def filtered_walk(path, include=None, exclude=None):
+    # type: (str, List[str], List[str]) -> Generator[str]
     """ Walk recursively starting at *path* excluding files matching *exclude*
 
-    :param str path:
-        A starting path. This has to be an existing directory.
-    :param List[str] exclude:
-        A list of glob string patterns to test against. If the file/path
-        matches any of those patters, it will be filtered out.
-    :return:
-        A generator yielding all the files that do not match any pattern in
-        *exclude*.
+    Args:
+        path (str):
+            A starting path. This has to be an existing directory.
+        include (list[str]):
+            A white list of glob patterns. If given, only files that match those
+            globs will be yielded (filtered by exclude).
+        exclude (list[str]):
+            A list of glob string patterns to test against. If the file/path
+            matches any of those patters, it will be filtered out.
+
+    Returns:
+        Generator[str]: A generator yielding all the files that do not match any
+        pattern in `exclude`.
     """
     exclude = exclude or []
 
@@ -61,15 +69,18 @@ def filtered_walk(path, include=None, exclude=None):
 
 
 def match_globs(path, patterns):
+    # type: (str, List[str]) -> bool
     """ Test whether the given *path* matches any patterns in *patterns*
 
-    :param str path:
-        A file path to test for matches.
-    :param List[str] patterns:
-        A list of glob string patterns to test against. If *path* matches any
-        of those patters, it will return True.
-    :return bool:
-        **True** if the *path* matches any pattern in *patterns*.
+    Args:
+        path (str):
+            A file path to test for matches.
+        patterns (list[str]):
+            A list of glob string patterns to test against. If *path* matches
+            any of those patters, it will return True.
+
+    Returns:
+        bool: **True** if the *path* matches any pattern in *patterns*.
     """
     for pattern in (p for p in patterns if p):
         if pattern.startswith('/'):
@@ -89,15 +100,18 @@ def match_globs(path, patterns):
 
 
 def search_globs(path, patterns):
+    # type: (str, List[str]) -> bool
     """ Test whether the given *path* contains any patterns in *patterns*
 
-    :param str path:
-        A file path to test for matches.
-    :param List[str] excluded:
-        A list of glob string patterns to test against. If *path* matches any
-        of those patters, it will return True.
-    :return bool:
-        True if the *path* matches any pattern in *patterns*.
+    Args:
+        path (str):
+            A file path to test for matches.
+        patterns (list[str]):
+            A list of glob string patterns to test against. If *path* matches
+            any of those patters, it will return True.
+
+    Returns:
+        bool: **True** if the `path` matches any pattern in *patterns*.
     """
     for pattern in (p for p in patterns if p):
         if pattern.startswith('/'):
@@ -119,3 +133,7 @@ def search_globs(path, patterns):
                 return True
 
     return False
+
+
+# Used in docstrings only until we drop python2 support
+del List, Generator

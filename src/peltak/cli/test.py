@@ -45,6 +45,7 @@ from . import cli, click
 @click.pass_context
 def test_cli(ctx, tests_type, verbose, junit, no_locals, no_coverage, plugins,
              allow_empty):
+    # type: (click.Context, str, int, bool, bool, bool, str, bool) -> None
     """ Run tests against the current python version.
 
     This command uses pytest internally and is just a thing wrapper over it

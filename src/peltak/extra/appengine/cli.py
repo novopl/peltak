@@ -11,6 +11,7 @@ from peltak.cli import cli, click
 
 @cli.group('appengine')
 def appengine_cli():
+    # type: () -> None
     """ Google AppEngine related commands. """
     pass
 
@@ -67,6 +68,7 @@ def deploy(project, version, pretend, promote, quiet):
 @click.option('--admin-port', type=int, default=None)
 @click.option('--clear', is_flag=True)
 def devserver(port, admin_port, clear):
+    # type: (int, int, bool) -> None
     """ Run devserver. """
     from . import logic
 
@@ -75,6 +77,7 @@ def devserver(port, admin_port, clear):
 
 @appengine_cli.command('setup-ci')
 def setup_ci():
+    # type: () -> None
     """ Setup AppEngine SDK on CircleCI """
     from . import logic
 

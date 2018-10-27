@@ -11,6 +11,7 @@ from peltak.cli import cli, click
 )
 @click.pass_context
 def hotfix_cli(ctx, name):
+    # type: (click.Context, str) -> None
     """ Start a new git-flow hotfix by branching off master.  """
     if ctx.invoked_subcommand:
         return
@@ -27,6 +28,7 @@ def hotfix_cli(ctx, name):
     help="The new name for the current hotfix."
 )
 def rename(name):
+    # type: (str) -> None
     """ Give the currently developed hotfix a new name. """
     from peltak.extra.gitflow import logic
     logic.hotfix.rename(name)
@@ -34,6 +36,7 @@ def rename(name):
 
 @hotfix_cli.command('update')
 def update():
+    # type: () -> None
     """ Update the hotfix with updates committed to master. """
     from peltak.extra.gitflow import logic
     logic.hotfix.update()
@@ -41,6 +44,7 @@ def update():
 
 @hotfix_cli.command('finish')
 def finish():
+    # type: () -> None
     """ Merge current hotfix into master. """
     from peltak.extra.gitflow import logic
     logic.hotfix.finish()
@@ -48,6 +52,7 @@ def finish():
 
 @hotfix_cli.command('merged')
 def merged():
+    # type: () -> None
     """ Cleanup a remotely merged hotfix. """
     from peltak.extra.gitflow import logic
     logic.hotfix.merged()

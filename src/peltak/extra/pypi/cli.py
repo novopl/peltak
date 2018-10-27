@@ -6,6 +6,7 @@ from peltak.cli import cli, click
 
 @cli.group('pypi')
 def pypi_cli():
+    # type: () -> None
     """ pypi related commands """
     pass
 
@@ -13,6 +14,7 @@ def pypi_cli():
 @pypi_cli.command('upload')
 @click.argument('target')
 def upload(target):
+    # type: (str) -> None
     """ Upload to a given pypi target.
 
     Examples::
@@ -38,10 +40,11 @@ def upload(target):
     help="PyPi username"
 )
 def configure(username, password):
+    # type: (str, str) -> None
     """
     Generate .pypirc config with the given credentials.
 
-    Example::
+    Example:
 
         $ peltak pypi configure my_pypi_user my_pypi_pass
 

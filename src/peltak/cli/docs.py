@@ -4,6 +4,8 @@ Various commands that do not fit another category but there's not enough of them
 to justify a separate module.
 """
 from __future__ import absolute_import
+
+# local imports
 from . import cli, click
 
 
@@ -30,6 +32,7 @@ from . import cli, click
 )
 @click.pass_context
 def docs_cli(ctx, recreate, gen_index, run_doctests, verbose):
+    # type: (click.Context, bool, bool, bool, int) -> None
     """ Build project documentation.
 
     This command will run sphinx-refdoc first to generate the reference

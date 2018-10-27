@@ -5,6 +5,7 @@ from __future__ import absolute_import, unicode_literals
 # stdlib imports
 import os
 from collections import namedtuple
+from typing import Any, List, Optional
 
 # 3rd party imports
 import attr
@@ -25,6 +26,16 @@ class BranchDetails(object):
     """ Branch name parsed into type and title.
 
     Helpful for things like implementing git flow etc.
+
+    Attributes:
+        name (str):
+            The full name of the branch as returned by git.
+        type (str):
+            The type of the branch. This assumes the ``type/title`` branch
+            naming format and will be the text before ``/`` in the branch name.
+        title (str):
+            The title of the branch. This assumes the ``type/title`` branch
+            naming format and will be the text after ``/`` in the branch name.
     """
     name = attr.ib(type=str)
     type = attr.ib(type=str, default=None)
@@ -32,12 +43,15 @@ class BranchDetails(object):
 
     @classmethod
     def parse(cls, branch_name):
+        # type: (str) -> BranchDetails
         """ Parse branch name into BranchDetails instance.
 
-        :param str branch_name:
-            The name of the branch to parse.
-        :return BranchDetails:
-            The parsed branch name - easy to query.
+        Args:
+            branch_name (str):
+                The name of the branch to parse.
+
+        Returns:
+            BranchDetails: The parsed branch name - easy to use.
         """
         if '/' in branch_name:
             branch_type, branch_title = branch_name.rsplit('/', 1)
@@ -47,7 +61,24 @@ class BranchDetails(object):
 
 
 class CommitDetails(object):
-    """ Allows querying git commits for details. """
+    """ Allows querying git commits for details.
+
+    Attributes:
+        id (str):
+            The commit ID (first 7 characters taken from `sha`).
+        sha1 (str):
+            Full SHA1 of the commit.
+        author (Author):
+            The commit author.
+        title (str):
+            The title of the commit. This is the first line of the commit
+            message and should usually be shorter than 50 characters.
+        desc (str):
+            The commit description. This is the portion following the title.
+            Will be an empty string if the commit contains only the title.
+        parents_sha1 (List[str]):
+            List of SHA1s of parents of this commit.
+    """
     def __init__(self, sha1, author, title, desc, parents_sha1):
         self.id = sha1[:7]
         self.sha1 = sha1
@@ -60,11 +91,8 @@ class CommitDetails(object):
 
     @property
     def branches(self):
-        """ Return all branches this commit is on.
-
-        :return List[str]:
-            List of branches this commit belongs to.
-        """
+        # type: () -> List[str]
+        """ List of all branches this commit is a part of. """
         if self._branches is None:
             cmd = 'git branch --contains {}'.format(self.sha1)
             out = shell.run(cmd, capture=True).stdout.strip()
@@ -74,11 +102,8 @@ class CommitDetails(object):
 
     @property
     def parents(self):
-        """ Return parents of the this commit.
-
-        :return List[CommitDetails]:
-            The parents of the current commit.
-        """
+        # type: () -> List[CommitDetails]
+        """ Parents of the this commit. """
         if self._parents is None:
             self._parents = [CommitDetails.get(x) for x in self.parents_sha1]
 
@@ -86,6 +111,7 @@ class CommitDetails(object):
 
     @property
     def number(self):
+        # type: () -> int
         """ Return this commits number.
 
         This is the same as the total number of commits in history up until
@@ -95,8 +121,8 @@ class CommitDetails(object):
         progress on any given branch (although there can be two commits with the
         same number existing on different branches).
 
-        :return int:
-            The commit number/index.
+        Returns:
+            int: The commit number/index.
         """
         cmd = 'git log --oneline {}'.format(self.sha1)
         out = shell.run(cmd, capture=True).stdout.strip()
@@ -104,14 +130,17 @@ class CommitDetails(object):
 
     @classmethod
     def get(cls, sha1=''):
+        # type: (str) -> CommitDetails
         """ Return details about a given commit.
 
-        :param str sha1:
-            The sha1 of the commit to query. If not given, it will return the
-            details for the latest commit.
-        :return CommitDetails:
-            Commit details. You can use the instance of the class to query
-            git tree further.
+        Args:
+            sha1 (str):
+                The sha1 of the commit to query. If not given, it will return
+                the details for the latest commit.
+
+        Returns:
+            CommitDetails: Commit details. You can use the instance of the
+            class to query git tree further.
         """
         with conf.within_proj_dir():
             cmd = 'git show -s --format="%H||%an||%ae||%s||%b||%P" {}'.format(
@@ -132,10 +161,11 @@ class CommitDetails(object):
 
 @util.cached_result()
 def current_branch():
+    # type: () -> BranchDetails
     """ Return the BranchDetails for the current branch.
 
-    :return BranchDetails:
-        The details of the current branch.
+    Return:
+        BranchDetails: The details of the current branch.
     """
     cmd = 'git symbolic-ref --short HEAD'
     branch_name = shell.run(cmd, capture=True).stdout.strip()
@@ -145,28 +175,34 @@ def current_branch():
 
 @util.cached_result()
 def latest_commit():
+    # type: () -> CommitDetails
     """ Return details for the latest commit.
 
-    :return CommitDetails:
-        The `CommitDetails` instance for the latest commit on the current
-        branch.
+    Returns:
+        CommitDetails: The `CommitDetails` instance for the latest commit on the
+        current branch.
     """
     return CommitDetails.get()
 
 
 def commit_details(sha1=''):
+    # type: (str) -> CommitDetails
     """ Return details about a given commit.
 
-    :param str sha1:
-        The sha1 of the commit to query. If not given, it will return the
-        details for the latest commit.
-    :return CommitDetails:
-        A named tuple ``(name, email)`` with the commit author details.
+    Args:
+        sha1 (str):
+            The sha1 of the commit to query. If not given, it will return the
+            details for the latest commit.
+
+    Returns:
+        CommitDetails: A named tuple ``(name, email)`` with the commit author
+        details.
     """
     return CommitDetails.get(sha1)
 
 
 def commit_branches(sha1):
+    # type: (str) -> List[str]
     """ Get the name of the branches that this commit belongs to. """
     cmd = 'git branch --contains {}'.format(sha1)
     return shell.run(cmd, capture=True).stdout.strip().split()
@@ -174,6 +210,7 @@ def commit_branches(sha1):
 
 @util.cached_result()
 def guess_base_branch():
+    # type: (str) -> Optional[str, None]
     """ Try to guess the base branch for the current branch.
 
     Do not trust this guess. git makes it pretty much impossible to guess
@@ -181,9 +218,9 @@ def guess_base_branch():
     will work on most common use cases but anything a bit crazy will probably
     trip this function.
 
-    :return Optional[str]:
-        The name of the base branch for the current branch or **None** if
-        it can't be guessed.
+    Returns:
+        Optional[str]: The name of the base branch for the current branch if
+        guessable or **None** if can't guess.
     """
     my_branch = current_branch(refresh=True).name
 
@@ -230,13 +267,15 @@ def guess_base_branch():
 
 @util.mark_deprecated('CommitDetails.get().author')
 def commit_author(sha1=''):
+    # type: (str) -> Author
     """ Return the author of the given commit.
 
-    :param str sha1:
-        The sha1 of the commit to query. If not given, it will return the sha1
-        for the current commit.
-    :return Author:
-        A named tuple ``(name, email)`` with the commit author details.
+    Args:
+        sha1 (str):
+            The sha1 of the commit to query. If not given, it will return the
+            sha1 for the current commit.
+    Returns:
+        Author: A named tuple ``(name, email)`` with the commit author details.
     """
     with conf.within_proj_dir():
         cmd = 'git show -s --format="%an||%ae" {}'.format(sha1)
@@ -247,10 +286,11 @@ def commit_author(sha1=''):
 
 @util.cached_result()
 def untracked():
+    # type: () -> List[str]
     """ Return a list of untracked files in the project repository.
 
-    :return List[str]:
-        The list of files not tracked by project git repo.
+    Returns:
+        list[str]: The list of files not tracked by project git repo.
     """
     with conf.within_proj_dir():
         status = shell.run('git status --porcelain', capture=True).stdout
@@ -265,10 +305,11 @@ def untracked():
 
 @util.cached_result()
 def unstaged():
+    # type: () -> List[str]
     """ Return a list of unstaged files in the project repository.
 
-    :return List[str]:
-        The list of files not tracked by project git repo.
+    Returns:
+        list[str]: The list of files not tracked by project git repo.
     """
     with conf.within_proj_dir():
         status = shell.run('git status --porcelain', capture=True).stdout
@@ -283,10 +324,11 @@ def unstaged():
 
 @util.cached_result()
 def staged():
+    # type: () -> List[str]
     """ Return a list of project files staged for commit.
 
-    :return List[str]:
-        The list of project files staged for commit.
+    Returns:
+        list[str]: The list of project files staged for commit.
     """
     with conf.within_proj_dir():
         status = shell.run('git status --porcelain', capture=True).stdout
@@ -301,10 +343,11 @@ def staged():
 
 @util.cached_result()
 def ignore():
+    # type: () -> List[str]
     """ Return a list of patterns in the project .gitignore
 
-    :return List[str]:
-        List of patterns set to be ignored by git.
+    Returns:
+        list[str]: List of patterns set to be ignored by git.
     """
 
     def parse_line(line):   # pylint: disable=missing-docstring
@@ -337,10 +380,11 @@ def ignore():
 
 @util.cached_result()
 def branches():
+    # type: () -> List[str]
     """ Return a list of branches in the current repo.
 
-    :return List[str]:
-        A list of branches in the current repo.
+    Returns:
+        list[str]: A list of branches in the current repo.
     """
     out = shell.run('git branch', capture=True).stdout.strip()
     return [x.strip('* \t\n') for x in out.splitlines()]
@@ -348,10 +392,11 @@ def branches():
 
 @util.cached_result()
 def config():
+    # type: () -> dict[str, Any]
     """ Return the current git configuration.
 
-    :return dict:
-        The current git config taken from ``git config --list``.
+    Returns:
+        dict[str, Any]: The current git config taken from ``git config --list``.
     """
     out = shell.run('git config --list', capture=True).stdout.strip()
 
@@ -364,12 +409,16 @@ def config():
 
 
 def verify_branch(branch_name):
+    # type: (str) -> bool
     """ Verify if the given branch exists.
 
-    :param str branch_name:
-        The name of the branch to check.
-    :return bool:
-        **True** if a branch with name *branch_name* exits, **False** otherwise.
+    Args:
+        branch_name (str):
+            The name of the branch to check.
+
+    Returns:
+        bool: **True** if a branch with name *branch_name* exits, **False**
+        otherwise.
     """
     try:
         shell.run('git rev-parse --verify {}'.format(branch_name))
@@ -380,13 +429,18 @@ def verify_branch(branch_name):
 
 @util.cached_result()
 def protected_branches():
+    # type: () -> list[str]
     """ Return branches protected by deletion.
 
     By default those are master and devel branches as configured in pelconf.
 
-    :return List[str]:
-        Names of important branches that should not be deleted.
+    Returns:
+        list[str]: Names of important branches that should not be deleted.
     """
     master = conf.get('git.master_branch', 'master')
     develop = conf.get('git.devel_branch', 'develop')
     return conf.get('git.protected_branches', (master, develop))
+
+
+# Used in docstrings only until we drop python2 support
+del Any, List, Optional

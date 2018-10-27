@@ -8,6 +8,7 @@ from . import cli, click
 @click.option('--porcelain', is_flag=True)
 @click.pass_context
 def version_cli(ctx, porcelain):
+    # type: (click.Context, bool) -> None
     """ Show project version. Has sub commands.
 
     For this command to work you must specify where the project version is
@@ -59,6 +60,7 @@ def version_cli(ctx, porcelain):
 )
 @click.option('--exact', type=str)
 def bump_version(component='patch', exact=None):
+    # type: (str, str) -> None
     """ Bump current project version without committing anything.
 
     No tags are created either.

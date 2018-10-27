@@ -18,6 +18,7 @@ from peltak.cli import cli, click
 )
 @click.pass_context
 def release_cli(ctx, component, exact):
+    # type: (click.Context, str, str) -> None
     """ Create a new release.
 
     It will bump the current version number and create a release branch called
@@ -50,6 +51,7 @@ def release_cli(ctx, component, exact):
 
 @release_cli.command('tag')
 def tag_release():
+    # type: () -> None
     """ Tag the current commit with as the current version release.
 
     This should be the same commit as the one that's uploaded as the release
@@ -73,6 +75,7 @@ def tag_release():
 
 @release_cli.command('finish')
 def finish():
+    # type: () -> None
     """ Merge the current release to both develop and master.
 
     This will perform a FF merge with develop if possible and --no-ff merge
@@ -84,6 +87,7 @@ def finish():
 
 @release_cli.command('merged')
 def merged():
+    # type: () -> None
     """ Checkout the target branch, pull and delete the merged branch.
 
     This is to ease the repetitive cleanup of each merged branch.

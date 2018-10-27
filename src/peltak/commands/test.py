@@ -20,24 +20,27 @@ def test(tests_type,
          no_coverage,
          plugins,
          allow_empty):
+    # type: (str, int, bool, bool, bool, str, bool) -> None
     """ Run tests using pytest
 
-    :param str tests_type:
-        Tests type to run. The types are defined in the project configuration.
-    :param int verbose:
-        Verbosity level (0-3)
-    :param bool junit:
-        If **True** it will save junit test report in build directory.
-    :param bool no_locals:
-        Do not show locals
-    :param bool no_coverage:
-        Do not generate coverage report
-    :param List[str] plugins:
-        List of pytest plugins to enable/disable. If the plugin name is prefixed
-        with '-' sign the plugin will be disabled.
-    :param bool allow_empty:
-        If set to **False** it will return non-zero code if the test suite is
-        empty.
+    Args:
+        tests_type (str):
+            Tests type to run. The types are defined in the project
+            configuration.
+        verbose (int):
+            Verbosity level (0-3)
+        junit (bool):
+            If **True** it will save junit test report in build directory.
+        no_locals (bool):
+            Do not show locals
+        no_coverage (bool):
+            Do not generate coverage report
+        plugins (str):
+            Comma separated list of pytest plugins to enable/disable. If the
+            plugin name is prefixed with '-' sign the plugin will be disabled.
+        allow_empty (bool):
+            If set to **False** it will return non-zero code if the test suite
+            is empty.
     """
     log.info("Running <33>{} <32>tests".format(tests_type))
 

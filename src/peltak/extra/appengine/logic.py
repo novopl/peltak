@@ -22,21 +22,23 @@ from peltak.core import util
 
 @util.mark_experimental
 def deploy(app_id, version, pretend, promote, quiet):
+    # type: (str, str, bool, bool, bool) -> None
     """ Deploy the app to AppEngine.
 
-    :param str app_id:
-        AppEngine App ID. Overrides config value app_id if given.
-    :param str version:
-        AppEngine project version. Overrides config values if given.
-    :param bool pretend:
-        If set to **True**, do not actually deploy anything but show the deploy
-        command that would be used.
-    :param bool promote:
-        If set to **True** promote the current remote app version to the one
-        that's being deployed.
-    :param bool quiet:
-        If set to **True** this will pass the ``--quiet`` flag to gcloud
-        command.
+    Args:
+        app_id (str):
+            AppEngine App ID. Overrides config value app_id if given.
+        version (str):
+            AppEngine project version. Overrides config values if given.
+        pretend (bool):
+            If set to **True**, do not actually deploy anything but show the
+            deploy command that would be used.
+        promote (bool):
+            If set to **True** promote the current remote app version to the one
+            that's being deployed.
+        quiet (bool):
+            If set to **True** this will pass the ``--quiet`` flag to gcloud
+            command.
     """
     gae_app = GaeApp.for_branch(git.current_branch().name)
 
@@ -59,14 +61,16 @@ def deploy(app_id, version, pretend, promote, quiet):
 
 @util.mark_experimental
 def devserver(port, admin_port, clear):
+    # type: (int, int, bool) -> None
     """ Run devserver.
 
-    :param int port:
-        Port on which the app will be served.
-    :param int admin_port:
-        Port on which the admin interface is served.
-    :param bool clear:
-        If set to **True**, clear the datastore on startup.
+    Args:
+        port (int):
+            Port on which the app will be served.
+        admin_port (int):
+            Port on which the admin interface is served.
+        clear (bool):
+            If set to **True**, clear the datastore on startup.
     """
     admin_port = admin_port or (port + 1)
 
@@ -84,6 +88,7 @@ def devserver(port, admin_port, clear):
 
 @util.mark_experimental
 def setup_ci():
+    # type: () -> None
     """ Setup AppEngine SDK on CircleCI """
     gcloud_path = shell.run('which gcloud', capture=True).stdout.strip()
     sdk_path = normpath(join(gcloud_path, '../../platform/google_appengine'))
@@ -108,29 +113,43 @@ def setup_ci():
 
 
 def _find_appengine_sdk():
+    # type: () -> str
     gcloud_path = shell.run('which gcloud', capture=True).stdout.strip()
     return normpath(join(gcloud_path, '../../platform/google_appengine'))
 
 
 @attr.s
 class GaeApp(object):
-    """ Represents an AppEngine app."""
+    """ Represents an AppEngine app.
+
+    Attributes:
+        app_id (str):
+            AppEngine project ID.
+        version (str):
+            AppEngine project version.
+        deployables (list[str]):
+            List of YAML files to deploy. Defaults to all yaml files in the
+            project root directory.
+    """
     app_id = attr.ib(type=str)
     version = attr.ib(type=str, default=None)
     deployables = attr.ib(type=list, default=['.'])
 
     @classmethod
     def for_branch(cls, branch_name):
+        # type: (str) -> GaeApp
         """ Return app configuration for the given branch.
 
         This will look for the configuration in the `appengine.projects` config
         variable.
 
-        :param str branch_name:
-            The name of the branch we want the configuration for.
-        :return Optional[GaeApp]:
-            The `GaeApp` instance with the configuration or **None** if none
-            found.
+        Args:
+            branch_name (str):
+                The name of the branch we want the configuration for.
+
+        Returns:
+            Optional[GaeApp]: The `GaeApp` instance with the configuration or
+            **None** if none found.
         """
         for proj in conf.get('appengine.projects', []):
             if fnmatch(branch_name, proj['branch']):
@@ -142,13 +161,11 @@ class GaeApp(object):
 
     @property
     def app_version(self):
-        """ Return the AppEngine compatible app version.
+        # type: () -> str
+        """ AppEngine compatible app version.
 
         This assumes git-flow branching strategy and has a few predefined ways
         to automatically generate the version string.
-
-        :return str:
-            Version string that can be directly passed to ``gcloud app deploy``.
         """
         branch = git.current_branch()
 
@@ -169,12 +186,16 @@ class GaeApp(object):
         return versioning.current().replace('.', '-')
 
     def deploy(self, promote=False, pretend=False, quiet=False):
+        # type: (bool, bool, bool) -> None
         """ Deploy the code to AppEngine.
 
-        :param bool promote:
-            Migrate the traffic to the deployed version.
-        :param bool pretend:
-            Instead of deploying, print the deploy command.
+        Args:
+            promote (bool):
+                Migrate the traffic to the deployed version.
+            pretend (bool):
+                Instead of deploying, print the deploy command.
+            quiet (bool):
+                Pass ``--quiet`` flag to gcloud command
         """
         args = [
             '--promote' if promote else '--no-promote',

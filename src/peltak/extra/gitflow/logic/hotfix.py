@@ -13,12 +13,14 @@ from . import common
 
 
 def start(name):
+    # type: (str) -> None
     """ Start working on a new hotfix.
 
     This will create a new branch off master called hotfix/<name>.
 
-    :param str name:
-        The name of the new feature.
+    Args:
+        name (str):
+            The name of the new feature.
     """
     hotfix_branch = 'hotfix/' + common.to_branch_name(name)
     master = conf.get('git.master_branch', 'master')
@@ -28,17 +30,20 @@ def start(name):
 
 
 def rename(name):
+    # type: (str) -> None
     """ Give the currently developed feature a new name.
 
-    :param str name:
-        The new name of the current feature. The current branch will be
-        renamed to 'feature/<new_name>'.
+    Args:
+        name (str):
+            The new name of the current feature. The current branch will be
+            renamed to 'feature/<new_name>'.
     """
     common.assert_branch_type('hotfix')
     common.git_branch_rename('hotfix/' + name.strip().replace(' ', '_'))
 
 
 def update():
+    # type: () -> None
     """ Update the hotfix with updates committed to master.
 
     This will merge current develop into the current branch.
@@ -54,6 +59,7 @@ def update():
 
 
 def finish():
+    # type: () -> None
     """ Merge current feature into develop. """
     if git.staged() or git.unstaged():
         log.err(
@@ -86,6 +92,7 @@ def finish():
 
 
 def merged():
+    # type: () -> None
     """ Cleanup a remotely merged branch. """
     develop = conf.get('git.devel_branch', 'develop')
     master = conf.get('git.master_branch', 'master')

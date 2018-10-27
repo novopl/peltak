@@ -11,6 +11,7 @@ from peltak.cli import cli, click
 )
 @click.pass_context
 def feature_cli(ctx, name):
+    # type: (click.Context, str) -> None
     """ Start a new git-flow feature.  """
     if ctx.invoked_subcommand:
         return
@@ -26,6 +27,7 @@ def feature_cli(ctx, name):
     help="The new name for the current feature."
 )
 def rename(name):
+    # type: (str) -> None
     """ Give the currently developed feature a new name. """
     from peltak.extra.gitflow import logic
     logic.feature.rename(name)
@@ -33,6 +35,7 @@ def rename(name):
 
 @feature_cli.command('update')
 def update():
+    # type: () -> None
     """ Update the feature with updates committed to develop. """
     from peltak.extra.gitflow import logic
     logic.feature.update()
@@ -40,6 +43,7 @@ def update():
 
 @feature_cli.command('finish')
 def finish():
+    # type: () -> None
     """ Merge current feature into develop. """
     from peltak.extra.gitflow import logic
     logic.feature.finish()
@@ -47,6 +51,7 @@ def finish():
 
 @feature_cli.command('merged')
 def merged():
+    # type: () -> None
     """ Cleanup a remotely merged branch. """
     from peltak.extra.gitflow import logic
     logic.feature.merged()

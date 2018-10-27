@@ -4,6 +4,7 @@ from __future__ import absolute_import, unicode_literals
 
 # stdlib imports
 import sys
+from typing import Any, Dict
 
 # 3rd party imports
 import click
@@ -17,6 +18,7 @@ from . import client
 
 
 def build_images():
+    # type: () -> None
     """ Build all docker images for the project. """
     registry = conf.get('docker.registry')
     docker_images = conf.get('docker.images', [])
@@ -26,6 +28,7 @@ def build_images():
 
 
 def push_images():
+    # type: () -> None
     """ Push all project docker images to a remote registry. """
     registry = conf.get('docker.registry')
     docker_images = conf.get('docker.images', [])
@@ -39,7 +42,13 @@ def push_images():
 
 
 def docker_list(registry_pass):
-    """ List docker images stored in the remote registry. """
+    # type: (str) -> None
+    """ List docker images stored in the remote registry.
+
+    Args:
+        registry_pass (str):
+            Remote docker registry password.
+    """
     registry = conf.get('docker.registry', None)
 
     if registry is None:
@@ -62,14 +71,16 @@ def docker_list(registry_pass):
 
 
 def build_image(registry, image):
+    # type: (str, Dict[str, Any]) -> None
     """ Build docker image.
 
-    :param str registry:
-        The name of the registry this image belongs to. If not given, the
-        resulting image will have a name without the registry.
-    :param Dict image:
-        The dict containing the information about the built image. This is the
-        same dictionary as defined in DOCKER_IMAGES variable.
+    Args:
+        registry (str):
+            The name of the registry this image belongs to. If not given, the
+            resulting image will have a name without the registry.
+        image (dict[str, Any]):
+            The dict containing the information about the built image. This is
+            the same dictionary as defined in DOCKER_IMAGES variable.
     """
     if ':' in image['name']:
         _, tag = image['name'].split(':', 1)
@@ -102,14 +113,16 @@ def build_image(registry, image):
 
 
 def push_image(registry, image):
+    # type: (str, Dict[str, Any]) -> None
     """ Push the given image to selected repository.
 
-    :param str registry:
-        The name of the registry we're pushing to. This is the address of the
-        repository without the protocol specification (no http(s)://)
-    :param Dict image:
-        The dict containing the information about the image. This is the same
-        dictionary as defined in DOCKER_IMAGES variable.
+    Args:
+        registry (str):
+            The name of the registry we're pushing to. This is the address of
+            the repository without the protocol specification (no http(s)://)
+        image (dict[str, Any]):
+            The dict containing the information about the image. This is the
+            same dictionary as defined in DOCKER_IMAGES variable.
     """
     values = {
         'registry': registry,
@@ -118,3 +131,7 @@ def push_image(registry, image):
 
     log.info("Pushing <33>{registry}<35>/{image}".format(**values))
     shell.run('docker push {registry}/{image}'.format(**values))
+
+
+# Used in docstrings only until we drop python2 support
+del Any, Dict

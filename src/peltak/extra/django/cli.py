@@ -13,6 +13,7 @@ from peltak.cli import cli, click
 
 @cli.group('django')
 def django_cli():
+    # type: () -> None
     """ Commands related to django """
     pass
 
@@ -30,12 +31,14 @@ def django_cli():
     help="Settings module to use. Defaults to DJANGO_SETTINGS conf variable."
 )
 def devserver(port=8000, settings=None):
+    # type: (int, str) -> None
     """ Run dev server. """
     _manage_cmd(['runserver', '0.0.0.0:{}'.format(port)], settings)
 
 
 @django_cli.command('collectstatic')
 def collectstatic():
+    # type: () -> None
     """ Collect all static files.
 
     This command won't ask for permission as manage.py does.
@@ -60,6 +63,7 @@ def collectstatic():
 @click.argument('app')
 @click.argument('name')
 def mkmigrations(app, name):
+    # type: (str, str) -> None
     """ Create a named migration for a given app.
 
     This will require the user to name every migration he creates thus improving
@@ -83,6 +87,7 @@ def mkmigrations(app, name):
 
 @django_cli.command('migrate')
 def migrate():
+    # type: () -> None
     """ Apply pending migrations.
 
     Sample Config::
@@ -123,6 +128,7 @@ def createsuperuser():
 
 @django_cli.command('shell')
 def shell():
+    # type: () -> None
     """ Start django shell
 
     Sample Config::
@@ -142,6 +148,7 @@ def shell():
 
 
 def _manage_cmd(cmd, settings=None):
+    # type: () -> None
     """ Run django ./manage.py command manually.
 
     This function eliminates the need for having ``manage.py`` (reduces file

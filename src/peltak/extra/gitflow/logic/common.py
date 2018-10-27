@@ -5,6 +5,7 @@ from __future__ import absolute_import, unicode_literals
 # stdlib imports
 import re
 import sys
+from typing import List
 
 # 3rd party imports
 import click
@@ -20,11 +21,13 @@ RE_INVALID_CHARS = re.compile('[\-\[\]\s(),.]+')
 
 
 def assert_branch_type(branch_type):
+    # type: (str) -> None
     """ Print error and exit if the current branch is not of a given type.
 
-    :param str branch_type:
-        The branch type. This assumes the branch is in the '<type>/<title>`
-        format.
+    Args:
+        branch_type (str):
+            The branch type. This assumes the branch is in the '<type>/<title>`
+            format.
     """
     branch = git.current_branch(refresh=True)
 
@@ -37,10 +40,12 @@ def assert_branch_type(branch_type):
 
 
 def assert_on_branch(branch_name):
+    # type: (str) -> None
     """ Print error and exit if *branch_name* is not the current branch.
 
-    :param str branch_name:
-        The supposed name of the current branch.
+    Args:
+        branch_name (str):
+            The supposed name of the current branch.
     """
     branch = git.current_branch(refresh=True)
 
@@ -50,10 +55,12 @@ def assert_on_branch(branch_name):
 
 
 def git_branch_delete(branch_name):
-    """ Delete the given brach.
+    # type: (str) -> None
+    """ Delete the given branch.
 
-    :param str branch_name:
-        Name of the branch to delete.
+    Args:
+        branch_name (str):
+            Name of the branch to delete.
     """
     if branch_name not in git.protected_branches():
         log.info("Deleting branch <33>{}", branch_name)
@@ -61,10 +68,12 @@ def git_branch_delete(branch_name):
 
 
 def git_branch_rename(new_name):
+    # type: (str) -> None
     """ Rename the current branch
 
-    :param str new_name:
-        New name for the current branch.
+    Args:
+        new_name (str):
+            New name for the current branch.
     """
     curr_name = git.current_branch(refresh=True).name
 
@@ -76,37 +85,44 @@ def git_branch_rename(new_name):
 
 
 def git_checkout(branch_name, create=False):
+    # type: (str, bool) -> None
     """ Checkout or create a given branch
 
-    :param str branch_name:
-        The name of the branch to checkout or create.
-    :param bool create:
-        If set to **True** it will create the branch instead of checking it out.
+    Args:
+        branch_name (str):
+            The name of the branch to checkout or create.
+        create (bool):
+            If set to **True** it will create the branch instead of checking it
+            out.
     """
     log.info("Checking out <33>{}".format(branch_name))
     shell.run('git checkout {} {}'.format('-b' if create else '', branch_name))
 
 
 def git_pull(branch_name):
+    # type: (str) -> None
     """ Pull from remote branch.
 
-    :param str branch_name:
-        The remote branch to pull.
+    Args:
+        branch_name (str):
+            The remote branch to pull.
     """
     log.info("Pulling latest changes on <33>{}", branch_name)
     shell.run('git pull origin {}'.format(branch_name))
 
 
 def git_merge(base, head, no_ff=False):
+    # type: (str, str, bool) -> None
     """ Merge *head* into *base*.
 
-    :param str base:
-        The base branch. *head* will be merged into this branch.
-    :param str head:
-        The branch that will be merged into *base*.
-    :param bool no_ff:
-        If set to **True** it will force git to create merge commit. If set to
-        **False** (default) it will do a fast-forward merge if possible.
+    Args:
+        base (str):
+            The base branch. *head* will be merged into this branch.
+        head (str):
+            The branch that will be merged into *base*.
+        no_ff (bool):
+            If set to **True** it will force git to create merge commit. If set
+            to **False** (default) it will do a fast-forward merge if possible.
     """
     branch = git.current_branch(refresh=True)
 
@@ -129,19 +145,21 @@ def git_merge(base, head, no_ff=False):
 
 
 def git_prune():
+    # type: () -> None
     """ Prune dead branches. """
     log.info("Pruning")
     shell.run('git fetch --prune origin')
 
 
 def get_base_branch():
+    # type: () -> str
     """ Return the base branch for the current branch.
 
     This function will first try to guess the base branch and if it can't it
     will let the user choose the branch from the list of all local branches.
 
-    :return str:
-        The name of the branch the current branch is based on.
+    Returns:
+        str: The name of the branch the current branch is based on.
     """
     base_branch = git.guess_base_branch()
 
@@ -153,15 +171,18 @@ def get_base_branch():
 
 
 def choose_branch(exclude=None):
+    # type: (List[str]) -> str
     """ Show the user a menu to pick a branch from the existing ones.
 
-    :param List[str] exclude:
-        List of branch names to exclude from the menu. By default it will
-        exclude master and develop branches. To show all branches pass an
-        empty array here.
-    :return str:
-        The name of the branch chosen by the user. If the user inputs an
-        invalid choice, he will be asked again (and agin) until he picks a
+    Args:
+        exclude (list[str]):
+            List of branch names to exclude from the menu. By default it will
+            exclude master and develop branches. To show all branches pass an
+            empty array here.
+
+    Returns:
+        str: The name of the branch chosen by the user. If the user inputs an
+        invalid choice, he will be asked again (and again) until he picks a
         a valid branch.
     """
     if exclude is None:
@@ -190,14 +211,21 @@ def choose_branch(exclude=None):
 
 
 def to_branch_name(name):
+    # type: (str) -> str
     """ Convert a given name into a valid branch name.
 
-    This is helpful to sanitize user input before creating a new brach.
+    This is helpful to sanitize user input before creating a new branch.
 
-    :param str name:
-        The name of the branch as provided by the user.
-    :return str:
-        The name mangled where all special characters and spaces are replaced
-        by underscores.
+    Args:
+        name (str):
+            The name of the branch as provided by the user.
+
+    Returns:
+        str: The name mangled where all special characters and spaces are
+        replaced by underscores.
     """
     return RE_INVALID_CHARS.sub(' ', name).strip().replace(' ', '_').lower()
+
+
+# Used in docstrings only until we drop python2 support
+del List

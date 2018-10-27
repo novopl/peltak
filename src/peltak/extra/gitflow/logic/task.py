@@ -16,12 +16,14 @@ from . import common
 
 
 def start(name):
+    # type: (str) -> None
     """ Start working on a new feature by branching off develop.
 
     This will create a new branch off develop called feature/<name>.
 
-    :param str name:
-        The name of the new feature.
+    Args:
+        name (str):
+            The name of the new feature.
     """
     branch = git.current_branch(refresh=True)
     task_branch = 'task/' + common.to_branch_name(name)
@@ -35,6 +37,7 @@ def start(name):
 
 
 def update():
+    # type: () -> None
     """ Update the feature with updates committed to develop.
 
     This will merge current develop into the current branch.
@@ -50,17 +53,20 @@ def update():
 
 
 def rename(name):
+    # type: (str) -> None
     """ Give the currently developed feature a new name.
 
-    :param str name:
-        The new name of the current feature. The current branch will be
-        renamed to 'feature/<new_name>'.
+    Args:
+        name (str):
+            The new name of the current feature. The current branch will be
+            renamed to 'feature/<new_name>'.
     """
     common.assert_branch_type('task')
     common.git_branch_rename('task/' + name.strip().replace(' ', '_'))
 
 
 def finish():
+    # type: () -> None
     """ Merge current feature branch into develop. """
     if git.staged() or git.unstaged():
         log.err(
@@ -92,6 +98,7 @@ def finish():
 
 
 def merged():
+    # type: () -> None
     """ Cleanup a remotely merged branch. """
     base_branch = common.get_base_branch()
     branch = git.current_branch(refresh=True)

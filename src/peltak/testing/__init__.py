@@ -13,6 +13,8 @@ import tempfile
 from contextlib import contextmanager
 from functools import wraps
 from os.path import basename, join
+from types import FunctionType
+from typing import Any, Dict, List, Union
 
 # 3rd party imports
 from mock import patch, Mock
@@ -44,22 +46,28 @@ class patch_proj_root(object):
 
 
 def patch_pelconf(config):
+    # type: (Dict[str, Any]) -> FunctionType
     """ Patch the peltak configuration.
 
     This will patch all content retrieved through `peltak.core.conf.get()` and
     `conf.get_path()`.
 
-    :param dict config:
-        The dictionary with the peltak configuration.
+    Args:
+        config (dict[str, Any]):
+            The dictionary with the peltak configuration.
     """
     return patch('peltak.core.conf.g_config', config)
 
 
 def mock_response(data):
+    # type: (Union[Dict[str, Any], List[Any]]) -> Mock
     """ Create a mock response that can be set as requests return value.
 
-    :param Union[dict, list] data:
-    :return MagicMock:
+    Args:
+        data (Union[dict[str, Any], list[Any]]):
+
+    Returns:
+        MagicMock:
     """
     resp_mock = Mock()
     resp_mock.json = Mock(return_value=data)
@@ -92,7 +100,18 @@ class TestDataProvider(object):
 
 
 def mock_result(stdout=None, retcode=None, stderr=None, cmd=None):
-    """ Helper for creating ExecResults for tests. """
+    # type: (str, int, str, str) -> ExecResult
+    """ Helper for creating ExecResults for tests.
+
+    Args:
+        stdout (str):
+        retcode (int):
+        stderr (str):
+        cmd (str):
+
+    Returns:
+        ExecResult:
+    """
     return ExecResult(
         cmd or '',
         retcode or 0,
@@ -104,7 +123,19 @@ def mock_result(stdout=None, retcode=None, stderr=None, cmd=None):
 
 
 def patch_run(stdout=None, retcode=None, stderr=None, cmd=None):
-    """ Patch shell.run and make it return a given result. """
+    # type: (str, int, str, str) -> FunctionType
+    """ Patch shell.run and make it return a given result.
+
+    Args:
+        stdout (str):
+        retcode (int):
+        stderr (str):
+        cmd (str):
+
+    Returns:
+        FunctionType:
+
+    """
     p_run = Mock(return_value=ExecResult(
         cmd or '',
         retcode or 0,

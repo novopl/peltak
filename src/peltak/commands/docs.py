@@ -14,14 +14,21 @@ from peltak.core import shell
 
 
 def docs(recreate, gen_index, run_doctests, verbose):
+    # type: (bool, bool, bool, int) -> None
     """ Build the documentation for the project.
 
-    :param bool recreate:
-        If set to **True**, the build and output directories will be cleared
-        prior to generating the docs.
-    :param bool gen_index:
-        If set to **True**, it will generate top-level index file for the
-        reference documentation.
+    Args:
+        recreate (bool):
+            If set to **True**, the build and output directories will be cleared
+            prior to generating the docs.
+        gen_index (bool):
+            If set to **True**, it will generate top-level index file for the
+            reference documentation.
+        run_doctests (bool):
+            Set to **True** if you want to run doctests after the documentation
+            is generated.
+        verbose (int):
+            The verbosity level.
     """
     build_dir = conf.get_path('build_dir', '.build')
     docs_dir = conf.get_path('docs.path', 'docs')
@@ -65,22 +72,25 @@ def docs(recreate, gen_index, run_doctests, verbose):
 
 
 def gen_ref_docs(verbose, gen_index=False):
+    # type: (int, bool) -> None
     """ Generate reference documentation for the project.
 
     This will use **sphinx-refdoc** to generate the source .rst files for the
     reference documentation.
 
-    :param verbose:
-        Verbosity level. This will be passed directly to sphinx-refdoc.
-    :param gen_index:
-        Set it to **True** if you want to generate the index file with the list
-        of top-level packages. This is set to default as in most cases you only
-        have one package per project so you can link directly to that package
-        reference (and if index were generated sphinx would complain about file
-        not included in toctree).
+    Args:
+
+        verbose (int):
+            Verbosity level. This will be passed directly to sphinx-refdoc.
+        gen_index (bool):
+            Set it to **True** if you want to generate the index file with the
+            list of top-level packages. This is set to default as in most cases
+            you only have one package per project so you can link directly to
+            that package reference (and if index were generated sphinx would
+            complain about file not included in toctree).
     """
     try:
-        from refdoc import generate_docs as _generate_docs
+        from refdoc import generate_docs
     except ImportError as ex:
         msg = ("You need to install sphinx-refdoc if you want to generate "
                "code reference docs.")
@@ -108,4 +118,4 @@ def gen_ref_docs(verbose, gen_index=False):
 
     pkg_paths = [conf.proj_path(p) for p in refdoc_paths]
 
-    _generate_docs(pkg_paths, **args)
+    generate_docs(pkg_paths, **args)

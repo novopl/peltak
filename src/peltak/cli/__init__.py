@@ -7,15 +7,20 @@ displaying results.
 """
 from __future__ import absolute_import
 
+# stdlib imports
+from typing import List
+
 # 3rd party imports
 import click
 
+# local imports
 import peltak
 
 
 @click.group()
 @click.version_option(version=peltak.__version__, message='%(version)s')
 def cli():
+    # type: () -> None
     """
 
     To get help for a specific command:
@@ -48,6 +53,7 @@ def cli():
     help='Comma separated list of paths to exclude from deletion'
 )
 def clean(pretend, exclude):
+    # type: (bool, List[str]) -> None
     """ Remove temporary files like python cache, swap files, etc.
 
     You can configure the list of patterns with clean_patterns config variable.
@@ -77,6 +83,7 @@ def clean(pretend, exclude):
 
 @cli.command('init')
 def init():
+    # type: () -> None
     """ Create new peltak config file in the current directory.
 
     If ``pelconf.py`` already exists the user will be prompted to confirm

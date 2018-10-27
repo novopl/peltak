@@ -6,6 +6,7 @@ from __future__ import absolute_import, unicode_literals
 import os
 from os.path import exists, isdir
 from shutil import rmtree
+from typing import List
 
 # 3rd party imports
 import click
@@ -19,13 +20,15 @@ from peltak.core import util
 
 
 def clean(pretend, exclude):
+    # type: (bool, List[str]) -> None
     """ Remove all unnecessary files.
 
-    :param bool pretend:
-        If set to **True**, do not delete any files, just show what would be
-        deleted.
-    :param List[str] exclude:
-        A list of path patterns to exclude from deletion.
+    Args:
+        pretend (bool):
+            If set to **True**, do not delete any files, just show what would be
+            deleted.
+        exclude (list[str]):
+            A list of path patterns to exclude from deletion.
     """
     exclude = list(exclude) + conf.get('clean.exclude', [])
     clean_patterns = conf.get('clean.patterns', [
@@ -60,6 +63,7 @@ def clean(pretend, exclude):
 
 
 def init():
+    # type: () -> None
     """ Create an empty pelconf.py from template """
     config_file = 'pelconf.py'
     prompt = "-- <35>{} <32>already exists. Wipe it?<0>".format(config_file)
@@ -86,3 +90,7 @@ conf.init({
 # Import all commands
 #from peltak.cli import version
 ''')
+
+
+# Used in docstrings only until we drop python2 support
+del List
