@@ -54,7 +54,12 @@ def clean(pretend, exclude):
 
 
 @root_cli.command('init')
-def init():
+@click.option(
+    '-q', '--quick',
+    is_flag=True,
+    help="Enable quick mode. Defaults will be used wherever possible."
+)
+def init(quick):
     # type: () -> None
     """ Create new peltak config file in the current directory.
 
@@ -67,7 +72,7 @@ def init():
 
     """
     from peltak.commands import root
-    root.init()
+    root.init(quick)
 
 
 # Used in docstrings only until we drop python2 support
