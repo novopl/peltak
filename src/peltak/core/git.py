@@ -65,7 +65,7 @@ class CommitDetails(object):
 
     Attributes:
         id (str):
-            The commit ID (first 7 characters taken from `sha`).
+            The commit ID (first 7 characters taken from `sha1`).
         sha1 (str):
             Full SHA1 of the commit.
         author (Author):

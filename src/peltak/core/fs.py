@@ -42,7 +42,7 @@ def filtered_walk(path, include=None, exclude=None):
 
     Returns:
         Generator[str]: A generator yielding all the files that do not match any
-        pattern in `exclude`.
+        pattern in ``exclude``.
     """
     exclude = exclude or []
 
@@ -111,7 +111,7 @@ def search_globs(path, patterns):
             any of those patters, it will return True.
 
     Returns:
-        bool: **True** if the `path` matches any pattern in *patterns*.
+        bool: **True** if the ``path`` matches any pattern in *patterns*.
     """
     for pattern in (p for p in patterns if p):
         if pattern.startswith('/'):

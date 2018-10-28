@@ -49,14 +49,14 @@ def run(cmd, capture=False, shell=True, env=None, exit_on_error=None):
         cmd (str):
             The shell command to execute.
         shell (bool):
-            Same as in `subprocess.Popen()`.
+            Same as in `subprocess.Popen`.
         capture (bool):
             If set to True, it will capture the standard input/error instead of
             just piping it to the caller stdout/stderr.
         env (dict[str, str]):
             The subprocess environment variables.
         exit_on_error (bool):
-            If set to *True* (default), on failure it will call `sys.exit()`
+            If set to *True* (default), on failure it will call `sys.exit`
             with the return code for the executed command.
     Returns:
         ExecResult: The execution result containing the return code and output

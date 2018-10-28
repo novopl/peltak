@@ -35,11 +35,13 @@ extensions = [
 import peltak
 version = peltak.__version__
 release = peltak.__version__
+
 doctest_test_doctest_blocks='default'
-templates_path = [repo_path('docs/_templates')]
 source_suffix = '.rst'
 master_doc = 'index'
 language = None
+
+templates_path = [repo_path('docs/_templates')]
 exclude_patterns = [
     '_build',
     'env',
@@ -51,6 +53,7 @@ exclude_patterns = [
 todo_include_todos = False
 intersphinx_mapping = {'https://docs.python.org/': None}
 
+default_role = 'any'
 pygments_style = 'monokai'
 html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 html_theme = "sphinx_rtd_theme"
