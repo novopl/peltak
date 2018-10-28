@@ -37,7 +37,7 @@ setup(
     packages=find_packages('src'),
     install_requires=[
         'click~=7.0',
-        'PyYAML~=3.13',
+        'PyYAML~=3.0',
         'six~=1.11'
     ],
     entry_points={
