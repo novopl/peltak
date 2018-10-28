@@ -6,11 +6,12 @@ import inside `pelconf.py`.
 """
 from __future__ import absolute_import
 
-from peltak.cli import cli, click
+from peltak.cli import root_cli, click
 
 
-@cli.group('appengine')
+@root_cli.group('appengine')
 def appengine_cli():
+    # type: () -> None
     """ Google AppEngine related commands. """
     pass
 
@@ -57,9 +58,9 @@ def deploy(project, version, pretend, promote, quiet):
     variable. This will also collect all static files and compile translation
     messages
     """
-    from . import impl
+    from . import logic
 
-    impl.deploy(project, version, pretend, promote, quiet)
+    logic.deploy(project, version, pretend, promote, quiet)
 
 
 @appengine_cli.command()
@@ -67,15 +68,17 @@ def deploy(project, version, pretend, promote, quiet):
 @click.option('--admin-port', type=int, default=None)
 @click.option('--clear', is_flag=True)
 def devserver(port, admin_port, clear):
+    # type: (int, int, bool) -> None
     """ Run devserver. """
-    from . import impl
+    from . import logic
 
-    impl.devserver(port, admin_port, clear)
+    logic.devserver(port, admin_port, clear)
 
 
 @appengine_cli.command('setup-ci')
 def setup_ci():
+    # type: () -> None
     """ Setup AppEngine SDK on CircleCI """
-    from . import impl
+    from . import logic
 
-    impl.setup_ci()
+    logic.setup_ci()

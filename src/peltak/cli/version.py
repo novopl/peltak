@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 """ Commands for managing the managed project version. """
 from __future__ import absolute_import
-from . import cli, click
+from . import root_cli, click
 
 
-@cli.group('version', invoke_without_command=True)
+@root_cli.group('version', invoke_without_command=True)
 @click.option('--porcelain', is_flag=True)
 @click.pass_context
 def version_cli(ctx, porcelain):
+    # type: (click.Context, bool) -> None
     """ Show project version. Has sub commands.
 
     For this command to work you must specify where the project version is
@@ -18,11 +19,9 @@ def version_cli(ctx, porcelain):
     file that just holds the raw project version. The appropriate storage is
     guessed based on the file type and name.
 
-    Example configuration::
+    Example Configuration::
 
-        conf.init({
-            'version_file': 'src/mypackage/__init__.py'
-        })
+        version_file: 'src/mypackage/__init__.py'
 
     Examples:
 
@@ -59,6 +58,7 @@ def version_cli(ctx, porcelain):
 )
 @click.option('--exact', type=str)
 def bump_version(component='patch', exact=None):
+    # type: (str, str) -> None
     """ Bump current project version without committing anything.
 
     No tags are created either.

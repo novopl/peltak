@@ -35,6 +35,28 @@ Installation
 
     $ pip install peltak
 
+Enabling auto-completion
+------------------------
+**peltak** has a great auto-completion thanks to the underlying click library.
+The steps to enable it vary slightly depending on what shell you are using
+
+**Bash users**
+
+    Either run this command or to make the change permanent add it to your
+    ``~/.bashrc``:
+
+    .. code-block:: shell
+
+        eval "$(_PELTAK_COMPLETE=source peltak)"
+
+**ZSH users**
+    Either run this command or to make the change permanent add it to your
+    ``~/.zshrc``:
+
+    .. code-block:: shell
+
+        eval "$(_PELTAK_COMPLETE=source_zsh peltak)"
+
 
 Contributing
 ============
@@ -61,6 +83,13 @@ pytest configuration is defined in ``ops/tools/pytest.ini``.
 .. code-block:: shell
 
     $ peltak test
+
+.. admonition:: **How to test for all supported python versions?**
+
+    To run tox you need to first generate the requirements files. You
+    can do this with ``pipenv lock -d --requirements > requirements.txt``. Once
+    it's done, you can just run ``tox`` to test against python2.7, python3.4
+    and python3.6 all in one go.
 
 Linting
 .......

@@ -3,10 +3,10 @@
 Testing commands
 """
 from __future__ import absolute_import
-from . import cli, click
+from . import root_cli, click
 
 
-@cli.group('test', invoke_without_command=True)
+@root_cli.group('test', invoke_without_command=True)
 @click.argument('tests_type', metavar='<type>', type=str, default='default')
 @click.option(
     '-v', '--verbose',
@@ -45,6 +45,7 @@ from . import cli, click
 @click.pass_context
 def test_cli(ctx, tests_type, verbose, junit, no_locals, no_coverage, plugins,
              allow_empty):
+    # type: (click.Context, str, int, bool, bool, bool, str, bool) -> None
     """ Run tests against the current python version.
 
     This command uses pytest internally and is just a thing wrapper over it
@@ -64,24 +65,20 @@ def test_cli(ctx, tests_type, verbose, junit, no_locals, no_coverage, plugins,
     If your project is using django, you can use django_test_settings conf
     variable to specify which settings to use for the tests.
 
-    Config Sample::
+    Example Configuration::
 
         \b
-        conf.init({
-            'coverage_cfg_path': 'ops/tools/coverage',
-            'django_test_settings': 'mypkg.settings.test',
-            'test': {
-                'types': {
-                    'default': {'paths': ['test']},
-                    'no_django': {
-                        'mark': 'not django',
-                        'paths': ['test']
-                    }
-                }
-            }
-        })
+        test:
+          coverage_cfg_path: 'ops/tools/coverage',
+          django_test_settings: 'mypkg.settings.test',
+          types:
+            default:
+                paths: ['test']
+            no_django:
+                paths: ['test']
+                mark: 'not django'
 
-    Examples::
+    Examples:
 
         \b
         $ peltak test                   # Run tests using the default options

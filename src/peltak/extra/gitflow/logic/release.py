@@ -16,15 +16,17 @@ from . import common
 
 
 def start(component, exact):
+    # type: (str, str) -> None
     """ Create a new release branch.
 
-    :param str component:
-        Version component to bump when creating the release. Can be *major*,
-        *minor* or *patch*.
-    :param str exact:
-        The exact version to set for the release. Overrides the component
-        argument. This allows to re-release a version if something went wrong
-        with the release upload.
+    Args:
+        component (str):
+            Version component to bump when creating the release. Can be *major*,
+            *minor* or *patch*.
+        exact (str):
+            The exact version to set for the release. Overrides the component
+            argument. This allows to re-release a version if something went
+            wrong with the release upload.
     """
     version_file = conf.get_path('version_file', 'VERSION')
 
@@ -61,9 +63,13 @@ def start(component, exact):
 
 
 def finish():
+    # type: () -> None
     """ Merge current release into develop and master and tag it. """
     if git.staged() or git.unstaged():
-        log.err("You have uncommitted changes in your repo!")
+        log.err(
+            "You have uncommitted changes in your repo!\n"
+            "You need to stash them before you merge the release branch"
+        )
         sys.exit(1)
 
     develop = conf.get('git.devel_branch', 'develop')
@@ -89,10 +95,11 @@ def finish():
     common.git_branch_delete(branch.name)
     common.git_prune()
 
-    common.git_checkout(develop)
+    common.git_checkout(master)
 
 
 def merged():
+    # type: () -> None
     """ Cleanup the release branch after it was remotely merged to master. """
     develop = conf.get('git.devel_branch', 'develop')
     master = conf.get('git.master_branch', 'master')
@@ -117,6 +124,7 @@ def merged():
 
 
 def tag():
+    # type: () -> None
     """ Tag the current commit with the current version. """
     release_ver = versioning.current()
     commit = git.latest_commit()

@@ -5,4 +5,4 @@ Only useful on appengine projects. If you're not using AppEngine, do not
 import inside `pelconf.py`.
 """
 from __future__ import absolute_import
-from . import cli
+from .cli import appengine_cli

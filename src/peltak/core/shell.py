@@ -8,6 +8,7 @@ import re
 import subprocess
 import sys
 from collections import namedtuple
+from typing import Any, Dict
 
 
 ExecResult = namedtuple(
@@ -20,6 +21,7 @@ is_tty = sys.stdout.isatty()
 
 
 def fmt(msg, *args, **kw):
+    # type: (str, *Any, **Any) -> str
     """ Generate shell color opcodes from a pretty coloring syntax. """
     global is_tty
 
@@ -31,6 +33,7 @@ def fmt(msg, *args, **kw):
 
 
 def cprint(msg, *args, **kw):
+    # type: (str, *Any, **Any) -> None
     """ Print colored message to stdout. """
     if len(args) or len(kw):
         msg = msg.format(*args, **kw)
@@ -39,23 +42,25 @@ def cprint(msg, *args, **kw):
 
 
 def run(cmd, capture=False, shell=True, env=None, exit_on_error=None):
+    # type: (str, bool, bool, Dict[str, str], bool) -> ExecResult
     """ Run a shell command.
 
-    :param Union[str, unicode] cmd:
-        The shell command to execute.
-    :param bool shell:
-        Same as in `subprocess.Popen()`.
-    :param bool capture:
-        If set to True, it will capture the standard input/error instead of
-        just piping it to the caller stdout/stderr.
-    :param dict env:
-        The subprocess environment variables.
-    :param bool exit_on_error:
-        If set to *True* (default), on failure it will call `sys.exit()` with
-        the return code for the executed command.
-    :return ExecResult:
-        Return instance of ``ExecResult``. The result contains the return code
-        and output (if capture was set to *True*).
+    Args:
+        cmd (str):
+            The shell command to execute.
+        shell (bool):
+            Same as in `subprocess.Popen()`.
+        capture (bool):
+            If set to True, it will capture the standard input/error instead of
+            just piping it to the caller stdout/stderr.
+        env (dict[str, str]):
+            The subprocess environment variables.
+        exit_on_error (bool):
+            If set to *True* (default), on failure it will call `sys.exit()`
+            with the return code for the executed command.
+    Returns:
+        ExecResult: The execution result containing the return code and output
+        (if capture was set to *True*).
     """
     options = {
         'bufsize': 1,       # line buffered
@@ -99,3 +104,7 @@ def run(cmd, capture=False, shell=True, env=None, exit_on_error=None):
         p.returncode == 0,
         p.returncode != 0
     )
+
+
+# Used in docstrings only until we drop python2 support
+del Any, Dict

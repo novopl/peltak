@@ -6,20 +6,33 @@ from __future__ import absolute_import, unicode_literals
 import time
 import warnings
 from functools import wraps
+from types import FunctionType
 
 
 class timed_block(object):  # noqa
     """ Context manager to measure execution time for a give block of code.
 
-    >>> import time
-    >>> from peltak.core import util
-    >>>
-    >>> with util.timed_block() as t:
-    ...     time.sleep(1)
-    >>>
-    >>> print("Code executed in {}s".format(int(t.elapsed_s)))
-    Code executed in 1s
+    Example:
+        >>> import time
+        >>> from peltak.core import util
+        >>>
+        >>> with util.timed_block() as t:
+        ...     time.sleep(1)
+        >>>
+        >>> print("Code executed in {}s".format(int(t.elapsed_s)))
+        Code executed in 1s
 
+    Attributes:
+        t0 (float):
+            The time at the start of execution.
+        elapsed (float);
+            Raw elapsed time in seconds.
+        elapsed_s (float):
+            Elapsed time in seconds, rounded to 3 decimal places for easy
+            display.
+        elapsed_ms (float):
+            Elapsed time in milliseconds, rounded to 3 decimal places for easy
+            display.
     """
     def __enter__(self):
         self.t0 = time.time()
@@ -32,10 +45,12 @@ class timed_block(object):  # noqa
 
 
 def mark_experimental(fn):
+    # type: (FunctionType) -> FunctionType
     """ Mark function as experimental.
 
-    :param Function fn:
-        The command function to decorate.
+    Args:
+        fn (FunctionType):
+            The command function to decorate.
     """
     @wraps(fn)
     def wrapper(*args, **kw):   # pylint: disable=missing-docstring
@@ -49,10 +64,12 @@ def mark_experimental(fn):
 
 
 def mark_deprecated(replaced_by):
+    # type: (str) -> FunctionType
     """ Mark command as deprecated.
 
-    :param str replaced_by:
-        The command that deprecated this command and should be used instead.
+    Args:
+        replaced_by (str):
+            The command that deprecated this command and should be used instead.
     """
     def decorator(fn):   # pylint: disable=missing-docstring
         @wraps(fn)
@@ -74,24 +91,24 @@ class cached_result(object):
     a single *peltak* execution run and are expensive (i.e. call external
     shell commands).
 
-
-    >>> from peltak.core import util
-    >>>
-    >>> @util.cached_result()
-    ... def foo():
-    ...     call_count = getattr(foo, 'call_count', 0)
-    ...     call_count += 1
-    ...     setattr(foo, 'call_count', call_count)
-    >>> foo()
-    >>> print(foo.call_count)
-    1
-    >>> foo()
-    >>> print(foo.call_count)
-    1
-    >>> util.cached_result.clear(foo)
-    >>> foo()
-    >>> print(foo.call_count)
-    2
+    Example:
+        >>> from peltak.core import util
+        >>>
+        >>> @util.cached_result()
+        ... def foo():
+        ...     call_count = getattr(foo, 'call_count', 0)
+        ...     call_count += 1
+        ...     setattr(foo, 'call_count', call_count)
+        >>> foo()
+        >>> print(foo.call_count)
+        1
+        >>> foo()
+        >>> print(foo.call_count)
+        1
+        >>> util.cached_result.clear(foo)
+        >>> foo()
+        >>> print(foo.call_count)
+        2
     """
     CACHE_VAR = '__cached_result'
 
@@ -99,10 +116,12 @@ class cached_result(object):
         pass
 
     def __call__(self, fn):
+        # type: (FunctionType) -> FunctionType
         """ Apply the decorator to the given function.
 
-        :param Function fn:
-            The function to decorate.
+        Args:
+            fn (FunctionType):
+                The function to decorate.
         :return Function:
             The function wrapped in caching logic.
         """
@@ -118,12 +137,18 @@ class cached_result(object):
 
     @classmethod
     def clear(cls, fn):
+        # type: (FunctionType) -> None
         """ Clear result cache on the given function.
 
         If the function has no cached result, this call will do nothing.
 
-        :param Function fn:
-            The function whose cache should be cleared.
+        Args:
+            fn (FunctionType):
+                The function whose cache should be cleared.
         """
         if hasattr(fn, cls.CACHE_VAR):
             delattr(fn, cls.CACHE_VAR)
+
+
+# Used in docstrings only until we drop python2 support
+del FunctionType

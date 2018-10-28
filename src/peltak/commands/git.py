@@ -16,6 +16,7 @@ from peltak.core import shell
 
 
 def add_hooks():
+    # type: () -> None
     """ Add git hooks for commit and push to run linting and tests. """
 
     # Detect virtualenv the hooks should use
@@ -69,6 +70,7 @@ def add_hooks():
 
 
 def push():
+    # type: () -> None
     """ Push the current branch to origin.
 
     This is an equivalent of ``git push -u origin <branch>``. Mainly useful for

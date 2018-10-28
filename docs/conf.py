@@ -23,10 +23,11 @@ sys.path.insert(1, repo_path('.'))
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.autosummary',
-    'sphinx.ext.doctest',
-    'sphinx.ext.intersphinx',
     'sphinx.ext.coverage',
+    'sphinx.ext.doctest',
     'sphinx.ext.imgmath',
+    'sphinx.ext.intersphinx',
+    'sphinx.ext.napoleon',
     'sphinx.ext.viewcode',
     'sphinx_click.ext',
 ]

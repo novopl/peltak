@@ -5,17 +5,19 @@ This is mainly for web apps that are deployed with docker.
 """
 from __future__ import absolute_import
 
-from peltak.cli import cli, click
+from peltak.cli import root_cli, click
 
 
-@cli.group('docker')
+@root_cli.group('docker')
 def docker_cli():
+    # type: () -> None
     """ Commands for building the project docker images. """
     pass
 
 
 @docker_cli.command('build')
 def build_images():
+    # type: () -> None
     """ Build and tag a docker image for the project.
 
     It requires a docker.images conf variable to be set and contain the
@@ -29,14 +31,12 @@ def build_images():
     Config example::
 
         \b
-        conf.init({
-            'docker': {
-                'registry': 'registry.mydomain.com',
-                'images': [
-                    {'name': 'myapp'}
-                ]
-            }
-        })
+        docker:
+          registry: 'registry.mydomain.com'
+          images:
+            - name: 'myapp:1.0'
+              path: '.'
+              file: 'Dockerfile'
 
     Example::
 
@@ -44,13 +44,14 @@ def build_images():
         $ peltak docker build
 
     """
-    from . import impl
+    from . import logic
 
-    impl.build_images()
+    logic.build_images()
 
 
 @docker_cli.command('push')
 def push_images():
+    # type: () -> None
     """ Push project docker images to the registry.
 
     This command requires both docker.images and docker.registry conf variables
@@ -61,14 +62,12 @@ def push_images():
     Config example::
 
         \b
-        conf.init({
-            'docker': {
-                'registry': 'registry.mydomain.com',
-                'images': [
-                    {'name': 'myapp'}
-                ]
-            }
-        })
+        docker:
+          registry: 'registry.mydomain.com'
+          images:
+            - name: 'myapp:1.0'
+              path: '.'
+              file: 'Dockerfile'
 
     Example::
 
@@ -76,9 +75,9 @@ def push_images():
         $ peltak docker push
 
     """
-    from . import impl
+    from . import logic
 
-    impl.push_images()
+    logic.push_images()
 
 
 @docker_cli.command('list')
@@ -90,6 +89,7 @@ def push_images():
     help='Registry password'
 )
 def docker_list(registry_pass):
+    # type: (str) -> None
     """ List docker images and their tags on the remote registry.
 
     This command requires the docker.registry conf variable to be set. You can
@@ -99,12 +99,13 @@ def docker_list(registry_pass):
     Config example::
 
         \b
-        conf.init({
-            'docker': {
-                'registry': 'registry.mydomain.com',
-                'registry_user': 'myuser'
-            }
-        })
+        docker:
+          registry: 'registry.mydomain.com'
+          registry_user: 'myuser'
+          images:
+            - name: 'myapp:1.0'
+              path: '.'
+              file: 'Dockerfile'
 
     Example::
 
@@ -113,6 +114,6 @@ def docker_list(registry_pass):
         $ peltak docker list -p mypass  # List registry images, use give pw
 
     """
-    from . import impl
+    from . import logic
 
-    impl.docker_list(registry_pass)
+    logic.docker_list(registry_pass)

@@ -13,12 +13,14 @@ from peltak.core import log
 
 
 def upload(target):
+    # type: (str) -> None
     """ Upload the release to a pypi server.
 
     TODO: Make sure the git directory is clean before allowing a release.
 
-    :param str target:
-        pypi target as defined in ~/.pypirc
+    Args:
+        target (str):
+            pypi target as defined in ~/.pypirc
     """
     log.info("Uploading to pypi server <33>{}".format(target))
     with conf.within_proj_dir():
@@ -27,15 +29,19 @@ def upload(target):
 
 
 def gen_pypirc(username=None, password=None):
+    # type: (str, str) -> None
     """ Generate ~/.pypirc with the given credentials.
 
     Useful for CI builds. Can also get credentials through env variables
     ``PYPI_USER`` and ``PYPI_PASS``.
 
-    :param str username:
-        pypi username.
-    :param str password:
-        pypi password.
+    Args:
+        username (str):
+            pypi username. If not given it will try to take it from the
+            `` PYPI_USER`` env variable.
+        password (str):
+            pypi password. If not given it will try to take it from the
+            `` PYPI_PASS`` env variable.
     """
     path = join(conf.getenv('HOME'), '.pypirc')
     username = username or conf.getenv('PYPI_USER', None)

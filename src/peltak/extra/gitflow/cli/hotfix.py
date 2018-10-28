@@ -1,53 +1,69 @@
 # -*- coding: utf-8 -*-
 """ git flow hotfix commands. """
-from peltak.cli import cli, click
+from peltak.cli import root_cli, click
 
 
-@cli.group('hotfix', invoke_without_command=True)
-@click.option(
-    '-n', '--name',
-    type=str,
-    help="The name of the new hotfix."
-)
-@click.pass_context
-def hotfix_cli(ctx, name):
-    """ Start a new git-flow hotfix by branching off master.  """
-    if ctx.invoked_subcommand:
-        return
+@root_cli.group('hotfix', invoke_without_command=True)
+def hotfix_cli():
+    # type: () -> None
+    """ Commands that ease the work with git flow hotfix branches.
 
-    from peltak.extra.gitflow import impl
-    impl.hotfix.start(name)
+    Examples:
+
+        \b
+        $ peltak hotfix start my_hotfix     # Start a new hotfix branch
+        $ peltak hotfix finish              # Merge the hotfix into master
+        $ peltak hotfix merged              # Cleanup after a remote merge
+        $ peltak hotfix rename new_name     # Rename the current hotfix.
+    """
+    pass
+
+
+@hotfix_cli.command('start')
+@click.argument('name', required=False)
+def start(name):
+    # type: (str) -> None
+    """ Start a new git flow hotfix branch.  """
+    from peltak.extra.gitflow import logic
+
+    if name is None:
+        name = click.prompt('Hotfix name')
+
+    logic.hotfix.start(name)
 
 
 @hotfix_cli.command('rename')
-@click.argument('name', type=str)
-@click.option(
-    '-n', '--name',
-    type=str,
-    help="The new name for the current hotfix."
-)
+@click.argument('name', required=False)
 def rename(name):
+    # type: (str) -> None
     """ Give the currently developed hotfix a new name. """
-    from peltak.extra.gitflow import impl
-    impl.hotfix.rename(name)
+    from peltak.extra.gitflow import logic
+
+    if name is None:
+        name = click.prompt('Hotfix name')
+
+    logic.hotfix.rename(name)
 
 
 @hotfix_cli.command('update')
 def update():
+    # type: () -> None
     """ Update the hotfix with updates committed to master. """
-    from peltak.extra.gitflow import impl
-    impl.hotfix.update()
+    from peltak.extra.gitflow import logic
+    logic.hotfix.update()
 
 
 @hotfix_cli.command('finish')
 def finish():
+    # type: () -> None
     """ Merge current hotfix into master. """
-    from peltak.extra.gitflow import impl
-    impl.hotfix.finish()
+    from peltak.extra.gitflow import logic
+    logic.hotfix.finish()
 
 
 @hotfix_cli.command('merged')
 def merged():
+    # type: () -> None
     """ Cleanup a remotely merged hotfix. """
-    from peltak.extra.gitflow import impl
-    impl.hotfix.merged()
+    from peltak.extra.gitflow import logic
+    logic.hotfix.merged()

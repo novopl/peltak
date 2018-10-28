@@ -4,10 +4,12 @@ Various commands that do not fit another category but there's not enough of them
 to justify a separate module.
 """
 from __future__ import absolute_import
-from . import cli, click
+
+# local imports
+from . import root_cli, click
 
 
-@cli.group('docs', invoke_without_command=True)
+@root_cli.group('docs', invoke_without_command=True)
 @click.option(
     '--recreate',
     is_flag=True,
@@ -30,6 +32,7 @@ from . import cli, click
 )
 @click.pass_context
 def docs_cli(ctx, recreate, gen_index, run_doctests, verbose):
+    # type: (click.Context, bool, bool, bool, int) -> None
     """ Build project documentation.
 
     This command will run sphinx-refdoc first to generate the reference
@@ -45,15 +48,12 @@ def docs_cli(ctx, recreate, gen_index, run_doctests, verbose):
     Sample Config::
 
         \b
-        conf.init({
-            'build_dir': '.build',
-            'docs': {
-                'path': 'docs',
-                'reference': [
-                    'src/mypkg'
-                ]
-            }
-        })
+        build_dir: '.build'
+
+        docs:
+          path: 'docs'
+          reference:
+            - 'src/mypkg'
 
     Examples::
 

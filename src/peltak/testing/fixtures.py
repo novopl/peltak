@@ -16,7 +16,7 @@ from peltak.extra.docker import client
 def registry_client():
     """ Return fake RegistryClient
 
-    :return docker.RegistryClient:
-        Fake registry client
+    Returns:
+        client.RegistryClient: Fake registry client
     """
     return client.RegistryClient('docker.example.com', 'john', 'secret99')

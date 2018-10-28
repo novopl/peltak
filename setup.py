@@ -36,12 +36,13 @@ setup(
     package_dir={'': 'src'},
     packages=find_packages('src'),
     install_requires=[
-        l.strip() for l in read('requirements.txt').split()
-        if l.strip() and not l.lstrip().startswith('#')
+        'click~=7.0',
+        'PyYAML~=3.13',
+        'six~=1.11'
     ],
     entry_points={
         'console_scripts': [
-            'peltak = peltak.main:cli',
+            'peltak = peltak.main:root_cli',
         ]
     },
     classifiers=[

@@ -9,6 +9,8 @@ import os
 import os.path
 import sys
 from contextlib import contextmanager
+from types import ModuleType
+from typing import Any, Dict, Optional, Union
 
 # 3rd party imports
 import yaml
@@ -22,6 +24,7 @@ g_config = {}
 
 
 def init(config):
+    # type: (Dict[str, Any]) -> None
     """ Initialize configuration with the given values.
 
     This should be called from within the project fabfile, before any
@@ -29,8 +32,9 @@ def init(config):
 
     This will not update the existing configuration but replace it entirely.
 
-    :param dict config:
-        The dictionary containing the project configuration.
+    Args:
+        config (dict[str, Any]):
+            The dictionary containing the project configuration.
     """
     global g_config
 
@@ -38,6 +42,7 @@ def init(config):
 
 
 def load():
+    # type: () -> None
     """ Load configuration from file.
 
     This will search the directory structure upwards to find the project root
@@ -58,14 +63,16 @@ def load():
 
 
 def load_yaml_config(conf_file):
+    # type: (str) -> None
     """ Load a YAML configuration.
 
     This will not update the configuration but replace it entirely.
 
-    :param str conf_file:
-        Path to the YAML config. This function will not check the file name
-        or extension and will just crash if the given file does not exist or
-        is not a valid YAML file.
+    Args:
+        conf_file (str):
+            Path to the YAML config. This function will not check the file name
+            or extension and will just crash if the given file does not exist or
+            is not a valid YAML file.
     """
     global g_config
 
@@ -84,6 +91,7 @@ def load_yaml_config(conf_file):
 
 
 def load_py_config(conf_file):
+    # type: (str) -> None
     """ Import configuration from a python file.
 
     This will just import the file into python. Sky is the limit. The file
@@ -92,10 +100,11 @@ def load_py_config(conf_file):
     current working directory. This is done automatically if you use yaml
     config as well.
 
-    :param str conf_file:
-        Path to the YAML config. This function will not check the file name
-        or extension and will just crash if the given file does not exist or
-        is not a valid python file.
+    Args:
+        conf_file (str):
+            Path to the py module config. This function will not check the file
+            name or extension and will just crash if the given file does not
+            exist or is not a valid python file.
     """
     if sys.version_info >= (3, 5):
         from importlib import util
@@ -116,16 +125,27 @@ def load_py_config(conf_file):
 
 
 def _import(module):
+    # type: (str) -> ModuleType
     return __import__(module)   # nocov
 
 
 def getenv(name, default=None):
+    # type: (str, Any) -> Union[str, Any]
     """ Get the value of an ENV variable. """
     return os.environ.get(name, default)   # nocov
 
 
 def proj_path(path=None):
-    """ Return absolute path to the repo dir (root project directory). """
+    # type: (str) -> str
+    """ Return absolute path to the repo dir (root project directory).
+
+    Args:
+        path (str):
+            The path relative to the project root (pelconf.yaml).
+
+    Returns:
+        str: The given path converted to an absolute path.
+    """
     path = path or '.'
 
     if not os.path.isabs(path):
@@ -139,12 +159,13 @@ def proj_path(path=None):
 
 @contextmanager
 def within_proj_dir(path='.'):
+    # type: (Optional[str]) -> str
     """ Return an absolute path to the given project relative path.
 
-    :param str path:
+    :param path:
         Project relative path that will be converted to the system wide absolute
         path.
-    :return str:
+    :return:
         Absolute path.
     """
     curr_dir = os.getcwd()
@@ -157,17 +178,24 @@ def within_proj_dir(path='.'):
 
 
 def get(name, *default):
+    # type: (str, Any) -> Any
     """ Get config value with the given name and optional default.
 
-    :param str|unicode name:
-        The name of the config value.
-    :param Any default:
-        If given and the key doesn't not exist, this will be returned instead.
-        If it's not given and the config value does not exist, AttributeError
-        will be raised
-    :return Any:
+    Args:
+        name (str):
+            The name of the config value.
+        *default (Any):
+            If given and the key doesn't not exist, this will be returned
+            instead. If it's not given and the config value does not exist,
+            AttributeError will be raised
+
+    Returns:
         The requested config value. This is one of the global values defined
-        in this file.
+        in this file. If the value does not exist it will return `default` if
+        give or raise `AttributeError`.
+
+    Raises:
+        AttributeError: If the value does not exist and `default` was not given.
     """
     global g_config
 
@@ -186,20 +214,27 @@ def get(name, *default):
 
 
 def get_path(name, *default):
+    # type: (str, Any) -> Any
     """ Get config value as path relative to the project directory.
 
     This allows easily defining the project configuration within the fabfile
     as always relative to that fabfile.
 
-    :param str|unicode name:
-        The name of the config value containing the path.
-    :param Any default:
-        If given and the key doesn't not exist, this will be returned instead.
-        If it's not given and the config value does not exist, AttributeError
-        will be raised
-    :return Any:
+    Args:
+        name (str):
+            The name of the config value containing the path.
+        *default (Any):
+            If given and the key doesn't not exist, this will be returned
+            instead. If it's not given and the config value does not exist,
+            AttributeError will be raised
+
+    Returns:
         The requested config value. This is one of the global values defined
-        in this file.
+        in this file. If the value does not exist it will return `default` if
+        give or raise `AttributeError`.
+
+    Raises:
+        AttributeError: If the value does not exist and `default` was not given.
     """
     global g_config
 
@@ -213,6 +248,7 @@ def get_path(name, *default):
 
 @util.cached_result()
 def _find_proj_root():
+    # type: () -> Optional[str]
     """ Find the project path by going up the file tree.
 
     This will look in the current directory and upwards for the pelconf file
@@ -228,3 +264,7 @@ def _find_proj_root():
             curr = os.path.dirname(curr)
 
     return None
+
+
+# Used in docstrings only until we drop python2 support
+del Any, Dict, Optional, Union, ModuleType

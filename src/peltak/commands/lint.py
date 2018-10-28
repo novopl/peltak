@@ -4,6 +4,9 @@ from __future__ import absolute_import, unicode_literals
 
 # stdlib imports
 from itertools import chain
+from typing import List
+
+# 3rd party imports
 from six import string_types
 
 # local imports
@@ -16,9 +19,25 @@ from peltak.core import util
 
 
 def _lint_files(paths, include=None, exclude=None, pretend=False):
+    # type: (List[str], List[str], List[str], bool) -> bool
     """ Run static analysis on the given files.
 
-    :param paths:   Iterable with each item being path that should be linted..
+    Args:
+        paths (list[str]):
+            Iterable with each item being path that should be linted.
+        include (list[str]):
+            A white list of glob patterns. If given, only files that match those
+            globs will be linted (filtered by exclude).
+        exclude (list[str]):
+            A list of glob string patterns to test against. If the file/path
+            matches any of those patters, it will be filtered out.
+        pretend (bool):
+            If set to **True** do not actually run the checks but rather
+            just show the list of files that would be linted.
+
+    Returns:
+        bool: **True** if linting did not return any errors, **False**
+        otherwise.
     """
 
     allow_empty = True
@@ -75,9 +94,22 @@ def _lint_files(paths, include=None, exclude=None, pretend=False):
 
 
 def lint(exclude, skip_untracked, commit_only, pretend):
+    # type: (List[str], bool, bool, bool) -> None
     """ Lint python files.
 
     TODO: Introduce a linter interface to allow support for arbitrary tools
+
+    Args:
+        exclude (list[str]):
+            A list of glob string patterns to test against. If the file/path
+            matches any of those patters, it will be filtered out.
+        skip_untracked (bool):
+            If set to **True** it will skip all files not tracked by git.
+        commit_only (bool):
+            Only lint files that are staged for commit.
+        pretend (bool):
+            If set to **True** do not actually run the checks but rather
+            just show the list of files that would be linted.
     """
     paths = [conf.proj_path(p) for p in conf.get('lint.paths', [])]
     exclude = list(exclude)     # Convert from tuple to easily concatenate.
@@ -94,3 +126,7 @@ def lint(exclude, skip_untracked, commit_only, pretend):
 
     if not _lint_files(paths, include, exclude, pretend):
         exit(1)
+
+
+# Used in docstrings only until we drop python2 support
+del List

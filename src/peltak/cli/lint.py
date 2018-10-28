@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*-
 """ Code linting commands. """
 from __future__ import absolute_import
-from . import cli, click
+
+from typing import List
+
+# local imports
+from . import root_cli, click
 
 
-@cli.group('lint', invoke_without_command=True)
+@root_cli.group('lint', invoke_without_command=True)
 @click.option(
     '-e', '--exclude',
     multiple=True,
@@ -30,6 +34,7 @@ from . import cli, click
 )
 @click.pass_context
 def lint_cli(ctx, exclude, skip_untracked, commit_only, pretend):
+    # type: (click.Context, List[str], bool, bool, bool) -> None
     """ Run pep8 and pylint on all project files.
 
     You can configure the linting paths using the lint.paths config variable.
@@ -44,15 +49,11 @@ def lint_cli(ctx, exclude, skip_untracked, commit_only, pretend):
     **Config Example**::
 
         \b
-        conf.init({
-            'lint': {
-                'pylint_cfg': 'ops/tools/pylint.ini',
-                'pep8_cfg': 'ops/tools/pep8.ini',
-                'paths': [
-                    'src/mypkg'
-                ],
-            }
-        })
+        lint:
+          pylint_cfg: 'ops/tools/pylint.ini'
+          pep8_cfg: 'ops/tools/pep8.ini'
+          paths:
+            - 'src/mypkg'
 
     **Examples**::
 
@@ -69,3 +70,7 @@ def lint_cli(ctx, exclude, skip_untracked, commit_only, pretend):
 
     from peltak.commands import lint
     lint.lint(exclude, skip_untracked, commit_only, pretend)
+
+
+# Used in docstrings only until we drop python2 support
+del List
