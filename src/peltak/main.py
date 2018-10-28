@@ -5,13 +5,13 @@ from __future__ import absolute_import, unicode_literals
 
 # local imports
 from peltak.core import conf
-from peltak.cli import cli
+from peltak.cli import root_cli
 __all__ = [
-    'cli'
+    'root_cli'
 ]
 
 
 conf.load()
 
 
-from peltak.cli import clean   # noqa
+from peltak.cli.root import clean   # noqa

@@ -5,10 +5,10 @@ from __future__ import absolute_import
 from typing import List
 
 # local imports
-from . import cli, click
+from . import root_cli, click
 
 
-@cli.group('lint', invoke_without_command=True)
+@root_cli.group('lint', invoke_without_command=True)
 @click.option(
     '-e', '--exclude',
     multiple=True,

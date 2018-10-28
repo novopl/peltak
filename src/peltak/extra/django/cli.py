@@ -8,10 +8,10 @@ exists so that manage.py can be deleted (less top-level files in project dir).
 """
 from __future__ import absolute_import
 
-from peltak.cli import cli, click
+from peltak.cli import root_cli, click
 
 
-@cli.group('django')
+@root_cli.group('django')
 def django_cli():
     # type: () -> None
     """ Commands related to django """

@@ -6,10 +6,10 @@ to justify a separate module.
 from __future__ import absolute_import
 
 # local imports
-from . import cli, click
+from . import root_cli, click
 
 
-@cli.group('docs', invoke_without_command=True)
+@root_cli.group('docs', invoke_without_command=True)
 @click.option(
     '--recreate',
     is_flag=True,

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """ git flow feature commands. """
-from peltak.cli import cli, click
+from peltak.cli import root_cli, click
 
 
-@cli.group('task', invoke_without_command=True)
+@root_cli.group('task', invoke_without_command=True)
 @click.option(
     '-n', '--name',
     type=str,

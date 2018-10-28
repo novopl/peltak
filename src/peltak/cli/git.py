@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 """ git helpers. """
 from __future__ import absolute_import
-from . import cli
+from . import root_cli
 
 
-@cli.group('git')
+@root_cli.group('git')
 def git_cli():
     # type: () -> None
     """ Git related commands """

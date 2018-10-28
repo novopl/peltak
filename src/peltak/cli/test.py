@@ -3,10 +3,10 @@
 Testing commands
 """
 from __future__ import absolute_import
-from . import cli, click
+from . import root_cli, click
 
 
-@cli.group('test', invoke_without_command=True)
+@root_cli.group('test', invoke_without_command=True)
 @click.argument('tests_type', metavar='<type>', type=str, default='default')
 @click.option(
     '-v', '--verbose',

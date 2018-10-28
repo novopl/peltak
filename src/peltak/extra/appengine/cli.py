@@ -6,10 +6,10 @@ import inside `pelconf.py`.
 """
 from __future__ import absolute_import
 
-from peltak.cli import cli, click
+from peltak.cli import root_cli, click
 
 
-@cli.group('appengine')
+@root_cli.group('appengine')
 def appengine_cli():
     # type: () -> None
     """ Google AppEngine related commands. """

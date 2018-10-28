@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 """ Commands for managing the managed project version. """
 from __future__ import absolute_import
-from . import cli, click
+from . import root_cli, click
 
 
-@cli.group('version', invoke_without_command=True)
+@root_cli.group('version', invoke_without_command=True)
 @click.option('--porcelain', is_flag=True)
 @click.pass_context
 def version_cli(ctx, porcelain):

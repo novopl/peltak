@@ -42,7 +42,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'peltak = peltak.main:cli',
+            'peltak = peltak.main:root_cli',
         ]
     },
     classifiers=[

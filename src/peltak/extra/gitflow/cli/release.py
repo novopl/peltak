@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """ git flow release commands. """
-from peltak.cli import cli, click
+from peltak.cli import root_cli, click
 
 
-@cli.group('release', invoke_without_command=True)
+@root_cli.group('release', invoke_without_command=True)
 @click.option(
     '-c', '--component',
     type=click.Choice(['major', 'minor', 'patch']),

@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 """ Helper commands for dealing with pypi. """
 from __future__ import absolute_import, unicode_literals
-from peltak.cli import cli, click
+from peltak.cli import root_cli, click
 
 
-@cli.group('pypi')
+@root_cli.group('pypi')
 def pypi_cli():
     # type: () -> None
     """ pypi related commands """
@@ -32,12 +32,12 @@ def upload(target):
 @click.option(
     '-u', '--username',
     type=str,
-    help="PyPi username"
+    help="PyPi username. Defaults to PYPI_USER env variable."
 )
 @click.option(
     '-p', '--password',
     type=str,
-    help="PyPi username"
+    help="PyPi password. Defaults to PYPI_PASS env variable."
 )
 def configure(username, password):
     # type: (str, str) -> None

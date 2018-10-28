@@ -5,10 +5,10 @@ This is mainly for web apps that are deployed with docker.
 """
 from __future__ import absolute_import
 
-from peltak.cli import cli, click
+from peltak.cli import root_cli, click
 
 
-@cli.group('docker')
+@root_cli.group('docker')
 def docker_cli():
     # type: () -> None
     """ Commands for building the project docker images. """

@@ -4,6 +4,7 @@ Command Line Interface
 
 
 .. toctree::
+    root
     appengine
     django
     docker
@@ -12,7 +13,6 @@ Command Line Interface
     git
     hotfix
     lint
-    misc
     pypi
     release
     task
@@ -20,6 +20,6 @@ Command Line Interface
     version
 
 
-.. click:: peltak.cli:cli
+.. click:: peltak.cli:root_cli
     :prog: peltak
     :show-nested:

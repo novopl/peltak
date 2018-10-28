@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """ git flow hotfix commands. """
-from peltak.cli import cli, click
+from peltak.cli import root_cli, click
 
 
-@cli.group('hotfix', invoke_without_command=True)
+@root_cli.group('hotfix', invoke_without_command=True)
 @click.option(
     '-n', '--name',
     type=str,
