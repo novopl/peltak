@@ -20,7 +20,7 @@ def hotfix_cli():
 
 
 @hotfix_cli.command('start')
-@click.argument('name')
+@click.argument('name', required=False)
 def start(name):
     # type: (str) -> None
     """ Start a new git flow hotfix branch.  """
@@ -33,7 +33,7 @@ def start(name):
 
 
 @hotfix_cli.command('rename')
-@click.argument('name')
+@click.argument('name', required=False)
 def rename(name):
     # type: (str) -> None
     """ Give the currently developed hotfix a new name. """

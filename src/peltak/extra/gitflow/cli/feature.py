@@ -10,7 +10,7 @@ def feature_cli():
 
 
 @feature_cli.command('start')
-@click.argument('name')
+@click.argument('name', required=False)
 def start(name):
     # type: (str) -> None
     """ Start a new git-flow feature.  """
@@ -23,7 +23,7 @@ def start(name):
 
 
 @feature_cli.command('rename')
-@click.argument('name')
+@click.argument('name', required=False)
 def rename(name):
     # type: (str) -> None
     """ Give the currently developed feature a new name. """

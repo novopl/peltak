@@ -95,7 +95,7 @@ def finish():
     common.git_branch_delete(branch.name)
     common.git_prune()
 
-    common.git_checkout(develop)
+    common.git_checkout(master)
 
 
 def merged():
