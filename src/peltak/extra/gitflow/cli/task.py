@@ -4,38 +4,38 @@ from peltak.cli import root_cli, click
 
 
 @root_cli.group('task', invoke_without_command=True)
-@click.option(
-    '-n', '--name',
-    type=str,
-    help="The name of the new task."
-)
-@click.pass_context
-def task_cli(ctx, name):
-    # type: (click.Context, str) -> None
+def task_cli():
+    # type: () -> None
     """ Start a new git-flow task.
 
     Tasks can only be based on feature branches.
     """
-    if ctx.invoked_subcommand:
-        return
+    pass
+
+
+@task_cli.command('start')
+@click.argument('name')
+def start(name):
+    # type: (str) -> None
+    """ Start a new git-flow feature.  """
+    from peltak.extra.gitflow import logic
 
     if name is None:
-        name = click.prompt('Name of the new task')
+        name = click.prompt('Task name')
 
-    from peltak.extra.gitflow import logic
     logic.task.start(name)
 
 
 @task_cli.command('rename')
-@click.option(
-    '-n', '--name',
-    type=str,
-    help="The new name for the current feature."
-)
+@click.argument('name')
 def rename(name):
     # type: (str) -> None
     """ Give the currently developed feature a new name. """
     from peltak.extra.gitflow import logic
+
+    if name is None:
+        name = click.prompt('Task name')
+
     logic.task.rename(name)
 
 

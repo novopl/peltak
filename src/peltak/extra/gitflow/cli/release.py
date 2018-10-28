@@ -4,21 +4,45 @@ from peltak.cli import root_cli, click
 
 
 @root_cli.group('release', invoke_without_command=True)
-@click.option(
-    '-c', '--component',
+def release_cli():
+    # type: () -> None
+    """ Commands that implement the release git flow.
+
+    **Example Config**::
+
+        \b
+        version_file: 'src/mypkg/__init__.py'
+        git:
+            devel_branch: 'develop'
+            master_branch: 'master'
+            protected_branches: ['master', 'develop']
+
+    Examples:
+
+        \b
+        $ peltak release start patch    # Make a new patch release
+        $ peltak release start minor    # Make a new minor release
+        $ peltak release start major    # Make a new major release
+        $ peltak release start          # same as start patch
+        $ peltak release tag            # Tag current commit as release
+
+    """
+    pass
+
+
+@release_cli.command('start')
+@click.argument(
+    'component',
     type=click.Choice(['major', 'minor', 'patch']),
-    required=False,
     default='patch',
-    help=("Which version component to bump with this release.")
 )
 @click.option(
     '--exact',
     type=str,
     help="Set the newly released version to be exactly as specified."
 )
-@click.pass_context
-def release_cli(ctx, component, exact):
-    # type: (click.Context, str, str) -> None
+def start(component, exact):
+    # type: (str) -> None
     """ Create a new release.
 
     It will bump the current version number and create a release branch called
@@ -32,17 +56,12 @@ def release_cli(ctx, component, exact):
     **Examples**::
 
         \b
-        $ peltak release --component=patch    # Make a new patch release
-        $ peltak release -c minor             # Make a new minor release
-        $ peltak release -c major             # Make a new major release
-        $ peltak release                      # same as release -c patch
-        $ peltak release tag                  # Tag current commit as release
-        $ peltak release upload pypi          # Upload to pypi
+        $ peltak release start patch    # Make a new patch release
+        $ peltak release start minor    # Make a new minor release
+        $ peltak release start major    # Make a new major release
+        $ peltak release start          # same as start patch
 
     """
-    if ctx.invoked_subcommand:
-        return
-
     from peltak.extra.gitflow import logic
     logic.release.start(component, exact)
 

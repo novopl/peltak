@@ -4,33 +4,44 @@ from peltak.cli import root_cli, click
 
 
 @root_cli.group('hotfix', invoke_without_command=True)
-@click.option(
-    '-n', '--name',
-    type=str,
-    help="The name of the new hotfix."
-)
-@click.pass_context
-def hotfix_cli(ctx, name):
-    # type: (click.Context, str) -> None
-    """ Start a new git-flow hotfix by branching off master.  """
-    if ctx.invoked_subcommand:
-        return
+def hotfix_cli():
+    # type: () -> None
+    """ Commands that ease the work with git flow hotfix branches.
 
+    Examples:
+
+        \b
+        $ peltak hotfix start my_hotfix     # Start a new hotfix branch
+        $ peltak hotfix finish              # Merge the hotfix into master
+        $ peltak hotfix merged              # Cleanup after a remote merge
+        $ peltak hotfix rename new_name     # Rename the current hotfix.
+    """
+    pass
+
+
+@hotfix_cli.command('start')
+@click.argument('name')
+def start(name):
+    # type: (str) -> None
+    """ Start a new git flow hotfix branch.  """
     from peltak.extra.gitflow import logic
+
+    if name is None:
+        name = click.prompt('Hotfix name')
+
     logic.hotfix.start(name)
 
 
 @hotfix_cli.command('rename')
-@click.argument('name', type=str)
-@click.option(
-    '-n', '--name',
-    type=str,
-    help="The new name for the current hotfix."
-)
+@click.argument('name')
 def rename(name):
     # type: (str) -> None
     """ Give the currently developed hotfix a new name. """
     from peltak.extra.gitflow import logic
+
+    if name is None:
+        name = click.prompt('Hotfix name')
+
     logic.hotfix.rename(name)
 
 

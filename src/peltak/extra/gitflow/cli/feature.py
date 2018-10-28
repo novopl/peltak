@@ -4,32 +4,34 @@ from peltak.cli import root_cli, click
 
 
 @root_cli.group('feature', invoke_without_command=True)
-@click.option(
-    '-n', '--name',
-    type=str,
-    help="The name of the new feature."
-)
-@click.pass_context
-def feature_cli(ctx, name):
-    # type: (click.Context, str) -> None
+def feature_cli():
+    # type: () -> None
     """ Start a new git-flow feature.  """
-    if ctx.invoked_subcommand:
-        return
 
+
+@feature_cli.command('start')
+@click.argument('name')
+def start(name):
+    # type: (str) -> None
+    """ Start a new git-flow feature.  """
     from peltak.extra.gitflow import logic
+
+    if name is None:
+        name = click.prompt('Feature name')
+
     logic.feature.start(name)
 
 
 @feature_cli.command('rename')
-@click.option(
-    '-n', '--name',
-    type=str,
-    help="The new name for the current feature."
-)
+@click.argument('name')
 def rename(name):
     # type: (str) -> None
     """ Give the currently developed feature a new name. """
     from peltak.extra.gitflow import logic
+
+    if name is None:
+        name = click.prompt('Feature name')
+
     logic.feature.rename(name)
 
 
