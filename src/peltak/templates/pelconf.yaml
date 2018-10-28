@@ -1,0 +1,36 @@
+# peltak configuration file
+# Visit https://github.com/novopl/peltak for more information
+pelconf_version: '1'
+
+src_dir: "{src_dir}"
+src_path: "{src_path}"
+build_dir: "{build_dir}"
+version_file: "{version_file}"
+
+commands:
+  - peltak.cli.docs
+  - peltak.cli.git
+  - peltak.cli.lint
+  - peltak.cli.test
+  - peltak.cli.version
+  - peltak.extra.pypi
+  - peltak.extra.gitflow
+
+clean:
+  exclude:
+    - ".tox"
+    - ".venv"
+
+lint:
+  paths:
+    - {src_path}
+
+docs:
+  reference:
+    - {src_path}
+
+test:
+  types:
+    default:
+      paths:
+        - {src_path}

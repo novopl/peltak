@@ -4,12 +4,13 @@ from __future__ import absolute_import, unicode_literals
 
 # stdlib imports
 import os
-from os.path import exists, isdir
+from os.path import exists, isdir, join
 from shutil import rmtree
 from typing import List
 
 # 3rd party imports
 import click
+import cliform
 
 # local imports
 from peltak.core import conf
@@ -62,34 +63,54 @@ def clean(pretend, exclude):
     log.info(msg.format(num_files, t.elapsed_s))
 
 
-def init():
+class InitForm(cliform.Form):
+    """ Everything needed to generate initial pelconf.yaml. """
+    src_dir = cliform.Field(
+        'Source directory',
+        default='src',
+        type=str,
+        help=('The root directory for all your sources. This is what you '
+              'would treat as PYTHONPATH')
+    )
+    build_dir = cliform.Field(
+        'Build directory',
+        default='.build',
+        type=str,
+        help=('The directory where all build files should go. It will be '
+              'shared as much as possible across the tools to reduce '
+              'clutter')
+    )
+    src_path = cliform.Field(
+        'Path to your main package',
+        type=str,
+        help=('This will be used for a lot of default values in the config '
+              '(like for linting, reference docs etc.)')
+    )
+    version_file = cliform.Field(
+        'Version file',
+        type=str,
+        default=lambda f: join(f['src_path'], '__init__.py'),
+        help=('This will be used for a lot of default values in the config '
+              '(like for linting, reference docs etc.)')
+    )
+
+
+def init(quick):
     # type: () -> None
-    """ Create an empty pelconf.py from template """
-    config_file = 'pelconf.py'
+    """ Create an empty pelconf.yaml from template """
+    config_file = 'pelconf.yaml'
     prompt = "-- <35>{} <32>already exists. Wipe it?<0>".format(config_file)
 
     if exists(config_file) and not click.confirm(shell.fmt(prompt)):
         log.info("Canceled")
         return
 
+    form = InitForm().run(quick=quick)
+
     log.info('Writing <35>{}'.format(config_file))
-    with open('pelconf.py', 'w') as fp:
-        fp.write('''# -*- coding: utf-8 -*-
-""" peltak configuration file.
-
-See https://github.com/novopl/peltak for more information.
-"""
-from __future__ import absolute_import
-
-# Configure the build
-from peltak.core import conf
-
-conf.init({
-})
-
-# Import all commands
-#from peltak.cli import version
-''')
+    with open(config_file, 'w') as fp:
+        pelconf_template = conf.load_template('pelconf.yaml')
+        fp.write(pelconf_template.format(**form.values))
 
 
 # Used in docstrings only until we drop python2 support

@@ -45,6 +45,11 @@ setup(
             'peltak = peltak.main:root_cli',
         ]
     },
+    package_data={
+        'peltak': [
+            'templates/*'
+        ]
+    },
     classifiers=[
         "Development Status :: 4 - Beta",
         "Topic :: Utilities",

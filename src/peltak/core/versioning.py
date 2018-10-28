@@ -179,8 +179,8 @@ class VersionStorage(object):
         All subclasses must implement this method.
 
         Raises:
-            NotImplementedError: If the subclass does nto implement the read()
-            method.
+            NotImplementedError:
+                If the subclass does nto implement the read() method.
         """
         raise NotImplementedError("{} must implement .read()".format(
             self.__class__.__name__
@@ -193,8 +193,8 @@ class VersionStorage(object):
         All subclasses must implement this method.
 
         Raises:
-            NotImplementedError: If the subclass does nto implement the write()
-            method.
+            NotImplementedError:
+                If the subclass does nto implement the write() method.
         """
         raise NotImplementedError("{} must implement .write()".format(
             self.__class__.__name__

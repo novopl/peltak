@@ -140,8 +140,8 @@ class GaeApp(object):
         # type: (str) -> GaeApp
         """ Return app configuration for the given branch.
 
-        This will look for the configuration in the `appengine.projects` config
-        variable.
+        This will look for the configuration in the ``appengine.projects``
+        config variable.
 
         Args:
             branch_name (str):

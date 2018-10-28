@@ -11,7 +11,7 @@ Table of Contents
 
     guides/_index
     cli/_index
-    Code Reference <ref/peltak/index>
+    Code Reference <ref/index>
 
 
 .. include:: ../README.rst

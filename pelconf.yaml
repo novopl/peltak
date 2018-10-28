@@ -1,4 +1,11 @@
-version: '0.1'
+# peltak configuration file
+# See https://github.com/novopl/peltak for more information.
+pelconf_version: '0'
+
+src_dir: 'src'
+src_path: 'src/peltak'
+build_dir: '.build'
+version_file: 'src/peltak/__init__.py'
 
 commands:
   - peltak.cli.docs
@@ -8,11 +15,6 @@ commands:
   - peltak.cli.version
   - peltak.extra.pypi
   - peltak.extra.gitflow
-
-src_dir: 'src'
-src_path: 'src/peltak'
-build_dir: '.build'
-version_file: 'src/peltak/__init__.py'
 
 clean:
   exclude:
@@ -31,6 +33,7 @@ lint:
 docs:
   reference:
     - src/peltak
+    - src/cliform
 
 test:
   types:
