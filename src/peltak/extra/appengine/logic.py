@@ -153,9 +153,11 @@ class GaeApp(object):
         """
         for proj in conf.get('appengine.projects', []):
             if fnmatch(branch_name, proj['branch']):
-                app_config = dict(proj)
-                app_config.pop('branch')
-                return cls(**app_config)
+                proj = dict(proj)
+                proj.pop('branch')
+                proj['deployables'] = conf.get('appengine.deployables', [])
+                proj['deployables'] += proj.get('deployables', [])
+                return cls(**proj)
 
         return None
 
