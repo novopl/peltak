@@ -6,7 +6,6 @@ from __future__ import absolute_import, unicode_literals
 from typing import Any, Callable, Dict, Tuple
 
 # 3rd party imports
-import attr
 import click
 from six import with_metaclass
 
