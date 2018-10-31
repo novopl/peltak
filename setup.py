@@ -38,7 +38,9 @@ setup(
     install_requires=[
         'click~=7.0',
         'PyYAML~=3.0',
-        'six~=1.11'
+        'six~=1.11',
+        'typing~=3.6',
+        'attr~=18.2'
     ],
     entry_points={
         'console_scripts': [
