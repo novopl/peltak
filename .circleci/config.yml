@@ -15,23 +15,23 @@ jobs:
           name: Setup peltak
           command: |
             which pip
-            echo '------------------------------------'
+            echo '== which pip ============================================='
             which python
-            echo '------------------------------------'
+            echo '== which python =========================================='
             python --version
-            echo '------------------------------------'
+            echo '== python --version ======================================'
             whoami
-            echo '------------------------------------'
+            echo '== whoami ================================================'
             time pipenv lock -d --requirements | tee requirements.txt
-            echo '------------------------------------'
+            echo '== pipenv lock -d --requirements | tee requirements.txt =='
             time pip install -r requirements.txt
-            echo '------------------------------------'
+            echo '== pip install -r requirements.txt ======================='
             pip uninstall peltak -y || true
-            echo '------------------------------------'
+            echo '== pip uninstall peltak -y || true ======================='
             python setup.py develop
-            echo '------------------------------------'
+            echo '== python setup.py develop ==============================='
             cat requirements.txt
-            echo '------------------------------------'
+            echo '== cat requirements.txt =================================='
 
       - run:
           name: Lint
