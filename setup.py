@@ -40,7 +40,7 @@ setup(
         'PyYAML~=3.0',
         'six~=1.11',
         'typing~=3.6',
-        'attr~=18.2'
+        'attrs~=18.2'
     ],
     entry_points={
         'console_scripts': [
