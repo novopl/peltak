@@ -1,5 +1,6 @@
 import os
 import re
+import sys
 from setuptools import setup, find_packages
 
 
@@ -23,6 +24,16 @@ def read_version():
         return m.group('version')
 
 
+requirements = [
+    'click~=7.0',
+    'PyYAML~=3.0',
+    'six~=1.11',
+    'attrs~=18.2',
+]
+if sys.version_info < (3, 5):
+    requirements += ['typing~=3.6']
+
+
 setup(
     name="peltak",
     version=read_version(),
@@ -35,11 +46,7 @@ setup(
     long_description=read('README.rst'),
     package_dir={'': 'src'},
     packages=find_packages('src'),
-    install_requires=[
-        'click~=7.0',
-        'PyYAML~=3.0',
-        'six~=1.11'
-    ],
+    install_requires=requirements,
     entry_points={
         'console_scripts': [
             'peltak = peltak.main:root_cli',
