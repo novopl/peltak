@@ -24,7 +24,11 @@ clean:
 docker:
   registry: docker.novocode.net
 
+
 lint:
+  tools:
+    - pep8
+    - mylint
   paths:
     - src/peltak
     - src/peltak_appengine
