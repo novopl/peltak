@@ -27,17 +27,18 @@ docker:
 lint:
   paths:
     - src/peltak
+    - src/peltak_appengine
     - test/unit
 
 
 docs:
   reference:
     - src/peltak
+    - src/peltak_appengine
     - src/cliform
 
 test:
   types:
     default:
       paths:
-        - src/peltak
         - test/unit
