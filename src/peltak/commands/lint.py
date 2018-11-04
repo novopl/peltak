@@ -32,9 +32,15 @@ from . import root_cli, click
     is_flag=True,
     help=("Just print files that would be linted without running anything")
 )
+@click.option(
+    '-v', '--verbose',
+    count=True,
+    help=("Be verbose. Can specify multiple times for more verbosity. This "
+          "will also influence the verbosity of pytest output.")
+)
 @click.pass_context
-def lint_cli(ctx, exclude, skip_untracked, commit_only, pretend):
-    # type: (click.Context, List[str], bool, bool, bool) -> None
+def lint_cli(ctx, exclude, skip_untracked, commit_only, pretend, verbose):
+    # type: (click.Context, List[str], bool, bool, bool, int) -> None
     """ Run pep8 and pylint on all project files.
 
     You can configure the linting paths using the lint.paths config variable.
@@ -69,7 +75,7 @@ def lint_cli(ctx, exclude, skip_untracked, commit_only, pretend):
         return
 
     from peltak.logic import lint
-    lint.lint(exclude, skip_untracked, commit_only, pretend)
+    lint.lint(exclude, skip_untracked, commit_only, pretend, verbose)
 
 
 # Used in docstrings only until we drop python2 support

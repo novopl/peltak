@@ -23,7 +23,7 @@ from peltak.core import util
 g_tools = OrderedDict()
 
 
-def lint(exclude, skip_untracked, commit_only, pretend):
+def lint(exclude, skip_untracked, commit_only, pretend, verbose):
     # type: (List[str], bool, bool, bool) -> None
     """ Lint python files.
 
@@ -39,7 +39,7 @@ def lint(exclude, skip_untracked, commit_only, pretend):
             If set to **True** do not actually run the checks but rather
             just show the list of files that would be linted.
     """
-    runner = LintRunner(exclude, skip_untracked, commit_only, pretend)
+    runner = LintRunner(exclude, skip_untracked, commit_only, pretend, verbose)
 
     if not runner.run():
         exit(1)
@@ -70,8 +70,8 @@ class LintRunner(object):
     This class represents a single linter run that includes running all the
     tools configured. It will notify the user about progress through stdout.
     """
-    def __init__(self, exclude, skip_untracked, commit_only, pretend):
-        # type: (List[str], bool, bool, bool) -> None
+    def __init__(self, exclude, skip_untracked, commit_only, pretend, verbose):
+        # type: (List[str], bool, bool, bool, int) -> None
         """ Run static analysis on the given files.
 
         Args:
@@ -85,7 +85,7 @@ class LintRunner(object):
             pretend (bool):
                 If set to **True** do not actually run the checks but rather
                 just show the list of files that would be linted.
-            linters (list[Linter]):
+            linters (list[Tool]):
                 A list of linters to run against the code.
 
         Returns:
@@ -97,6 +97,7 @@ class LintRunner(object):
         self.commit_only = commit_only
         self.pretend = pretend
         self.allow_empty = True
+        self.verbose = verbose
 
         self.linters = OrderedDict()
         for tool in conf.get('lint.tools', ['pep8', 'pylint']):
@@ -115,18 +116,16 @@ class LintRunner(object):
         with util.timed_block() as t:
             files = self._collect_files()
 
-        # Print collected files
-        if files:
-            log.info("Files:")
-            for p in files:
-                log.info("  <0>{}", p)
-        else:
-            log.err("No files found for linting, exiting...")
-            return self.allow_empty
-
         log.info("Collected <33>{} <32>files in <33>{}s".format(
             len(files), t.elapsed_s
         ))
+        if self.verbose:
+            for p in files:
+                log.info("  <0>{}", p)
+
+        # No files to lint - return success if empty runs are allowed.
+        if not files:
+            return self.allow_empty
 
         success = True
         if not self.pretend:
