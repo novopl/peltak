@@ -3,6 +3,6 @@ peltak pypi
 ###########
 
 
-.. click:: peltak.extra.pypi.cli:pypi_cli
+.. click:: peltak.extra.pypi:pypi_cli
     :prog: peltak pypi
     :show-nested:

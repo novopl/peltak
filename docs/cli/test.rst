@@ -3,6 +3,6 @@ peltak test
 ###########
 
 
-.. click:: peltak.cli.test:test_cli
+.. click:: peltak.commands.test:test_cli
     :prog: peltak test
     :show-nested:

@@ -3,10 +3,10 @@ peltak
 ######
 
 
-.. click:: peltak.cli.root:init
+.. click:: peltak.commands.root:init
     :prog: peltak init
     :show-nested:
 
-.. click:: peltak.cli.root:clean
+.. click:: peltak.commands.root:clean
     :prog: peltak clean
     :show-nested:

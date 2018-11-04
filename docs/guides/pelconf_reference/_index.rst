@@ -1,6 +1,9 @@
-##########################
-``pelconf.yaml`` Reference
-##########################
+
+.. _pelconf.yaml:
+
+################
+``pelconf.yaml``
+################
 
 * What is the purpose of the file
 * How is the file structured

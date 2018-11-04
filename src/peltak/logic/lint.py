@@ -4,8 +4,8 @@ from __future__ import absolute_import, unicode_literals
 
 # stdlib imports
 from collections import OrderedDict
-from functools import wraps
 from itertools import chain
+from types import FunctionType
 from typing import List
 
 # 3rd party imports
@@ -20,7 +20,7 @@ from peltak.core import shell
 from peltak.core import util
 
 
-g_linters = OrderedDict()
+g_tools = OrderedDict()
 
 
 def lint(exclude, skip_untracked, commit_only, pretend):
@@ -46,48 +46,22 @@ def lint(exclude, skip_untracked, commit_only, pretend):
 
 
 def tool(name):
-    global g_linters
+    # type: (str) -> FunctionType
+    """ Decorator for defining lint tools.
 
-    def decorator(fn):
-        g_linters[name] = fn
+    Args:
+        name (str):
+            The name of the tool. This name will be used to identify the tool
+            in `pelconf.yaml`.
+    """
+    global g_tools
+
+    def decorator(fn):  # pylint: disable=missing-docstring
+        # type: (FunctionType) -> FunctionType
+        g_tools[name] = fn
         return fn
 
     return decorator
-
-
-class Linter(object):
-    """ Base class for integrations with 3rd party tools.
-
-    Each linter tool should subclass this class and implement the `run` method.
-
-    Attributes:
-        retcode (Optional[int]):
-            The implementation should store the return code in this attribute
-            for later access. **0** means success, **None** means the tool was
-            not ran yet.
-    """
-    name = '(unnamed linter)'
-
-    def __init__(self):
-        # type: () -> None
-        self.retcode = None
-
-    def check(self, files):
-        # type; (List[str]) -> bool
-        """ Check the given files.
-
-        This is the method that need to be overridden by the subclasses. It
-        should perform it's checks,  store the return code in `retcode`
-        attribute and return a bool indicating if the the code passed the check.
-
-        Args:
-            files (list[str]):
-                The list of files to check.
-
-        Returns:
-            bool: **True** if all files are deemed ok, **False** otherwise.
-        """
-        raise NotImplementedError("Subclasses must implement check() method")
 
 
 class LintRunner(object):
@@ -126,18 +100,18 @@ class LintRunner(object):
 
         self.linters = OrderedDict()
         for tool in conf.get('lint.tools', ['pep8', 'pylint']):
-            if tool in g_linters:
-                self.linters[tool] = g_linters[tool]
+            if tool in g_tools:
+                self.linters[tool] = g_tools[tool]
             else:
                 log.err("Unknown lint tool <35>{}", tool)
 
     def run(self):
+        # type: () -> bool
         """ Run all linters and report results.
 
         Returns:
             bool: **True** if all checks were successful, **False** otherwise.
         """
-        # type: () -> bool
         with util.timed_block() as t:
             files = self._collect_files()
 
@@ -205,6 +179,21 @@ class LintRunner(object):
 @tool('pep8')
 def pep8_check(files):
     # type: (List[str]) -> int
+    """ Run code checks using pep8.
+
+    Args:
+        files (list[str]):
+            A list of files to check
+
+    Returns:
+        bool: **True** if all files passed the checks, **False** otherwise.
+
+    pep8 tool is **very** fast. Especially compared to pylint and the bigger the
+    code base the bigger the difference. If you want to reduce check times you
+    might disable all pep8 checks in pylint and use pep8 for that. This way you
+    use pylint only for the more advanced checks (the number of checks enabled
+    in pylint will make a visible difference in it's run times).
+    """
     files = fs.surround_paths_with_quotes(files)
     cfg_path = conf.get_path('lint.pep8_cfg', 'ops/tools/pep8.ini')
     pep8_cmd = 'pep8 --config {} {}'.format(cfg_path, files)
@@ -215,6 +204,15 @@ def pep8_check(files):
 @tool('pylint')
 def pylint_check(files):
     # type: (List[str]) -> int
+    """ Run code checks using pylint.
+
+    Args:
+        files (list[str]):
+            A list of files to check
+
+    Returns:
+        bool: **True** if all files passed the checks, **False** otherwise.
+    """
     files = fs.surround_paths_with_quotes(files)
     cfg_path = conf.get_path('lint.pylint_cfg', 'ops/tools/pylint.ini')
     pylint_cmd = 'pylint --rcfile {} {}'.format(cfg_path, files)
@@ -223,4 +221,4 @@ def pylint_check(files):
 
 
 # Used in docstrings only until we drop python2 support
-del List
+del FunctionType, List

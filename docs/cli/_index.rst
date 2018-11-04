@@ -20,6 +20,6 @@ Command Line Interface
     version
 
 
-.. click:: peltak.cli:root_cli
+.. click:: peltak.commands:root_cli
     :prog: peltak
     :show-nested:
