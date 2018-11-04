@@ -6,7 +6,7 @@ of the time all the branch names required will be filled in.
 """
 from __future__ import absolute_import, unicode_literals
 
-from .cli.feature import feature_cli
-from .cli.hotfix import hotfix_cli
-from .cli.release import release_cli
-from .cli.task import task_cli
+from .commands.feature import feature_cli
+from .commands.hotfix import hotfix_cli
+from .commands.release import release_cli
+from .commands.task import task_cli

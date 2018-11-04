@@ -28,7 +28,7 @@ docker:
 lint:
   tools:
     - pep8
-    - mylint
+    - pylint
   paths:
     - src/peltak
     - src/peltak_appengine
