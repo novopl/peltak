@@ -42,7 +42,7 @@ jobs:
       - run:
           name: Build Documentation
           command: |
-            peltak docs --recreate --run-doctests
+            peltak docs --recreate --run-doctests --gen-index
             mv docs/html docs/peltak-docs
             cd docs && zip -r ../.build/peltak-docs.zip peltak-docs
 
