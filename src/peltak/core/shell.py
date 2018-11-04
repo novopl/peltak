@@ -20,6 +20,21 @@ ExecResult = namedtuple(
 is_tty = sys.stdout.isatty()
 
 
+def decolorize(text):
+    # type: (str) -> str
+    """ Remove all opcodes from the text.
+
+    Args:
+        text (str):
+            Source text that includes color opcodes as used in `shell.fmt`
+            function.
+
+    Returns:
+        str: The same text but with all opcodes removed.
+    """
+    return re.sub(r'<(\d{1,2})>', '', text)
+
+
 def fmt(msg, *args, **kw):
     # type: (str, *Any, **Any) -> str
     """ Generate shell color opcodes from a pretty coloring syntax. """

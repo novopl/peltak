@@ -34,4 +34,5 @@ Extras
     :maxdepth: 1
 
     extra/gitflow
+    extra/changelog
     extra/appengine

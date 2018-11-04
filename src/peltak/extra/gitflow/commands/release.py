@@ -67,8 +67,19 @@ def start(component, exact):
 
 
 @release_cli.command('tag')
-def tag_release():
-    # type: () -> None
+@click.option(
+    '-m', '--message',
+    type=str,
+    help=("Tag message. Will replace the default 'Mark vX.X release'")
+)
+@click.option(
+    '-p', '--pretend',
+    is_flag=True,
+    help=("Just pretend to tag and print what would happen instead of actually "
+          "doing anything.")
+)
+def tag_release(message, pretend):
+    # type: (str, bool) -> None
     """ Tag the current commit with as the current version release.
 
     This should be the same commit as the one that's uploaded as the release
@@ -85,7 +96,7 @@ def tag_release():
 
     """
     from peltak.extra.gitflow import logic
-    logic.release.tag()
+    logic.release.tag(message, pretend)
 
 
 @release_cli.command('finish')

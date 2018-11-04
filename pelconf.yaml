@@ -13,6 +13,7 @@ commands:
   - peltak.commands.lint
   - peltak.commands.test
   - peltak.commands.version
+  - peltak.extra.changelog
   - peltak.extra.gitflow
   - peltak.extra.pypi
 

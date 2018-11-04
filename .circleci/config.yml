@@ -86,7 +86,7 @@ jobs:
       - run:
           name: Create release tag
           command: |
-            peltak release tag
+            peltak release tag -m "$(peltak changelog)"
             git push origin v$(peltak version --porcelain)
 
 workflows:
