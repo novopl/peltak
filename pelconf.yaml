@@ -13,8 +13,8 @@ commands:
   - peltak.commands.lint
   - peltak.commands.test
   - peltak.commands.version
-  - peltak.extra.pypi
   - peltak.extra.gitflow
+  - peltak.extra.pypi
 
 clean:
   exclude:
