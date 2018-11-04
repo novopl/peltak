@@ -23,7 +23,7 @@ def add_hooks():
 
         $ peltak git add-hooks
     """
-    from peltak.commands import git
+    from peltak.logic import git
 
     git.add_hooks()
 
@@ -38,6 +38,6 @@ def push():
         $ peltak git push
 
     """
-    from peltak.commands import git
+    from peltak.logic import git
 
     git.push()

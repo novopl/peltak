@@ -49,7 +49,7 @@ def clean(pretend, exclude):
         $ peltak clean --pretend
 
     """
-    from peltak.commands import root
+    from peltak.logic import root
     root.clean(pretend, exclude)
 
 
@@ -71,7 +71,7 @@ def init(quick):
         $ peltak init
 
     """
-    from peltak.commands import root
+    from peltak.logic import root
     root.init(quick)
 
 

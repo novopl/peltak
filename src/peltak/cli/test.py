@@ -90,7 +90,7 @@ def test_cli(ctx, tests_type, verbose, junit, no_locals, no_coverage, plugins,
     if ctx.invoked_subcommand:
         return
 
-    from peltak.commands import test
+    from peltak.logic import test
     test.test(
         tests_type,
         verbose,

@@ -66,5 +66,5 @@ def docs_cli(ctx, recreate, gen_index, run_doctests, verbose):
     if ctx.invoked_subcommand:
         return
 
-    from peltak.commands import docs
+    from peltak.logic import docs
     docs.docs(recreate, gen_index, run_doctests, verbose)

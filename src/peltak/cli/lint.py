@@ -68,7 +68,7 @@ def lint_cli(ctx, exclude, skip_untracked, commit_only, pretend):
     if ctx.invoked_subcommand:
         return
 
-    from peltak.commands import lint
+    from peltak.logic import lint
     lint.lint(exclude, skip_untracked, commit_only, pretend)
 
 
