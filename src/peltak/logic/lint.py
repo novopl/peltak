@@ -129,23 +129,44 @@ class LintRunner(object):
 
         success = True
         if not self.pretend:
-            results = OrderedDict()
 
             with util.timed_block() as t:
-                for name, check_fn in self.linters.items():
-                    log.info("Running <35>{}".format(name))
-                    results[name] = check_fn(files)
+                results = self._run_checks(files)
 
             log.info("Code checked in <33>{}s", t.elapsed_s)
 
-            for name, retcode in results.items():
-                if retcode != 0:
-                    success = False
-                    log.err("<35>{} <31>failed with return code: <33>{}".format(
-                        name, retcode
+            for name, retcodes in results.items():
+                if any(x != 0 for x in retcodes):
+                    log.err("<35>{} <31>failed with: <33>{}".format(
+                        name, retcodes
                     ))
 
         return success
+
+    def _run_checks(self, files):
+        # type: (List[str]) -> OrderedDict[str, int]
+        batch_size = conf.get('lint.batch_size', 500)
+        results = OrderedDict()
+
+        for name, check_fn in self.linters.items():
+            log.info("Running <35>{}".format(name))
+
+            for i, batch in enumerate(util.in_batches(files, batch_size)):
+                if len(files) > batch_size:
+                    log.info("<0><1>Batch {}<0> <33>[{} files]".format(
+                        i + 1, len(batch)
+                    ))
+                    if self.verbose:
+                        for i, path in enumerate(batch):
+                            log.info(" {:3}) <0>{}", i + 1, path)
+
+                retcode = check_fn(batch)
+                batch_results = results.setdefault(name, [])
+                batch_results.append(retcode)
+                # if name not in results or retcode != 0:
+                #     results[name] = retcode
+
+        return results
 
     def _collect_files(self):
         # type: () -> List[str]
