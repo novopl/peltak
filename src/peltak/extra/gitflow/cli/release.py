@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """ git flow release commands. """
-from peltak.cli import root_cli, click
+from peltak.commands import root_cli, click
 
 
 @root_cli.group('release', invoke_without_command=True)

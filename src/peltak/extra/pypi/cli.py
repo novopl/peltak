@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """ Helper commands for dealing with pypi. """
 from __future__ import absolute_import, unicode_literals
-from peltak.cli import root_cli, click
+from peltak.commands import root_cli, click
 
 
 @root_cli.group('pypi')

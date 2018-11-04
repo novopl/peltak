@@ -5,7 +5,7 @@ Only useful on appengine projects.
 """
 from __future__ import absolute_import
 
-from peltak.cli import root_cli, click
+from peltak.commands import root_cli, click
 
 
 @root_cli.group('appengine')

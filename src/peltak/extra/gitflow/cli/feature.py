@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """ git flow feature commands. """
-from peltak.cli import root_cli, click
+from peltak.commands import root_cli, click
 
 
 @root_cli.group('feature', invoke_without_command=True)

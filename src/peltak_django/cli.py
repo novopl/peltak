@@ -8,7 +8,7 @@ exists so that manage.py can be deleted (less top-level files in project dir).
 """
 from __future__ import absolute_import
 
-from peltak.cli import root_cli, click
+from peltak.commands import root_cli, click
 
 
 @root_cli.group('django')
