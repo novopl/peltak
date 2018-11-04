@@ -425,7 +425,7 @@ def tag(name, message, author=None, pretend=False):
     ).format(
         author=author or latest_commit().author,
         name=name,
-        message=message.replace('"', '\\"'),
+        message=message.replace('"', '\\"').replace('`', '\\`'),
     )
     if not pretend:
         shell.run(cmd)
