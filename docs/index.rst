@@ -7,10 +7,9 @@ Table of Contents
 =================
 
 .. toctree::
-    :maxdepth: 2
+    :maxdepth: 3
 
     guides/_index
-    cli/_index
     Code Reference <ref/index>
 
 

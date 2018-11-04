@@ -1,4 +1,18 @@
 # -*- coding: utf-8 -*-
+# Copyright 2017-2018 Mateusz Klos
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
 """ Various helpers that do not depend on anything else in the project. """
 from __future__ import absolute_import, unicode_literals
 
@@ -7,6 +21,7 @@ import time
 import warnings
 from functools import wraps
 from types import FunctionType
+from typing import Any, Generator, Iterable, List
 
 
 class timed_block(object):  # noqa
@@ -54,10 +69,13 @@ def mark_experimental(fn):
     """
     @wraps(fn)
     def wrapper(*args, **kw):   # pylint: disable=missing-docstring
-        warnings.warn("This command is has experimental status. The interface "
-                      "is not yet stable and might change without notice "
-                      "within with a patch version update. "
-                      "Use at your own risk")
+        from peltak.core import shell
+
+        if shell.is_tty:
+            warnings.warn("This command is has experimental status. The "
+                          "interface is not yet stable and might change "
+                          "without notice within with a patch version update. "
+                          "Use at your own risk")
         return fn(*args, **kw)
 
     return wrapper
@@ -74,8 +92,11 @@ def mark_deprecated(replaced_by):
     def decorator(fn):   # pylint: disable=missing-docstring
         @wraps(fn)
         def wrapper(*args, **kw):   # pylint: disable=missing-docstring
-            warnings.warn("This command is has been deprecated. Please use "
-                          "{new} instead.".format(new=replaced_by))
+            from peltak.core import shell
+
+            if shell.is_tty:
+                warnings.warn("This command is has been deprecated. Please use "
+                              "{new} instead.".format(new=replaced_by))
 
             return fn(*args, **kw)
 
@@ -150,5 +171,39 @@ class cached_result(object):
             delattr(fn, cls.CACHE_VAR)
 
 
+def in_batches(iterable, batch_size):
+    # type: (Iterable[Any]) -> Generator[List[Any]]
+    """ Split the given iterable into batches.
+
+    Args:
+        iterable (Iterable[Any]):
+            The iterable you want to split into batches.
+        batch_size (int):
+            The size of each bach. The last batch will be probably smaller (if
+            the number of elements cannot be equally divided.
+
+    Returns:
+        Generator[list[Any]]: Will yield all items in batches of **batch_size**
+            size.
+
+    Example:
+
+        >>> from peltak.core import util
+        >>>
+        >>> batches = util.in_batches([1, 2, 3, 4, 5, 6, 7], 3)
+        >>> batches = list(batches)     # so we can query for lenght
+        >>> len(batches)
+        3
+        >>> batches
+        [[1, 2, 3], [4, 5, 6], [7]]
+
+    """
+    items = list(iterable)
+    size = len(items)
+
+    for i in range(0, size, batch_size):
+        yield items[i:min(i + batch_size, size)]
+
+
 # Used in docstrings only until we drop python2 support
-del FunctionType
+del Any, FunctionType, Generator, Iterable, List

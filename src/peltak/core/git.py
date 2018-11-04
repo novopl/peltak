@@ -1,4 +1,18 @@
 # -*- coding: utf-8 -*-
+# Copyright 2017-2018 Mateusz Klos
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
 """ Git helpers. """
 from __future__ import absolute_import, unicode_literals
 
@@ -390,6 +404,35 @@ def branches():
     return [x.strip('* \t\n') for x in out.splitlines()]
 
 
+def tag(name, message, author=None, pretend=False):
+    # type: (str, str, Author, bool) -> None
+    """ Tag the current commit.
+
+    Args:
+        name (str):
+            The tag name.
+        message (str):
+            The tag message. Same as ``-m`` parameter in ``git tag``.
+        author (Author):
+            The commit author. Will default to the author of the commit.
+        pretend (bool):
+            If set to **True** it will print the full ``git tag`` command
+            instead of actually executing it.
+    """
+    cmd = (
+        'git -c "user.name={author.name}" -c "user.email={author.email}" '
+        "tag -a '{name}' -m '{message}'"
+    ).format(
+        author=author or latest_commit().author,
+        name=name,
+        message=message,
+    )
+    if not pretend:
+        shell.run(cmd)
+    else:
+        shell.cprint('<90>{}', cmd)
+
+
 @util.cached_result()
 def config():
     # type: () -> dict[str, Any]
@@ -406,6 +449,21 @@ def config():
         result[name.strip()] = value.strip()
 
     return result
+
+
+@util.cached_result()
+def tags():
+    # type: () -> List[str]
+    """ Returns all tags in the repo.
+
+    Returns:
+        list[str]: List of all tags in the repo, sorted as versions.
+
+    All tags returned by this function will be parsed as if the contained
+    versions (using ``v:refname`` sorting).
+    """
+    cmd = 'git tag --sort=v:refname'
+    return shell.run(cmd, capture=True).stdout.strip().splitlines()
 
 
 def verify_branch(branch_name):
