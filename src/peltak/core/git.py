@@ -421,11 +421,11 @@ def tag(name, message, author=None, pretend=False):
     """
     cmd = (
         'git -c "user.name={author.name}" -c "user.email={author.email}" '
-        "tag -a '{name}' -m '{message}'"
+        'tag -a "{name}" -m "{message}"'
     ).format(
         author=author or latest_commit().author,
         name=name,
-        message=message,
+        message=message.replace('"', '\\"'),
     )
     if not pretend:
         shell.run(cmd)
