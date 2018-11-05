@@ -151,6 +151,7 @@ class LintRunner(object):
 
             for name, retcodes in results.items():
                 if any(x != 0 for x in retcodes):
+                    success = False
                     log.err("<35>{} <31>failed with: <33>{}".format(
                         name, retcodes
                     ))
