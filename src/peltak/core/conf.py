@@ -26,9 +26,6 @@ from contextlib import contextmanager
 from types import ModuleType
 from typing import Any, Dict, Optional, Union
 
-# 3rd party imports
-import yaml
-
 # local imports
 from peltak import PKG_DIR
 from . import util
@@ -93,7 +90,7 @@ def load_yaml_config(conf_file):
 
     with open(conf_file) as fp:
         # Initialize config
-        g_config = yaml.load(fp)
+        g_config = util.yaml_load(fp)
 
         # Add src_dir to sys.paths if it's set. This is only done with YAML
         # configs, py configs have to do this manually.
@@ -300,5 +297,5 @@ def _find_proj_root():
     return None
 
 
-# Used in docstrings only until we drop python2 support
+# Used in type hint comments only (until we drop python2 support)
 del Any, Dict, Optional, Union, ModuleType

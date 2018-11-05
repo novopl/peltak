@@ -21,7 +21,18 @@ import time
 import warnings
 from functools import wraps
 from types import FunctionType
-from typing import Any, Generator, Iterable, List
+from typing import Any, Dict, Generator, Iterable, List, Text, TextIO, Union
+
+# 3rd party imports
+import yaml
+try:
+    from yaml import CLoader as Loader, CDumper as Dumper
+except ImportError:
+    from yaml import Loader, Dumper
+
+
+TextOrStream = Union[Text, TextIO]
+YamlData = Union[Dict[Text, Any], List[Any]]
 
 
 class timed_block(object):  # noqa
@@ -82,7 +93,7 @@ def mark_experimental(fn):
 
 
 def mark_deprecated(replaced_by):
-    # type: (str) -> FunctionType
+    # type: (Text) -> FunctionType
     """ Mark command as deprecated.
 
     Args:
@@ -205,5 +216,40 @@ def in_batches(iterable, batch_size):
         yield items[i:min(i + batch_size, size)]
 
 
-# Used in docstrings only until we drop python2 support
-del Any, FunctionType, Generator, Iterable, List
+def yaml_load(str_or_fp):
+    # type: (TextOrStream) -> YamlData
+    """ Load data from YAML string or file-like object.
+
+    Args:
+        str_or_fp (Union[str, TextIO]):
+
+    Returns:
+        YamlData: The data loaded from the YAML string/file.
+    """
+    return yaml.load(str_or_fp, Loader=Loader)
+
+
+def yaml_dump(data, stream=None):
+    # type: (YamlData, Optional[TextIO]) -> Text
+    """ Dump data to a YAML string/file.
+
+    Args:
+        data (YamlData):
+            The data to serialize as YAML.
+        stream (TextIO):
+            The file-like object to save to. If given, this function will write
+            the resulting YAML to that stream.
+
+    Returns:
+        str: The YAML string.
+    """
+    return yaml.dump(
+        data,
+        stream=stream,
+        Dumper=Dumper,
+        default_flow_style=False
+    )
+
+
+# Used in type hint comments only (until we drop python2 support)
+del Any, Dict, FunctionType, Generator, Iterable, List, Text, TextIO, Union
