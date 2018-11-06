@@ -201,7 +201,7 @@ def getenv(name, default=None):
     return os.environ.get(name, default)   # nocov
 
 
-def proj_path(path=None):
+def proj_path(*path_parts):
     # type: (str) -> str
     """ Return absolute path to the repo dir (root project directory).
 
@@ -212,15 +212,16 @@ def proj_path(path=None):
     Returns:
         str: The given path converted to an absolute path.
     """
-    path = path or '.'
+    path_parts = path_parts or ['.']
 
-    if not os.path.isabs(path):
+    # If path represented by path_parts is absolute, do not modify it.
+    if not os.path.isabs(path_parts[0]):
         proj_path = _find_proj_root()
 
         if proj_path is not None:
-            path = os.path.normpath(os.path.join(proj_path, path))
+            path_parts = [proj_path] + list(path_parts)
 
-    return path
+    return os.path.normpath(os.path.join(*path_parts))
 
 
 @contextmanager
