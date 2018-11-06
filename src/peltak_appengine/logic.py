@@ -223,7 +223,7 @@ class GaeApp(object):
             args += ['--quiet']
 
         cmd = 'gcloud app deploy {args} {deployables}'.format(
-            deployables=fs.surround_paths_with_quotes(self.deployables),
+            deployables=fs.wrap_paths(self.deployables),
             args=' '.join(args)
         )
 

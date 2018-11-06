@@ -11,11 +11,11 @@ from peltak.core import fs
 
 def test_works_as_expected():
     paths = ['one.txt', 'two.txt', 'three/path', 'hello world']
-    result = fs.surround_paths_with_quotes(paths)
+    result = fs.wrap_paths(paths)
 
     assert result == '"one.txt" "two.txt" "three/path" "hello world"'
 
 
 def test_raises_ValueError_if_given_a_string_as_argument():
     with pytest.raises(ValueError):
-        fs.surround_paths_with_quotes('string')
+        fs.wrap_paths('string')

@@ -29,7 +29,7 @@ from typing import List, Generator
 from six import string_types
 
 
-def surround_paths_with_quotes(paths):
+def wrap_paths(paths):
     # type: (list[str]) -> str
     """ Put quotes around all paths and join them with space in-between. """
     if isinstance(paths, string_types):
