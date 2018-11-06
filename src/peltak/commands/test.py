@@ -17,7 +17,19 @@
 Testing commands
 """
 from __future__ import absolute_import
+
+from peltak.core import conf
 from . import root_cli, click
+
+
+conf.command_requirements(
+    'coverage~=4.5',
+    'factory-boy~=2.11',
+    'mock==2.0.0',
+    'pytest~=3.7',
+    'pytest-cov==2.5.1',
+    'pytest-sugar~=0.9'
+)
 
 
 @root_cli.group('test', invoke_without_command=True)

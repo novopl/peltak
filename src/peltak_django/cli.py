@@ -23,6 +23,12 @@ exists so that manage.py can be deleted (less top-level files in project dir).
 from __future__ import absolute_import
 
 from peltak.commands import root_cli, click
+from peltak.core import conf
+
+
+conf.command_requirements(
+    'django~=1.11'
+)
 
 
 @root_cli.group('django')

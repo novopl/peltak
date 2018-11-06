@@ -19,7 +19,14 @@ from __future__ import absolute_import
 from typing import List
 
 # local imports
+from peltak.core import conf
 from . import root_cli, click
+
+
+conf.command_requirements(
+    'pylint==1.9.2',
+    '"pep8"==1.7.0',
+)
 
 
 @root_cli.group('lint', invoke_without_command=True)

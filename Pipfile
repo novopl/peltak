@@ -4,6 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+attrs = "~=18.2"
 click = "~=7.0"
 pyyaml = "~=3.13"
 six = "~=1.11"

@@ -24,7 +24,7 @@ import os.path
 import sys
 from contextlib import contextmanager
 from types import ModuleType
-from typing import Any, Dict, Optional, Union
+from typing import Any, Dict, Optional, Text, Union
 
 # local imports
 from peltak import PKG_DIR
@@ -32,7 +32,42 @@ from . import util
 
 
 PROJ_CONF_FILE = 'pelconf.py'
+requirements = []
 g_config = {}
+
+
+def command_requirements(*dependencies):
+    # type: (*Text) -> None
+    """ Specify python dependencies for the command
+
+    Args:
+        *dependencies (str):
+            A list of dependencies (pypi package name with version spec) for the
+            command. This allows the user to have a list of only
+
+    If you're command requires some python packages to be installed to work
+    correctly, call this function once within the module that defines the CLI
+    commands and pass all the requirements for your code. This way the user
+    can have a list of packages required to install for peltak to work correctly
+    and that list will always depend on which commands are included in the
+    project configuration.
+
+    Example:
+
+        >>> from peltak.commands import root_cli
+        >>> from peltak.core import conf
+        >>>
+        >>> conf.command_requirements(
+        ...     'fancy_dependency~=1.3.0',
+        ... )
+        >>>
+        >>> @root_cli.command('my-command')
+        ... def my_command():
+        ...     pass
+
+    """
+    global requirements
+    requirements += dependencies
 
 
 def init(config):
@@ -298,4 +333,4 @@ def _find_proj_root():
 
 
 # Used in type hint comments only (until we drop python2 support)
-del Any, Dict, Optional, Union, ModuleType
+del Any, Dict, Optional, Union, Text, ModuleType
