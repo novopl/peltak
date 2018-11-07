@@ -24,10 +24,7 @@ import os.path
 import sys
 from contextlib import contextmanager
 from types import ModuleType
-from typing import Any, Dict, Optional, Union
-
-# 3rd party imports
-import yaml
+from typing import Any, Dict, Optional, Text, Union
 
 # local imports
 from peltak import PKG_DIR
@@ -35,7 +32,42 @@ from . import util
 
 
 PROJ_CONF_FILE = 'pelconf.py'
+requirements = []
 g_config = {}
+
+
+def command_requirements(*dependencies):
+    # type: (*Text) -> None
+    """ Specify python dependencies for the command
+
+    Args:
+        *dependencies (str):
+            A list of dependencies (pypi package name with version spec) for the
+            command. This allows the user to have a list of only
+
+    If you're command requires some python packages to be installed to work
+    correctly, call this function once within the module that defines the CLI
+    commands and pass all the requirements for your code. This way the user
+    can have a list of packages required to install for peltak to work correctly
+    and that list will always depend on which commands are included in the
+    project configuration.
+
+    Example:
+
+        >>> from peltak.commands import root_cli
+        >>> from peltak.core import conf
+        >>>
+        >>> conf.command_requirements(
+        ...     'fancy_dependency~=1.3.0',
+        ... )
+        >>>
+        >>> @root_cli.command('my-command')
+        ... def my_command():
+        ...     pass
+
+    """
+    global requirements
+    requirements += dependencies
 
 
 def init(config):
@@ -93,7 +125,7 @@ def load_yaml_config(conf_file):
 
     with open(conf_file) as fp:
         # Initialize config
-        g_config = yaml.load(fp)
+        g_config = util.yaml_load(fp)
 
         # Add src_dir to sys.paths if it's set. This is only done with YAML
         # configs, py configs have to do this manually.
@@ -169,7 +201,7 @@ def getenv(name, default=None):
     return os.environ.get(name, default)   # nocov
 
 
-def proj_path(path=None):
+def proj_path(*path_parts):
     # type: (str) -> str
     """ Return absolute path to the repo dir (root project directory).
 
@@ -180,15 +212,16 @@ def proj_path(path=None):
     Returns:
         str: The given path converted to an absolute path.
     """
-    path = path or '.'
+    path_parts = path_parts or ['.']
 
-    if not os.path.isabs(path):
+    # If path represented by path_parts is absolute, do not modify it.
+    if not os.path.isabs(path_parts[0]):
         proj_path = _find_proj_root()
 
         if proj_path is not None:
-            path = os.path.normpath(os.path.join(proj_path, path))
+            path_parts = [proj_path] + list(path_parts)
 
-    return path
+    return os.path.normpath(os.path.join(*path_parts))
 
 
 @contextmanager
@@ -300,5 +333,5 @@ def _find_proj_root():
     return None
 
 
-# Used in docstrings only until we drop python2 support
-del Any, Dict, Optional, Union, ModuleType
+# Used in type hint comments only (until we drop python2 support)
+del Any, Dict, Optional, Union, Text, ModuleType

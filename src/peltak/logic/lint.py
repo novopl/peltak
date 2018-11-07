@@ -151,6 +151,7 @@ class LintRunner(object):
 
             for name, retcodes in results.items():
                 if any(x != 0 for x in retcodes):
+                    success = False
                     log.err("<35>{} <31>failed with: <33>{}".format(
                         name, retcodes
                     ))
@@ -228,7 +229,7 @@ def pep8_check(files):
     use pylint only for the more advanced checks (the number of checks enabled
     in pylint will make a visible difference in it's run times).
     """
-    files = fs.surround_paths_with_quotes(files)
+    files = fs.wrap_paths(files)
     cfg_path = conf.get_path('lint.pep8_cfg', 'ops/tools/pep8.ini')
     pep8_cmd = 'pep8 --config {} {}'.format(cfg_path, files)
 
@@ -247,7 +248,7 @@ def pylint_check(files):
     Returns:
         bool: **True** if all files passed the checks, **False** otherwise.
     """
-    files = fs.surround_paths_with_quotes(files)
+    files = fs.wrap_paths(files)
     cfg_path = conf.get_path('lint.pylint_cfg', 'ops/tools/pylint.ini')
     pylint_cmd = 'pylint --rcfile {} {}'.format(cfg_path, files)
 

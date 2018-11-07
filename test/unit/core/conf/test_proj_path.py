@@ -30,3 +30,19 @@ def test_returns_input_path_if_no_project_root_found():
     assert conf.proj_path('hello/world') == 'hello/world'
 
     util.cached_result.clear(conf._find_proj_root)
+
+
+def test_can_join_paths():
+    setattr(conf._find_proj_root, util.cached_result.CACHE_VAR, '/fake/proj')
+
+    assert conf.proj_path('sub', 'testfile') == '/fake/proj/sub/testfile'
+
+    util.cached_result.clear(conf._find_proj_root)
+
+
+def test_works_with_abspath_split_into_parts():
+    setattr(conf._find_proj_root, util.cached_result.CACHE_VAR, '/fake/proj')
+
+    assert conf.proj_path('/sub', 'testfile') == '/sub/testfile'
+
+    util.cached_result.clear(conf._find_proj_root)

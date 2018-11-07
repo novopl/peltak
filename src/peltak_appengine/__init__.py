@@ -13,9 +13,25 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-""" Commands related to Google AppEngine.
+"""
 
-Only useful on appengine projects.
+Overview
+========
+
+`peltak_appengine` implements the ``peltak appengine`` group of commands
+designed to streamline work with Google AppEngine projects.
+
+Configuration
+=============
+
+.. code-block:: yaml
+
+    appengine:
+        deployables: '.'
+        projects:
+            branch: '*'
+            app_id: 'my-appspot-project-id'
+
 """
 from __future__ import absolute_import
 from .cli import appengine_cli
