@@ -121,7 +121,7 @@ def test_cli(ctx, tests_type, verbose, junit, no_locals, no_coverage, plugins,
         tests_type,
         verbose,
         junit,
-        no_locals,
+        not no_locals,
         no_coverage,
         plugins,
         allow_empty
