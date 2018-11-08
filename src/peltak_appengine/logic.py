@@ -17,9 +17,11 @@
 from __future__ import absolute_import, unicode_literals
 
 # stdlib imports
+import itertools
 import sys
 from fnmatch import fnmatch
 from os.path import exists, join, normpath
+from typing import Optional
 
 # 3rd party imports
 import attr
@@ -151,7 +153,7 @@ class GaeApp(object):
 
     @classmethod
     def for_branch(cls, branch_name):
-        # type: (str) -> GaeApp
+        # type: (str) -> Optional[GaeApp]
         """ Return app configuration for the given branch.
 
         This will look for the configuration in the ``appengine.projects``
@@ -162,15 +164,18 @@ class GaeApp(object):
                 The name of the branch we want the configuration for.
 
         Returns:
-            Optional[GaeApp]: The `GaeApp` instance with the configuration or
-            **None** if none found.
+            Optional[GaeApp]: The `GaeApp` instance with the configuration for
+                the project.
+            None: If no project configuration can be found.
         """
         for proj in conf.get('appengine.projects', []):
             if fnmatch(branch_name, proj['branch']):
                 proj = dict(proj)
                 proj.pop('branch')
-                proj['deployables'] = conf.get('appengine.deployables', [])
-                proj['deployables'] += proj.get('deployables', [])
+                proj['deployables'] = list(frozenset(itertools.chain(
+                    conf.get('appengine.deployables', []),
+                    proj.get('deployables', [])
+                )))
                 return cls(**proj)
 
         return None
@@ -240,3 +245,7 @@ class GaeApp(object):
                 app=self.app_id,
             ))
             shell.run(cmd)
+
+
+# Used in type hint comments only (until we drop python2 support)
+del Optional
