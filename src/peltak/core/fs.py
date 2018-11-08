@@ -149,5 +149,5 @@ def search_globs(path, patterns):
     return False
 
 
-# Used in docstrings only until we drop python2 support
+# Used in type hint comments only (until we drop python2 support)
 del List, Generator
