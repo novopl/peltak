@@ -23,4 +23,3 @@ from __future__ import absolute_import, unicode_literals
 from .commands.feature import feature_cli
 from .commands.hotfix import hotfix_cli
 from .commands.release import release_cli
-from .commands.task import task_cli
