@@ -23,6 +23,7 @@ import sys
 import click
 
 # local imports
+from peltak.core import context
 from peltak.core import git
 from peltak.core import log
 from peltak.core import shell
@@ -82,7 +83,9 @@ def rename(name):
 def finish():
     # type: () -> None
     """ Merge current feature branch into develop. """
-    if git.staged() or git.unstaged():
+    pretend = context.get('pretend', False)
+
+    if not pretend and (git.staged() or git.unstaged()):
         log.err(
             "You have uncommitted changes in your repo!\n"
             "You need to stash them before you merge the hotfix branch"

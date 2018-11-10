@@ -21,7 +21,7 @@ from __future__ import absolute_import
 
 # local imports
 from peltak.core import conf
-from . import root_cli, click
+from . import root_cli, click, pretend_option
 
 
 conf.command_requirements(
@@ -51,6 +51,7 @@ conf.command_requirements(
     count=True,
     help="Be more verbose"
 )
+@pretend_option
 @click.pass_context
 def docs_cli(ctx, recreate, gen_index, run_doctests, verbose):
     # type: (click.Context, bool, bool, bool, int) -> None

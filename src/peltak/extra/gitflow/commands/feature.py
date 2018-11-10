@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 """ git flow feature commands. """
-from peltak.commands import root_cli, click
+from peltak.commands import root_cli, click, pretend_option
 
 
 @root_cli.group('feature', invoke_without_command=True)
@@ -25,6 +25,7 @@ def feature_cli():
 
 @feature_cli.command('start')
 @click.argument('name', required=False)
+@pretend_option
 def start(name):
     # type: (str) -> None
     """ Start a new git-flow feature.  """
@@ -38,6 +39,7 @@ def start(name):
 
 @feature_cli.command('rename')
 @click.argument('name', required=False)
+@pretend_option
 def rename(name):
     # type: (str) -> None
     """ Give the currently developed feature a new name. """
@@ -50,6 +52,7 @@ def rename(name):
 
 
 @feature_cli.command('update')
+@pretend_option
 def update():
     # type: () -> None
     """ Update the feature with updates committed to develop. """
@@ -58,6 +61,7 @@ def update():
 
 
 @feature_cli.command('finish')
+@pretend_option
 def finish():
     # type: () -> None
     """ Merge current feature into develop. """
@@ -66,6 +70,7 @@ def finish():
 
 
 @feature_cli.command('merged')
+@pretend_option
 def merged():
     # type: () -> None
     """ Cleanup a remotely merged branch. """

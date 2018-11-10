@@ -20,7 +20,7 @@ from typing import List
 
 # local imports
 from peltak.core import conf
-from . import root_cli, click
+from . import root_cli, click, pretend_option
 
 
 conf.command_requirements(
@@ -49,19 +49,15 @@ conf.command_requirements(
           "a large code base one commit at a time.")
 )
 @click.option(
-    '-p', '--pretend',
-    is_flag=True,
-    help=("Just print files that would be linted without running anything")
-)
-@click.option(
     '-v', '--verbose',
     count=True,
     help=("Be verbose. Can specify multiple times for more verbosity. This "
           "will also influence the verbosity of pytest output.")
 )
+@pretend_option
 @click.pass_context
-def lint_cli(ctx, exclude, skip_untracked, commit_only, pretend, verbose):
-    # type: (click.Context, List[str], bool, bool, bool, int) -> None
+def lint_cli(ctx, exclude, skip_untracked, commit_only, verbose):
+    # type: (click.Context, List[str], bool, bool, int) -> None
     """ Run pep8 and pylint on all project files.
 
     You can configure the linting paths using the lint.paths config variable.
@@ -96,7 +92,7 @@ def lint_cli(ctx, exclude, skip_untracked, commit_only, pretend, verbose):
         return
 
     from peltak.logic import lint
-    lint.lint(exclude, skip_untracked, commit_only, pretend, verbose)
+    lint.lint(exclude, skip_untracked, commit_only, verbose)
 
 
 # Used in docstrings only until we drop python2 support

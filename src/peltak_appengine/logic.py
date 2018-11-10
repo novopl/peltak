@@ -28,6 +28,7 @@ import attr
 
 # local imports
 from peltak.core import conf
+from peltak.core import context
 from peltak.core import fs
 from peltak.core import git
 from peltak.core import log
@@ -37,8 +38,8 @@ from peltak.core import util
 
 
 @util.mark_experimental
-def deploy(app_id, version, pretend, promote, quiet):
-    # type: (str, str, bool, bool, bool) -> None
+def deploy(app_id, version, promote, quiet):
+    # type: (str, str, bool, bool) -> None
     """ Deploy the app to AppEngine.
 
     Args:
@@ -46,9 +47,6 @@ def deploy(app_id, version, pretend, promote, quiet):
             AppEngine App ID. Overrides config value app_id if given.
         version (str):
             AppEngine project version. Overrides config values if given.
-        pretend (bool):
-            If set to **True**, do not actually deploy anything but show the
-            deploy command that would be used.
         promote (bool):
             If set to **True** promote the current remote app version to the one
             that's being deployed.
@@ -72,7 +70,7 @@ def deploy(app_id, version, pretend, promote, quiet):
     if app_id is not None:
         gae_app.app_id = app_id
 
-    gae_app.deploy(promote, pretend, quiet)
+    gae_app.deploy(promote, quiet)
 
 
 @util.mark_experimental
@@ -206,15 +204,13 @@ class GaeApp(object):
 
         return versioning.current().replace('.', '-')
 
-    def deploy(self, promote=False, pretend=False, quiet=False):
+    def deploy(self, promote=False, quiet=False):
         # type: (bool, bool, bool) -> None
         """ Deploy the code to AppEngine.
 
         Args:
             promote (bool):
                 Migrate the traffic to the deployed version.
-            pretend (bool):
-                Instead of deploying, print the deploy command.
             quiet (bool):
                 Pass ``--quiet`` flag to gcloud command
         """
@@ -232,14 +228,13 @@ class GaeApp(object):
             args=' '.join(args)
         )
 
-        if pretend:
+        if context.get('pretend', False):
             log.info("Would deploy version <35>{ver}<32> to <35>{app}".format(
                 ver=self.app_version,
                 app=self.app_id
             ))
             shell.cprint('<90>{}', cmd)
-
-        if not pretend:
+        else:
             log.info("Deploying version <35>{ver}<32> to <35>{app}".format(
                 ver=self.app_version,
                 app=self.app_id,

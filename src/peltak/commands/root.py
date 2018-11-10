@@ -20,24 +20,19 @@ from __future__ import absolute_import
 from typing import List
 
 # local imports
-from . import root_cli, click
+from . import root_cli, click, pretend_option
 
 
 @root_cli.command('clean')
-@click.option(
-    '-p', '--pretend',
-    is_flag=True,
-    help=("Just print files that would be deleted, without actually "
-          "deleting them")
-)
 @click.option(
     '-e', '--exclude',
     multiple=True,
     metavar='PATTERN',
     help='Comma separated list of paths to exclude from deletion'
 )
-def clean(pretend, exclude):
-    # type: (bool, List[str]) -> None
+@pretend_option
+def clean(exclude):
+    # type: (List[str]) -> None
     """ Remove temporary files like python cache, swap files, etc.
 
     You can configure the list of patterns with clean_patterns config variable.
@@ -64,7 +59,7 @@ def clean(pretend, exclude):
 
     """
     from peltak.logic import root
-    root.clean(pretend, exclude)
+    root.clean(exclude)
 
 
 @root_cli.command('init')
@@ -73,6 +68,7 @@ def clean(pretend, exclude):
     is_flag=True,
     help="Enable quick mode. Defaults will be used wherever possible."
 )
+@pretend_option
 def init(quick):
     # type: () -> None
     """ Create new peltak config file in the current directory.

@@ -21,13 +21,13 @@ from __future__ import absolute_import
 
 # stdlib imports
 import json
-import os
 import re
 from collections import OrderedDict
 from os.path import exists
 from typing import Optional, Tuple
 
 from . import conf
+from . import fs
 
 
 RE_PY_VERSION = re.compile(
@@ -245,9 +245,7 @@ class PyVersionStorage(VersionStorage):
 
         ver_statement = "__version__ = '{}'".format(version)
         new_content = RE_PY_VERSION.sub(ver_statement, content)
-
-        with open(self.version_file, 'w') as fp:
-            fp.write(new_content)
+        fs.write_file(self.version_file, new_content)
 
 
 class RawVersionStorage(VersionStorage):
@@ -269,8 +267,7 @@ class RawVersionStorage(VersionStorage):
 
     def write(self, version):
         # type: (str) -> None
-        with open(self.version_file, 'w') as fp:
-            fp.write(version)
+        fs.write_file(self.version_file, version)
 
 
 class NodeVersionStorage(VersionStorage):
@@ -283,14 +280,12 @@ class NodeVersionStorage(VersionStorage):
 
     def write(self, version):
         # type: (str) -> None
-        with open(self.version_file, 'rw') as fp:
+        with open(self.version_file, 'r') as fp:
             config = json.load(fp, object_pairs_hook=OrderedDict)
 
-            config['version'] = version
-            data = json.dumps(config, indent=2)
+        config['version'] = version
 
-            fp.seek(0, os.SEEK_SET)
-            fp.write(data)
+        fs.write_file(self.version_file, json.dumps(config, indent=2))
 
 
 def get_version_storage():

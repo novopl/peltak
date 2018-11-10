@@ -21,10 +21,11 @@ import os
 import sys
 
 # local imports
-from peltak.core import shell
 from peltak.core import conf
+from peltak.core import context
 from peltak.core import git
 from peltak.core import log
+from peltak.core import shell
 from peltak.core import versioning
 from peltak.extra.changelog.logic import changelog
 from . import common
@@ -80,7 +81,9 @@ def start(component, exact):
 def finish():
     # type: () -> None
     """ Merge current release into develop and master and tag it. """
-    if git.staged() or git.unstaged():
+    pretend = context.get('pretend', False)
+
+    if not pretend and (git.staged() or git.unstaged()):
         log.err(
             "You have uncommitted changes in your repo!\n"
             "You need to stash them before you merge the release branch"
@@ -138,7 +141,7 @@ def merged():
     common.git_checkout(develop)
 
 
-def tag(message, pretend):
+def tag(message):
     # type: () -> None
     """ Tag the current commit with the current version. """
     release_ver = versioning.current()
@@ -150,5 +153,4 @@ def tag(message, pretend):
             author=git.latest_commit().author,
             name='v{}'.format(release_ver),
             message=message,
-            pretend=pretend
         )

@@ -19,7 +19,7 @@ Testing commands
 from __future__ import absolute_import
 
 from peltak.core import conf
-from . import root_cli, click
+from . import root_cli, click, pretend_option
 
 
 conf.command_requirements(
@@ -68,6 +68,7 @@ conf.command_requirements(
           "of the plugins starts with '-' it will be disabled, otherwise it "
           "will be enabled.")
 )
+@pretend_option
 @click.pass_context
 def test_cli(ctx, tests_type, verbose, junit, no_locals, no_coverage, plugins,
              allow_empty):

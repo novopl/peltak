@@ -15,7 +15,8 @@
 #
 """ Commands for managing the managed project version. """
 from __future__ import absolute_import
-from . import root_cli, click
+
+from . import root_cli, click, pretend_option
 
 
 @root_cli.group('version', invoke_without_command=True)
@@ -71,6 +72,7 @@ def version_cli(ctx, porcelain):
     default='patch'
 )
 @click.option('--exact', type=str)
+@pretend_option
 def bump_version(component='patch', exact=None):
     # type: (str, str) -> None
     """ Bump current project version without committing anything.
@@ -92,6 +94,6 @@ def bump_version(component='patch', exact=None):
 
     old_ver, new_ver = versioning.bump(component, exact)
 
-    log.info("Bumping package version")
+    log.info("Project version bumped")
     log.info("  old version: <35>{}".format(old_ver))
     log.info("  new version: <35>{}".format(new_ver))

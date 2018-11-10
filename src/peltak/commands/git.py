@@ -15,7 +15,7 @@
 #
 """ git helpers. """
 from __future__ import absolute_import
-from . import root_cli
+from . import root_cli, pretend_option
 
 
 @root_cli.group('git')
@@ -26,6 +26,7 @@ def git_cli():
 
 
 @git_cli.command('add-hooks')
+@pretend_option
 def add_hooks():
     # type: () -> None
     """ Setup project git hooks.
@@ -43,6 +44,7 @@ def add_hooks():
 
 
 @git_cli.command('push')
+@pretend_option
 def push():
     # type: () -> None
     """ Push the current branch and set to track remote.

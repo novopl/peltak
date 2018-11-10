@@ -27,7 +27,9 @@ def patch_open(**kw):
 ])
 @testing.patch_pelconf({'version_file': 'fake.yaml'})
 @patch('peltak.core.versioning.exists', Mock(return_value=True))
-def test_correctly_replaces_version(version_def, expected):
+@patch('peltak.core.fs.write_file')
+def test_correctly_replaces_version(p_write_file, version_def, expected):
+    # type: (str, str, Mock) -> None
     file_data = '\n'.join([
         "# -*- coding: utf-8 -*-",
         version_def,
@@ -39,9 +41,11 @@ def test_correctly_replaces_version(version_def, expected):
         "",
     ])
 
-    with patch_open(read_data=file_data) as p_open:
+    with patch_open(read_data=file_data):
         storage = versioning.PyVersionStorage('fake.py')
         storage.write('1.0.1')
 
-        fp = p_open()
-        fp.write.assert_called_once_with(expected_data)
+        p_write_file.assert_called_once_with(
+            'fake.py',
+            expected_data
+        )

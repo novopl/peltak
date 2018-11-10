@@ -28,13 +28,14 @@ import cliform
 
 # local imports
 from peltak.core import conf
+from peltak.core import context
 from peltak.core import fs
 from peltak.core import log
 from peltak.core import shell
 from peltak.core import util
 
 
-def clean(pretend, exclude):
+def clean(exclude):
     # type: (bool, List[str]) -> None
     """ Remove all unnecessary files.
 
@@ -45,6 +46,7 @@ def clean(pretend, exclude):
         exclude (list[str]):
             A list of path patterns to exclude from deletion.
     """
+    pretend = context.get('pretend', False)
     exclude = list(exclude) + conf.get('clean.exclude', [])
     clean_patterns = conf.get('clean.patterns', [
         '*__pycache__*',
@@ -122,9 +124,8 @@ def init(quick):
     form = InitForm().run(quick=quick)
 
     log.info('Writing <35>{}'.format(config_file))
-    with open(config_file, 'w') as fp:
-        pelconf_template = conf.load_template('pelconf.yaml')
-        fp.write(pelconf_template.format(**form.values))
+    pelconf_template = conf.load_template('pelconf.yaml')
+    fs.write_file(config_file, pelconf_template.format(**form.values))
 
 
 # Used in docstrings only until we drop python2 support

@@ -22,7 +22,7 @@ exists so that manage.py can be deleted (less top-level files in project dir).
 """
 from __future__ import absolute_import
 
-from peltak.commands import root_cli, click
+from peltak.commands import root_cli, click, pretend_option
 from peltak.core import conf
 
 
@@ -50,6 +50,7 @@ def django_cli():
     type=str,
     help="Settings module to use. Defaults to DJANGO_SETTINGS conf variable."
 )
+@pretend_option
 def devserver(port=8000, settings=None):
     # type: (int, str) -> None
     """ Run dev server. """
@@ -57,6 +58,7 @@ def devserver(port=8000, settings=None):
 
 
 @django_cli.command('collectstatic')
+@pretend_option
 def collectstatic():
     # type: () -> None
     """ Collect all static files.
@@ -81,6 +83,7 @@ def collectstatic():
 @django_cli.command('mkmigrations')
 @click.argument('app')
 @click.argument('name')
+@pretend_option
 def mkmigrations(app, name):
     # type: (str, str) -> None
     """ Create a named migration for a given app.
@@ -104,6 +107,7 @@ def mkmigrations(app, name):
 
 
 @django_cli.command('migrate')
+@pretend_option
 def migrate():
     # type: () -> None
     """ Apply pending migrations.
@@ -124,6 +128,7 @@ def migrate():
 
 
 @django_cli.command('createsuperuser')
+@pretend_option
 def createsuperuser():
     """ Create super user (probably needed for the first user).
 
@@ -144,6 +149,7 @@ def createsuperuser():
 
 
 @django_cli.command('shell')
+@pretend_option
 def shell():
     # type: () -> None
     """ Start django shell
@@ -173,14 +179,18 @@ def _manage_cmd(cmd, settings=None):
     import sys
     from os import environ
     from peltak.core import conf
+    from peltak.core import context
+    from peltak.core import log
 
     sys.path.insert(0, conf.get('src_dir'))
 
     settings = settings or conf.get('django.settings', None)
     environ.setdefault("DJANGO_SETTINGS_MODULE", settings)
 
-    from django.core.management import execute_from_command_line
-
     args = sys.argv[0:-1] + cmd
 
-    execute_from_command_line(args)
+    if context.get('pretend', False):
+        log.info("Would run the following manage command:\n<90>{}", args)
+    else:
+        from django.core.management import execute_from_command_line
+        execute_from_command_line(args)

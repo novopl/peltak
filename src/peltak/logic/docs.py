@@ -23,8 +23,10 @@ import sys
 
 # local imports
 from peltak.core import conf
+from peltak.core import context
 from peltak.core import log
 from peltak.core import shell
+from peltak.core import util
 
 
 def docs(recreate, gen_index, run_doctests, verbose):
@@ -43,6 +45,9 @@ def docs(recreate, gen_index, run_doctests, verbose):
             is generated.
         verbose (int):
             The verbosity level.
+        pretend (bool):
+            If set to **True**, do not actually execute any shell commands, just
+            print the command that would be executed.
     """
     build_dir = conf.get_path('build_dir', '.build')
     docs_dir = conf.get_path('docs.path', 'docs')
@@ -113,15 +118,19 @@ def gen_ref_docs(verbose, gen_index=False):
         log.err("Exception: {}".format(ex))
         sys.exit(-1)
 
+    pretend = context.get('pretend', False)
+
     docs_dir = conf.get_path('docs.path', 'docs')
     docs_ref_dir = os.path.join(docs_dir, 'ref')
     refdoc_paths = conf.get('docs.reference', [])
 
-    log.info('Removing previously generated reference documentation')
     if os.path.exists(docs_ref_dir):
-        shutil.rmtree(docs_ref_dir)
+        if not pretend:
+            log.info('Removing existing reference docs')
+            shutil.rmtree(docs_ref_dir)
+        else:
+            log.info('Would remove old reference docs')
 
-    log.info('Generating reference documentation')
     args = {
         'out_dir': docs_ref_dir,
         'verbose': verbose,
@@ -132,4 +141,10 @@ def gen_ref_docs(verbose, gen_index=False):
 
     pkg_paths = [conf.proj_path(p) for p in refdoc_paths]
 
-    generate_docs(pkg_paths, **args)
+    if not pretend:
+        log.info('Generating reference documentation')
+        generate_docs(pkg_paths, **args)
+    else:
+        log.info("Would generate reference docs with the following params")
+        shell.cprint('<90>{}', util.yaml_dump(args).rstrip())
+        shell.cprint('<90>paths:\n<34>{}', util.yaml_dump(pkg_paths).rstrip())

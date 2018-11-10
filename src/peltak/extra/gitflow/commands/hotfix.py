@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 """ git flow hotfix commands. """
-from peltak.commands import root_cli, click
+from peltak.commands import root_cli, click, pretend_option
 
 
 @root_cli.group('hotfix', invoke_without_command=True)
@@ -35,6 +35,7 @@ def hotfix_cli():
 
 @hotfix_cli.command('start')
 @click.argument('name', required=False)
+@pretend_option
 def start(name):
     # type: (str) -> None
     """ Start a new git flow hotfix branch.  """
@@ -48,6 +49,7 @@ def start(name):
 
 @hotfix_cli.command('rename')
 @click.argument('name', required=False)
+@pretend_option
 def rename(name):
     # type: (str) -> None
     """ Give the currently developed hotfix a new name. """
@@ -60,6 +62,7 @@ def rename(name):
 
 
 @hotfix_cli.command('update')
+@pretend_option
 def update():
     # type: () -> None
     """ Update the hotfix with updates committed to master. """
@@ -68,6 +71,7 @@ def update():
 
 
 @hotfix_cli.command('finish')
+@pretend_option
 def finish():
     # type: () -> None
     """ Merge current hotfix into master. """
@@ -76,6 +80,7 @@ def finish():
 
 
 @hotfix_cli.command('merged')
+@pretend_option
 def merged():
     # type: () -> None
     """ Cleanup a remotely merged hotfix. """
