@@ -71,8 +71,7 @@ def gen_pypirc(username=None, password=None):
 
     fs.write_file(path, util.remove_indent('''
         [distutils]
-        index-servers =
-            pypi
+        index-servers = pypi
         
         [pypi]
         repository: https://upload.pypi.org/legacy/
