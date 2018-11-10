@@ -26,6 +26,7 @@ from peltak.core import conf
 from peltak.core import git
 from peltak.core import log
 from peltak.core import versioning
+from peltak.extra.changelog.logic import changelog
 from . import common
 
 
@@ -103,7 +104,7 @@ def finish():
     common.git_merge(master, branch.name, no_ff=True)
 
     # Tag the release commit with version number
-    tag()
+    tag(changelog())
 
     # Cleanup
     common.git_branch_delete(branch.name)
