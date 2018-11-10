@@ -27,6 +27,7 @@ from six import string_types
 
 # local imports
 from peltak.core import conf
+from peltak.core import context
 from peltak.core import fs
 from peltak.core import git
 from peltak.core import log
@@ -37,8 +38,8 @@ from peltak.core import util
 g_tools = OrderedDict()
 
 
-def lint(exclude, skip_untracked, commit_only, verbose):
-    # type: (List[str], bool, bool, int) -> None
+def lint(exclude, skip_untracked, commit_only):
+    # type: (List[str], bool, bool) -> None
     """ Lint python files.
 
     Args:
@@ -50,7 +51,7 @@ def lint(exclude, skip_untracked, commit_only, verbose):
         commit_only (bool):
             Only lint files that are staged for commit.
     """
-    runner = LintRunner(exclude, skip_untracked, commit_only, verbose)
+    runner = LintRunner(exclude, skip_untracked, commit_only)
 
     if not runner.run():
         exit(1)
@@ -81,7 +82,7 @@ class LintRunner(object):
     This class represents a single linter run that includes running all the
     tools configured. It will notify the user about progress through stdout.
     """
-    def __init__(self, exclude, skip_untracked, commit_only, verbose):
+    def __init__(self, exclude, skip_untracked, commit_only):
         # type: (List[str], bool, bool) -> None
         """ Run static analysis on the given files.
 
@@ -104,7 +105,7 @@ class LintRunner(object):
         self.skip_untracked = skip_untracked
         self.commit_only = commit_only
         self.allow_empty = True
-        self.verbose = verbose
+        self.verbose = context.get('verbose', 0)
 
         self.linters = OrderedDict()
         for tool in conf.get('lint.tools', ['pep8', 'pylint']):

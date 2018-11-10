@@ -19,7 +19,7 @@ Testing commands
 from __future__ import absolute_import
 
 from peltak.core import conf
-from . import root_cli, click, pretend_option
+from . import root_cli, click, pretend_option, verbose_option
 
 
 conf.command_requirements(
@@ -34,12 +34,6 @@ conf.command_requirements(
 
 @root_cli.group('test', invoke_without_command=True)
 @click.argument('tests_type', metavar='<type>', type=str, default='default')
-@click.option(
-    '-v', '--verbose',
-    count=True,
-    help=("Be verbose. Can specify multiple times for more verbosity. This "
-          "will also influence the verbosity of pytest output.")
-)
 @click.option(
     '--junit',
     is_flag=True,
@@ -69,10 +63,11 @@ conf.command_requirements(
           "will be enabled.")
 )
 @pretend_option
+@verbose_option
 @click.pass_context
-def test_cli(ctx, tests_type, verbose, junit, no_locals, no_coverage, plugins,
+def test_cli(ctx, tests_type, junit, no_locals, no_coverage, plugins,
              allow_empty):
-    # type: (click.Context, str, int, bool, bool, bool, str, bool) -> None
+    # type: (click.Context, str, bool, bool, bool, str, bool) -> None
     """ Run tests against the current python version.
 
     This command uses pytest internally and is just a thing wrapper over it
@@ -109,8 +104,8 @@ def test_cli(ctx, tests_type, verbose, junit, no_locals, no_coverage, plugins,
 
         \b
         $ peltak test                   # Run tests using the default options
-        $ peltak --no-sugar             # Disable pretty output
-        $ peltak --junit                # Generate build_dir/test-results.xml
+        $ peltak test --no-sugar        # Disable pretty output
+        $ peltak test --junit           # Generate build_dir/test-results.xml
         $ peltak test --no-sugar -vv    # Be extra verbose
 
     """
@@ -120,7 +115,6 @@ def test_cli(ctx, tests_type, verbose, junit, no_locals, no_coverage, plugins,
     from peltak.logic import test
     test.test(
         tests_type,
-        verbose,
         junit,
         not no_locals,
         no_coverage,

@@ -29,8 +29,8 @@ from peltak.core import shell
 from peltak.core import util
 
 
-def docs(recreate, gen_index, run_doctests, verbose):
-    # type: (bool, bool, bool, int) -> None
+def docs(recreate, gen_index, run_doctests):
+    # type: (bool, bool, bool) -> None
     """ Build the documentation for the project.
 
     Args:
@@ -43,8 +43,6 @@ def docs(recreate, gen_index, run_doctests, verbose):
         run_doctests (bool):
             Set to **True** if you want to run doctests after the documentation
             is generated.
-        verbose (int):
-            The verbosity level.
         pretend (bool):
             If set to **True**, do not actually execute any shell commands, just
             print the command that would be executed.
@@ -64,7 +62,7 @@ def docs(recreate, gen_index, run_doctests, verbose):
                 shutil.rmtree(path)
 
     if refdoc_paths:
-        gen_ref_docs(verbose, gen_index)
+        gen_ref_docs(gen_index)
     else:
         log.err('Not generating any reference documentation - '
                 'No docs.reference specified in config')
@@ -90,7 +88,7 @@ def docs(recreate, gen_index, run_doctests, verbose):
         ))
 
 
-def gen_ref_docs(verbose, gen_index=False):
+def gen_ref_docs(gen_index=False):
     # type: (int, bool) -> None
     """ Generate reference documentation for the project.
 
@@ -98,9 +96,6 @@ def gen_ref_docs(verbose, gen_index=False):
     reference documentation.
 
     Args:
-
-        verbose (int):
-            Verbosity level. This will be passed directly to sphinx-refdoc.
         gen_index (bool):
             Set it to **True** if you want to generate the index file with the
             list of top-level packages. This is set to default as in most cases
@@ -133,7 +128,7 @@ def gen_ref_docs(verbose, gen_index=False):
 
     args = {
         'out_dir': docs_ref_dir,
-        'verbose': verbose,
+        'verbose': context.get('verbose', 0),
     }
 
     if gen_index:

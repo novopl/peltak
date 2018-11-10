@@ -24,6 +24,7 @@ from typing import Any, Dict, List, Text
 
 # local imports
 from peltak.core import conf
+from peltak.core import context
 from peltak.core import log
 from peltak.core import fs
 from peltak.core import shell
@@ -48,7 +49,6 @@ class TestsNotConfigured(Exception):
 
 
 def test(tests_type,    # type: Text
-         verbose,       # type: int
          junit,         # type: bool
          show_locals,   # type: bool
          no_coverage,   # type: bool
@@ -62,8 +62,6 @@ def test(tests_type,    # type: Text
         tests_type (str):
             Tests type to run. The types are defined in the project
             configuration.
-        verbose (int):
-            Verbosity level (0-3)
         junit (bool):
             If **True** it will save junit test report in build directory.
         show_locals (bool):
@@ -90,7 +88,7 @@ def test(tests_type,    # type: Text
 
         args = list(itertools.chain(
             ['-c ' + pytest_cfg],
-            args_verbosity(verbose, show_locals),
+            args_verbosity(context.get('verbose', 0), show_locals),
             args_coverage(not no_coverage, build_dir, src_path, coverage_cfg),
             args_junit(junit, build_dir),
             args_plugins(plugins.split(',')),
