@@ -17,7 +17,9 @@ def test_calls_git_cli(p_run):
 
     git.current_branch().name
 
-    p_run.assert_called_once_with('git symbolic-ref --short HEAD', capture=True)
+    p_run.assert_called_once_with('git symbolic-ref --short HEAD',
+                                  capture=True,
+                                  never_pretend=True)
 
 
 @testing.patch_run(stdout='test ')

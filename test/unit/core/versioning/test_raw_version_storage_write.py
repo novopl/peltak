@@ -17,12 +17,15 @@ def patch_open(**kw):
 @testing.patch_pelconf({'version_file': 'fake.yaml'})
 @patch('peltak.core.versioning.exists', Mock(return_value=True))
 @patch('json.loads', Mock(return_value={}))
-def test_correctly_replaces_version():
+@patch('peltak.core.fs.write_file')
+def test_correctly_replaces_version(p_write_file):
+    # type: (Mock) -> None
 
-    with patch_open() as p_open:
-        storage = versioning.RawVersionStorage('fake.py')
+    with patch_open():
+        storage = versioning.RawVersionStorage('VERSION')
         storage.write('1.0.1')
 
-        fp = p_open()
-        data_written = fp.write.call_args[0][0]
-        assert data_written == '1.0.1'
+        p_write_file.assert_called_once_with(
+            'VERSION',
+            '1.0.1'
+        )

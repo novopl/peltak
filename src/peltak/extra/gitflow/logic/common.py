@@ -26,6 +26,7 @@ import click
 
 # local imports
 from peltak.core import conf
+from peltak.core import context
 from peltak.core import git
 from peltak.core import log
 from peltak.core import shell
@@ -46,11 +47,15 @@ def assert_branch_type(branch_type):
     branch = git.current_branch(refresh=True)
 
     if branch.type != branch_type:
-        log.err("Not on a <33>{}<31> branch!", branch_type)
-        fmt = ("The branch must follow <33>hotfix/<name><31> format and your "
-               "branch is called <33>{}<31>.")
-        log.err(fmt, branch.name)
-        sys.exit(1)
+        if context.get('pretend', False):
+            log.info("Would assert that you're on a <33>{}/*<32> branch",
+                     branch_type)
+        else:
+            log.err("Not on a <33>{}<31> branch!", branch_type)
+            fmt = ("The branch must follow <33>{required_type}/<name><31>"
+                   "format and your branch is called <33>{name}<31>.")
+            log.err(fmt, required_type=branch_type, name=branch.name)
+            sys.exit(1)
 
 
 def assert_on_branch(branch_name):
@@ -64,8 +69,12 @@ def assert_on_branch(branch_name):
     branch = git.current_branch(refresh=True)
 
     if branch.name != branch_name:
-        log.err("You're not on a <33>{}<31> branch!", branch_name)
-        sys.exit(1)
+        if context.get('pretend', False):
+            log.info("Would assert that you're on a <33>{}<32> branch",
+                     branch_name)
+        else:
+            log.err("You're not on a <33>{}<31> branch!", branch_name)
+            sys.exit(1)
 
 
 def git_branch_delete(branch_name):
@@ -138,9 +147,10 @@ def git_merge(base, head, no_ff=False):
             If set to **True** it will force git to create merge commit. If set
             to **False** (default) it will do a fast-forward merge if possible.
     """
+    pretend = context.get('pretend', False)
     branch = git.current_branch(refresh=True)
 
-    if branch.name != base:
+    if branch.name != base and not pretend:
         git_checkout(base)
 
     args = []
@@ -154,7 +164,7 @@ def git_merge(base, head, no_ff=False):
         branch=head,
     ))
 
-    if branch.name != base:
+    if branch.name != base and not pretend:
         git_checkout(branch.name)
 
 

@@ -27,6 +27,7 @@ from six import string_types
 
 # local imports
 from peltak.core import conf
+from peltak.core import context
 from peltak.core import fs
 from peltak.core import git
 from peltak.core import log
@@ -37,8 +38,8 @@ from peltak.core import util
 g_tools = OrderedDict()
 
 
-def lint(exclude, skip_untracked, commit_only, pretend, verbose):
-    # type: (List[str], bool, bool, bool) -> None
+def lint(exclude, skip_untracked, commit_only):
+    # type: (List[str], bool, bool) -> None
     """ Lint python files.
 
     Args:
@@ -49,11 +50,8 @@ def lint(exclude, skip_untracked, commit_only, pretend, verbose):
             If set to **True** it will skip all files not tracked by git.
         commit_only (bool):
             Only lint files that are staged for commit.
-        pretend (bool):
-            If set to **True** do not actually run the checks but rather
-            just show the list of files that would be linted.
     """
-    runner = LintRunner(exclude, skip_untracked, commit_only, pretend, verbose)
+    runner = LintRunner(exclude, skip_untracked, commit_only)
 
     if not runner.run():
         exit(1)
@@ -84,8 +82,8 @@ class LintRunner(object):
     This class represents a single linter run that includes running all the
     tools configured. It will notify the user about progress through stdout.
     """
-    def __init__(self, exclude, skip_untracked, commit_only, pretend, verbose):
-        # type: (List[str], bool, bool, bool, int) -> None
+    def __init__(self, exclude, skip_untracked, commit_only):
+        # type: (List[str], bool, bool) -> None
         """ Run static analysis on the given files.
 
         Args:
@@ -96,9 +94,6 @@ class LintRunner(object):
                 If set to **True** it will skip all files not tracked by git.
             commit_only (bool):
                 Only lint files that are staged for commit.
-            pretend (bool):
-                If set to **True** do not actually run the checks but rather
-                just show the list of files that would be linted.
             linters (list[Tool]):
                 A list of linters to run against the code.
 
@@ -109,9 +104,8 @@ class LintRunner(object):
         self.exclude = exclude
         self.skip_untracked = skip_untracked
         self.commit_only = commit_only
-        self.pretend = pretend
         self.allow_empty = True
-        self.verbose = verbose
+        self.verbose = context.get('verbose', 0)
 
         self.linters = OrderedDict()
         for tool in conf.get('lint.tools', ['pep8', 'pylint']):
@@ -141,20 +135,18 @@ class LintRunner(object):
         if not files:
             return self.allow_empty
 
+        with util.timed_block() as t:
+            results = self._run_checks(files)
+
+        log.info("Code checked in <33>{}s", t.elapsed_s)
+
         success = True
-        if not self.pretend:
-
-            with util.timed_block() as t:
-                results = self._run_checks(files)
-
-            log.info("Code checked in <33>{}s", t.elapsed_s)
-
-            for name, retcodes in results.items():
-                if any(x != 0 for x in retcodes):
-                    success = False
-                    log.err("<35>{} <31>failed with: <33>{}".format(
-                        name, retcodes
-                    ))
+        for name, retcodes in results.items():
+            if any(x != 0 for x in retcodes):
+                success = False
+                log.err("<35>{} <31>failed with: <33>{}".format(
+                    name, retcodes
+                ))
 
         return success
 
@@ -255,5 +247,5 @@ def pylint_check(files):
     return shell.run(pylint_cmd, exit_on_error=False).return_code
 
 
-# Used in type hint comments only (until we drop python2 support)
+# Used in type hints comments only (until we drop python2 support)
 del FunctionType, List

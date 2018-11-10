@@ -109,7 +109,11 @@ class CommitDetails(object):
         """ List of all branches this commit is a part of. """
         if self._branches is None:
             cmd = 'git branch --contains {}'.format(self.sha1)
-            out = shell.run(cmd, capture=True).stdout.strip()
+            out = shell.run(
+                cmd,
+                capture=True,
+                never_pretend=True
+            ).stdout.strip()
             self._branches = [x.strip('* \t\n') for x in out.splitlines()]
 
         return self._branches
@@ -139,7 +143,7 @@ class CommitDetails(object):
             int: The commit number/index.
         """
         cmd = 'git log --oneline {}'.format(self.sha1)
-        out = shell.run(cmd, capture=True).stdout.strip()
+        out = shell.run(cmd, capture=True, never_pretend=True).stdout.strip()
         return len(out.splitlines())
 
     @classmethod
@@ -160,7 +164,7 @@ class CommitDetails(object):
             cmd = 'git show -s --format="%H||%an||%ae||%s||%b||%P" {}'.format(
                 sha1
             )
-            result = shell.run(cmd, capture=True).stdout
+            result = shell.run(cmd, capture=True, never_pretend=True).stdout
 
         sha1, name, email, title, desc, parents = result.split('||')
 
@@ -182,7 +186,11 @@ def current_branch():
         BranchDetails: The details of the current branch.
     """
     cmd = 'git symbolic-ref --short HEAD'
-    branch_name = shell.run(cmd, capture=True).stdout.strip()
+    branch_name = shell.run(
+        cmd,
+        capture=True,
+        never_pretend=True
+    ).stdout.strip()
 
     return BranchDetails.parse(branch_name)
 
@@ -219,7 +227,11 @@ def commit_branches(sha1):
     # type: (str) -> List[str]
     """ Get the name of the branches that this commit belongs to. """
     cmd = 'git branch --contains {}'.format(sha1)
-    return shell.run(cmd, capture=True).stdout.strip().split()
+    return shell.run(
+        cmd,
+        capture=True,
+        never_pretend=True
+    ).stdout.strip().split()
 
 
 @util.cached_result()
@@ -293,7 +305,11 @@ def commit_author(sha1=''):
     """
     with conf.within_proj_dir():
         cmd = 'git show -s --format="%an||%ae" {}'.format(sha1)
-        result = shell.run(cmd, capture=True).stdout
+        result = shell.run(
+            cmd,
+            capture=True,
+            never_pretend=True
+        ).stdout
         name, email = result.split('||')
         return Author(name, email)
 
@@ -307,7 +323,11 @@ def untracked():
         list[str]: The list of files not tracked by project git repo.
     """
     with conf.within_proj_dir():
-        status = shell.run('git status --porcelain', capture=True).stdout
+        status = shell.run(
+            'git status --porcelain',
+            capture=True,
+            never_pretend=True
+        ).stdout
         results = []
 
         for file_status in status.split(os.linesep):
@@ -326,7 +346,11 @@ def unstaged():
         list[str]: The list of files not tracked by project git repo.
     """
     with conf.within_proj_dir():
-        status = shell.run('git status --porcelain', capture=True).stdout
+        status = shell.run(
+            'git status --porcelain',
+            capture=True,
+            never_pretend=True
+        ).stdout
         results = []
 
         for file_status in status.split(os.linesep):
@@ -345,7 +369,11 @@ def staged():
         list[str]: The list of project files staged for commit.
     """
     with conf.within_proj_dir():
-        status = shell.run('git status --porcelain', capture=True).stdout
+        status = shell.run(
+            'git status --porcelain',
+            capture=True,
+            never_pretend=True
+        ).stdout
         results = []
 
         for file_status in status.split(os.linesep):
@@ -400,11 +428,15 @@ def branches():
     Returns:
         list[str]: A list of branches in the current repo.
     """
-    out = shell.run('git branch', capture=True).stdout.strip()
+    out = shell.run(
+        'git branch',
+        capture=True,
+        never_pretend=True
+    ).stdout.strip()
     return [x.strip('* \t\n') for x in out.splitlines()]
 
 
-def tag(name, message, author=None, pretend=False):
+def tag(name, message, author=None):
     # type: (str, str, Author, bool) -> None
     """ Tag the current commit.
 
@@ -427,10 +459,7 @@ def tag(name, message, author=None, pretend=False):
         name=name,
         message=message.replace('"', '\\"').replace('`', '\\`'),
     )
-    if not pretend:
-        shell.run(cmd)
-    else:
-        shell.cprint('<90>{}', cmd)
+    shell.run(cmd)
 
 
 @util.cached_result()
@@ -441,7 +470,11 @@ def config():
     Returns:
         dict[str, Any]: The current git config taken from ``git config --list``.
     """
-    out = shell.run('git config --list', capture=True).stdout.strip()
+    out = shell.run(
+        'git config --list',
+        capture=True,
+        never_pretend=True
+    ).stdout.strip()
 
     result = {}
     for line in out.splitlines():
@@ -462,8 +495,11 @@ def tags():
     All tags returned by this function will be parsed as if the contained
     versions (using ``v:refname`` sorting).
     """
-    cmd = 'git tag --sort=v:refname'
-    return shell.run(cmd, capture=True).stdout.strip().splitlines()
+    return shell.run(
+        'git tag --sort=v:refname',
+        capture=True,
+        never_pretend=True
+    ).stdout.strip().splitlines()
 
 
 def verify_branch(branch_name):
@@ -479,7 +515,10 @@ def verify_branch(branch_name):
         otherwise.
     """
     try:
-        shell.run('git rev-parse --verify {}'.format(branch_name))
+        shell.run(
+            'git rev-parse --verify {}'.format(branch_name),
+            never_pretend=True
+        )
         return True
     except IOError:
         return False

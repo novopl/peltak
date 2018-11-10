@@ -15,7 +15,7 @@
 #
 """ Helper commands for dealing with pypi. """
 from __future__ import absolute_import, unicode_literals
-from peltak.commands import root_cli, click
+from peltak.commands import click, root_cli, pretend_option
 
 
 @root_cli.group('pypi')
@@ -26,7 +26,8 @@ def pypi_cli():
 
 
 @pypi_cli.command('upload')
-@click.argument('target')
+@click.argument('target', required=False, default='pypi')
+@pretend_option
 def upload(target):
     # type: (str) -> None
     """ Upload to a given pypi target.
@@ -53,6 +54,7 @@ def upload(target):
     type=str,
     help="PyPi password. Defaults to PYPI_PASS env variable."
 )
+@pretend_option
 def configure(username, password):
     # type: (str, str) -> None
     """

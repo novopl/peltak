@@ -21,9 +21,11 @@ import sys
 from os.path import join
 
 # local imports
-from peltak.core import shell
 from peltak.core import conf
+from peltak.core import fs
 from peltak.core import log
+from peltak.core import shell
+from peltak.core import util
 
 
 def upload(target):
@@ -65,17 +67,19 @@ def gen_pypirc(username=None, password=None):
         log.err("You must provide $PYPI_USER and $PYPI_PASS")
         sys.exit(1)
 
-    log.info("Generating .pypirc config <94>{}".format(path))
+    log.info("Generating <94>{}".format(path))
 
-    with open(path, 'w') as fp:
-        fp.write('\n'.join((
-            '[distutils]',
-            'index-servers = ',
-            '    pypi',
-            '',
-            '[pypi]',
-            'repository: https://upload.pypi.org/legacy/',
-            'username: {}'.format(username),
-            'password: {}'.format(password),
-            '',
-        )))
+    fs.write_file(path, util.remove_indent('''
+        [distutils]
+        index-servers =
+            pypi
+        
+        [pypi]
+        repository: https://upload.pypi.org/legacy/
+        username: {username}
+        password: {password}
+        
+    '''.format(
+        username=username,
+        password=password
+    )))

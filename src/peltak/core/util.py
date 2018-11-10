@@ -17,6 +17,7 @@
 from __future__ import absolute_import, unicode_literals
 
 # stdlib imports
+import re
 import time
 import warnings
 from functools import wraps
@@ -249,6 +250,22 @@ def yaml_dump(data, stream=None):
         Dumper=Dumper,
         default_flow_style=False
     )
+
+
+def remove_indent(text):
+    # type: (Text) -> Text
+    """ Remove indentation from the text.
+
+    All indentation will be removed no matter if it's consistent across the
+    *text*.
+
+    Args:
+        text (str): The text that contains indentation.
+
+    Returns:
+        str: The same text but with all indentation removed from each line.
+    """
+    return re.sub('\n[ \t]+', '\n', text.lstrip())
 
 
 # Used in type hint comments only (until we drop python2 support)

@@ -2,11 +2,13 @@
 # See https://github.com/novopl/peltak for more information.
 pelconf_version: '0'
 
+# General project settings - used by many commands
 src_dir: 'src'
 src_path: 'src/peltak'
 build_dir: '.build'
 version_file: 'src/peltak/__init__.py'
 
+# A list of py modules with commands that should be available for the project.
 commands:
   - peltak.commands.docs
   - peltak.commands.git
@@ -17,15 +19,19 @@ commands:
   - peltak.extra.gitflow
   - peltak.extra.pypi
 
+# Configure what gets deleted when running `peltak clean`
 clean:
   exclude:
     - ".tox"
     - ".venv"
 
+
+# Configure your docker registry and images within the project
 docker:
   registry: docker.novocode.net
 
 
+# Configure linting tools and paths
 lint:
   tools:
     - pep8
@@ -37,6 +43,7 @@ lint:
     - test/unit
 
 
+# Configure how documentation is generated (src files for reference docs, etc).
 docs:
   reference:
     - src/peltak
@@ -44,6 +51,7 @@ docs:
     - src/peltak_django
     - src/cliform
 
+# Tests configuration
 test:
   types:
     default:

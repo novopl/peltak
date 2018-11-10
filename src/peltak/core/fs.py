@@ -23,7 +23,7 @@ import fnmatch
 import os
 import re
 from os.path import isdir, join, normpath
-from typing import List, Generator
+from typing import List, Generator, Text, Union
 
 # 3rd party imports
 from six import string_types
@@ -149,5 +149,29 @@ def search_globs(path, patterns):
     return False
 
 
-# Used in docstrings only until we drop python2 support
-del List, Generator
+def write_file(path, content, mode='w'):
+    # type: (Text, Union[Text,bytes], Text) -> None
+    """ --pretend aware file writing.
+
+    You can always write files manually but you should always handle the
+    --pretend case.
+
+    Args:
+        path (str):
+        content (str):
+        mode (str):
+    """
+    from peltak.core import context
+    from peltak.core import log
+
+    if context.get('pretend', False):
+        log.info("Would overwrite <34>{path}<32> with:\n<90>{content}",
+                 path=path,
+                 content=content)
+    else:
+        with open(path, mode) as fp:
+            fp.write(content)
+
+
+# Used in type hint comments only (until we drop python2 support)
+del List, Generator, Text, Union

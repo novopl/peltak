@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 """ git flow release commands. """
-from peltak.commands import root_cli, click
+from peltak.commands import root_cli, click, pretend_option
 
 
 @root_cli.group('release', invoke_without_command=True)
@@ -55,6 +55,7 @@ def release_cli():
     type=str,
     help="Set the newly released version to be exactly as specified."
 )
+@pretend_option
 def start(component, exact):
     # type: (str) -> None
     """ Create a new release.
@@ -86,13 +87,8 @@ def start(component, exact):
     type=str,
     help=("Tag message. Will replace the default 'Mark vX.X release'")
 )
-@click.option(
-    '-p', '--pretend',
-    is_flag=True,
-    help=("Just pretend to tag and print what would happen instead of actually "
-          "doing anything.")
-)
-def tag_release(message, pretend):
+@pretend_option
+def tag_release(message):
     # type: (str, bool) -> None
     """ Tag the current commit with as the current version release.
 
@@ -110,10 +106,11 @@ def tag_release(message, pretend):
 
     """
     from peltak.extra.gitflow import logic
-    logic.release.tag(message, pretend)
+    logic.release.tag(message)
 
 
 @release_cli.command('finish')
+@pretend_option
 def finish():
     # type: () -> None
     """ Merge the current release to both develop and master.
@@ -126,6 +123,7 @@ def finish():
 
 
 @release_cli.command('merged')
+@pretend_option
 def merged():
     # type: () -> None
     """ Checkout the target branch, pull and delete the merged branch.

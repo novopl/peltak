@@ -17,15 +17,18 @@
 from __future__ import absolute_import, unicode_literals
 
 # stdlib imports
+import itertools
 import sys
 from fnmatch import fnmatch
 from os.path import exists, join, normpath
+from typing import Optional
 
 # 3rd party imports
 import attr
 
 # local imports
 from peltak.core import conf
+from peltak.core import context
 from peltak.core import fs
 from peltak.core import git
 from peltak.core import log
@@ -35,8 +38,8 @@ from peltak.core import util
 
 
 @util.mark_experimental
-def deploy(app_id, version, pretend, promote, quiet):
-    # type: (str, str, bool, bool, bool) -> None
+def deploy(app_id, version, promote, quiet):
+    # type: (str, str, bool, bool) -> None
     """ Deploy the app to AppEngine.
 
     Args:
@@ -44,9 +47,6 @@ def deploy(app_id, version, pretend, promote, quiet):
             AppEngine App ID. Overrides config value app_id if given.
         version (str):
             AppEngine project version. Overrides config values if given.
-        pretend (bool):
-            If set to **True**, do not actually deploy anything but show the
-            deploy command that would be used.
         promote (bool):
             If set to **True** promote the current remote app version to the one
             that's being deployed.
@@ -70,7 +70,7 @@ def deploy(app_id, version, pretend, promote, quiet):
     if app_id is not None:
         gae_app.app_id = app_id
 
-    gae_app.deploy(promote, pretend, quiet)
+    gae_app.deploy(promote, quiet)
 
 
 @util.mark_experimental
@@ -151,7 +151,7 @@ class GaeApp(object):
 
     @classmethod
     def for_branch(cls, branch_name):
-        # type: (str) -> GaeApp
+        # type: (str) -> Optional[GaeApp]
         """ Return app configuration for the given branch.
 
         This will look for the configuration in the ``appengine.projects``
@@ -162,15 +162,18 @@ class GaeApp(object):
                 The name of the branch we want the configuration for.
 
         Returns:
-            Optional[GaeApp]: The `GaeApp` instance with the configuration or
-            **None** if none found.
+            Optional[GaeApp]: The `GaeApp` instance with the configuration for
+                the project.
+            None: If no project configuration can be found.
         """
         for proj in conf.get('appengine.projects', []):
             if fnmatch(branch_name, proj['branch']):
                 proj = dict(proj)
                 proj.pop('branch')
-                proj['deployables'] = conf.get('appengine.deployables', [])
-                proj['deployables'] += proj.get('deployables', [])
+                proj['deployables'] = list(frozenset(itertools.chain(
+                    conf.get('appengine.deployables', []),
+                    proj.get('deployables', [])
+                )))
                 return cls(**proj)
 
         return None
@@ -201,15 +204,13 @@ class GaeApp(object):
 
         return versioning.current().replace('.', '-')
 
-    def deploy(self, promote=False, pretend=False, quiet=False):
+    def deploy(self, promote=False, quiet=False):
         # type: (bool, bool, bool) -> None
         """ Deploy the code to AppEngine.
 
         Args:
             promote (bool):
                 Migrate the traffic to the deployed version.
-            pretend (bool):
-                Instead of deploying, print the deploy command.
             quiet (bool):
                 Pass ``--quiet`` flag to gcloud command
         """
@@ -227,16 +228,19 @@ class GaeApp(object):
             args=' '.join(args)
         )
 
-        if pretend:
+        if context.get('pretend', False):
             log.info("Would deploy version <35>{ver}<32> to <35>{app}".format(
                 ver=self.app_version,
                 app=self.app_id
             ))
             shell.cprint('<90>{}', cmd)
-
-        if not pretend:
+        else:
             log.info("Deploying version <35>{ver}<32> to <35>{app}".format(
                 ver=self.app_version,
                 app=self.app_id,
             ))
             shell.run(cmd)
+
+
+# Used in type hint comments only (until we drop python2 support)
+del Optional

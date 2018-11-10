@@ -19,7 +19,7 @@ This is mainly for web apps that are deployed with docker.
 """
 from __future__ import absolute_import
 
-from peltak.commands import root_cli, click
+from peltak.commands import root_cli, click, pretend_option
 
 
 @root_cli.group('docker')
@@ -30,6 +30,7 @@ def docker_cli():
 
 
 @docker_cli.command('build')
+@pretend_option
 def build_images():
     # type: () -> None
     """ Build and tag a docker image for the project.
@@ -64,6 +65,7 @@ def build_images():
 
 
 @docker_cli.command('push')
+@pretend_option
 def push_images():
     # type: () -> None
     """ Push project docker images to the registry.

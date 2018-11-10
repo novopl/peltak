@@ -15,7 +15,9 @@ from peltak.core import git
 def test_works_as_expected(p_run):
     git.current_branch().name()
 
-    p_run.assert_called_once_with('git symbolic-ref --short HEAD', capture=True)
+    p_run.assert_called_once_with('git symbolic-ref --short HEAD',
+                                  capture=True,
+                                  never_pretend=True)
 
 
 @patch('peltak.core.conf.within_proj_dir')
@@ -28,7 +30,8 @@ def test_runs_the_git_command_in_project_root(p_run, p_within_proj_dir):
 
     p_within_proj_dir.assert_called_once_with()
     p_run.assert_called_once_with('git show -s --format="%an||%ae" ',
-                                  capture=True)
+                                  capture=True,
+                                  never_pretend=True)
 
 
 @pytest.mark.skip(
@@ -47,5 +50,6 @@ def test_runs_the_git_command_in_project_root(p_run, p_within_proj_dir):
     p_within_proj_dir.assert_called_once_with()
     p_run.assert_called_once_with(
         'git show -s --format="%H||%an||%ae||%s||%b||%P"',
-        capture=True
+        capture=True,
+        never_pretend=True
     )

@@ -21,7 +21,7 @@ from __future__ import absolute_import
 
 # local imports
 from peltak.core import conf
-from . import root_cli, click
+from . import root_cli, click, pretend_option, verbose_option
 
 
 conf.command_requirements(
@@ -46,14 +46,11 @@ conf.command_requirements(
     is_flag=True,
     help="Generate main index for code reference"
 )
-@click.option(
-    '-v', 'verbose',
-    count=True,
-    help="Be more verbose"
-)
+@pretend_option
+@verbose_option
 @click.pass_context
-def docs_cli(ctx, recreate, gen_index, run_doctests, verbose):
-    # type: (click.Context, bool, bool, bool, int) -> None
+def docs_cli(ctx, recreate, gen_index, run_doctests):
+    # type: (click.Context, bool, bool, bool) -> None
     """ Build project documentation.
 
     This command will run sphinx-refdoc first to generate the reference
@@ -88,4 +85,4 @@ def docs_cli(ctx, recreate, gen_index, run_doctests, verbose):
         return
 
     from peltak.logic import docs
-    docs.docs(recreate, gen_index, run_doctests, verbose)
+    docs.docs(recreate, gen_index, run_doctests)
