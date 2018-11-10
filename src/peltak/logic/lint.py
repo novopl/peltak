@@ -255,5 +255,5 @@ def pylint_check(files):
     return shell.run(pylint_cmd, exit_on_error=False).return_code
 
 
-# Used in type hint comments only (until we drop python2 support)
+# Used in type hints comments only (until we drop python2 support)
 del FunctionType, List

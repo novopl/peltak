@@ -47,9 +47,9 @@ def assert_branch_type(branch_type):
 
     if branch.type != branch_type:
         log.err("Not on a <33>{}<31> branch!", branch_type)
-        fmt = ("The branch must follow <33>hotfix/<name><31> format and your "
-               "branch is called <33>{}<31>.")
-        log.err(fmt, branch.name)
+        fmt = ("The branch must follow <33>{required_type}/<name><31> format "
+               "and your branch is called <33>{name}<31>.")
+        log.err(fmt, required_type=branch_type, name=branch.name)
         sys.exit(1)
 
 
