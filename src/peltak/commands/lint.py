@@ -25,7 +25,7 @@ from . import root_cli, click
 
 conf.command_requirements(
     'pylint==1.9.2',
-    '"pep8"==1.7.0',
+    'pep8==1.7.0',
 )
 
 
