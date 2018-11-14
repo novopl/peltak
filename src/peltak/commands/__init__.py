@@ -77,12 +77,25 @@ def pretend_option(fn):
         # type: (click.Context, str, Any) -> None
         from peltak.core import context
         from peltak.core import shell
-        from peltak.core import util
 
         context.set('pretend', value or False)
         if value:
-            shell.cprint(util.remove_indent('''
-    <90>┌─────────────────────────────────────────────────────────────────┐
+            shell.cprint('<90>{}', _pretend_msg())
+
+    return click.option(
+        '--pretend',
+        is_flag=True,
+        help=("Do not actually do anything, just print shell commands that"
+              "would be executed."),
+        expose_value=False,
+        callback=set_pretend
+    )(fn)
+
+
+def _pretend_msg():
+    from peltak.core import util
+    msg = '''
+        ┌─────────────────────────────────────────────────────────────────┐
         │                     Running in pretend mode.                    │
         ├─────────────────────────────────────────────────────────────────┤
         │ All commands that you will see printed in gray are not actually │
@@ -93,16 +106,27 @@ def pretend_option(fn):
         │ You can still add verbosity to some commands using the          │
         │ -v/--verbose option.                                            │
         └─────────────────────────────────────────────────────────────────┘
-            '''))
+    '''
 
-    return click.option(
-        '--pretend',
-        is_flag=True,
-        help=("Do not actually do anything, just print shell commands that"
-              "would be executed."),
-        expose_value=False,
-        callback=set_pretend
-    )(fn)
+    if hasattr(msg, 'decode'):  # py2
+        msg = msg.decode('utf-8')
+
+    try:
+        return util.remove_indent(msg)
+    except UnicodeDecodeError:
+        return util.remove_indent('''
+        +-----------------------------------------------------------------+
+        |                     Running in pretend mode.                    |
+        +-----------------------------------------------------------------+
+        | All commands that you will see printed in gray are not actually |
+        | executed but printed out instead.                               |
+        |                                                                 |
+        | Those would be executed if --pretend option was not specified.  |
+        |                                                                 |
+        | You can still add verbosity to some commands using the          |
+        | -v/--verbose option.                                            |
+        +-----------------------------------------------------------------+
+    ''')
 
 
 def verbose_option(fn):
