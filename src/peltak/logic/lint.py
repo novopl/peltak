@@ -51,6 +51,7 @@ def lint(exclude, skip_untracked, commit_only):
         commit_only (bool):
             Only lint files that are staged for commit.
     """
+    exclude = list(exclude) + conf.get('lint.exclude', [])
     runner = LintRunner(exclude, skip_untracked, commit_only)
 
     if not runner.run():
