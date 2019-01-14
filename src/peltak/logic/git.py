@@ -72,7 +72,7 @@ def add_hooks():
 
     # Write pre-push hook
     log.info("Adding pre-push hook: <33>{}", push_hook)
-    fs.write_file(commit_hook, util.remove_indent('''
+    fs.write_file(push_hook, util.remove_indent('''
         #!/bin/bash
         PATH="/opt/local/libexec/gnubin:$PATH"
         
