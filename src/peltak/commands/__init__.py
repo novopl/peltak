@@ -112,7 +112,9 @@ def _pretend_msg():
         msg = msg.decode('utf-8')
 
     try:
-        return util.remove_indent(msg)
+        # We do empty format() here so that it forces unicode errors here
+        # and not when it's used/printed.
+        return '{}'.format(util.remove_indent(msg))
     except:
         return util.remove_indent('''
         +-----------------------------------------------------------------+
