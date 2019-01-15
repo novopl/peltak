@@ -39,7 +39,7 @@ setup(
     version=read_version(),
     author="Mateusz 'novo' Klos",
     author_email="novopl@gmail.com",
-    license="MIT",
+    license="Apache 2.0",
     keywords="fabric ops devops",
     url="http://github.com/novopl/peltak",
     description="Set of CLI commands to help manage a project",
