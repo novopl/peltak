@@ -113,7 +113,7 @@ def _pretend_msg():
 
     try:
         return util.remove_indent(msg)
-    except UnicodeDecodeError:
+    except:
         return util.remove_indent('''
         +-----------------------------------------------------------------+
         |                     Running in pretend mode.                    |
