@@ -96,7 +96,7 @@ def project_dev_requirements():
     from peltak.core import conf
     from peltak.core import shell
 
-    for dep in conf.requirements:
+    for dep in sorted(conf.requirements):
         shell.cprint(dep)
 
 

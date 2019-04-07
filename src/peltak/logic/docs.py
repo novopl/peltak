@@ -51,8 +51,9 @@ def docs(recreate, gen_index, run_doctests):
     docs_dir = conf.get_path('docs.path', 'docs')
     refdoc_paths = conf.get('docs.reference', [])
 
-    docs_html_dir = os.path.join(docs_dir, 'html')
-    docs_tests_dir = os.path.join(docs_dir, 'doctest')
+    docs_html_dir = conf.get_path('docs.out', os.path.join(docs_dir, 'html'))
+    docs_tests_dir = conf.get_path('docs.tests_out',
+                                   os.path.join(docs_dir, 'doctest'))
     docs_build_dir = os.path.join(build_dir, 'docs')
 
     if recreate:

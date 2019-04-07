@@ -113,7 +113,9 @@ def test(tests_type,    # type: Text
         ))
 
         retcode = result.return_code
-        if retcode and not (allow_empty is True and retcode == 5):
+        # 4 - file not found (missing directory etc.)
+        # 5 - no tests found
+        if retcode and not (allow_empty is True and retcode in (4, 5)):
             sys.exit(result.return_code)
 
     except TestsError:
