@@ -90,7 +90,7 @@ def docs(recreate, gen_index, run_doctests):
 
 
 def gen_ref_docs(gen_index=False):
-    # type: (int, bool) -> None
+    # type: (bool) -> None
     """ Generate reference documentation for the project.
 
     This will use **sphinx-refdoc** to generate the source .rst files for the
