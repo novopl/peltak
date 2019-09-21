@@ -285,7 +285,7 @@ class NodeVersionStorage(VersionStorage):
 
         config['version'] = version
 
-        fs.write_file(self.version_file, json.dumps(config, indent=2))
+        fs.write_file(self.version_file, json.dumps(config, indent=2) + '\n')
 
 
 def get_version_storage():
