@@ -263,6 +263,29 @@ def pycodestyle_check(files):
     return shell.run(cmd, exit_on_error=False).return_code
 
 
+@tool('mypy')
+def mypy_check(files):
+    # type: (List[str]) -> int
+    """ Run type checks using mypy.
+
+    Args:
+        files (list[str]):
+            A list of files to check
+
+    Returns:
+        bool: **True** if all files passed the checks, **False** otherwise.
+    """
+    files = fs.wrap_paths(files)
+    cfg_path = conf.get_path('lint.mypy_cfg', 'ops/tools/pycodestyle.ini')
+
+    if os.path.exists(cfg_path):
+        cmd = 'mypy --config-file {} {}'.format(cfg_path, files)
+    else:
+        cmd = 'mypy {}'.format(files)
+
+    return shell.run(cmd, exit_on_error=False).return_code
+
+
 @tool('pylint')
 def pylint_check(files):
     # type: (List[str]) -> int
