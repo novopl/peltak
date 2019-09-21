@@ -122,6 +122,7 @@ def load_yaml_config(conf_file):
             is not a valid YAML file.
     """
     global g_config
+    from . import log
 
     with open(conf_file) as fp:
         # Initialize config
@@ -134,7 +135,10 @@ def load_yaml_config(conf_file):
             sys.path.insert(0, src_dir)
 
         for cmd in get('commands', []):
-            _import(cmd)
+            try:
+                _import(cmd)
+            except ImportError:
+                log.err("Failed to load commands from <33>{}<31>.", cmd)
 
 
 def load_py_config(conf_file):
