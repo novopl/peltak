@@ -17,6 +17,7 @@
 from __future__ import absolute_import, unicode_literals
 
 # stdlib imports
+import os.path
 from collections import OrderedDict
 from itertools import chain
 from types import FunctionType
@@ -224,9 +225,13 @@ def pep8_check(files):
     """
     files = fs.wrap_paths(files)
     cfg_path = conf.get_path('lint.pep8_cfg', 'ops/tools/pep8.ini')
-    pep8_cmd = 'pep8 --config {} {}'.format(cfg_path, files)
 
-    return shell.run(pep8_cmd, exit_on_error=False).return_code
+    if os.path.exists(cfg_path):
+        cmd = 'pep8 --config {} {}'.format(cfg_path, files)
+    else:
+        cmd = 'pep8 {}'.format(files)
+
+    return shell.run(cmd, exit_on_error=False).return_code
 
 
 @tool('pycodestyle')
@@ -249,7 +254,11 @@ def pycodestyle_check(files):
     """
     files = fs.wrap_paths(files)
     cfg_path = conf.get_path('lint.pycodestyle_cfg', 'ops/tools/pycodestyle.ini')
-    cmd = 'pycodestyle --config {} {}'.format(cfg_path, files)
+
+    if os.path.exists(cfg_path):
+        cmd = 'pycodestyle --config {} {}'.format(cfg_path, files)
+    else:
+        cmd = 'pycodestyle {}'.format(files)
 
     return shell.run(cmd, exit_on_error=False).return_code
 
@@ -268,9 +277,13 @@ def pylint_check(files):
     """
     files = fs.wrap_paths(files)
     cfg_path = conf.get_path('lint.pylint_cfg', 'ops/tools/pylint.ini')
-    pylint_cmd = 'pylint --rcfile {} {}'.format(cfg_path, files)
 
-    return shell.run(pylint_cmd, exit_on_error=False).return_code
+    if os.path.exists(cfg_path):
+        cmd = 'pylint --rcfile {} {}'.format(cfg_path, files)
+    else:
+        cmd = 'pylint {}'.format(files)
+
+    return shell.run(cmd, exit_on_error=False).return_code
 
 
 # Used in type hints comments only (until we drop python2 support)
