@@ -35,8 +35,8 @@ def upload(target):
     Examples::
 
         \b
-        $ peltak pypi upload pypi    # Upload the current code to pypi
-        $ peltak pypi upload private # Upload to pypi server 'private'
+        $ peltak pypi upload         # Upload the current code to pypi
+        $ peltak pypi upload private # Upload to pypi target 'private'
 
     """
     from peltak.extra.pypi import logic

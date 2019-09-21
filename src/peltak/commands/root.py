@@ -70,7 +70,7 @@ def clean(exclude):
 )
 @pretend_option
 def init(quick):
-    # type: () -> None
+    # type: (bool) -> None
     """ Create new peltak config file in the current directory.
 
     If ``pelconf.py`` already exists the user will be prompted to confirm
