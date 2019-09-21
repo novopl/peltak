@@ -17,6 +17,7 @@
 from __future__ import absolute_import, unicode_literals
 
 # stdlib imports
+import os.path
 from collections import OrderedDict
 from itertools import chain
 from types import FunctionType
@@ -224,9 +225,65 @@ def pep8_check(files):
     """
     files = fs.wrap_paths(files)
     cfg_path = conf.get_path('lint.pep8_cfg', 'ops/tools/pep8.ini')
-    pep8_cmd = 'pep8 --config {} {}'.format(cfg_path, files)
 
-    return shell.run(pep8_cmd, exit_on_error=False).return_code
+    if os.path.exists(cfg_path):
+        cmd = 'pep8 --config {} {}'.format(cfg_path, files)
+    else:
+        cmd = 'pep8 {}'.format(files)
+
+    return shell.run(cmd, exit_on_error=False).return_code
+
+
+@tool('pycodestyle')
+def pycodestyle_check(files):
+    # type: (List[str]) -> int
+    """ Run code checks using pycodestyle (successor of pep8).
+
+    Args:
+        files (list[str]):
+            A list of files to check
+
+    Returns:
+        bool: **True** if all files passed the checks, **False** otherwise.
+
+    pycodestyle tool is **very** fast. Especially compared to pylint and the
+    bigger the code base the bigger the difference. If you want to reduce check
+    times you might disable all pep8 checks in pylint and use pep8 for that.
+    This way you use pylint only for the more advanced checks (the number of
+    checks enabled in pylint will make a visible difference in it's run times).
+    """
+    files = fs.wrap_paths(files)
+    cfg_path = conf.get_path('lint.pycodestyle_cfg', 'ops/tools/pycodestyle.ini')
+
+    if os.path.exists(cfg_path):
+        cmd = 'pycodestyle --config {} {}'.format(cfg_path, files)
+    else:
+        cmd = 'pycodestyle {}'.format(files)
+
+    return shell.run(cmd, exit_on_error=False).return_code
+
+
+@tool('mypy')
+def mypy_check(files):
+    # type: (List[str]) -> int
+    """ Run type checks using mypy.
+
+    Args:
+        files (list[str]):
+            A list of files to check
+
+    Returns:
+        bool: **True** if all files passed the checks, **False** otherwise.
+    """
+    files = fs.wrap_paths(files)
+    cfg_path = conf.get_path('lint.mypy_cfg', 'ops/tools/pycodestyle.ini')
+
+    if os.path.exists(cfg_path):
+        cmd = 'mypy --config-file {} {}'.format(cfg_path, files)
+    else:
+        cmd = 'mypy {}'.format(files)
+
+    return shell.run(cmd, exit_on_error=False).return_code
 
 
 @tool('pylint')
@@ -243,9 +300,13 @@ def pylint_check(files):
     """
     files = fs.wrap_paths(files)
     cfg_path = conf.get_path('lint.pylint_cfg', 'ops/tools/pylint.ini')
-    pylint_cmd = 'pylint --rcfile {} {}'.format(cfg_path, files)
 
-    return shell.run(pylint_cmd, exit_on_error=False).return_code
+    if os.path.exists(cfg_path):
+        cmd = 'pylint --rcfile {} {}'.format(cfg_path, files)
+    else:
+        cmd = 'pylint {}'.format(files)
+
+    return shell.run(cmd, exit_on_error=False).return_code
 
 
 # Used in type hints comments only (until we drop python2 support)

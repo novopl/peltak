@@ -27,5 +27,5 @@ def test_correctly_replaces_version(p_write_file):
 
         p_write_file.assert_called_with(
             'package.json',
-            '{\n  "version": "1.0.1"\n}'
+            '{\n  "version": "1.0.1"\n}\n'
         )
