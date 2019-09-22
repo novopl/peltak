@@ -26,9 +26,9 @@ def read_version():
 
 requirements = [
     'click~=7.0',
-    'PyYAML~=5.1.2',
-    'six~=1.11',
-    'attrs~=18.2',
+    'PyYAML>=3.13',
+    'six>=1.11',
+    'attrs>=18.2',
 ]
 if sys.version_info < (3, 5):
     requirements += ['typing~=3.6']

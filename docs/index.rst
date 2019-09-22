@@ -10,7 +10,7 @@ Table of Contents
     :maxdepth: 3
 
     guides/_index
-    Code Reference <ref/index>
+    dev/_index
 
 
 .. include:: ../README.rst
