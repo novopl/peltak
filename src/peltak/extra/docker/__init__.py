@@ -13,9 +13,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-""" Commands for building and pushing the app image.
+"""
 
-This is mainly for web apps that are deployed with docker.
+############################################
+``peltak docker`` - Build/push docker images
+############################################
+
+Commands for building and pushing the app image. This is mainly for web apps
+that are deployed with docker.
 """
 from __future__ import absolute_import
 from .commands import docker_cli

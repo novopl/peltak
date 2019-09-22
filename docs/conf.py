@@ -29,6 +29,7 @@ extensions = [
     'sphinxcontrib.plantuml',
 ]
 plantuml = 'java -jar {}'.format(repo_path('docs/plantuml/plantuml.1.2019.9.jar'))
+plantuml_output_format = 'svg'
 
 import peltak
 version = peltak.__version__

@@ -27,12 +27,13 @@ Core functionality
     core/versioning
 
 
-Extras
-======
+Extra
+=====
 
 .. toctree::
     :maxdepth: 1
 
     extra/gitflow
+    extra/pypi
     extra/changelog
-    extra/appengine
+    extra/docker

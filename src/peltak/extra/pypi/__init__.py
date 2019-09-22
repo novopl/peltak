@@ -13,6 +13,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-""" Helper commands for dealing with pypi. """
+"""
+
+###########################################
+``peltak pypi`` - Releasing project to PyPi
+###########################################
+
+Helper commands for dealing with pypi.
+"""
 from __future__ import absolute_import, unicode_literals
 from .commands import pypi_cli
