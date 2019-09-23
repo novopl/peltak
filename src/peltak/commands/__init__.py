@@ -152,8 +152,8 @@ def verbose_option(fn):
 
     return click.option(
         '-v', '--verbose',
-        is_flag=True,
         expose_value=False,
+        count=True,
         callback=set_verbose,
         help="Be verbose. Can specify multiple times for more verbosity.",
     )(fn)

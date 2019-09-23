@@ -36,8 +36,27 @@ What need to be done?
     @endwbs
 
 
-Example configuration
-=====================
+Configuration
+=============
+
+Options for a single sciript
+
+.. code-block::yaml
+
+    scripts:
+      checks:
+        about: Run checks on the code base
+        accepts_files: True
+        command: |
+          mypy {{files}}; \\
+          pycodestyle --config ops/tools/pep8.ini {{files}}; \\
+          pylint --rc-file ops/tools/pylint.ini {{files}};
+
+
+
+
+Example
+~~~~~~~
 
 .. code-block:: yaml
 

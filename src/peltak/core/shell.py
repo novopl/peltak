@@ -139,29 +139,67 @@ def run(cmd,
         options['env'].update(env)
 
     p = subprocess.Popen(cmd, **options)
-    stdout, stderr = p.communicate()
 
     try:
-        if stdout is not None:
-            stdout = stdout.decode('utf-8')
+        stdout, stderr = p.communicate()
 
-        if stderr is not None:
-            stderr = stderr.decode('utf-8')
-    except AttributeError:
-        # 'str' has no attribute 'decode'
-        pass
+        try:
+            if stdout is not None:
+                stdout = stdout.decode('utf-8')
 
-    if exit_on_error and p.returncode != 0:
-        sys.exit(p.returncode)
+            if stderr is not None:
+                stderr = stderr.decode('utf-8')
+        except AttributeError:
+            # 'str' has no attribute 'decode'
+            pass
 
-    return ExecResult(
-        cmd,
-        p.returncode,
-        stdout,
-        stderr,
-        p.returncode == 0,
-        p.returncode != 0
-    )
+        if exit_on_error and p.returncode != 0:
+            sys.exit(p.returncode)
+
+        return ExecResult(
+            cmd,
+            p.returncode,
+            stdout,
+            stderr,
+            p.returncode == 0,
+            p.returncode != 0
+        )
+
+    except KeyboardInterrupt:
+        p.kill()
+
+
+def highlight(code, fmt):
+    # type: (str, str) -> str
+    """ Highlight a given code snippet for printing in the terminal.
+
+    Assumes 256 color terminal.
+    """
+    import pygments
+    from pygments.lexers.data import YamlLexer
+    from pygments.lexers.data import JsonLexer
+    from pygments.lexers.python import PythonLexer
+    from pygments.lexers.python import Python3Lexer
+    from pygments.lexers.templates import DjangoLexer
+    from pygments.lexers.shell import BashLexer
+    from pygments.formatters.terminal256 import Terminal256Formatter
+
+    # Get lexer class based on format.
+    lexer_cls = {
+        'yaml': YamlLexer,
+        'json': JsonLexer,
+        'bash': BashLexer,
+        'py': Python3Lexer,
+        'py3': Python3Lexer,
+        'py2': PythonLexer,
+        'jinja': DjangoLexer,
+        'django': DjangoLexer,
+    }.get(fmt)
+
+    if not lexer_cls:
+        raise ValueError("Unsupported code format: {}".format(fmt))
+
+    return pygments.highlight(code, lexer_cls(), Terminal256Formatter())
 
 
 # Used in docstrings only until we drop python2 support

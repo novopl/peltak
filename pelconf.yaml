@@ -59,12 +59,38 @@ test:
 
 # Custom scripts
 scripts:
+  build-docs:
+    about: Generate sphinx documentation
+    command: |
+      sphinx-refdoc  \
+          -i {{ conf.src_path }} \
+          {{ opts.verbose | count_flag('v') }} \
+          -o docs/ref; \
+          \
+      sphinx-build \
+          -b html \
+          -d {{ conf.build_dir }}/docs \
+          docs docs/html
+
   unit-tests:
     about: Run unit tests
+    command: pytest \
+          -c ops/tools/pytest.ini \
+          --cov-config=ops/tools/coverage.ini \
+          --cov={{ conf.src_path }} \
+          --cov-report=term \
+          --cov-report=html:{{ conf.build_dir }}/coverage \
+          test/unit
+
+  checks:
+    about: Run checks on the code base
+    accept_files: true
     command: |
-      pytest -c ops/tools/pytest.ini \
-        --cov-config=ops/tools/coverage.ini \
-        --cov=src/peltak \
-        --cov-report=term \
-        --cov-report=html:.build/coverage \
-        test/unit
+      echo "{{ 'mypy' | section }}"
+      pipenv run mypy {{ files | wrap_paths }};
+
+      echo "{{ 'pep8' | section }}"
+      pipenv run pep8 --config ops/tools/pep8.ini {{ files | wrap_paths }};
+
+      echo "{{ 'pylint' | section }}"
+      pipenv run pylint --rcfile ops/tools/pylint.ini {{ opts.paths | wrap_paths }};

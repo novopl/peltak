@@ -9,6 +9,8 @@ click = "~=7.0"
 pyyaml = "~=3.13"
 six = "~=1.11"
 typing = "~=3.6"
+jinja2 = "*"
+mypy = "*"
 
 [dev-packages]
 coverage = "~=4.5"
