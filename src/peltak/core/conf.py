@@ -29,6 +29,7 @@ from typing import Any, Dict, Optional, Text, Union
 # local imports
 from peltak import PKG_DIR
 from . import util
+from . import hooks
 
 
 PROJ_CONF_FILE = 'pelconf.py'
@@ -104,6 +105,7 @@ def load():
     with within_proj_dir():
         if os.path.exists('pelconf.yaml'):
             load_yaml_config('pelconf.yaml')
+            hooks.register.call('post-conf-load')
 
 
 def load_yaml_config(conf_file):
