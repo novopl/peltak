@@ -18,6 +18,7 @@ commands:
   - peltak.extra.changelog
   - peltak.extra.gitflow
   - peltak.extra.pypi
+  - peltak.extra.scripts
 
 # Configure what gets deleted when running `peltak clean`
 clean:
@@ -54,3 +55,16 @@ test:
     default:
       paths:
         - test/unit
+
+
+# Custom scripts
+scripts:
+  unit-tests:
+    about: Run unit tests
+    command: |
+      pytest -c ops/tools/pytest.ini \
+        --cov-config=ops/tools/coverage.ini \
+        --cov=src/peltak \
+        --cov-report=term \
+        --cov-report=html:.build/coverage \
+        test/unit

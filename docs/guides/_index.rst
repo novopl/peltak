@@ -35,6 +35,7 @@ Extra
     :maxdepth: 1
 
     extra/gitflow
+    extra/scripts
     extra/pypi
     extra/changelog
     extra/docker
