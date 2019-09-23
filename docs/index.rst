@@ -3,6 +3,11 @@ peltak documentation
 ####################
 
 
+.. include:: ../README.rst
+    :start-after: readme_about_start
+    :end-before: readme_about_end
+
+
 Table of Contents
 =================
 
@@ -11,7 +16,3 @@ Table of Contents
 
     guides/_index
     dev/_index
-
-
-.. include:: ../README.rst
-    :start-after: readme_inclusion_marker

@@ -91,7 +91,7 @@ def extract_changelog_items(text, tags):
 
     Returns:
         tuple[list[str], list[str], list[str]]:
-            A tuple of `(features, changes, fixes)` extracted from the given
+            A tuple of ``(features, changes, fixes)`` extracted from the given
             text.
 
     The tagged items are usually features/changes/fixes but it can be configured
@@ -133,10 +133,10 @@ def extract_changelog_items(text, tags):
 def tag_re(tag):
     # type: (str) -> Pattern
     """ Return a regular expression to match tagged lines.
+
     Args:
         tag (str):
-            A tag for which you need the regex pattern. This should be a single
-            word.
+            A tag for which you need the regex pattern. This should be a single word.
 
     Returns:
         Pattern: Regex patter object as returned by `re.compile`.

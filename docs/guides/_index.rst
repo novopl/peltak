@@ -8,14 +8,15 @@ Basics
 .. toctree::
     :maxdepth: 1
 
+    basics/installation
     basics/quickstart/_index
     basics/project_commands/_index
     basics/share_commands/_index
     basics/pelconf/_index
 
 
-Core functionality
-==================
+Core
+====
 
 
 .. toctree::

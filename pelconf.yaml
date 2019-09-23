@@ -47,9 +47,6 @@ lint:
 docs:
   reference:
     - src/peltak
-    - src/peltak_appengine
-    - src/peltak_django
-    - src/cliform
 
 # Tests configuration
 test:

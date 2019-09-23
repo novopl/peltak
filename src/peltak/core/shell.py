@@ -98,7 +98,7 @@ def run(cmd,
         never_pretend (bool):
             If set to **True** the command will always be executed, even if
             context.get('pretend') is set to True. If set to **False** or not
-            given, if the `pretend` context value is **True**, this function
+            given, if the ``pretend`` context value is **True**, this function
             will only print the command it would execute and then return
             a fake result.
 

@@ -134,8 +134,8 @@ def load_yaml_config(conf_file):
         for cmd in get('commands', []):
             try:
                 _import(cmd)
-            except ImportError:
-                log.err("Failed to load commands from <33>{}<31>.", cmd)
+            except ImportError as ex:
+                log.err("Failed to load commands from <33>{}<31>: {}", cmd, ex)
 
 
 def load_template(filename):
@@ -225,11 +225,11 @@ def get(name, *default):
 
     Returns:
         The requested config value. This is one of the global values defined
-        in this file. If the value does not exist it will return `default` if
+        in this file. If the value does not exist it will return *default* if
         give or raise `AttributeError`.
 
     Raises:
-        AttributeError: If the value does not exist and `default` was not given.
+        AttributeError: If the value does not exist and *default* was not given.
     """
     global g_config
 
@@ -264,11 +264,11 @@ def get_path(name, *default):
 
     Returns:
         The requested config value. This is one of the global values defined
-        in this file. If the value does not exist it will return `default` if
+        in this file. If the value does not exist it will return *default* if
         give or raise `AttributeError`.
 
     Raises:
-        AttributeError: If the value does not exist and `default` was not given.
+        AttributeError: If the value does not exist and *default* was not given.
     """
     global g_config
 

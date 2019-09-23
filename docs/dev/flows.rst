@@ -2,12 +2,12 @@
 Flows
 #####
 
-When `peltak`_ command is executed, it will run `peltak.main:root_cli()` as the
+When `peltak`_ command is executed, it will run ``peltak.main:root_cli()`` as the
 entry point.
 
 
-Execution order
-===============
+Initialization
+==============
 
 .. uml::
 
@@ -27,4 +27,7 @@ Execution order
     load_yaml_config <-- command
     load <-- load_yaml_config
     main <-- load
-    main -> root_cli: Parse command line and \nexecute appropriate command.
+    ... Pass control to click to resolve and execute the command ...
+
+
+.. _peltak: https://github.com/novopl/peltak

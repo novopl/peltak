@@ -68,10 +68,10 @@ class GlobalContext(object):
 
         Returns:
             The requested context value.  If the value does not exist it will
-            return `default` if give or raise `AttributeError`.
+            return *default* if give or raise `AttributeError`.
 
         Raises:
-            AttributeError: If the value does not exist and `default` was not
+            AttributeError: If the value does not exist and *default* was not
                 given.
         """
 
@@ -126,10 +126,10 @@ def get(name, *default):
 
     Returns:
         The requested context value.  If the value does not exist it will
-        return `default` if give or raise `AttributeError`.
+        return *default* if give or raise `AttributeError`.
 
     Raises:
-        AttributeError: If the value does not exist and `default` was not
+        AttributeError: If the value does not exist and *default* was not
             given.
     """
     # type: (Text, *Any) -> Any
