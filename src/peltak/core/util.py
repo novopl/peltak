@@ -267,5 +267,27 @@ def remove_indent(text):
     return re.sub('\n[ \t]+', '\n', text.lstrip())
 
 
+class Singleton(object):
+    """ Base class for singletons.
+
+    Inheriting from this class will make your class a singleton. It should have
+    an initializer that takes no arguments.
+    """
+    instances = {}
+
+    def __new__(cls, *args, **kw):
+        # Could upgrade this to thread local storage
+        instance = Singleton.instances.get(cls.__name__)
+
+        if instance:
+            instance._singleton_initialized = True
+        else:
+            instance = object.__new__(cls)
+            instance._singleton_initialized = False
+            Singleton.instances[cls.__name__] = instance
+
+        return instance
+
+
 # Used in type hint comments only (until we drop python2 support)
 del Any, Dict, FunctionType, Generator, Iterable, List, Text, TextIO, Union

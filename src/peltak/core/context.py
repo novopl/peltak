@@ -29,24 +29,17 @@ class InvalidPath(ContextError):
         ))
 
 
-class GlobalContext(object):
+class GlobalContext(util.Singleton):
     """ Runtime context.
 
     This class is the equivalent of conf but for values that can be modified
     in runtime. This is for all the settings that can be set on the command
     line and can span many commands or APIs.
     """
-    instance = None
-
-    def __new__(cls, *args, **kw):
-        # Could upgrade this to thread local storage
-        if cls.instance is None:
-            cls.instance = super(GlobalContext, cls).__new__(cls, *args, **kw)
-
-        return cls.instance
 
     def __init__(self):
-        if not hasattr(self, 'values'):
+        # __init__ can be called multiple times since this class is a singleton
+        if not self._singleton_initialized:
             self.values = {}
 
     def clear(self):
@@ -114,6 +107,7 @@ class GlobalContext(object):
 
 
 def get(name, *default):
+    # type: (Text, *Any) -> Any
     """ Get context value with the given name and optional default.
 
     Args:
@@ -132,11 +126,11 @@ def get(name, *default):
         AttributeError: If the value does not exist and *default* was not
             given.
     """
-    # type: (Text, *Any) -> Any
     return GlobalContext().get(name, *default)
 
 
 def set(name, value):   # pylint: disable=redefined-builtin
+    # type: (Text, Any) -> None
     """ Set context value.
 
     Args:
@@ -145,7 +139,6 @@ def set(name, value):   # pylint: disable=redefined-builtin
         value (Any):
             The new value for the selected context value
     """
-    # type: (Text, Any) -> None
     GlobalContext().set(name, value)
 
 
