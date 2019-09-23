@@ -206,6 +206,7 @@ def _build_template_context(script, ctx, options, conf, click_ctx, gitignore):
         'conf': conf.g_config,
         'ctx': ctx.values,
         'click': click_ctx,
+        'proj_path': conf.proj_path,
     }
 
     if script.accept_files:

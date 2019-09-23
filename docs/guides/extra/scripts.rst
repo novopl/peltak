@@ -1,1 +1,1 @@
-.. automodule:: peltak.extra.scripts
+.. automodule:: peltak.extra.scripts.commands

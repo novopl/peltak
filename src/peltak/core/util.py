@@ -86,8 +86,7 @@ def mark_experimental(fn):
         if shell.is_tty:
             warnings.warn("This command is has experimental status. The "
                           "interface is not yet stable and might change "
-                          "without notice within with a patch version update. "
-                          "Use at your own risk")
+                          "without notice. Use at your own risk")
         return fn(*args, **kw)
 
     return wrapper
@@ -108,7 +107,7 @@ def mark_deprecated(replaced_by):
 
             if shell.is_tty:
                 warnings.warn("This command is has been deprecated. Please use "
-                              "{new} instead.".format(new=replaced_by))
+                              "'{new}' instead.".format(new=replaced_by))
 
             return fn(*args, **kw)
 
