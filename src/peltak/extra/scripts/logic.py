@@ -18,14 +18,12 @@
 # stdlib imports
 from typing import Any, Dict, List
 
-# 3rd party imports
-import attr
-
 # local imports
 from six import string_types
 from peltak.core import conf
 from peltak.core import log
-from peltak.commands import click, pretend_option, verbose_option
+from peltak.commands import click
+from .types import Script
 
 
 _j2_env = None
@@ -65,130 +63,6 @@ def init_jinja2():
     _j2_env.filters['wrap_paths'] = fs.wrap_paths
     _j2_env.filters['section'] = section
     _j2_env.filters['count_flag'] = count_flag
-
-
-@attr.s
-class ScriptOption(object):
-    """ Describes the scripts command line option. """
-    name = attr.ib(type=List[str])
-    default = attr.ib(type=Any, default=None)
-    about = attr.ib(type=str, default='')
-    is_flag = attr.ib(type=bool, default=False)
-
-    @classmethod
-    def from_config(cls, option_conf):
-        # type: (Dict[str, Any]) -> ScriptOption
-        """ Load script option from configuration in pelconf.yaml """
-        fields = attr.fields(cls)
-        name = option_conf.get('name')
-
-        if not name:
-            raise ValueError("You must define the name of the option")
-
-        if isinstance(name, string_types):
-            # Support passing name: ['--opt'] or name: '--opt'
-            name = [name]
-
-        return cls(
-            name=name,
-            default=option_conf.get('default', fields.default.default),
-            about=option_conf.get('about', fields.about.default),
-            is_flag=option_conf.get('is_flag', fields.is_flag.default)
-        )
-
-
-@attr.s
-class Script(object):
-    """ Represents a single script defined in pelconf.yaml.
-
-    The important thing is to do a little as possible during creation and only
-    do heavy stuff inside the `Script.run()` method. This is because the
-    scripts are parsed in a *post-conf-load* hook and that code impacts the
-    speed of shell auto completion for peltak command.
-    """
-    name = attr.ib(type=str)
-    command = attr.ib(type=str)
-    about = attr.ib(type=str, default='')
-    accept_files = attr.ib(type=str, default=False)
-    options = attr.ib(type=List[ScriptOption], default=[])
-
-    @classmethod
-    def from_config(cls, name, script_conf):
-        # type: (str, Dict[str, Any]) -> Script
-        """ Load script from pelfconf.yaml """
-        fields = attr.fields(cls)
-
-        if 'command' not in script_conf:
-            raise ValueError("Missing 'command' for '{}' script".format(name))
-
-        return cls(
-            name=name,
-            command=script_conf['command'],
-            about=script_conf.get('about', fields.about.default),
-            accept_files=script_conf.get('accept_files', fields.about.default),
-            options=[
-                ScriptOption.from_config(opt_conf)
-                for opt_conf in script_conf.get('options', fields.options.default)
-            ]
-        )
-
-    def run(self, click_ctx, options):
-        # type: (click.Context, Dict[str, Any]) -> None
-        """ Run the script with the given (command line) options. """
-        import yaml
-        from peltak.core import git
-        from peltak.core import shell
-        from peltak.core.context import GlobalContext
-
-        ctx = GlobalContext()
-        template_ctx = _build_template_context(
-            self,
-            ctx=ctx,
-            options=options,
-            conf=conf,
-            click_ctx=click_ctx,
-            gitignore=git.ignore(),
-        )
-
-        if ctx.get('verbose') > 1:
-            log.info('Compiling script <35>{name}\n{script}'.format(
-                name=self.name,
-                script=shell.highlight(self.command, 'jinja')
-            ))
-            log.info('with context:\n{}\n'.format(
-                shell.highlight(yaml.dump(template_ctx), 'yaml')
-            ))
-
-        if _j2_env is None:
-            init_jinja2()
-
-        cmd = _j2_env.from_string(self.command).render(template_ctx)
-
-        with conf.within_proj_dir():
-            if ctx.get('verbose'):
-                log.info(
-                    "Running script: <35>{name}\n<90>{bar}<0>\n{script}\n<90>{bar}",
-                    name=self.name,
-                    bar='-' * 80,
-                    script=shell.highlight(cmd, 'bash'),
-                )
-            return shell.run(cmd)
-
-    def register(self, cli_group):
-        # type: (click.Group) -> None
-        """ Register the script with click. """
-        @pretend_option
-        @verbose_option
-        @click.pass_context
-        def script_command(ctx, **options):  # pylint: disable=missing-docstring
-            self.run(click_ctx=ctx, options=options)
-
-        script_command.__doc__ = self.about
-
-        if self.accept_files:
-            script_command = files_options(script_command)
-
-        cli_group.command(self.name)(script_command)
 
 
 def _build_template_context(script, ctx, options, conf, click_ctx, gitignore):
@@ -254,47 +128,48 @@ def collect_files(paths, exclude, skip_untracked, commit_only):
     ))
 
 
-def files_options(fn):
-    """ Decorate command with options that allow passing and filtering files. """
-    fn = click.option(
-        '-e', '--exclude',
-        multiple=True,
-        metavar='PATTERN',
-        help=(
-            "Specify patterns to exclude from linting. For multiple patterns, "
-            "use the --exclude option multiple times"
-        )
-    )(fn)
-    fn = click.option(
-        '-i', '--include',
-        multiple=True,
-        metavar='PATTERN',
-        help=(
-            "Specify patterns to include from linting. For multiple patterns, "
-            "use the --include option multiple times. This is a white list "
-            "filter."
-        )
-    )(fn)
-    fn = click.option(
-        '--skip-untracked',
-        is_flag=True,
-        help="Also include files not tracked by git."
-    )(fn)
-    fn = click.option(
-        '--commit', 'commit_only',
-        is_flag=True,
-        help=(
-            "Only lint files staged for commit. Useful if you want to clean up "
-            "a large code base one commit at a time."
-        )
-    )(fn)
-    fn = click.argument(
-        'paths',
-        type=click.Path(exists=True),
-        nargs=-1,
-    )(fn)
-    return fn
+def run_script(script, click_ctx, options):
+    # type: (Script, click.Context, Dict[str, Any]) -> None
+    """ Run the script with the given (command line) options. """
+    import yaml
+    from peltak.core import git
+    from peltak.core import shell
+    from peltak.core.context import GlobalContext
+
+    ctx = GlobalContext()
+    template_ctx = _build_template_context(
+        script,
+        ctx=ctx,
+        options=options,
+        conf=conf,
+        click_ctx=click_ctx,
+        gitignore=git.ignore(),
+    )
+
+    if ctx.get('verbose') > 1:
+        log.info('Compiling script <35>{name}\n{script}'.format(
+            name=script.name,
+            script=shell.highlight(script.command, 'jinja')
+        ))
+        log.info('with context:\n{}\n'.format(
+            shell.highlight(yaml.dump(template_ctx), 'yaml')
+        ))
+
+    if _j2_env is None:
+        init_jinja2()
+
+    cmd = _j2_env.from_string(script.command).render(template_ctx)
+
+    with conf.within_proj_dir():
+        if ctx.get('verbose'):
+            log.info(
+                "Running script: <35>{name}\n<90>{bar}<0>\n{script}\n<90>{bar}",
+                name=script.name,
+                bar='-' * 80,
+                script=shell.highlight(cmd, 'bash'),
+            )
+        return shell.run(cmd)
 
 
 # Used only in type hint comments.
-del Dict
+del Dict, Any, List, click, Script

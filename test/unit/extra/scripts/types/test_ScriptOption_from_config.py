@@ -7,7 +7,7 @@ import pytest
 
 
 # local imports
-from peltak.extra.scripts.logic import ScriptOption
+from peltak.extra.scripts.types import ScriptOption
 
 
 @pytest.fixture()
