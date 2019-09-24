@@ -16,7 +16,8 @@
 """ Types and classes used by ``peltak.extra.scripts``. """
 
 # stdlib imports
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Type
+from types import FunctionType
 
 # 3rd party imports
 import attr
@@ -37,6 +38,8 @@ class ScriptOption(object):
     default = attr.ib(type=Any, default=None)
     about = attr.ib(type=str, default='')
     is_flag = attr.ib(type=bool, default=False)
+    count = attr.ib(type=bool, default=False)
+    type = attr.ib(type=Type, default=str)
 
     @classmethod
     def from_config(cls, option_conf):
@@ -52,11 +55,29 @@ class ScriptOption(object):
             # Support passing name: ['--opt'] or name: '--opt'
             name = [name]
 
+        # Convert string type to an initializer for that type.
+        if 'type' not in option_conf:
+            opt_type_cls = fields.type.default
+        else:
+            opt_type = option_conf.get('type')
+            opt_type_cls = {
+                'str': str,
+                'int': int,
+                'float': float,
+            }.get(opt_type)
+
+            if not opt_type_cls:
+                raise ValueError("Unsupported {} option type {}".format(
+                    name, opt_type
+                ))
+
         return cls(
             name=name,
             default=option_conf.get('default', fields.default.default),
             about=option_conf.get('about', fields.about.default),
-            is_flag=option_conf.get('is_flag', fields.is_flag.default)
+            is_flag=option_conf.get('is_flag', fields.is_flag.default),
+            count=option_conf.get('count', fields.count.default),
+            type=opt_type_cls,
         )
 
 
@@ -166,12 +187,14 @@ class Script(object):
             fields.success_exit_codes.default.factory()
         )
 
+        # Parse 'files' section if it's present
         if 'files' in script_conf:
             files = ScriptFiles.from_config(script_conf['files'])
 
         if isinstance(success_exit_codes, int):
             success_exit_codes = [success_exit_codes]
 
+        # Cannot have a script without a 'command'.
         if 'command' not in script_conf:
             raise ValueError("Missing 'command' for '{}' script".format(name))
 
@@ -197,4 +220,23 @@ class Script(object):
 
         script_command.__doc__ = self.about
 
+        # Add all option definitions to the generated click command.
+        for option in self.options:
+            script_command = self._add_option(script_command, option)
+
         cli_group.command(self.name)(script_command)
+
+    def _add_option(self, cmd_fn, option):
+        # type: (FunctionType, ScriptOption) -> FunctionType
+        return click.option(
+            *option.name,
+            is_flag=option.is_flag,
+            default=option.default,
+            help=option.about,
+            count=option.count,
+            type=option.type,
+        )(cmd_fn)
+
+
+# Used only in type hint comments
+del FunctionType

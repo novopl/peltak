@@ -7,7 +7,7 @@ import pytest
 
 
 # local imports
-from peltak.extra.scripts.types import Script, ScriptFiles
+from peltak.extra.scripts.types import Script, ScriptOption, ScriptFiles
 
 
 def test_works():
@@ -18,6 +18,13 @@ def test_works():
         'files': {
             'paths': ['src'],
         },
+        'options': [
+            {
+                'name': ['-f', '--force'],
+                'about': 'Force something',
+                'is_flag': True,
+            }
+        ],
     })
 
     assert script.name == 'test'
@@ -27,6 +34,14 @@ def test_works():
 
     assert isinstance(script.files, ScriptFiles)
     assert script.files.paths == ['src']
+
+    assert isinstance(script.options, list)
+    assert len(script.options) == 1
+    assert isinstance(script.options[0], ScriptOption)
+    assert script.options[0].name == ['-f', '--force']
+    assert script.options[0].about == "Force something"
+    assert script.options[0].is_flag is True
+    assert script.options[0].default is None
 
 
 def test_works_with_just_name_and_command():

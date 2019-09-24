@@ -86,7 +86,20 @@ And you can run this command with:
 Debugging your script
 ~~~~~~~~~~~~~~~~~~~~~
 
+**peltak** provides a few helpers to ease the process of creating custom
+project scripts. The first one is the ``--pretend`` option. Providing it when
+invoking your script will cause **peltak** to render the compiled template
+script instead of running it. This allows you to see exactly what command would
+be executed.
 
+The second one is the ``-v``, ``--verbose`` flag. With verbosity level 2 (``-vv``)
+**peltak** will render the full script template context as a highlighted YAML.
+This makes it very easy to see exactly what values are available in the template
+context of your project.
+
+Combining ``--pretend`` with ``-vv`` will show you the full template context
+followed by a compiled command without executing anything. This is perfect when
+you're working on your script and are afraid you might break something.
 
 
 Multiline and multi statement commands
@@ -158,39 +171,6 @@ access config through ``{{ conf.VALUE }}`` expression. This makes managing the
 project much easier as `pelconf.yaml` can serve as a config store for all
 scripts and changing any of those values will work right away with all scripts
 that use it.
-
-Using jinja filters
-~~~~~~~~~~~~~~~~~~~
-
-Let's suppose you have a scripts that runs pytest over your project and you want
-to pass the verbosity flag down to the pytest command. The verbosity option
-can be accessed with ``{{ opts.verbose }}`` but it is an ``int`` so we need
-to somehow convert it to the appropriate flag ``-v``, or ``-vv`` etc. Thankfully
-peltak already implements a filter to do just that, it's called ``count_flag``
-and will convert a given number **N** to a flag that has the given letter appear
-**N** times. Here's a quick example.
-
-
-.. code-block:: yaml
-
-    scripts:
-        test:
-            about: Run tests with pytest
-            command: |
-                pytest {{ opts.verbose | count_flag('v') }} {{ conf.src_dir }}
-
-This will result in the following command being invoked:
-
-.. code-block:: bash
-
-    peltak run test
-    # will result in: pytest src
-
-    peltak run test -v
-    # will result in: pytest src -v
-
-    peltak run test -vv
-    # will result in: pytest src -vv
 
 You can find out more in `/reference/script_filters`
 

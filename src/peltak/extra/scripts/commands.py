@@ -90,7 +90,7 @@ Example
 from __future__ import absolute_import
 
 # local imports
-from peltak.commands import root_cli, pretend_option
+from peltak.commands import root_cli
 from peltak.core import hooks
 from peltak.core import util
 from peltak.core import conf

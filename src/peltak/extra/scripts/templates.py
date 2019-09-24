@@ -22,6 +22,39 @@ Script template reference
     :synopsis: Script template reference
 
 
+Using jinja filters
+~~~~~~~~~~~~~~~~~~~
+
+Let's suppose you have a scripts that runs pytest over your project and you want
+to pass the verbosity flag down to the pytest command. The verbosity option
+can be accessed with ``{{ opts.verbose }}`` but it is an ``int`` so we need
+to somehow convert it to the appropriate flag ``-v``, or ``-vv`` etc. Thankfully
+peltak already implements a filter to do just that, it's called ``count_flag``
+and will convert a given number **N** to a flag that has the given letter appear
+**N** times. Here's a quick example.
+
+
+.. code-block:: yaml
+
+    scripts:
+        test:
+            about: Run tests with pytest
+            command: |
+                pytest {{ opts.verbose | count_flag('v') }} {{ conf.src_dir }}
+
+This will result in the following command being invoked:
+
+.. code-block:: bash
+
+    peltak run test
+    # will result in: pytest src
+
+    peltak run test -v
+    # will result in: pytest src -v
+
+    peltak run test -vv
+    # will result in: pytest src -vv
+
 Template context
 ================
 
