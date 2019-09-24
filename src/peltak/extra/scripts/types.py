@@ -188,8 +188,8 @@ class Script(object):
     def register(self, cli_group):
         # type: (click.Group) -> None
         """ Register the script with click. """
-        @pretend_option
         @verbose_option
+        @pretend_option
         @click.pass_context
         def script_command(ctx, **options):  # pylint: disable=missing-docstring
             from .logic import run_script

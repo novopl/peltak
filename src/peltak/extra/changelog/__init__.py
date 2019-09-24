@@ -14,10 +14,9 @@
 # limitations under the License.
 #
 """
-
-###############################################################
-``peltak changelog`` - Auto-generate changelog from git history
-###############################################################
+########################################
+Auto-generate changelog from git history
+########################################
 
 Overview
 ========

@@ -13,7 +13,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-""" Commands for building and pushing the app image.
+"""
+#################
+``peltak docker``
+#################
+
+Commands for building and pushing the app image.
 
 This is mainly for web apps that are deployed with docker.
 """

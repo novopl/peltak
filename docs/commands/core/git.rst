@@ -1,0 +1,1 @@
+.. automodule:: peltak.commands.git

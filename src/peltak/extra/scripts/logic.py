@@ -32,6 +32,7 @@ from peltak.core import log
 from peltak.core import fs
 from peltak.core import shell
 from peltak.core.context import GlobalContext
+from . import filters
 from .types import CliOptions, Script
 from .templates import TemplateEngine
 
@@ -101,6 +102,7 @@ def _build_template_context(script, options):
         'conf': conf.g_config,
         'ctx': ctx.values,
         'proj_path': conf.proj_path,
+        'cprint': filters.cprint,
     }
 
     if script.files:

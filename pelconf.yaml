@@ -32,49 +32,54 @@ docker:
   registry: docker.novocode.net
 
 
-# Configure linting tools and paths
-lint:
-  tools:
-    - pep8
-    - pylint
-  paths:
-    - src/peltak
-    - src/peltak_appengine
-    - src/peltak_django
-    - test/unit
-
-
-# Configure how documentation is generated (src files for reference docs, etc).
-docs:
-  reference:
-    - src/peltak
-
-# Tests configuration
-test:
-  types:
-    default:
-      paths:
-        - test/unit
-
-
 # Custom scripts
 scripts:
-  build-docs:
-    about: Generate sphinx documentation
+  type-check:
+    about: Run static type checks.
+    files:
+      paths: src/peltak
+      include: "*.py"
     command: |
-      sphinx-refdoc  \
-          -i {{ conf.src_path }} \
-          {{ opts.verbose | count_flag('v') }} \
-          -o docs/ref; \
-          \
-      sphinx-build \
-          -b html \
-          -d {{ conf.build_dir }}/docs \
-          docs docs/html
+      {{ 'mypy' | header }}
+      mypy {{ files | wrap_paths }}
 
-  unit-tests:
+  lint:
+    about: Run all linters (pep8, pylint).
+    files:
+      paths: ['src/peltak', 'test/unit']
+      include: "*.py"
+    command: |
+
+      set -e
+      {{ 'pep8' | header }}
+      pipenv run pep8 --config ops/tools/pep8.ini {{ files | wrap_paths }};
+
+      {{ 'pylint' | header }}
+      pipenv run pylint --rcfile ops/tools/pylint.ini {{ files | wrap_paths }};
+
+  checks:
+    about: Run all checks (types, pep8, code style)
+    files:
+      paths:
+        - src/peltak
+        - test/unit
+      include: "*.py"
+    command: |
+      set -e
+
+      {{ 'mypy' | header }}
+      pipenv run mypy {{ files | wrap_paths }};
+
+      {{ 'pep8' | header }}
+      pipenv run pep8 --config ops/tools/pep8.ini {{ files | wrap_paths }};
+
+      {{ 'pylint' | header }}
+      pipenv run pylint --rcfile ops/tools/pylint.ini {{ files | wrap_paths }};
+
+  tests:
     about: Run unit tests
-    command: pytest \
+    command: |
+      pytest \
           -c ops/tools/pytest.ini \
           --cov-config=ops/tools/coverage.ini \
           --cov={{ conf.src_path }} \
@@ -82,15 +87,52 @@ scripts:
           --cov-report=html:{{ conf.build_dir }}/coverage \
           test/unit
 
-  checks:
-    about: Run checks on the code base
-    accept_files: true
+  cov-core:
+    about: Generate coverage report for peltak.core
     command: |
-      echo "{{ 'mypy' | section }}"
-      pipenv run mypy {{ files | wrap_paths }};
+      pytest \
+          -c ops/tools/pytest.ini \
+          --cov-config=ops/tools/coverage.ini \
+          --cov={{ conf.src_path }}/core \
+          --cov-report=term \
+          --cov-report=html:{{ conf.build_dir }}/coverage/core \
+          test/unit
 
-      echo "{{ 'pep8' | section }}"
-      pipenv run pep8 --config ops/tools/pep8.ini {{ files | wrap_paths }};
+      {% set cov_path = proj_path(conf.build_dir, 'coverage/core/index.html') %}
+      {{ cprint('<32>HTML report: <34>file://{}', cov_path) }}
 
-      echo "{{ 'pylint' | section }}"
-      pipenv run pylint --rcfile ops/tools/pylint.ini {{ opts.paths | wrap_paths }};
+  cov-extra:
+    about: Generate coverage report for peltak.extra
+    command: |
+      pytest \
+          -c ops/tools/pytest.ini \
+          --cov-config=ops/tools/coverage.ini \
+          --cov={{ conf.src_path }}/extra \
+          --cov-report=term \
+          --cov-report=html:{{ conf.build_dir }}/coverage/extra \
+          test/unit
+
+      {% set cov_path = proj_path(conf.build_dir, 'coverage/extra/index.html') %}
+      {{ cprint('<32>HTML report: <34>file://{}', cov_path) }}
+
+  cov-scripts:
+    about: Generate coverage report for peltak.extra.scripts
+    command: |
+      pytest \
+          -c ops/tools/pytest.ini \
+          --cov-config=ops/tools/coverage.ini \
+          --cov={{ conf.src_path }}/extra/scripts \
+          --cov-report=term \
+          --cov-report=html:{{ conf.build_dir }}/coverage/scripts \
+          test/unit
+
+      {% set cov_path = proj_path(conf.build_dir, 'coverage/scripts/index.html') %}
+      {{ cprint('<32>HTML report: <34>file://{}', cov_path) }}
+
+  docs:
+    about: Generate sphinx documentation
+    command: |
+      sphinx-build \
+          -b html \
+          -d {{ conf.build_dir }}/docs \
+          docs docs/html

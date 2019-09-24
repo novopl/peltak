@@ -11,7 +11,14 @@ to `peltak`_.
 
     contrib
     flows
-    Code Reference <../ref/peltak/index>
+
+
+Reference
+=========
+
+* :ref:`List of python modules <modindex>`
+* :ref:`genindex`
+* :ref:`search`
 
 
 .. _peltak: https://github.com/novopl/peltak

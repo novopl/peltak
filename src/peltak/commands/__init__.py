@@ -85,7 +85,7 @@ def pretend_option(fn):
     return click.option(
         '--pretend',
         is_flag=True,
-        help=("Do not actually do anything, just print shell commands that"
+        help=("Do not actually do anything, just print shell commands that "
               "would be executed."),
         expose_value=False,
         callback=set_pretend

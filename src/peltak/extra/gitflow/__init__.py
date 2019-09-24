@@ -14,10 +14,9 @@
 # limitations under the License.
 #
 """
-
-########################################################
-``peltak feature/task/release`` - **git-flow** made easy
-########################################################
+##################################
+**git-flow** made easy with peltak
+##################################
 
 The improvement over raw git-flow is that you will have to type way less. Most
 of the time all the branch names required will be filled in.

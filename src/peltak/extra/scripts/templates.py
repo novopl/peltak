@@ -21,10 +21,39 @@ Script template reference
 .. module: peltak.extra.scripts.templates
     :synopsis: Script template reference
 
+
 Template context
 ================
 
-.. automodule:: peltak.extra.scripts.filters
+Peltak will inject the following context into the template.
+
+================== ================================================================
+ Name               Description
+------------------ ----------------------------------------------------------------
+ ``conf``           | The entire configuration object. This is the dictionary
+                    | representation of `pelconf.yaml` and makes it easy to acess
+                    | any global configuration values from within a script.
+ ``opts``           | Script command line options. This will contains all command
+                    | line options the script was called with.
+ ``script``         | The script configuration as read from `pelconf.yaml`.
+                    | This will only contain the configuration for the currently
+                    | running script, not the entire **scripts:** section.
+ ``ctx``            | Current runtime context. This is a value store that exists
+                    | only when peltak is running and is recreated on every run.
+                    | This is a way to share runtime information between commands
+                    | (things like **verbosity** or **pretend**).
+ ``proj_path``      | A helper function. Given any project relative path (relative
+                    | to `pelconf.yaml`) it will convert it to an absolute path.
+================== ================================================================
+
+On top of all the values in the context, you can also use
+`/reference/script_filters`.
+
+
+Dev Reference
+=============
+
+.. autoclass:: peltak.extra.scripts.templates.TemplateEngine
     :members:
 
 """
@@ -42,8 +71,23 @@ from . import filters
 class TemplateEngine(util.Singleton):
     """ Template engine wrapper.
 
-    This class hides all jinja2 internals and exposes a simple and consistent
-    API to work with templates.
+    TemplateEngine is a singleton, which means there is always a single instance
+    in existence during the app run. You can access this instance by calling
+    the class initializer:
+
+    >>> from peltak.extra.scripts.templates import TemplateEngine
+    >>>
+    >>> engine = TemplateEngine()
+
+
+    Only on first call will the class be actually constructed, all following
+    calls will return the same instance:
+
+    >>> from peltak.extra.scripts.templates import TemplateEngine
+    >>>
+    >>> TemplateEngine() is TemplateEngine()
+    True
+
     """
     def __init__(self):
         if not self._singleton_initialized:
@@ -52,7 +96,16 @@ class TemplateEngine(util.Singleton):
 
     def render(self, template_str, template_ctx):
         # type: (str, Dict[str, Any]) -> str
-        """ Render the given template. """
+        """ Render a script template using the given context.
+
+        Examples:
+
+            >>> from peltak.extra.scripts.templates import TemplateEngine
+            >>>
+            >>> TemplateEngine().render("{{ msg | upper }}", {'msg': 'hello'})
+            'HELLO'
+
+        """
         return self.env.from_string(template_str).render(template_ctx)
 
     def _make_env(self):
@@ -66,6 +119,7 @@ class TemplateEngine(util.Singleton):
         env.filters['wrap_paths'] = fs.wrap_paths
         env.filters['header'] = filters.header
         env.filters['count_flag'] = filters.count_flag
+        env.filters['cprint'] = filters.cprint
 
         return env
 

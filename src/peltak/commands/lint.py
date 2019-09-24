@@ -13,7 +13,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-""" Code linting commands. """
+"""
+###############
+``peltak lint``
+###############
+
+Code linting commands.
+"""
 from __future__ import absolute_import
 
 from typing import List

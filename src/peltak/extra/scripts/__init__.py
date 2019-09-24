@@ -37,6 +37,31 @@ You need to specify it in your **commands:** section in `pelconf.yaml`:
         - peltak.extra.scripts
 
 
+Get a list of scripts available in the project
+==============================================
+
+To get a list of all scripts that are defined in `pelconf.yaml` you only need
+to run the ``peltak run`` command without any arguments. Here's an example from
+the **peltak** project itself (at the time of writing)::
+
+    $ peltak run
+    Usage: peltak run [OPTIONS] COMMAND [ARGS]...
+
+      Run custom scripts
+
+    Options:
+      --help  Show this message and exit.
+
+    Commands:
+      checks       Run all checks (types, pep8, code style)
+      cov-core     Generate coverage report for peltak.core
+      cov-extra    Generate coverage report for peltak.extra
+      cov-scripts  Generate coverage report for peltak.extra.scripts
+      docs         Generate sphinx documentation
+      tests        Run unit tests
+      type-check   Run static type checks
+
+
 Defining a script
 =================
 
@@ -56,6 +81,12 @@ And you can run this command with:
 .. code-block:: bash
 
     peltak run test
+
+
+Debugging your script
+~~~~~~~~~~~~~~~~~~~~~
+
+
 
 
 Multiline and multi statement commands
@@ -88,7 +119,7 @@ The scripts module was designed to parse the commands as templates and inject
 and some helper filters to generate the actual command.
 
 If you want to more details about templating in scripts, you can read
-`/guides/reference/script_templates`.
+`/reference/script_templates`.
 
 .. note::
     Scripts templating is very simple. It should be used only for simple
@@ -160,6 +191,8 @@ This will result in the following command being invoked:
 
     peltak run test -vv
     # will result in: pytest src -vv
+
+You can find out more in `/reference/script_filters`
 
 """
 from .commands import run_cli

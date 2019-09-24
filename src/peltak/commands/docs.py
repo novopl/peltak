@@ -14,6 +14,10 @@
 # limitations under the License.
 #
 """
+###############
+``peltak docs``
+###############
+
 Various commands that do not fit another category but there's not enough of them
 to justify a separate module.
 """

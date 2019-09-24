@@ -1,14 +1,27 @@
 # -*- coding: utf-8 -*-
 """
+.. module:: peltak.extra.scripts.filters
+    :synopsis: Built-in script template filters
+
 ################################
 Built-in script template filters
 ################################
 
-All filters provided by jinja2 (list `here
-<https://jinja.palletsprojects.com/en/2.10.x/templates/#list-of-builtin-filters>`_).
+Built-in jinja2 filters
+=======================
 
-.. module:: peltak.extra.scripts.filters
-    :synopsis: Built-in script template filters
+You can find the list of all filters built into jinja2 in `jinja2 documentation`_
+
+Filters provided by peltak
+==========================
+
+.. autofunction:: header
+.. autofunction:: count_flag
+.. autofunction:: cprint
+
+
+.. _jinja2 documentation:
+    https://jinja.palletsprojects.com/en/2.10.x/templates/#list-of-builtin-filters
 
 """
 from __future__ import absolute_import, unicode_literals
@@ -34,7 +47,7 @@ def header(title):
     The resulting string will be colored for printing in the terminal.
     """
     remaining = 80 - len(title) - 3
-    return shell.fmt('<32>= <35>{title} <32>{bar}<0>',
+    return shell.fmt('echo "<32>= <35>{title} <32>{bar}<0>"',
                      title=title,
                      bar='=' * remaining)
 
@@ -47,11 +60,52 @@ def count_flag(count, flag):
 
     .. code-block:: django
 
-        {{ 3 | count_flag('v') }}
+        {{ set verbose = 3 }}
+        {{ verbose | count_flag('v') }}
 
     will result in::
 
         -vvv
 
+    In the above example, if ``verbose`` is ``0`` the result of this filter will
+    be an empty string.
     """
     return '-' + flag * count if count else ''
+
+
+def cprint(msg, *args, **kw):
+    """ Will convert the given message to an echo statement with color opcodes.
+
+    This supports the same syntax as `shell.fmt` (used internally here). The
+    color processing will replace any tag like object in format ``<NUMBER>``
+    into a corresponding opcode. Here's a quick cheatsheet on some of the more
+    usefull opcodes
+
+    ========== =================================================================
+     Tag        Description
+    ---------- -----------------------------------------------------------------
+     ``<0>``    Reset all formatting to default values.
+     ``<1>``    Intensify current color (will affect all other color opcodes).
+     ``<31>``   Set text color to red.
+     ``<32>``   Set text color to green.
+     ``<33>``   Set text color to yellow.
+     ``<34>``   Set text color to blue.
+     ``<35>``   Set text color to pink.
+     ``<35>``   Set text color to teal.
+    ========== =================================================================
+
+    **Usage:**
+
+    .. code-block:: django
+
+        {{ '<35>hello, <32>world' | cprint }}
+
+    will result in the following string::
+
+        \\x1b[35mhello, \\x1b[32mworld\\x1b[0m
+
+    Which inside a terminal will be rendered as *hello* in ping and world in
+    green.
+
+    """
+    return shell.fmt('echo "{}"<0>', msg.format(*args, **kw))

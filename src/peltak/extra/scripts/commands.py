@@ -98,7 +98,6 @@ from .types import Script
 
 
 @root_cli.group('run')
-@pretend_option
 @util.mark_experimental
 def run_cli():
     # type: () -> None
