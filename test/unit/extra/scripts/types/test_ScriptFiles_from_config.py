@@ -39,3 +39,25 @@ def test_works_with_only_paths_defined():
 def test_raises_ValueError_if_command_is_not_defined():
     with pytest.raises(ValueError):
         ScriptFiles.from_config({})
+
+
+def test_can_specify_a_single_path_as_just_a_string():
+    files = ScriptFiles.from_config(dict(paths='src'))
+
+    assert files.paths == ['src']
+
+
+def test_can_specify_single_include_path_as_just_a_string():
+    files = ScriptFiles.from_config(dict(
+        paths='src',
+        include='*.py'
+    ))
+    assert files.include == ['*.py']
+
+
+def test_can_specify_single_exclude_path_as_just_a_string():
+    files = ScriptFiles.from_config(dict(
+        paths='src',
+        exclude='*.pyc'
+    ))
+    assert files.exclude == ['*.pyc']

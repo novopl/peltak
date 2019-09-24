@@ -75,10 +75,11 @@ class ScriptFiles(object):
     include or not files untracked by git).
     """
     paths = attr.ib(type=bool)
-    exclude = attr.ib(type=List[str], factory=list)
     include = attr.ib(type=List[str], factory=list)
+    exclude = attr.ib(type=List[str], factory=list)
     commit = attr.ib(type=bool, default=False)
     untracked = attr.ib(type=bool, default=True)
+    use_gitignore = attr.ib(type=bool, default=True)
 
     @classmethod
     def from_config(cls, files_conf):
@@ -86,16 +87,25 @@ class ScriptFiles(object):
         """ Load the script files config from `pelconf.yaml` """
         paths = files_conf.get('paths')
         fields = attr.fields(cls)
+        include = files_conf.get('include', fields.include.default.factory())
+        exclude = files_conf.get('exclude', fields.exclude.default.factory())
 
         if not paths:
             raise ValueError("You must define the name of the option")
 
+        # A string value is the same as one element array.
+        paths = [paths] if isinstance(paths, string_types) else paths
+        include = [include] if isinstance(include, string_types) else include
+        exclude = [exclude] if isinstance(exclude, string_types) else exclude
+
         return cls(
             paths=paths,
-            exclude=files_conf.get('exclude', fields.exclude.default.factory()),
-            include=files_conf.get('include', fields.include.default.factory()),
+            include=include,
+            exclude=exclude,
             commit=files_conf.get('commit', fields.commit.default),
             untracked=files_conf.get('untracked', fields.untracked.default),
+            use_gitignore=files_conf.get('use_gitignore',
+                                         fields.use_gitignore.default),
         )
 
     def whitelist(self):
@@ -107,8 +117,6 @@ class ScriptFiles(object):
 
         if self.commit:
             include += ['*' + f for f in git.staged()]
-        else:
-            include += ['*']
 
         return include
 
@@ -120,7 +128,7 @@ class ScriptFiles(object):
         exclude = list(self.exclude)
 
         # prepare
-        if self.commit:
+        if self.use_gitignore:
             exclude += git.ignore()
 
         if not self.untracked:

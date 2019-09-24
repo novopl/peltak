@@ -20,6 +20,7 @@ import itertools
 from typing import Any, Dict, List
 
 # 3rd party imports
+import attr
 import yaml
 
 # local imports
@@ -41,7 +42,7 @@ def run_script(script, options):
     """ Run the script with the given (command line) options. """
     template_ctx = _build_template_context(script, options)
 
-    if ctx.get('verbose') > 1:
+    if ctx.get('verbose'):
         log.info('Compiling script <35>{name}\n{script}'.format(
             name=script.name,
             script=shell.highlight(script.command, 'jinja')
@@ -52,15 +53,16 @@ def run_script(script, options):
 
     cmd = TemplateEngine().render(script.command, template_ctx)
 
-    with conf.within_proj_dir():
-        if ctx.get('verbose'):
-            log.info(
-                "Running script: <35>{name}\n<90>{bar}<0>\n{script}\n<90>{bar}",
-                name=script.name,
-                bar='-' * 80,
-                script=shell.highlight(cmd, 'bash'),
-            )
-        return shell.run(cmd).retcode
+    if not ctx.get('pretend'):
+        with conf.within_proj_dir():
+            return shell.run(cmd).return_code
+    else:
+        log.info(
+            "Would run script: <35>{name}\n<90>{bar}<0>\n{script}\n<90>{bar}",
+            name=script.name,
+            bar='=' * 80,
+            script=shell.highlight(cmd, 'bash'),
+        )
 
 
 def _build_template_context(script, options):
@@ -75,6 +77,7 @@ def _build_template_context(script, options):
             pretend=ctx.get('pretend'),
             **options
         ),
+        'script': attr.asdict(script),
         'conf': conf.g_config,
         'ctx': ctx.values,
         'proj_path': conf.proj_path,
