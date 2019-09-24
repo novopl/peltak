@@ -14,15 +14,18 @@
 # limitations under the License.
 #
 """
-########################
-Command/script templates
-########################
+#########################
+Script template reference
+#########################
+
+.. module: peltak.extra.scripts.templates
+    :synopsis: Script template reference
 
 Template context
 ================
 
-Built-in filters
-================
+.. automodule:: peltak.extra.scripts.filters
+    :members:
 
 """
 from typing import Any, Dict
@@ -32,8 +35,8 @@ import jinja2
 
 # local imports
 from peltak.core import fs
-from peltak.core import shell
 from peltak.core import util
+from . import filters
 
 
 class TemplateEngine(util.Singleton):
@@ -61,30 +64,10 @@ class TemplateEngine(util.Singleton):
         )
 
         env.filters['wrap_paths'] = fs.wrap_paths
-        env.filters['header'] = self.header_filter
-        env.filters['count_flag'] = self.count_flag_filter
+        env.filters['header'] = filters.header
+        env.filters['count_flag'] = filters.count_flag
 
         return env
-
-    def header_filter(self, title):
-        # type: (str) -> str
-        """ Converts a given title into a pretty header with colors.
-
-        Converts a given string to::
-
-            = {title} ==============================================
-
-        The resulting string will be colored for printing in the terminal.
-        """
-        remaining = 80 - len(title) - 3
-        return shell.fmt('<32>= <35>{title} <32>{bar}<0>',
-                         title=title,
-                         bar='=' * remaining)
-
-    def count_flag_filter(self, count, flag):
-        # type: (int, str) -> str
-        """ Returns the given flag letter as a count flag. """
-        return '-' + flag * count if count else ''
 
 
 # Used only in type hint comments.

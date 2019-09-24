@@ -14,10 +14,12 @@
 # limitations under the License.
 #
 """
-
 ######################
 Custom project scripts
 ######################
+
+.. module: peltak.extra.scripts
+    :synopsis: Custom project scripts
 
 **peltak** supports defining simple scripts directly inside `pelconf.yaml`. On
 top of just defining the command, by default the command is processed by jinja
