@@ -60,7 +60,7 @@ class patch_proj_root(object):
 
 
 def patch_pelconf(config):
-    # type: (Dict[str, Any]) -> FunctionType
+    # type: (Dict[str, Any]) -> Any
     """ Patch the peltak configuration.
 
     This will patch all content retrieved through `peltak.core.conf.get()` and
@@ -137,7 +137,7 @@ def mock_result(stdout=None, retcode=None, stderr=None, cmd=None):
 
 
 def patch_run(stdout=None, retcode=None, stderr=None, cmd=None):
-    # type: (str, int, str, str) -> FunctionType
+    # type: (str, int, str, str) -> Any
     """ Patch shell.run and make it return a given result.
 
     Args:

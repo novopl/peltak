@@ -17,7 +17,10 @@
 from __future__ import absolute_import, unicode_literals
 
 # stdlib imports
-from typing import Any, Iterator, List, Tuple
+from typing import Any, Iterator, List, Tuple, Union
+
+# 3rd party imports
+import requests
 
 
 class RegistryClient(object):
@@ -40,14 +43,13 @@ class RegistryClient(object):
         self.registry_url = 'https://' + registry   # type: str
 
     def get(self, *args, **kw):
-        # type: (*Any, *Any) -> requests.Response
+        # type: (*Any, **Any) -> requests.Response
         """ Proxy over requests.get
 
         Do not include requests globally so it's not required to build and
         push images. Otherwise, the project needs to install requests even
         when not using registry in any way.
         """
-        import requests
         return requests.get(*args, **kw)
 
     def list_images(self):
@@ -61,7 +63,7 @@ class RegistryClient(object):
         return r.json()['repositories']
 
     def list_tags(self, image_name):
-        # type: (str) -> Iterator[str]
+        # type: (str) -> Union[Iterator[str], List[str]]
         """ List all tags for the given image stored in the registry.
 
         Args:
@@ -83,4 +85,4 @@ class RegistryClient(object):
 
 
 # Used in docstrings only until we drop python2 support
-del Any, Iterator, List, Tuple
+del Any, Iterator, List, Tuple, Union

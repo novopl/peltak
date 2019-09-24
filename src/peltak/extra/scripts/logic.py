@@ -52,9 +52,8 @@ def run_script(script, options):
             name=script.name,
             script=shell.highlight(script.command, 'jinja')
         ))
-        log.info('with context:\n{}\n'.format(
-            shell.highlight(yaml.dump(template_ctx), 'yaml')
-        ))
+        yaml_str = yaml.dump(template_ctx, default_flow_style=False)
+        log.info('with context:\n{}\n'.format(shell.highlight(yaml_str, 'yaml')))
 
     cmd = TemplateEngine().render(script.command, template_ctx)
 

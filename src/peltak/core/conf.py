@@ -24,7 +24,7 @@ import os.path
 import sys
 from contextlib import contextmanager
 from types import ModuleType
-from typing import Any, Dict, Optional, Text, Union
+from typing import Any, Dict, Iterator, List, Optional, Text, Union
 
 # local imports
 from peltak import PKG_DIR
@@ -33,8 +33,8 @@ from . import hooks
 
 
 PROJ_CONF_FILE = 'pelconf.py'
-requirements = []
-g_config = {}
+requirements = []       # type: List[str]
+g_config = {}           # type: Dict[str, Any]
 
 
 def command_requirements(*dependencies):
@@ -125,7 +125,7 @@ def load_yaml_config(conf_file):
 
     with open(conf_file) as fp:
         # Initialize config
-        g_config = util.yaml_load(fp)
+        g_config = util.yaml_load(fp)       # type: ignore
 
         # Add src_dir to sys.paths if it's set. This is only done with YAML
         # configs, py configs have to do this manually.
@@ -171,7 +171,7 @@ def getenv(name, default=None):
 
 
 def proj_path(*path_parts):
-    # type: (str) -> str
+    # type: (*str) -> str
     """ Return absolute path to the repo dir (root project directory).
 
     Args:
@@ -181,21 +181,21 @@ def proj_path(*path_parts):
     Returns:
         str: The given path converted to an absolute path.
     """
-    path_parts = path_parts or ['.']
+    parts = list(path_parts) or ['.']
 
     # If path represented by path_parts is absolute, do not modify it.
-    if not os.path.isabs(path_parts[0]):
+    if not os.path.isabs(parts[0]):
         proj_path = _find_proj_root()
 
         if proj_path is not None:
-            path_parts = [proj_path] + list(path_parts)
+            parts = [proj_path] + list(parts)
 
-    return os.path.normpath(os.path.join(*path_parts))
+    return os.path.normpath(os.path.join(*parts))
 
 
 @contextmanager
 def within_proj_dir(path='.'):
-    # type: (Optional[str]) -> str
+    # type: (str) -> Iterator[None]
     """ Return an absolute path to the given project relative path.
 
     :param path:
@@ -303,4 +303,4 @@ def _find_proj_root():
 
 
 # Used in type hint comments only (until we drop python2 support)
-del Any, Dict, Optional, Union, Text, ModuleType
+del Any, Dict, Iterator, List, Optional, Union, Text, ModuleType

@@ -124,7 +124,7 @@ def run(cmd,
     options = {
         'bufsize': 1,       # line buffered
         'shell': shell
-    }
+    }   # type: Dict[str, Any]
 
     if exit_on_error is None:
         exit_on_error = not capture
@@ -168,6 +168,7 @@ def run(cmd,
 
     except KeyboardInterrupt:
         p.kill()
+        raise
 
 
 def highlight(code, fmt):

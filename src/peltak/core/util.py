@@ -21,19 +21,31 @@ import re
 import time
 import warnings
 from functools import wraps
-from types import FunctionType
-from typing import Any, Dict, Generator, Iterable, List, Text, TextIO, Union
+from typing import (
+    Any,
+    Callable,
+    Dict,
+    Iterable,
+    Iterator,
+    List,
+    Optional,
+    Text,
+    TextIO,
+    Union
+)
 
 # 3rd party imports
 import yaml
 try:
     from yaml import CLoader as Loader, CDumper as Dumper
 except ImportError:
-    from yaml import Loader, Dumper
+    from yaml import Loader, Dumper     # type: ignore
 
 
 TextOrStream = Union[Text, TextIO]
 YamlData = Union[Dict[Text, Any], List[Any]]
+AnyFunction = Callable[..., Any]
+Decorator = Callable[[AnyFunction], AnyFunction]
 
 
 class timed_block(object):  # noqa
@@ -72,7 +84,7 @@ class timed_block(object):  # noqa
 
 
 def mark_experimental(fn):
-    # type: (FunctionType) -> FunctionType
+    # type: (AnyFunction) -> AnyFunction
     """ Mark function as experimental.
 
     Args:
@@ -93,7 +105,7 @@ def mark_experimental(fn):
 
 
 def mark_deprecated(replaced_by):
-    # type: (Text) -> FunctionType
+    # type: (Text) -> Decorator
     """ Mark command as deprecated.
 
     Args:
@@ -148,7 +160,7 @@ class cached_result(object):
         pass
 
     def __call__(self, fn):
-        # type: (FunctionType) -> FunctionType
+        # type: (AnyFunction) -> AnyFunction
         """ Apply the decorator to the given function.
 
         Args:
@@ -169,7 +181,7 @@ class cached_result(object):
 
     @classmethod
     def clear(cls, fn):
-        # type: (FunctionType) -> None
+        # type: (AnyFunction) -> None
         """ Clear result cache on the given function.
 
         If the function has no cached result, this call will do nothing.
@@ -183,7 +195,7 @@ class cached_result(object):
 
 
 def in_batches(iterable, batch_size):
-    # type: (Iterable[Any]) -> Generator[List[Any]]
+    # type: (Iterable[Any], int) -> Iterator[List[Any]]
     """ Split the given iterable into batches.
 
     Args:
@@ -194,7 +206,7 @@ def in_batches(iterable, batch_size):
             the number of elements cannot be equally divided.
 
     Returns:
-        Generator[list[Any]]: Will yield all items in batches of **batch_size**
+        Iterator[list[Any]]: Will yield all items in batches of **batch_size**
             size.
 
     Example:
@@ -202,7 +214,7 @@ def in_batches(iterable, batch_size):
         >>> from peltak.core import util
         >>>
         >>> batches = util.in_batches([1, 2, 3, 4, 5, 6, 7], 3)
-        >>> batches = list(batches)     # so we can query for lenght
+        >>> batches = list(batches)     # so we can query for length
         >>> len(batches)
         3
         >>> batches
@@ -230,7 +242,7 @@ def yaml_load(str_or_fp):
 
 
 def yaml_dump(data, stream=None):
-    # type: (YamlData, Optional[TextIO]) -> Text
+    # type: (YamlData, Optional[Any]) -> Text
     """ Dump data to a YAML string/file.
 
     Args:
@@ -273,7 +285,7 @@ class Singleton(object):
     Inheriting from this class will make your class a singleton. It should have
     an initializer that takes no arguments.
     """
-    instances = {}
+    instances = {}  # type: Dict[str, Any]
 
     def __new__(cls, *args, **kw):
         # Could upgrade this to thread local storage
@@ -290,4 +302,4 @@ class Singleton(object):
 
 
 # Used in type hint comments only (until we drop python2 support)
-del Any, Dict, FunctionType, Generator, Iterable, List, Text, TextIO, Union
+del Any, Dict, Iterable, List, Text, TextIO, Union, Iterator, Optional

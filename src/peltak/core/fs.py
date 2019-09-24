@@ -23,14 +23,14 @@ import fnmatch
 import os
 import re
 from os.path import isdir, join, normpath
-from typing import List, Generator, Text, Union
+from typing import List, Iterator, Text, Union
 
 # 3rd party imports
 from six import string_types
 
 
 def wrap_paths(paths):
-    # type: (list[str]) -> str
+    # type: (List[str]) -> str
     """ Put quotes around all paths and join them with space in-between. """
     if isinstance(paths, string_types):
         raise ValueError(
@@ -41,7 +41,7 @@ def wrap_paths(paths):
 
 
 def filtered_walk(path, include=None, exclude=None):
-    # type: (str, List[str], List[str]) -> Generator[str]
+    # type: (str, List[str], List[str]) -> Iterator[str]
     """ Walk recursively starting at *path* excluding files matching *exclude*
 
     Args:
@@ -55,7 +55,7 @@ def filtered_walk(path, include=None, exclude=None):
             matches any of those patters, it will be filtered out.
 
     Returns:
-        Generator[str]: A generator yielding all the files that do not match any
+        Iterator[str]: A generator yielding all the files that do not match any
         pattern in ``exclude``.
     """
     exclude = exclude or []
@@ -174,4 +174,4 @@ def write_file(path, content, mode='w'):
 
 
 # Used in type hint comments only (until we drop python2 support)
-del List, Generator, Text, Union
+del List, Iterator, Text, Union

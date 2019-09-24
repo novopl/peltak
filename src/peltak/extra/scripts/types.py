@@ -16,7 +16,7 @@
 """ Types and classes used by ``peltak.extra.scripts``. """
 
 # stdlib imports
-from typing import Any, Dict, List, Type
+from typing import Any, Dict, List, Optional, Type, cast
 from types import FunctionType
 
 # 3rd party imports
@@ -57,18 +57,17 @@ class ScriptOption(object):
 
         # Convert string type to an initializer for that type.
         if 'type' not in option_conf:
-            opt_type_cls = fields.type.default
+            opt_type = fields.type.default
         else:
-            opt_type = option_conf.get('type')
-            opt_type_cls = {
+            opt_type = {
                 'str': str,
                 'int': int,
                 'float': float,
-            }.get(opt_type)
+            }.get(option_conf['type'])
 
-            if not opt_type_cls:
+            if not opt_type:
                 raise ValueError("Unsupported {} option type {}".format(
-                    name, opt_type
+                    name, option_conf['type']
                 ))
 
         return cls(
@@ -76,8 +75,8 @@ class ScriptOption(object):
             default=option_conf.get('default', fields.default.default),
             about=option_conf.get('about', fields.about.default),
             is_flag=option_conf.get('is_flag', fields.is_flag.default),
-            count=option_conf.get('count', fields.count.default),
-            type=opt_type_cls,
+            count=option_conf.get('count', fields.count.default),   # type: ignore
+            type=cast(Type, opt_type),
         )
 
 
@@ -108,8 +107,11 @@ class ScriptFiles(object):
         """ Load the script files config from `pelconf.yaml` """
         paths = files_conf.get('paths')
         fields = attr.fields(cls)
-        include = files_conf.get('include', fields.include.default.factory())
-        exclude = files_conf.get('exclude', fields.exclude.default.factory())
+
+        include = files_conf.get('include',
+                                 fields.include.default.factory())  # type: ignore
+        exclude = files_conf.get('exclude',
+                                 fields.exclude.default.factory())  # type: ignore
 
         if not paths:
             raise ValueError("You must define the name of the option")
@@ -170,21 +172,21 @@ class Script(object):
     name = attr.ib(type=str)
     command = attr.ib(type=str)
     about = attr.ib(type=str, default='')
-    accept_files = attr.ib(type=str, default=False)
     success_exit_codes = attr.ib(type=List[int], factory=lambda: [0])
     options = attr.ib(type=List[ScriptOption], factory=list)
-    files = attr.ib(type=ScriptFiles, default=None)
+    files = attr.ib(type=Optional[ScriptFiles], default=None)
 
     @classmethod
     def from_config(cls, name, script_conf):
         # type: (str, YamlConf) -> Script
         """ Load script from pelfconf.yaml """
         fields = attr.fields(cls)
-        options = script_conf.get('options', fields.options.default.factory())
+        options = script_conf.get('options',
+                                  fields.options.default.factory())  # type: ignore
         files = None
         success_exit_codes = script_conf.get(
             'success_exit_codes',
-            fields.success_exit_codes.default.factory()
+            fields.success_exit_codes.default.factory()   # type: ignore
         )
 
         # Parse 'files' section if it's present
@@ -202,7 +204,6 @@ class Script(object):
             name=name,
             command=script_conf['command'],
             about=script_conf.get('about', fields.about.default),
-            accept_files=script_conf.get('accept_files', fields.about.default),
             success_exit_codes=success_exit_codes,
             options=[ScriptOption.from_config(opt_conf) for opt_conf in options],
             files=files,

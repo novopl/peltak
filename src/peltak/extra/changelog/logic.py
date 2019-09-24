@@ -30,6 +30,9 @@ from peltak.core import util
 from peltak.core import versioning
 
 
+TagList = List[Dict[str, str]]
+
+
 @util.mark_experimental
 def changelog():
     # type: () -> str
@@ -52,7 +55,7 @@ def changelog():
 
     results = OrderedDict((
         (x['header'], []) for x in tags
-    ))
+    ))  # type: Dict[str, List[str]]
 
     for commit in commits:
         commit_items = extract_changelog_items(commit.desc, tags)
@@ -81,7 +84,7 @@ def changelog():
 
 
 def extract_changelog_items(text, tags):
-    # type: (str) -> Dict[str, List[str]]
+    # type: (str, TagList) -> Dict[str, List[str]]
     """ Extract all tagged items from text.
 
     Args:
@@ -99,7 +102,7 @@ def extract_changelog_items(text, tags):
     """
 
     patterns = {x['header']: tag_re(x['tag']) for x in tags}
-    items = {x['header']: [] for x in tags}
+    items = {x['header']: [] for x in tags}     # type: Dict[str, List[str]]
     curr_tag = None
     curr_text = ''
 

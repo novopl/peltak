@@ -142,7 +142,7 @@ def merged():
 
 
 def tag(message):
-    # type: () -> None
+    # type: (str) -> None
     """ Tag the current commit with the current version. """
     release_ver = versioning.current()
     message = message or 'v{} release'.format(release_ver)

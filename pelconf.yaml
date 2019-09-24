@@ -39,9 +39,20 @@ scripts:
     files:
       paths: src/peltak
       include: "*.py"
+    options:
+      - name: ['--head']
+        about: Pipe the output to 'head' to only see the first few results.
+        is_flag: true
+      - name: ['--count']
+        about: Instead of showing the erros, display the number of errors detected.
+        is_flag: true
     command: |
+      set -e
+
       {{ 'mypy' | header }}
-      mypy {{ files | wrap_paths }}
+      pipenv mypy --ignore-missing-imports {{ files | wrap_paths }} \
+          {{ '| head' if opts.head else '' }} \
+          {{ '| wc -l' if opts.count else '' }}
 
   lint:
     about: Run all linters (pep8, pylint).
@@ -64,33 +75,42 @@ scripts:
         - src/peltak
         - test/unit
       include: "*.py"
+      use_gitignore: true
     command: |
       set -e
 
       {{ 'mypy' | header }}
-      pipenv run mypy {{ files | wrap_paths }};
+      pipenv run mypy --ignore-missing-imports {{ files | wrap_paths }}
 
       {{ 'pep8' | header }}
       pipenv run pep8 --config ops/tools/pep8.ini {{ files | wrap_paths }};
 
       {{ 'pylint' | header }}
-      pipenv run pylint --rcfile ops/tools/pylint.ini {{ files | wrap_paths }};
+      pipenv run pylint --rcfile ops/tools/pylint.ini {{ script.files.paths | wrap_paths }}
 
   tests:
     about: Run unit tests
+    options:
+      - name: ['--no-sugar']
+        is_flag: true
+        about: Disable pytest-sugar. Might be useful for CI runs.
     command: |
-      pytest \
+      pipenv run pytest \
           -c ops/tools/pytest.ini \
           --cov-config=ops/tools/coverage.ini \
           --cov={{ conf.src_path }} \
           --cov-report=term \
           --cov-report=html:{{ conf.build_dir }}/coverage \
+          {{ ctx.verbose | count_flag('v') }} \
+          {{ '-p no:sugar' if opts.no_sugar else '' }} \
           test/unit
 
   cov-core:
     about: Generate coverage report for peltak.core
     command: |
-      pytest \
+      set -e
+
+      pipenv run pytest \
           -c ops/tools/pytest.ini \
           --cov-config=ops/tools/coverage.ini \
           --cov={{ conf.src_path }}/core \
@@ -104,7 +124,9 @@ scripts:
   cov-extra:
     about: Generate coverage report for peltak.extra
     command: |
-      pytest \
+      set -e
+
+      pipenv run pytest \
           -c ops/tools/pytest.ini \
           --cov-config=ops/tools/coverage.ini \
           --cov={{ conf.src_path }}/extra \
@@ -118,7 +140,7 @@ scripts:
   cov-scripts:
     about: Generate coverage report for peltak.extra.scripts
     command: |
-      pytest \
+      pipenv run pytest \
           -c ops/tools/pytest.ini \
           --cov-config=ops/tools/coverage.ini \
           --cov={{ conf.src_path }}/extra/scripts \
@@ -132,7 +154,7 @@ scripts:
   docs:
     about: Generate sphinx documentation
     command: |
-      sphinx-build \
+      pipenv run sphinx-build \
           -b html \
           -d {{ conf.build_dir }}/docs \
           docs docs/html

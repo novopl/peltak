@@ -11,3 +11,4 @@ Guides
     project_commands/_index
     share_commands/_index
     pelconf/_index
+    changelog

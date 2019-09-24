@@ -55,7 +55,8 @@ from types import FunctionType
 from typing import Any, Callable
 
 
-Decorator = Callable[[FunctionType], FunctionType]
+AnyFunc = Callable[..., Any]
+Decorator = Callable[[AnyFunc], AnyFunc]
 
 
 class HooksRegister(object):
@@ -64,7 +65,7 @@ class HooksRegister(object):
         self.hooks = {}
 
     def remove(self, name, fn):
-        # type: (str, FunctionType) -> None
+        # type: (str, AnyFunc) -> None
         """ Remove a handler for a given hook.
 
         After this call, the *fn* function won't be called when the hook is
@@ -113,13 +114,13 @@ class HooksRegister(object):
             raise ValueError("name cannot be empty")
 
         def decorator(fn):      # pylint: disable=missing-docstring
-            # type: (FunctionType) -> FunctionType
+            # type: (AnyFunc) -> AnyFunc
             self._register_handler(name, fn)
             return fn
         return decorator
 
     def _register_handler(self, name, fn):
-        # type: (str, FunctionType) -> None
+        # type: (str, AnyFunc) -> None
         handlers = self.hooks.setdefault(name, [])
 
         if fn in handlers:
@@ -132,4 +133,4 @@ register = HooksRegister()
 
 
 # Used only in type hint comments.
-del Any, Callable, FunctionType, Decorator
+del Any, Callable, FunctionType, Decorator      # type: ignore
