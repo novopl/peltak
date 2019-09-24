@@ -17,6 +17,8 @@
 
 # stdlib imports
 import itertools
+import subprocess
+import sys
 from typing import Any, Dict, List
 
 # 3rd party imports
@@ -38,11 +40,13 @@ ctx = GlobalContext()
 
 
 def run_script(script, options):
-    # type: (Script, CliOptions) -> int
+    # type: (Script, CliOptions) -> None
     """ Run the script with the given (command line) options. """
     template_ctx = _build_template_context(script, options)
+    verbose = ctx.get('verbose')
+    pretend = ctx.get('pretend')
 
-    if ctx.get('verbose'):
+    if verbose > 1:
         log.info('Compiling script <35>{name}\n{script}'.format(
             name=script.name,
             script=shell.highlight(script.command, 'jinja')
@@ -53,9 +57,25 @@ def run_script(script, options):
 
     cmd = TemplateEngine().render(script.command, template_ctx)
 
-    if not ctx.get('pretend'):
+    if not pretend:
         with conf.within_proj_dir():
-            return shell.run(cmd).return_code
+            # God knows why, if we run the command using `shell.run()` and it
+            # exists with non-zero code it will also kill the parent peltak
+            # process. The Popen arguments are the same, to my knowledge
+            # everything is the same but the way it behaves is completely
+            # different. If we just use Popen directly, everything works as
+            # expected  ¯\_(ツ)_/¯
+            p = subprocess.Popen(cmd, shell=True)
+            try:
+                p.communicate()
+                if verbose:
+                    log.info("Script exited with code: <33>{}", p.returncode)
+
+                if p.returncode not in script.success_exit_codes:
+                    sys.exit(p.returncode)
+
+            except KeyboardInterrupt:
+                p.kill()
     else:
         log.info(
             "Would run script: <35>{name}\n<90>{bar}<0>\n{script}\n<90>{bar}",

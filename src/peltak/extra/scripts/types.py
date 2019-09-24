@@ -150,6 +150,7 @@ class Script(object):
     command = attr.ib(type=str)
     about = attr.ib(type=str, default='')
     accept_files = attr.ib(type=str, default=False)
+    success_exit_codes = attr.ib(type=List[int], factory=lambda: [0])
     options = attr.ib(type=List[ScriptOption], factory=list)
     files = attr.ib(type=ScriptFiles, default=None)
 
@@ -160,9 +161,16 @@ class Script(object):
         fields = attr.fields(cls)
         options = script_conf.get('options', fields.options.default.factory())
         files = None
+        success_exit_codes = script_conf.get(
+            'success_exit_codes',
+            fields.success_exit_codes.default.factory()
+        )
 
         if 'files' in script_conf:
             files = ScriptFiles.from_config(script_conf['files'])
+
+        if isinstance(success_exit_codes, int):
+            success_exit_codes = [success_exit_codes]
 
         if 'command' not in script_conf:
             raise ValueError("Missing 'command' for '{}' script".format(name))
@@ -172,6 +180,7 @@ class Script(object):
             command=script_conf['command'],
             about=script_conf.get('about', fields.about.default),
             accept_files=script_conf.get('accept_files', fields.about.default),
+            success_exit_codes=success_exit_codes,
             options=[ScriptOption.from_config(opt_conf) for opt_conf in options],
             files=files,
         )
