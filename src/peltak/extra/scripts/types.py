@@ -27,6 +27,7 @@ from peltak.commands import click, pretend_option, verbose_option
 
 
 YamlConf = Dict[str, Any]
+CliOptions = Dict[str, Any]
 
 
 @attr.s
@@ -39,7 +40,7 @@ class ScriptOption(object):
 
     @classmethod
     def from_config(cls, option_conf):
-        # type: (Dict[str, Any]) -> ScriptOption
+        # type: (YamlConf) -> ScriptOption
         """ Load script option from configuration in pelconf.yaml """
         fields = attr.fields(cls)
         name = option_conf.get('name')
@@ -69,14 +70,14 @@ class ScriptFiles(object):
     refining the list by *include* and *exclude* which act as a pattern based
     whitelist and blacklist for the paths specified in *paths*.
 
-    On top of that you also have 2 boolean flags: *commit_only* will collect
+    On top of that you also have 2 boolean flags: *commit* will collect
     only files staged for commit and *untracked* (``True`` by default will
     include or not files untracked by git).
     """
     paths = attr.ib(type=bool)
     exclude = attr.ib(type=List[str], factory=list)
     include = attr.ib(type=List[str], factory=list)
-    commit_only = attr.ib(type=bool, default=False)
+    commit = attr.ib(type=bool, default=False)
     untracked = attr.ib(type=bool, default=True)
 
     @classmethod
@@ -93,9 +94,39 @@ class ScriptFiles(object):
             paths=paths,
             exclude=files_conf.get('exclude', fields.exclude.default.factory()),
             include=files_conf.get('include', fields.include.default.factory()),
-            commit_only=files_conf.get('commit_only', fields.commit_only.default),
+            commit=files_conf.get('commit', fields.commit.default),
             untracked=files_conf.get('untracked', fields.untracked.default),
         )
+
+    def whitelist(self):
+        # type: () -> List[str]
+        """ Return a full whitelist for use with `fs.filtered_walk()` """
+        from peltak.core import git
+
+        include = list(self.include)
+
+        if self.commit:
+            include += ['*' + f for f in git.staged()]
+        else:
+            include += ['*']
+
+        return include
+
+    def blacklist(self):
+        # type: () -> List[str]
+        """ Return a full blacklist for use with `fs.filtered_walk()` """
+        from peltak.core import git
+
+        exclude = list(self.exclude)
+
+        # prepare
+        if self.commit:
+            exclude += git.ignore()
+
+        if not self.untracked:
+            exclude += git.untracked()
+
+        return exclude
 
 
 @attr.s
@@ -116,7 +147,7 @@ class Script(object):
 
     @classmethod
     def from_config(cls, name, script_conf):
-        # type: (str, Dict[str, Any]) -> Script
+        # type: (str, YamlConf) -> Script
         """ Load script from pelfconf.yaml """
         fields = attr.fields(cls)
         options = script_conf.get('options', fields.options.default.factory())
@@ -145,7 +176,7 @@ class Script(object):
         @click.pass_context
         def script_command(ctx, **options):  # pylint: disable=missing-docstring
             from .logic import run_script
-            run_script(self, click_ctx=ctx, options=options)
+            run_script(self, options)
 
         script_command.__doc__ = self.about
 

@@ -24,10 +24,11 @@ import sys
 from collections import namedtuple
 from typing import Any, Dict
 
-
+# local imports
 from . import context
 
 
+EnvDict = Dict[str, str]
 ExecResult = namedtuple(
     'ExecResult',
     'command return_code stdout stderr succeeded failed'
@@ -79,7 +80,7 @@ def run(cmd,
         env=None,
         exit_on_error=None,
         never_pretend=False):
-    # type: (str, bool, bool, Dict[str, str], bool) -> ExecResult
+    # type: (str, bool, bool, EnvDict, bool, bool) -> ExecResult
     """ Run a shell command.
 
     Args:

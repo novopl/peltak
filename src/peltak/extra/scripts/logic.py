@@ -16,56 +16,54 @@
 """ scripts logic. """
 
 # stdlib imports
+import itertools
 from typing import Any, Dict, List
 
+# 3rd party imports
+import yaml
+
 # local imports
-from six import string_types
+from peltak.commands import click
 from peltak.core import conf
 from peltak.core import log
-from peltak.commands import click
-from .types import Script
+from peltak.core import fs
+from peltak.core import shell
+from peltak.core.context import GlobalContext
+from .types import CliOptions, Script
+from .templates import TemplateEngine
 
 
-_j2_env = None
+ctx = GlobalContext()
 
 
-def init_jinja2():
-    # type: () -> None
-    """ Initialize jinja2 env. """
-    global _j2_env
+def run_script(script, options):
+    # type: (Script, CliOptions) -> int
+    """ Run the script with the given (command line) options. """
+    template_ctx = _build_template_context(script, options)
 
-    import jinja2
-    from peltak.core import shell
-    from peltak.core import fs
+    if ctx.get('verbose') > 1:
+        log.info('Compiling script <35>{name}\n{script}'.format(
+            name=script.name,
+            script=shell.highlight(script.command, 'jinja')
+        ))
+        log.info('with context:\n{}\n'.format(
+            shell.highlight(yaml.dump(template_ctx), 'yaml')
+        ))
 
-    _j2_env = jinja2.Environment(
-        variable_start_string='{{',
-        variable_end_string='}}',
-    )
+    cmd = TemplateEngine().render(script.command, template_ctx)
 
-    ###########
-    # Filters #
-    ###########
-    def section(title):
-        """ Returns '= {title} =========================' """
-        remaining = 80 - len(title) - 3
-        return shell.fmt('<32>= <35>{title} <32>{bar}<0>',
-                         title=title,
-                         bar='=' * remaining)
-
-    def count_flag(count, flag):
-        """ Returns the given flag letter as a count flag.
-
-        This will
-        """
-        return '-' + flag * count if count else ''
-
-    _j2_env.filters['wrap_paths'] = fs.wrap_paths
-    _j2_env.filters['section'] = section
-    _j2_env.filters['count_flag'] = count_flag
+    with conf.within_proj_dir():
+        if ctx.get('verbose'):
+            log.info(
+                "Running script: <35>{name}\n<90>{bar}<0>\n{script}\n<90>{bar}",
+                name=script.name,
+                bar='-' * 80,
+                script=shell.highlight(cmd, 'bash'),
+            )
+        return shell.run(cmd).retcode
 
 
-def _build_template_context(script, ctx, options, conf, click_ctx, gitignore):
+def _build_template_context(script, options):
     """ Build command template context.
 
     This will collect all the values like current configuration, command line
@@ -79,97 +77,24 @@ def _build_template_context(script, ctx, options, conf, click_ctx, gitignore):
         ),
         'conf': conf.g_config,
         'ctx': ctx.values,
-        'click': click_ctx,
         'proj_path': conf.proj_path,
     }
 
-    if script.accept_files:
-        exclude = list(options['exclude'])
-        exclude += gitignore
-
-        template_ctx['files'] = collect_files(
-            options['paths'],
-            options['exclude'],
-            options['skip_untracked'],
-            options['commit_only']
-        )
+    if script.files:
+        template_ctx['files'] = collect_files(script.files)
 
     return template_ctx
 
 
-def collect_files(paths, exclude, skip_untracked, commit_only):
-    # type: (List[str], List[str], bool, bool) -> List[str]
-    """ Collect files based on the command line options.
-
-    This will work with the command line options defined by 'files_options'.
-    """
-    import itertools
-    from peltak.core import fs
-    from peltak.core import git
-
-    paths = [conf.proj_path(p) for p in paths]
-    exclude = list(exclude)
-
-    # prepare
-    if commit_only:
-        include = ['*' + f for f in git.staged()]
-        exclude += git.ignore()
-    else:
-        include = ['*']
-
-    if skip_untracked:
-        exclude += git.untracked()
-
-    if isinstance(paths, string_types):
-        raise ValueError("paths must be an array of strings")
+def collect_files(files):
+    """ Collect script files using the given configuration. """
+    paths = [conf.proj_path(p) for p in files.paths]
 
     return list(itertools.chain.from_iterable(
-        fs.filtered_walk(p, include, exclude) for p in paths
+        fs.filtered_walk(path, files.whitelist(), files.blacklist())
+        for path in paths
     ))
 
 
-def run_script(script, click_ctx, options):
-    # type: (Script, click.Context, Dict[str, Any]) -> None
-    """ Run the script with the given (command line) options. """
-    import yaml
-    from peltak.core import git
-    from peltak.core import shell
-    from peltak.core.context import GlobalContext
-
-    ctx = GlobalContext()
-    template_ctx = _build_template_context(
-        script,
-        ctx=ctx,
-        options=options,
-        conf=conf,
-        click_ctx=click_ctx,
-        gitignore=git.ignore(),
-    )
-
-    if ctx.get('verbose') > 1:
-        log.info('Compiling script <35>{name}\n{script}'.format(
-            name=script.name,
-            script=shell.highlight(script.command, 'jinja')
-        ))
-        log.info('with context:\n{}\n'.format(
-            shell.highlight(yaml.dump(template_ctx), 'yaml')
-        ))
-
-    if _j2_env is None:
-        init_jinja2()
-
-    cmd = _j2_env.from_string(script.command).render(template_ctx)
-
-    with conf.within_proj_dir():
-        if ctx.get('verbose'):
-            log.info(
-                "Running script: <35>{name}\n<90>{bar}<0>\n{script}\n<90>{bar}",
-                name=script.name,
-                bar='-' * 80,
-                script=shell.highlight(cmd, 'bash'),
-            )
-        return shell.run(cmd)
-
-
 # Used only in type hint comments.
-del Dict, Any, List, click, Script
+del Dict, Any, List, click, CliOptions, Script
