@@ -55,22 +55,27 @@ And you can run this command with:
 
     peltak run test
 
+
 Multiline and multi statement commands
 ======================================
 
 The *test* command above is a very simple one. What if your script command is
-very long, or you want to call multiple shell commands? You can leverage the
-bash syntax and just separate the commands with semicolons. Here's a little
-example:
+very long, or you want to call multiple shell commands? The command you define
+is treated as a shell script, so you can do whatever you can with shell scripts.
+One thing to remember is to use ``set -e`` in your script if you want it to fail
+if any of the commands fail.
+
+For convenience, you can use the YAML multiline string syntax:
 
 .. code-block:: yaml
 
     checks:
         about: Run checks on the code base
         command: |
-            pipenv run mypy src;
-            pipenv run pep8 --config tools/pep8.ini src;
-            pipenv run pylint --rcfile tools/pylint.ini src;
+            set -e
+            pipenv run mypy src
+            pipenv run pep8 --config tools/pep8.ini src
+            pipenv run pylint --rcfile tools/pylint.ini src
 
 
 Templating capabilities of scripts
@@ -80,12 +85,16 @@ The scripts module was designed to parse the commands as templates and inject
 **peltak's** current working environment. This means you can use configuration
 and some helper filters to generate the actual command.
 
+If you want to more details about templating in scripts, you can read
+`/guides/reference/script_templates`.
+
 .. note::
     Scripts templating is very simple. It should be used only for simple
     value substitution with optional processing. If need flow control for a
     script you probably should look at implementing a custom peltak command for
     the project as this will give you the full power of python and is also a
     very simple to do.
+
 
 Injecting config values from `pelconf.yaml` into your script
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -120,7 +129,7 @@ that use it.
 Using jinja filters
 ~~~~~~~~~~~~~~~~~~~
 
-Let's suppos you have a scripts that runs pytest over your project and you want
+Let's suppose you have a scripts that runs pytest over your project and you want
 to pass the verbosity flag down to the pytest command. The verbosity option
 can be accessed with ``{{ opts.verbose }}`` but it is an ``int`` so we need
 to somehow convert it to the appropriate flag ``-v``, or ``-vv`` etc. Thankfully

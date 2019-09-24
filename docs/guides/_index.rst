@@ -12,6 +12,16 @@ Guides
     basics/share_commands/_index
     basics/pelconf/_index
 
+
+Reference
+=========
+
+.. toctree::
+    :maxdepth: 1
+
+    reference/script_templates
+
+
 Built-in Commands
 =================
 

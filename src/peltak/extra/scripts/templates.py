@@ -13,7 +13,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-""" Template engine for scripts. """
+"""
+########################
+Command/script templates
+########################
+
+Template context
+================
+
+Built-in filters
+================
+
+"""
 from typing import Any, Dict
 
 # 3rd party imports
@@ -59,9 +70,9 @@ class TemplateEngine(util.Singleton):
         # type: (str) -> str
         """ Converts a given title into a pretty header with colors.
 
-        Converts a given string to:
+        Converts a given string to::
 
-            '= {title} =============================================='
+            = {title} ==============================================
 
         The resulting string will be colored for printing in the terminal.
         """

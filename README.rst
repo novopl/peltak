@@ -29,10 +29,11 @@ Only the CLI interface shouldn't (e2e tests for that if any).
     `here <https://circleci.com/gh/novopl/peltak>`_
 
 .. readme_about_end
-.. readme_installation_start
 
 Installation
 ============
+
+.. readme_installation_start
 
 .. code-block:: shell
 
