@@ -45,3 +45,7 @@ def test_has_all_filters(filter_name):
 def test_uses_double_curly_brace_for_expressions():
     assert TemplateEngine().env.variable_start_string == '{{'
     assert TemplateEngine().env.variable_end_string == '}}'
+
+
+# Used only in type hint comments
+del Mock

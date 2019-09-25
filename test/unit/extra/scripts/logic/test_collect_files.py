@@ -4,7 +4,6 @@ from __future__ import absolute_import, unicode_literals
 
 # 3rd party imports
 from mock import Mock, patch
-import pytest
 
 # local imports
 from peltak.core import conf
@@ -23,10 +22,14 @@ def test_calls_filtered_walk_with_paths_configured(p_filtered_walk):
 
     assert p_filtered_walk.call_count == 2
 
-    args, kw = p_filtered_walk.call_args_list[0]
+    args, _ = p_filtered_walk.call_args_list[0]
     expected = (conf.proj_path('path1'), files.whitelist(), files.blacklist())
     assert tuple(args) == expected
 
-    args, kw = p_filtered_walk.call_args_list[1]
+    args, _ = p_filtered_walk.call_args_list[1]
     expected = (conf.proj_path('path2'), files.whitelist(), files.blacklist())
     assert tuple(args) == expected
+
+
+# Used only in type hint comments
+del Mock

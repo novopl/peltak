@@ -5,11 +5,7 @@ from __future__ import absolute_import, unicode_literals
 # stdlib imports
 from mock import Mock, patch
 
-# 3rd party imports
-import pytest
-
 # local imports
-from peltak import testing
 from peltak.extra.scripts.logic import exec_script_command
 
 

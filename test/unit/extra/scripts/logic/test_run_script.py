@@ -7,7 +7,6 @@ from typing import Any, Dict
 
 # 3rd party imports
 from mock import Mock, patch
-import pytest
 
 # local imports
 from peltak import testing

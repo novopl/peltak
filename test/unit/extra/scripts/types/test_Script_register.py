@@ -5,9 +5,6 @@ from __future__ import absolute_import, unicode_literals
 # stdlib imports
 from mock import Mock, patch
 
-# 3rd party imports
-import pytest
-
 # local imports
 from peltak.extra.scripts.types import Script
 
@@ -66,7 +63,7 @@ def test_creates_all_options_defined_in_the_script_config(p_click):
     )
 
     assert fake1 is not None
-    fake_1args, fake1_kw = fake1
+    _, fake1_kw = fake1
     assert fake1_kw['is_flag'] is True
     assert fake1_kw['count'] is False
     assert fake1_kw['help'] == ''
@@ -74,7 +71,7 @@ def test_creates_all_options_defined_in_the_script_config(p_click):
     assert fake1_kw['type'] is str
 
     assert fake2 is not None
-    fake2_args, fake2_kw = fake2
+    _, fake2_kw = fake2
     assert fake2_kw['is_flag'] is False
     assert fake2_kw['count'] is False
     assert fake2_kw['help'] == ''

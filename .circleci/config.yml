@@ -8,8 +8,6 @@ jobs:
       - checkout
       - restore_cache:
           key: deps-rev1-{{ checksum "Pipfile.lock" }}
-      - restore_cache:
-          key: tox-rev1-{{ checksum "Pipfile.lock" }}
 
       - run:
           name: Setup peltak
@@ -33,31 +31,37 @@ jobs:
             cat requirements.txt
             echo '== cat requirements.txt =================================='
 
+      - save_cache:
+          key: deps-rev1-{{ checksum "Pipfile.lock" }}
+          paths:
+            - /usr/local/bin
+            - /usr/local/lib/python3.6/site-packages
+            - .venv
+
       - run:
           name: Type check
           command: peltak run type-check
       - run:
           name: Lint
           command: peltak run lint
+      - restore_cache:
+          name: Restore tox cache
+          key: tox-rev1-{{ checksum "Pipfile.lock" }}
       - run:
           name: Test
           command: tox
+      - save_cache:
+          name: Save tox cache
+          key: tox-rev1-{{ checksum "Pipfile.lock" }}
+          paths:
+            - .tox
+
       - run:
           name: Build Documentation
           command: |
             peltak run docs --recreate --run-doctests
             mv docs/html docs/peltak-docs
             cd docs && zip -r ../.build/peltak-docs.zip peltak-docs
-
-      - save_cache:
-          key: deps-rev1-{{ checksum "Pipfile.lock" }}
-          paths:
-          - /usr/local/bin
-          - /usr/local/lib/python3.6/site-packages
-      - save_cache:
-          key: tox-rev1-{{ checksum "Pipfile.lock" }}
-          paths:
-          - .tox
 
       - store_test_results:
           path: .build

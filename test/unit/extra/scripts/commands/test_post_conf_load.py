@@ -3,7 +3,6 @@
 from __future__ import absolute_import, unicode_literals
 
 # 3rd party imports
-import pytest
 from mock import Mock, patch
 
 # local imports

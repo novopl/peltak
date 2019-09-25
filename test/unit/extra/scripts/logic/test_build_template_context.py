@@ -7,7 +7,6 @@ from mock import Mock, patch
 
 # 3rd party imports
 import attr
-import pytest
 
 # local imports
 from peltak import testing

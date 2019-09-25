@@ -29,6 +29,9 @@ from __future__ import absolute_import, unicode_literals
 # stdlib imports
 from typing import Any
 
+# 3rd party imports
+from six import string_types
+
 # local imports
 from peltak.core import shell
 
@@ -80,8 +83,14 @@ def count_flag(count, flag):
     if not isinstance(count, int) or count < 0:
         raise ValueError('Cannot create count flag from count={}'.format(count))
 
-    if not isinstance(flag, str) or len(flag) > 1 or not flag.isalpha():
-        raise ValueError("Invalid 'flag={}' passed to count_flag".format(flag))
+    if not isinstance(flag, string_types):
+        raise ValueError("Flags must be strings, got: {}".format(flag))
+
+    if len(flag) > 1:
+        raise ValueError("Flags must have length 1, got: {}".format(flag))
+
+    if not flag.isalpha():
+        raise ValueError("Flags must be letters, got: {}".format(flag))
 
     return '-' + flag * count if count else ''
 

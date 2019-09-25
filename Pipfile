@@ -10,7 +10,6 @@ pyyaml = "~=3.13"
 six = "~=1.11"
 typing = "~=3.6"
 jinja2 = "*"
-mypy = "*"
 
 [dev-packages]
 coverage = "~=4.5"
@@ -30,7 +29,8 @@ tox = "==2.9.1"
 more-itertools = "<=5.0.0"
 pygments = "<=2.3.1"
 requests = "<=2.21.0"
-mypy = "*"
+mypy = {version = "==0.720", markers="python_version >= '3.5'"}
+typed-ast = {version = "==1.4.0", markers="python_version >= '3.3'"}
 
 [requires]
 python_version = "3.6"

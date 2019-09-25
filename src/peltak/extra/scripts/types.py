@@ -16,8 +16,7 @@
 """ Types and classes used by ``peltak.extra.scripts``. """
 
 # stdlib imports
-from typing import Any, Dict, List, Optional, Type, cast
-from types import FunctionType
+from typing import Any, Callable, Dict, List, Optional, Type, cast
 
 # 3rd party imports
 import attr
@@ -27,6 +26,7 @@ from six import string_types
 from peltak.commands import click, pretend_option, verbose_option
 
 
+AnyFn = Callable[..., Any]
 YamlConf = Dict[str, Any]
 CliOptions = Dict[str, Any]
 
@@ -228,16 +228,15 @@ class Script(object):
         cli_group.command(self.name)(script_command)
 
     def _add_option(self, cmd_fn, option):
-        # type: (FunctionType, ScriptOption) -> FunctionType
+        # type: (AnyFn, ScriptOption) -> AnyFn
         return click.option(
             *option.name,
             is_flag=option.is_flag,
             default=option.default,
             help=option.about,
             count=option.count,
-            type=option.type,
+            type=option.type
         )(cmd_fn)
 
 
 # Used only in type hint comments
-del FunctionType

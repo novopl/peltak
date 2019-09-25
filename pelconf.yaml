@@ -54,6 +54,8 @@ scripts:
           {{ '| head' if opts.head else '' }} \
           {{ '| wc -l' if opts.count else '' }}
 
+      {{ 'done' | header }}
+
   lint:
     about: Run all linters (pep8, pylint).
     files:
@@ -67,6 +69,8 @@ scripts:
 
       {{ 'pylint' | header }}
       pipenv run pylint --rcfile ops/tools/pylint.ini {{ files | wrap_paths }};
+
+      {{ 'done' | header }}
 
   checks:
     about: Run all checks (types, pep8, code style)
@@ -86,7 +90,9 @@ scripts:
       pipenv run pep8 --config ops/tools/pep8.ini {{ files | wrap_paths }};
 
       {{ 'pylint' | header }}
-      pipenv run pylint --rcfile ops/tools/pylint.ini {{ script.files.paths | wrap_paths }}
+      pipenv run pylint --rcfile ops/tools/pylint.ini {{ files | wrap_paths }}
+
+      {{ 'done' | header }}
 
   tests:
     about: Run unit tests
@@ -168,6 +174,7 @@ scripts:
     command: |
       {% if opts.recreate %}
         {{ 'Cleaning after previous builds' | header }}
+
         {{ '<91>Deleting <94>docs/html' | cprint }}
         rm -rf docs/html
 

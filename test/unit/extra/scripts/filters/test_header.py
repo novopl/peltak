@@ -21,12 +21,14 @@ def test_prints_without_colors_when_not_in_tty():
     )
 
 
+@testing.patch_is_tty(False)
 def test_works_with_numbers():
     assert header(123) == (
         'echo "= 123 =========================================================================="'  # noqa
     )
 
 
+@testing.patch_is_tty(False)
 def test_header_is_always_the_same_length():
     HDR_LEN = 80 + len('echo ""')
 
