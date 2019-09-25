@@ -46,7 +46,7 @@ def add_hooks():
             "Are you sure you want to use global python installation "
             "to run your git hooks? [y/N] "
         )
-        click.prompt(confirm_msg, default=False)
+        click.prompt(confirm_msg, default='')
         if not click.confirm(confirm_msg):
             log.info("Cancelling")
             return

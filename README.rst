@@ -3,7 +3,7 @@
 peltak
 ######
 
-.. readme_inclusion_marker
+.. readme_about_start
 
 **peltak** is a command line tool to automate a lot of project related tasks.
 The tool should only wrap up existing project tools and not try to replace them.
@@ -28,8 +28,12 @@ Only the CLI interface shouldn't (e2e tests for that if any).
     The CircleCI builds can be found
     `here <https://circleci.com/gh/novopl/peltak>`_
 
+.. readme_about_end
+
 Installation
 ============
+
+.. readme_installation_start
 
 .. code-block:: shell
 
@@ -57,9 +61,12 @@ The steps to enable it vary slightly depending on what shell you are using
 
         eval "$(_PELTAK_COMPLETE=source_zsh peltak)"
 
+.. readme_installation_end
 
 Contributing
 ============
+
+.. readme_contrib_start
 
 Setting up development repo
 ---------------------------
@@ -110,3 +117,5 @@ Generating docs
 .. code-block:: shell
 
     $ peltak docs
+
+.. readme_contrib_end

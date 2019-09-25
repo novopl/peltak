@@ -29,7 +29,7 @@ def patch_open(**kw):
 @patch('peltak.core.versioning.exists', Mock(return_value=True))
 @patch('peltak.core.fs.write_file')
 def test_correctly_replaces_version(p_write_file, version_def, expected):
-    # type: (str, str, Mock) -> None
+    # type: (Mock, str, str) -> None
     file_data = '\n'.join([
         "# -*- coding: utf-8 -*-",
         version_def,

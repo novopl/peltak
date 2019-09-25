@@ -70,7 +70,7 @@ def current():
         might be omitted if it's 0, so 1.0.0 becomes 1.0 and 0.1.0 becomes 0.1.
     """
     storage = get_version_storage()
-    return storage.read()
+    return storage.read() or ''
 
 
 def write(version):
@@ -154,7 +154,7 @@ def _bump_version(version, component='patch'):
         patch = None
 
     else:
-        patch = patch or 0
+        patch = patch or '0'
         patch = str(int(patch) + 1)
 
     new_ver = '{}.{}'.format(major, minor)

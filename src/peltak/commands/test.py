@@ -19,6 +19,7 @@ Testing commands
 from __future__ import absolute_import
 
 from peltak.core import conf
+from peltak.core import util
 from . import root_cli, click, pretend_option, verbose_option
 
 
@@ -33,6 +34,7 @@ conf.command_requirements(
 
 
 @root_cli.group('test', invoke_without_command=True)
+@util.mark_deprecated('peltak run')
 @click.argument('tests_type', metavar='<type>', type=str, default='default')
 @click.option(
     '--junit',

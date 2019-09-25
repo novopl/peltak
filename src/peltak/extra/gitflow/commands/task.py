@@ -13,7 +13,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-""" git flow feature commands. """
+"""
+###############
+``peltak task``
+###############
+git flow task commands.
+"""
 from peltak.commands import root_cli, click, pretend_option
 
 

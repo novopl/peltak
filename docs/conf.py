@@ -14,9 +14,6 @@ def repo_path(path):
     return os.path.normpath(ret)
 
 
-def read(fname):
-    return open(os.path.join(os.path.dirname(__file__), fname)).read()
-
 sys.path.insert(0, repo_path('src'))
 sys.path.insert(1, repo_path('.'))
 
@@ -29,7 +26,10 @@ extensions = [
     'sphinx.ext.intersphinx',
     'sphinx.ext.napoleon',
     'sphinx.ext.viewcode',
+    'sphinxcontrib.plantuml',
 ]
+plantuml = 'java -jar {}'.format(repo_path('docs/bin/plantuml/plantuml.1.2019.9.jar'))
+plantuml_output_format = 'svg'
 
 import peltak
 version = peltak.__version__
@@ -56,7 +56,8 @@ default_role = 'any'
 pygments_style = 'monokai'
 html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 html_theme = "sphinx_rtd_theme"
-html_static_path = []
+html_static_path = [repo_path('docs/_static')]
+html_style='css/overrides.css'
 htmlhelp_basename = 'peltak'
 
 latex_elements = {}

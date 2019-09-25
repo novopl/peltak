@@ -13,7 +13,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-""" git flow release commands. """
+"""
+##################
+``peltak release``
+##################
+git flow release commands.
+"""
 from peltak.commands import root_cli, click, pretend_option
 
 
@@ -57,7 +62,7 @@ def release_cli():
 )
 @pretend_option
 def start(component, exact):
-    # type: (str) -> None
+    # type: (str, str) -> None
     """ Create a new release.
 
     It will bump the current version number and create a release branch called
@@ -89,7 +94,7 @@ def start(component, exact):
 )
 @pretend_option
 def tag_release(message):
-    # type: (str, bool) -> None
+    # type: (str) -> None
     """ Tag the current commit with as the current version release.
 
     This should be the same commit as the one that's uploaded as the release

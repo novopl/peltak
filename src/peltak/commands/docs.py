@@ -14,6 +14,10 @@
 # limitations under the License.
 #
 """
+###############
+``peltak docs``
+###############
+
 Various commands that do not fit another category but there's not enough of them
 to justify a separate module.
 """
@@ -21,6 +25,7 @@ from __future__ import absolute_import
 
 # local imports
 from peltak.core import conf
+from peltak.core import util
 from . import root_cli, click, pretend_option, verbose_option
 
 
@@ -31,6 +36,7 @@ conf.command_requirements(
 
 
 @root_cli.group('docs', invoke_without_command=True)
+@util.mark_deprecated('peltak run')
 @click.option(
     '--recreate',
     is_flag=True,

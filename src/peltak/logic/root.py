@@ -60,10 +60,12 @@ def clean(exclude):
 
                 if not isdir(path):
                     log.info('  <91>[file] <90>{}', path)
-                    not pretend and os.remove(path)
+                    if not pretend:
+                        os.remove(path)
                 else:
                     log.info('  <91>[dir]  <90>{}', path)
-                    not pretend and rmtree(path)
+                    if not pretend:
+                        rmtree(path)
 
             except OSError:
                 log.info("<33>Failed to remove <90>{}", path)

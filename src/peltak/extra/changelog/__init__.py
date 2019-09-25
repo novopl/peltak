@@ -14,6 +14,9 @@
 # limitations under the License.
 #
 """
+########################################
+Auto-generate changelog from git history
+########################################
 
 Overview
 ========

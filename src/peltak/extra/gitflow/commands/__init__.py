@@ -13,5 +13,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-""" peltak git-flow commands CLI definition. """
+"""
+#################################
+``peltak [feature|task|release]``
+#################################
+
+peltak git-flow commands CLI definition.
+"""
 from __future__ import absolute_import, unicode_literals

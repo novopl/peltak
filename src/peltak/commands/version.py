@@ -13,7 +13,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-""" Commands for managing the managed project version. """
+"""
+##################
+``peltak version``
+##################
+
+Commands for managing the managed project version.
+"""
 from __future__ import absolute_import
 
 from . import root_cli, click, pretend_option

@@ -17,6 +17,7 @@ ___*.py
 cache.sqlite
 .cache
 .pytest_cache
+.mypy_cache
 
 ################
 # Python files #
@@ -36,7 +37,7 @@ requirements.txt
 .build
 docs/html
 docs/doctest
-docs/ref
+docs/dev/ref
 
 ##############
 # Data files #

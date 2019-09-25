@@ -198,7 +198,7 @@ def args_django(enabled, django_settings, django_settings_test):
     if not enabled:
         return []
 
-    args = []
+    args = []   # type: List[str]
     if django_settings_test is not None:
         args += ['--ds {}'.format(django_settings_test)]
     elif django_settings is not None:
@@ -221,7 +221,7 @@ def args_plugins(plugins):
         list[str]: The list of pytest arguments. Can be joined on ' ' to make
             them ready to be appended to the pytest command.
     """
-    args = []
+    args = []   # type: List[str]
 
     for plug_name in (plugins or []):
         if not plug_name.strip():
@@ -253,7 +253,7 @@ def args_verbosity(level, show_locals):
         list[str]: The list of pytest arguments. Can be joined on ' ' to make
             them ready to be appended to the pytest command.
     """
-    args = []
+    args = []   # type: List[str]
 
     if level >= 1:
         args += ['-' + 'v' * level]
