@@ -114,7 +114,7 @@ class ScriptFiles(object):
                                  fields.exclude.default.factory())  # type: ignore
 
         if not paths:
-            raise ValueError("You must define the name of the option")
+            raise ValueError("You must define the paths when using script files")
 
         # A string value is the same as one element array.
         paths = [paths] if isinstance(paths, string_types) else paths

@@ -60,3 +60,14 @@ def test_works_with_just_name_and_command():
 def test_raises_ValueError_if_command_is_not_defined():
     with pytest.raises(ValueError):
         Script.from_config('test', {})
+
+
+def test_supports_passing_scalar_to_success_exit_codes():
+    script = Script.from_config('test', {
+        'command': 'fake_cmd',
+        'success_exit_codes': 5,
+    })
+
+    assert script.name == 'test'
+    assert script.command == 'fake_cmd'
+    assert script.success_exit_codes == [5]

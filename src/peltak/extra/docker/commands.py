@@ -132,7 +132,7 @@ def docker_list(registry_pass):
 
         \b
         $ peltak docker list            # List images in the docker registry
-        $ peltak docker list -p mypass  # List registry images, use give pw
+        $ peltak docker list -p mypass  # List registry images, use given pw
 
     """
     from . import logic

@@ -26,12 +26,15 @@ Filters provided by peltak
 """
 from __future__ import absolute_import, unicode_literals
 
+# stdlib imports
+from typing import Any
+
 # local imports
 from peltak.core import shell
 
 
 def header(title):
-    # type: (str) -> str
+    # type: (Any) -> str
     """ Converts a given title into a pretty header with colors.
 
     **Usage:**
@@ -46,6 +49,10 @@ def header(title):
 
     The resulting string will be colored for printing in the terminal.
     """
+    title = str(title)
+    if (len(title) > 72):
+        title = title[0:70] + '...'
+
     remaining = 80 - len(title) - 3
     return shell.fmt('echo "<32>= <35>{title} <32>{bar}<0>"',
                      title=title,
@@ -70,6 +77,12 @@ def count_flag(count, flag):
     In the above example, if ``verbose`` is ``0`` the result of this filter will
     be an empty string.
     """
+    if not isinstance(count, int) or count < 0:
+        raise ValueError('Cannot create count flag from count={}'.format(count))
+
+    if not isinstance(flag, str) or len(flag) > 1 or not flag.isalpha():
+        raise ValueError("Invalid 'flag={}' passed to count_flag".format(flag))
+
     return '-' + flag * count if count else ''
 
 
@@ -108,4 +121,8 @@ def cprint(msg, *args, **kw):
     green.
 
     """
-    return shell.fmt('echo "{}"<0>', msg.format(*args, **kw))
+    return shell.fmt('echo "{}<0>"', str(msg).format(*args, **kw))
+
+
+# Used only in type hint comments
+del Any

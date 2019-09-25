@@ -92,12 +92,12 @@ invoking your script will cause **peltak** to render the compiled template
 script instead of running it. This allows you to see exactly what command would
 be executed.
 
-The second one is the ``-v``, ``--verbose`` flag. With verbosity level 2 (``-vv``)
+The second one is the ``-v``, ``--verbose`` flag. With verbosity level 3 (``-vvv``)
 **peltak** will render the full script template context as a highlighted YAML.
 This makes it very easy to see exactly what values are available in the template
 context of your project.
 
-Combining ``--pretend`` with ``-vv`` will show you the full template context
+Combining ``--pretend`` with ``-vvv`` will show you the full template context
 followed by a compiled command without executing anything. This is perfect when
 you're working on your script and are afraid you might break something.
 

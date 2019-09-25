@@ -50,7 +50,7 @@ scripts:
       set -e
 
       {{ 'mypy' | header }}
-      pipenv mypy --ignore-missing-imports {{ files | wrap_paths }} \
+      pipenv run mypy --ignore-missing-imports {{ files | wrap_paths }} \
           {{ '| head' if opts.head else '' }} \
           {{ '| wc -l' if opts.count else '' }}
 
@@ -95,6 +95,8 @@ scripts:
         is_flag: true
         about: Disable pytest-sugar. Might be useful for CI runs.
     command: |
+      set -e
+
       pipenv run pytest \
           -c ops/tools/pytest.ini \
           --cov-config=ops/tools/coverage.ini \
@@ -104,6 +106,9 @@ scripts:
           {{ ctx.verbose | count_flag('v') }} \
           {{ '-p no:sugar' if opts.no_sugar else '' }} \
           test/unit
+
+      {% set cov_path = proj_path(conf.build_dir, 'coverage/index.html') %}
+      {{ cprint('<32>HTML report: <34>file://{}', cov_path) }}
 
   cov-core:
     about: Generate coverage report for peltak.core

@@ -47,7 +47,7 @@ def run_script(script, options):
     verbose = ctx.get('verbose')
     pretend = ctx.get('pretend')
 
-    if verbose > 1:
+    if verbose >= 3:
         log.info('Compiling script <35>{name}\n{script}'.format(
             name=script.name,
             script=shell.highlight(script.command, 'jinja')

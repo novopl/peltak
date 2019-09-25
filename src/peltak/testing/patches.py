@@ -14,6 +14,26 @@ from typing import Any, Dict
 from mock import patch, Mock
 from peltak.core.shell import ExecResult
 
+# local imports
+from peltak.core import shell
+
+
+def patch_is_tty(value):
+    """ Wrapped test function will have peltak.core.shell.is_tty set to *value*. """
+    def decorator(fn):  # pylint: disable=missing-docstring
+        @wraps(fn)
+        def wrapper(*args, **kw):   # pylint: disable=missing-docstring
+            is_tty = shell.is_tty
+            shell.is_tty = value
+
+            try:
+                return fn(*args, **kw)
+            finally:
+                shell.is_tty = is_tty
+        return wrapper
+
+    return decorator
+
 
 class patch_proj_root(object):
     """ Patch project root decorator. """
