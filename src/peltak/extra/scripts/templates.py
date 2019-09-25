@@ -149,10 +149,10 @@ class TemplateEngine(util.Singleton):
             variable_end_string='}}',
         )
 
-        env.filters['wrap_paths'] = fs.wrap_paths
         env.filters['header'] = filters.header
         env.filters['count_flag'] = filters.count_flag
         env.filters['cprint'] = filters.cprint
+        env.filters['wrap_paths'] = fs.wrap_paths
 
         return env
 
