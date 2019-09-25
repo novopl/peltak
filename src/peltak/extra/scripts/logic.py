@@ -43,7 +43,7 @@ ctx = GlobalContext()
 def run_script(script, options):
     # type: (Script, CliOptions) -> None
     """ Run the script with the given (command line) options. """
-    template_ctx = _build_template_context(script, options)
+    template_ctx = build_template_context(script, options)
     verbose = ctx.get('verbose')
     pretend = ctx.get('pretend')
 
@@ -56,7 +56,22 @@ def run_script(script, options):
         log.info('with context:\n{}\n'.format(shell.highlight(yaml_str, 'yaml')))
 
     cmd = TemplateEngine().render(script.command, template_ctx)
+    retcode = exec_script_command(cmd, pretend)
 
+    if verbose:
+        log.info("Script exited with code: <33>{}", retcode)
+
+    if retcode not in script.success_exit_codes:
+        sys.exit(retcode)
+
+
+def exec_script_command(cmd, pretend):
+    # type: (str, bool) -> int
+    """ This will execute the already compiled script command.
+
+    This function serves the purpose of encapsulating the low level code of
+    spawning a subprocess from the rest of the logic.
+    """
     if not pretend:
         with conf.within_proj_dir():
             # God knows why, if we run the command using `shell.run()` and it
@@ -68,24 +83,20 @@ def run_script(script, options):
             p = subprocess.Popen(cmd, shell=True)
             try:
                 p.communicate()
-                if verbose:
-                    log.info("Script exited with code: <33>{}", p.returncode)
-
-                if p.returncode not in script.success_exit_codes:
-                    sys.exit(p.returncode)
-
+                return p.returncode
             except KeyboardInterrupt:
                 p.kill()
+                return -1
     else:
         log.info(
-            "Would run script: <35>{name}\n<90>{bar}<0>\n{script}\n<90>{bar}",
-            name=script.name,
+            "<90>{bar}<0>\n{script}\n<90>{bar}",
             bar='=' * 80,
             script=shell.highlight(cmd, 'bash'),
         )
+        return 0
 
 
-def _build_template_context(script, options):
+def build_template_context(script, options):
     """ Build command template context.
 
     This will collect all the values like current configuration, command line
@@ -93,7 +104,7 @@ def _build_template_context(script, options):
     """
     template_ctx = {
         'opts': dict(
-            vebose=ctx.get('verbose'),
+            verbose=ctx.get('verbose'),
             pretend=ctx.get('pretend'),
             **options
         ),

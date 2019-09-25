@@ -113,9 +113,9 @@ def cprint(msg, *args, **kw):
 
         {{ '<35>hello, <32>world' | cprint }}
 
-    will result in the following string::
+    will result in the following::
 
-        \\x1b[35mhello, \\x1b[32mworld\\x1b[0m
+        echo "\\x1b[35mhello, \\x1b[32mworld\\x1b[0m"
 
     Which inside a terminal will be rendered as *hello* in ping and world in
     green.
