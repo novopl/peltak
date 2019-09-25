@@ -15,6 +15,7 @@ def test_works():
         'about': 'Test script',
         'command': 'echo test',
         'success_exit_codes': [0, 5],
+        'root_cli': True,
         'files': {
             'paths': ['src'],
         },
@@ -29,8 +30,9 @@ def test_works():
 
     assert script.name == 'test'
     assert script.about == 'Test script'
-    assert script.command == 'echo test'
+    assert script.root_cli is True
     assert script.success_exit_codes == [0, 5]
+    assert script.command == 'echo test'
 
     assert isinstance(script.files, ScriptFiles)
     assert script.files.paths == ['src']

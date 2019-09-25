@@ -10,15 +10,15 @@ version_file: 'src/peltak/__init__.py'
 
 # A list of py modules with commands that should be available for the project.
 commands:
-  - peltak.commands.docs
   - peltak.commands.git
-  - peltak.commands.lint
-  - peltak.commands.test
   - peltak.commands.version
   - peltak.extra.changelog
   - peltak.extra.gitflow
   - peltak.extra.pypi
   - peltak.extra.scripts
+#  - peltak.commands.docs
+#  - peltak.commands.lint
+#  - peltak.commands.test
 
 # Configure what gets deleted when running `peltak clean`
 clean:
@@ -34,46 +34,9 @@ docker:
 
 # Custom scripts
 scripts:
-  type-check:
-    about: Run static type checks.
-    files:
-      paths: src/peltak
-      include: "*.py"
-    options:
-      - name: ['--head']
-        about: Pipe the output to 'head' to only see the first few results.
-        is_flag: true
-      - name: ['--count']
-        about: Instead of showing the erros, display the number of errors detected.
-        is_flag: true
-    command: |
-      set -e
-
-      {{ 'mypy' | header }}
-      pipenv run mypy --ignore-missing-imports {{ files | wrap_paths }} \
-          {{ '| head' if opts.head else '' }} \
-          {{ '| wc -l' if opts.count else '' }}
-
-      {{ 'done' | header }}
-
   lint:
-    about: Run all linters (pep8, pylint).
-    files:
-      paths: ['src/peltak', 'test/unit']
-      include: "*.py"
-    command: |
-
-      set -e
-      {{ 'pep8' | header }}
-      pipenv run pep8 --config ops/tools/pep8.ini {{ files | wrap_paths }};
-
-      {{ 'pylint' | header }}
-      pipenv run pylint --rcfile ops/tools/pylint.ini {{ files | wrap_paths }};
-
-      {{ 'done' | header }}
-
-  checks:
     about: Run all checks (types, pep8, code style)
+    root_cli: true
     files:
       paths:
         - src/peltak
@@ -94,8 +57,37 @@ scripts:
 
       {{ 'done' | header }}
 
-  tests:
+  lint-commit:
+    about: Perform all checks on files staged for commit
+    root_cli: true
+    files:
+      paths:
+        - src/peltak
+        - test/unit
+      commit: "*.py"
+      include: "*.py"
+      use_gitignore: true
+    command: |
+      set -e
+
+      {% if files %}
+        {{ 'mypy' | header }}
+        mypy --ignore-missing-imports {{ files | wrap_paths }}
+
+        {{ 'pep8' | header }}
+        pep8 --config ops/tools/pep8.ini {{ files | wrap_paths }};
+
+        {{ 'pylint' | header }}
+        pylint --rcfile ops/tools/pylint.ini {{ files | wrap_paths }}
+
+        {{ 'done' | header }}
+      {% else %}
+        {{ '<90>No relevant files in the commit' | cprint }}
+      {% endif %}
+
+  test:
     about: Run unit tests
+    root_cli: true
     options:
       - name: ['--no-sugar']
         is_flag: true
@@ -164,13 +156,14 @@ scripts:
 
   docs:
     about: Generate sphinx documentation
+    root_cli: true
     options:
       - name: ['--recreate']
         about: Delete build and out directories before running.
-        is_flag: True
+        is_flag: true
       - name: ['--run-doctests']
         about: Also run all doctests.
-        is_flag: True
+        is_flag: true
     command: |
       {% if opts.recreate %}
         {{ 'Cleaning after previous builds' | header }}

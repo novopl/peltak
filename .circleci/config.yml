@@ -39,11 +39,8 @@ jobs:
             - .venv
 
       - run:
-          name: Type check
-          command: peltak run type-check
-      - run:
           name: Lint
-          command: peltak run lint
+          command: peltak lint
       - restore_cache:
           name: Restore tox cache
           key: tox-rev1-{{ checksum "Pipfile.lock" }}
@@ -59,7 +56,7 @@ jobs:
       - run:
           name: Build Documentation
           command: |
-            peltak run docs --recreate --run-doctests
+            peltak docs --recreate --run-doctests
             mv docs/html docs/peltak-docs
             cd docs && zip -r ../.build/peltak-docs.zip peltak-docs
 

@@ -29,7 +29,7 @@ def test_raises_ValueError_on_invalid_count(count):
         count_flag(count, 'v')
 
 
-@pytest.mark.parametrize('flag', ['9', '-', '+', '*', 3, 12, None])
+@pytest.mark.parametrize('flag', ['vv', '9', '-', '+', '*', 3, 12, None])
 def test_raises_ValueError_if_flag_is_invalid(flag):
     with pytest.raises(ValueError):
         count_flag(2, flag)

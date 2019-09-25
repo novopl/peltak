@@ -16,7 +16,8 @@
 """ Types and classes used by ``peltak.extra.scripts``. """
 
 # stdlib imports
-from typing import Any, Callable, Dict, List, Optional, Type, cast
+from fnmatch import fnmatch
+from typing import Any, Callable, Dict, List, Optional, Type, Union, cast
 
 # 3rd party imports
 import attr
@@ -97,7 +98,7 @@ class ScriptFiles(object):
     paths = attr.ib(type=bool)
     include = attr.ib(type=List[str], factory=list)
     exclude = attr.ib(type=List[str], factory=list)
-    commit = attr.ib(type=bool, default=False)
+    commit = attr.ib(type=Union[bool], default=False)
     untracked = attr.ib(type=bool, default=True)
     use_gitignore = attr.ib(type=bool, default=True)
 
@@ -136,10 +137,15 @@ class ScriptFiles(object):
         """ Return a full whitelist for use with `fs.filtered_walk()` """
         from peltak.core import git
 
-        include = list(self.include)
-
         if self.commit:
-            include += ['*' + f for f in git.staged()]
+            # Only include committed files if commit only is true.
+            if isinstance(self.commit, string_types):
+                include = ['*' + f for f in git.staged() if fnmatch(f, self.commit)]
+            else:
+                include = ['*' + f for f in git.staged()]
+
+        else:
+            include = list(self.include)
 
         return include
 
@@ -172,6 +178,7 @@ class Script(object):
     name = attr.ib(type=str)
     command = attr.ib(type=str)
     about = attr.ib(type=str, default='')
+    root_cli = attr.ib(type=bool, default=False)
     success_exit_codes = attr.ib(type=List[int], factory=lambda: [0])
     options = attr.ib(type=List[ScriptOption], factory=list)
     files = attr.ib(type=Optional[ScriptFiles], default=None)
@@ -204,6 +211,7 @@ class Script(object):
             name=name,
             command=script_conf['command'],
             about=script_conf.get('about', fields.about.default),
+            root_cli=script_conf.get('root_cli', fields.root_cli.default),
             success_exit_codes=success_exit_codes,
             options=[ScriptOption.from_config(opt_conf) for opt_conf in options],
             files=files,

@@ -112,4 +112,4 @@ def post_conf_load():
 
     for name, script_conf in scripts.items():
         script = Script.from_config(name, script_conf)
-        script.register(run_cli)
+        script.register(root_cli if script.root_cli else run_cli)

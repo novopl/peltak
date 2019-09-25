@@ -125,6 +125,12 @@ def collect_files(files):
     """ Collect script files using the given configuration. """
     paths = [conf.proj_path(p) for p in files.paths]
 
+    if GlobalContext().get('verbose') >= 3:
+        log.info("commit: <33>{}".format(files.commit))
+        log.info("untracked: <33>{}".format(files.untracked))
+        log.info("whitelist: <33>\n{}".format('\n'.join(files.whitelist())))
+        log.info("blacklist: <33>\n{}".format('\n'.join(files.blacklist())))
+
     return list(itertools.chain.from_iterable(
         fs.filtered_walk(path, files.whitelist(), files.blacklist())
         for path in paths

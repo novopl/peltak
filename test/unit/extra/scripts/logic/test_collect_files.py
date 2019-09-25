@@ -7,6 +7,7 @@ from mock import Mock, patch
 
 # local imports
 from peltak.core import conf
+from peltak.core.context import GlobalContext
 from peltak.extra.scripts.types import ScriptFiles
 from peltak.extra.scripts.logic import collect_files
 
@@ -31,5 +32,31 @@ def test_calls_filtered_walk_with_paths_configured(p_filtered_walk):
     assert tuple(args) == expected
 
 
-# Used only in type hint comments
-del Mock
+@patch('peltak.core.fs.filtered_walk', Mock(return_value=[]))
+@patch('peltak.core.shell.cprint')
+def test_prints_debug_info_if_verbose_lvl_ge_3(p_cprint):
+    # type: (Mock) -> None
+    files = ScriptFiles.from_config({
+        'paths': ['path1', 'path2'],
+    })
+
+    GlobalContext().set('verbose', 3)
+    collect_files(files)
+    GlobalContext().set('verbose', 0)
+
+    assert next(
+        (True for x in p_cprint.call_args_list if 'commit: ' in x[0][0]),
+        False
+    )
+    assert next(
+        (True for x in p_cprint.call_args_list if 'untracked: ' in x[0][0]),
+        False
+    )
+    assert next(
+        (True for x in p_cprint.call_args_list if 'whitelist: ' in x[0][0]),
+        False
+    )
+    assert next(
+        (True for x in p_cprint.call_args_list if 'blacklist: ' in x[0][0]),
+        False
+    )
