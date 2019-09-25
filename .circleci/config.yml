@@ -34,15 +34,18 @@ jobs:
             echo '== cat requirements.txt =================================='
 
       - run:
+          name: Type check
+          command: peltak run type-check
+      - run:
           name: Lint
-          command: peltak lint
+          command: peltak run lint
       - run:
           name: Test
           command: tox
       - run:
           name: Build Documentation
           command: |
-            peltak docs --recreate --run-doctests --gen-index
+            peltak run docs --recreate --run-doctests
             mv docs/html docs/peltak-docs
             cd docs && zip -r ../.build/peltak-docs.zip peltak-docs
 

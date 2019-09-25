@@ -24,6 +24,8 @@ This is mainly for web apps that are deployed with docker.
 """
 from __future__ import absolute_import
 
+# local imports
+from peltak.core import util
 from peltak.commands import root_cli, click, pretend_option
 
 
@@ -36,6 +38,7 @@ def docker_cli():
 
 @docker_cli.command('build')
 @pretend_option
+@util.mark_deprecated('peltak run')
 def build_images():
     # type: () -> None
     """ Build and tag a docker image for the project.
@@ -71,6 +74,7 @@ def build_images():
 
 @docker_cli.command('push')
 @pretend_option
+@util.mark_deprecated('peltak run')
 def push_images():
     # type: () -> None
     """ Push project docker images to the registry.

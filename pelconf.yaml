@@ -158,8 +158,33 @@ scripts:
 
   docs:
     about: Generate sphinx documentation
+    options:
+      - name: ['--recreate']
+        about: Delete build and out directories before running.
+        is_flag: True
+      - name: ['--run-doctests']
+        about: Also run all doctests.
+        is_flag: True
     command: |
+      {% if opts.recreate %}
+        {{ 'Cleaning after previous builds' | header }}
+        {{ '<91>Deleting <94>docs/html' | cprint }}
+        rm -rf docs/html
+
+        {{ '<91>Deleting <94>.build/docs' | cprint }}
+        rm -rf .build/docs
+      {% endif %}
+
+      {{ 'Generating documentation' | header }}
       pipenv run sphinx-build \
           -b html \
           -d {{ conf.build_dir }}/docs \
           docs docs/html
+
+      {% if opts.run_doctests %}
+        {{ 'Running doctests' | header }}
+        pipenv run sphinx-build \
+            -b doctest \
+            -d {{ conf.build_dir }}/docs \
+            docs docs/doctest
+      {% endif %}

@@ -26,6 +26,7 @@ from typing import List
 
 # local imports
 from peltak.core import conf
+from peltak.core import util
 from . import root_cli, click, pretend_option, verbose_option
 
 
@@ -36,6 +37,7 @@ conf.command_requirements(
 
 
 @root_cli.group('lint', invoke_without_command=True)
+@util.mark_deprecated('peltak run')
 @click.option(
     '-e', '--exclude',
     multiple=True,
