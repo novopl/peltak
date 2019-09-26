@@ -23,6 +23,7 @@ import sys
 from peltak.core import conf
 from peltak.core import context
 from peltak.core import git
+from peltak.core import hooks
 from peltak.core import log
 from . import common
 
@@ -41,7 +42,10 @@ def start(name):
     master = conf.get('git.master_branch', 'master')
 
     common.assert_on_branch(master)
+
+    hooks.register.call('pre-hotfix-start', name)
     common.git_checkout(hotfix_branch, create=True)
+    hooks.register.call('post-hotfix-start', name)
 
 
 def rename(name):
@@ -91,6 +95,8 @@ def finish():
 
     common.assert_branch_type('hotfix')
 
+    hooks.register.call('pre-hotfix-finish', branch)
+
     # Merge hotfix into master
     common.git_checkout(master)
     common.git_pull(master)
@@ -107,6 +113,8 @@ def finish():
 
     common.git_checkout(master)
 
+    hooks.register.call('post-hotfix-finish', branch)
+
 
 def merged():
     # type: () -> None
@@ -116,6 +124,8 @@ def merged():
     branch = git.current_branch(refresh=True)
 
     common.assert_branch_type('hotfix')
+
+    hooks.register.call('pre-hotfix-merged', branch)
 
     # Pull master with the merged hotfix
     common.git_checkout(master)
@@ -131,3 +141,5 @@ def merged():
     common.git_prune()
 
     common.git_checkout(master)
+
+    hooks.register.call('post-hotfix-merged', branch)

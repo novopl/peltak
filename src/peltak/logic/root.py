@@ -36,13 +36,10 @@ from peltak.core import util
 
 
 def clean(exclude):
-    # type: (bool, List[str]) -> None
+    # type: (List[str]) -> None
     """ Remove all unnecessary files.
 
     Args:
-        pretend (bool):
-            If set to **True**, do not delete any files, just show what would be
-            deleted.
         exclude (list[str]):
             A list of path patterns to exclude from deletion.
     """
@@ -63,10 +60,12 @@ def clean(exclude):
 
                 if not isdir(path):
                     log.info('  <91>[file] <90>{}', path)
-                    not pretend and os.remove(path)
+                    if not pretend:
+                        os.remove(path)
                 else:
                     log.info('  <91>[dir]  <90>{}', path)
-                    not pretend and rmtree(path)
+                    if not pretend:
+                        rmtree(path)
 
             except OSError:
                 log.info("<33>Failed to remove <90>{}", path)
@@ -112,7 +111,7 @@ class InitForm(cliform.Form):
 
 
 def init(quick):
-    # type: () -> None
+    # type: (bool) -> None
     """ Create an empty pelconf.yaml from template """
     config_file = 'pelconf.yaml'
     prompt = "-- <35>{} <32>already exists. Wipe it?<0>".format(config_file)

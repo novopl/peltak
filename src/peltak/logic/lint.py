@@ -21,7 +21,7 @@ import os.path
 from collections import OrderedDict
 from itertools import chain
 from types import FunctionType
-from typing import List
+from typing import Any, Callable, Dict, List
 
 # 3rd party imports
 from six import string_types
@@ -36,7 +36,12 @@ from peltak.core import shell
 from peltak.core import util
 
 
-g_tools = OrderedDict()
+AnyFn = Callable[..., Any]
+Decorator = Callable[[AnyFn], AnyFn]
+ToolFn = Callable[[List[str]], int]
+ToolsMap = Dict[str, ToolFn]
+
+g_tools = OrderedDict()     # type: ToolsMap
 
 
 def lint(exclude, skip_untracked, commit_only):
@@ -60,7 +65,7 @@ def lint(exclude, skip_untracked, commit_only):
 
 
 def tool(name):
-    # type: (str) -> FunctionType
+    # type: (str) -> Decorator
     """ Decorator for defining lint tools.
 
     Args:
@@ -71,7 +76,7 @@ def tool(name):
     global g_tools
 
     def decorator(fn):  # pylint: disable=missing-docstring
-        # type: (FunctionType) -> FunctionType
+        # type: (ToolFn) -> ToolFn
         g_tools[name] = fn
         return fn
 
@@ -109,7 +114,7 @@ class LintRunner(object):
         self.allow_empty = True
         self.verbose = context.get('verbose', 0)
 
-        self.linters = OrderedDict()
+        self.linters = OrderedDict()    # type: ToolsMap
         for tool in conf.get('lint.tools', ['pep8', 'pylint']):
             if tool in g_tools:
                 self.linters[tool] = g_tools[tool]
@@ -153,9 +158,9 @@ class LintRunner(object):
         return success
 
     def _run_checks(self, files):
-        # type: (List[str]) -> OrderedDict[str, int]
+        # type: (List[str]) -> OrderedDict[str, List[int]]
         batch_size = conf.get('lint.batch_size', 500)
-        results = OrderedDict()
+        results = OrderedDict()     # type: OrderedDict[str, List[int]]
 
         for name, check_fn in self.linters.items():
             log.info("Running <35>{}".format(name))
@@ -223,13 +228,13 @@ def pep8_check(files):
     use pylint only for the more advanced checks (the number of checks enabled
     in pylint will make a visible difference in it's run times).
     """
-    files = fs.wrap_paths(files)
+    wrapped_files = fs.wrap_paths(files)
     cfg_path = conf.get_path('lint.pep8_cfg', 'ops/tools/pep8.ini')
 
     if os.path.exists(cfg_path):
-        cmd = 'pep8 --config {} {}'.format(cfg_path, files)
+        cmd = 'pep8 --config {} {}'.format(cfg_path, wrapped_files)
     else:
-        cmd = 'pep8 {}'.format(files)
+        cmd = 'pep8 {}'.format(wrapped_files)
 
     return shell.run(cmd, exit_on_error=False).return_code
 
@@ -252,13 +257,13 @@ def pycodestyle_check(files):
     This way you use pylint only for the more advanced checks (the number of
     checks enabled in pylint will make a visible difference in it's run times).
     """
-    files = fs.wrap_paths(files)
+    wrapped_files = fs.wrap_paths(files)
     cfg_path = conf.get_path('lint.pycodestyle_cfg', 'ops/tools/pycodestyle.ini')
 
     if os.path.exists(cfg_path):
-        cmd = 'pycodestyle --config {} {}'.format(cfg_path, files)
+        cmd = 'pycodestyle --config {} {}'.format(cfg_path, wrapped_files)
     else:
-        cmd = 'pycodestyle {}'.format(files)
+        cmd = 'pycodestyle {}'.format(wrapped_files)
 
     return shell.run(cmd, exit_on_error=False).return_code
 
@@ -275,13 +280,13 @@ def mypy_check(files):
     Returns:
         bool: **True** if all files passed the checks, **False** otherwise.
     """
-    files = fs.wrap_paths(files)
+    wrapped_files = fs.wrap_paths(files)
     cfg_path = conf.get_path('lint.mypy_cfg', 'ops/tools/pycodestyle.ini')
 
     if os.path.exists(cfg_path):
-        cmd = 'mypy --config-file {} {}'.format(cfg_path, files)
+        cmd = 'mypy --config-file {} {}'.format(cfg_path, wrapped_files)
     else:
-        cmd = 'mypy {}'.format(files)
+        cmd = 'mypy {}'.format(wrapped_files)
 
     return shell.run(cmd, exit_on_error=False).return_code
 
@@ -298,13 +303,13 @@ def pylint_check(files):
     Returns:
         bool: **True** if all files passed the checks, **False** otherwise.
     """
-    files = fs.wrap_paths(files)
+    wrapped_files = fs.wrap_paths(files)
     cfg_path = conf.get_path('lint.pylint_cfg', 'ops/tools/pylint.ini')
 
     if os.path.exists(cfg_path):
-        cmd = 'pylint --rcfile {} {}'.format(cfg_path, files)
+        cmd = 'pylint --rcfile {} {}'.format(cfg_path, wrapped_files)
     else:
-        cmd = 'pylint {}'.format(files)
+        cmd = 'pylint {}'.format(wrapped_files)
 
     return shell.run(cmd, exit_on_error=False).return_code
 

@@ -22,14 +22,16 @@ displaying results.
 from __future__ import absolute_import
 
 # stdlib imports
-from types import FunctionType
-from typing import Any
+from typing import Any, Callable, Union
 
 # 3rd party imports
 import click
 
 # local imports
 import peltak
+
+
+AnyFn = Callable[..., Any]
 
 
 @click.group()
@@ -55,7 +57,7 @@ def root_cli():
 
 
 def pretend_option(fn):
-    # type: (FunctionType) -> FunctionType
+    # type: (AnyFn) -> AnyFn
     """ Decorator to add a --pretend option to any click command.
 
     The value won't be passed down to the command, but rather handled in the
@@ -74,7 +76,7 @@ def pretend_option(fn):
     """
 
     def set_pretend(ctx, param, value):     # pylint: disable=missing-docstring
-        # type: (click.Context, str, Any) -> None
+        # type: (click.Context, Union[click.Option, click.Parameter], Any) -> Any
         from peltak.core import context
         from peltak.core import shell
 
@@ -85,7 +87,7 @@ def pretend_option(fn):
     return click.option(
         '--pretend',
         is_flag=True,
-        help=("Do not actually do anything, just print shell commands that"
+        help=("Do not actually do anything, just print shell commands that "
               "would be executed."),
         expose_value=False,
         callback=set_pretend
@@ -146,14 +148,14 @@ def verbose_option(fn):
     """
 
     def set_verbose(ctx, param, value):     # pylint: disable=missing-docstring
-        # type: (click.Context, str, Any) -> None
+        # type: (click.Context, Union[click.Option, click.Parameter], Any) -> Any
         from peltak.core import context
         context.set('verbose', value or 0)
 
     return click.option(
         '-v', '--verbose',
-        is_flag=True,
         expose_value=False,
+        count=True,
         callback=set_verbose,
         help="Be verbose. Can specify multiple times for more verbosity.",
     )(fn)

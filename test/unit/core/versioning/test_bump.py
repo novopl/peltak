@@ -34,8 +34,8 @@ def test_raises_ValueError_if_invalid_version_is_given():
 
 @pytest.mark.parametrize('version,component,expected', [
     ('0.9.5', 'patch', '0.9.6'),
-    ('0.9.5', 'minor', '0.10'),
-    ('0.9.5', 'major', '1.0'),
+    ('0.9.5', 'minor', '0.10.0'),
+    ('0.9.5', 'major', '1.0.0'),
     ('0.9.0', 'patch', '0.9.1'),
 ])
 @testing.patch_pelconf({'version_file': 'fake.yaml'})

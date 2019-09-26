@@ -24,16 +24,17 @@ import os.path
 import sys
 from contextlib import contextmanager
 from types import ModuleType
-from typing import Any, Dict, Optional, Text, Union
+from typing import Any, Dict, Iterator, List, Optional, Text, Union
 
 # local imports
 from peltak import PKG_DIR
 from . import util
+from . import hooks
 
 
 PROJ_CONF_FILE = 'pelconf.py'
-requirements = []
-g_config = {}
+requirements = []       # type: List[str]
+g_config = {}           # type: Dict[str, Any]
 
 
 def command_requirements(*dependencies):
@@ -104,9 +105,7 @@ def load():
     with within_proj_dir():
         if os.path.exists('pelconf.yaml'):
             load_yaml_config('pelconf.yaml')
-
-        if os.path.exists('pelconf.py'):
-            load_py_config('pelconf.py')
+            hooks.register.call('post-conf-load')
 
 
 def load_yaml_config(conf_file):
@@ -126,7 +125,7 @@ def load_yaml_config(conf_file):
 
     with open(conf_file) as fp:
         # Initialize config
-        g_config = util.yaml_load(fp)
+        g_config = util.yaml_load(fp)       # type: ignore
 
         # Add src_dir to sys.paths if it's set. This is only done with YAML
         # configs, py configs have to do this manually.
@@ -137,42 +136,8 @@ def load_yaml_config(conf_file):
         for cmd in get('commands', []):
             try:
                 _import(cmd)
-            except ImportError:
-                log.err("Failed to load commands from <33>{}<31>.", cmd)
-
-
-def load_py_config(conf_file):
-    # type: (str) -> None
-    """ Import configuration from a python file.
-
-    This will just import the file into python. Sky is the limit. The file
-    has to deal with the configuration all by itself (i.e. call conf.init()).
-    You will also need to add your src directory to sys.paths if it's not the
-    current working directory. This is done automatically if you use yaml
-    config as well.
-
-    Args:
-        conf_file (str):
-            Path to the py module config. This function will not check the file
-            name or extension and will just crash if the given file does not
-            exist or is not a valid python file.
-    """
-    if sys.version_info >= (3, 5):
-        from importlib import util
-
-        spec = util.spec_from_file_location('pelconf', conf_file)
-        mod = util.module_from_spec(spec)
-        spec.loader.exec_module(mod)
-
-    elif sys.version_info >= (3, 3):
-        from importlib import machinery
-        loader = machinery.SourceFileLoader('pelconf', conf_file)
-        _ = loader.load_module()
-
-    elif sys.version_info <= (3, 0):
-        import imp
-
-        imp.load_source('pelconf', conf_file)
+            except ImportError as ex:
+                log.err("Failed to load commands from <33>{}<31>: {}", cmd, ex)
 
 
 def load_template(filename):
@@ -206,7 +171,7 @@ def getenv(name, default=None):
 
 
 def proj_path(*path_parts):
-    # type: (str) -> str
+    # type: (*str) -> str
     """ Return absolute path to the repo dir (root project directory).
 
     Args:
@@ -216,21 +181,21 @@ def proj_path(*path_parts):
     Returns:
         str: The given path converted to an absolute path.
     """
-    path_parts = path_parts or ['.']
+    parts = list(path_parts) or ['.']
 
     # If path represented by path_parts is absolute, do not modify it.
-    if not os.path.isabs(path_parts[0]):
+    if not os.path.isabs(parts[0]):
         proj_path = _find_proj_root()
 
         if proj_path is not None:
-            path_parts = [proj_path] + list(path_parts)
+            parts = [proj_path] + list(parts)
 
-    return os.path.normpath(os.path.join(*path_parts))
+    return os.path.normpath(os.path.join(*parts))
 
 
 @contextmanager
 def within_proj_dir(path='.'):
-    # type: (Optional[str]) -> str
+    # type: (str) -> Iterator[None]
     """ Return an absolute path to the given project relative path.
 
     :param path:
@@ -262,11 +227,11 @@ def get(name, *default):
 
     Returns:
         The requested config value. This is one of the global values defined
-        in this file. If the value does not exist it will return `default` if
+        in this file. If the value does not exist it will return *default* if
         give or raise `AttributeError`.
 
     Raises:
-        AttributeError: If the value does not exist and `default` was not given.
+        AttributeError: If the value does not exist and *default* was not given.
     """
     global g_config
 
@@ -301,11 +266,11 @@ def get_path(name, *default):
 
     Returns:
         The requested config value. This is one of the global values defined
-        in this file. If the value does not exist it will return `default` if
+        in this file. If the value does not exist it will return *default* if
         give or raise `AttributeError`.
 
     Raises:
-        AttributeError: If the value does not exist and `default` was not given.
+        AttributeError: If the value does not exist and *default* was not given.
     """
     global g_config
 
@@ -338,4 +303,4 @@ def _find_proj_root():
 
 
 # Used in type hint comments only (until we drop python2 support)
-del Any, Dict, Optional, Union, Text, ModuleType
+del Any, Dict, Iterator, List, Optional, Union, Text, ModuleType

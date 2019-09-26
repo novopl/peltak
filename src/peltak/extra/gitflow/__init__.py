@@ -13,7 +13,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-""" git-flow commands for peltak
+"""
+##################################
+**git-flow** made easy with peltak
+##################################
 
 The improvement over raw git-flow is that you will have to type way less. Most
 of the time all the branch names required will be filled in.

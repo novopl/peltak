@@ -10,14 +10,15 @@ version_file: 'src/peltak/__init__.py'
 
 # A list of py modules with commands that should be available for the project.
 commands:
-  - peltak.commands.docs
   - peltak.commands.git
-  - peltak.commands.lint
-  - peltak.commands.test
   - peltak.commands.version
   - peltak.extra.changelog
   - peltak.extra.gitflow
   - peltak.extra.pypi
+  - peltak.extra.scripts
+#  - peltak.commands.docs
+#  - peltak.commands.lint
+#  - peltak.commands.test
 
 # Configure what gets deleted when running `peltak clean`
 clean:
@@ -31,29 +32,160 @@ docker:
   registry: docker.novocode.net
 
 
-# Configure linting tools and paths
-lint:
-  tools:
-    - pep8
-    - pylint
-  paths:
-    - src/peltak
-    - src/peltak_appengine
-    - src/peltak_django
-    - test/unit
-
-
-# Configure how documentation is generated (src files for reference docs, etc).
-docs:
-  reference:
-    - src/peltak
-    - src/peltak_appengine
-    - src/peltak_django
-    - src/cliform
-
-# Tests configuration
-test:
-  types:
-    default:
+# Custom scripts
+scripts:
+  # root scripts
+  lint:
+    about: Run all checks (types, pep8, code style)
+    root_cli: true
+    files:
       paths:
+        - src/peltak
         - test/unit
+      include: "*.py"
+      use_gitignore: true
+    command: |
+      set -e
+
+      {{ 'mypy' | header }}
+      pipenv run mypy --ignore-missing-imports {{ files | wrap_paths }}
+
+      {{ 'pep8' | header }}
+      pipenv run pep8 --config ops/tools/pep8.ini {{ files | wrap_paths }};
+
+      {{ 'pylint' | header }}
+      pipenv run pylint --rcfile ops/tools/pylint.ini {{ files | wrap_paths }}
+
+      {{ 'done' | header }}
+
+  test:
+    about: Run unit tests
+    root_cli: true
+    options:
+      - name: ['--no-sugar']
+        is_flag: true
+        about: Disable pytest-sugar. Might be useful for CI runs.
+    command: |
+      set -e
+
+      pytest \
+          -c ops/tools/pytest.ini \
+          --cov-config=ops/tools/coverage.ini \
+          --cov={{ conf.src_path }} \
+          --cov-report=term \
+          --cov-report=html:{{ conf.build_dir }}/coverage \
+          {{ ctx.verbose | count_flag('v') }} \
+          {{ '-p no:sugar' if opts.no_sugar else '' }} \
+          test/unit
+
+      {% set cov_path = proj_path(conf.build_dir, 'coverage/index.html') %}
+      {{ cprint('<32>HTML report: <34>file://{}', cov_path) }}
+
+  # run scripts
+  lint-commit:
+    about: Perform all checks on files staged for commit
+    files:
+      paths:
+        - src/peltak
+        - test/unit
+      only_staged: true
+      include: "*.py"
+      use_gitignore: true
+    command: |
+      set -e
+
+      {% if files %}
+        {{ 'mypy' | header }}
+        mypy --ignore-missing-imports {{ files | wrap_paths }}
+
+        {{ 'pep8' | header }}
+        pep8 --config ops/tools/pep8.ini {{ files | wrap_paths }};
+
+        {{ 'pylint' | header }}
+        pylint --rcfile ops/tools/pylint.ini {{ files | wrap_paths }}
+
+        {{ 'done' | header }}
+      {% else %}
+        {{ '<90>No relevant staged files - skipping lint...' | cprint }}
+      {% endif %}
+
+  cov-core:
+    about: Generate coverage report for peltak.core
+    command: |
+      set -e
+
+      pipenv run pytest \
+          -c ops/tools/pytest.ini \
+          --cov-config=ops/tools/coverage.ini \
+          --cov={{ conf.src_path }}/core \
+          --cov-report=term \
+          --cov-report=html:{{ conf.build_dir }}/coverage/core \
+          test/unit
+
+      {% set cov_path = proj_path(conf.build_dir, 'coverage/core/index.html') %}
+      {{ cprint('<32>HTML report: <34>file://{}', cov_path) }}
+
+  cov-extra:
+    about: Generate coverage report for peltak.extra
+    command: |
+      set -e
+
+      pipenv run pytest \
+          -c ops/tools/pytest.ini \
+          --cov-config=ops/tools/coverage.ini \
+          --cov={{ conf.src_path }}/extra \
+          --cov-report=term \
+          --cov-report=html:{{ conf.build_dir }}/coverage/extra \
+          test/unit
+
+      {% set cov_path = proj_path(conf.build_dir, 'coverage/extra/index.html') %}
+      {{ cprint('<32>HTML report: <34>file://{}', cov_path) }}
+
+  cov-scripts:
+    about: Generate coverage report for peltak.extra.scripts
+    command: |
+      pipenv run pytest \
+          -c ops/tools/pytest.ini \
+          --cov-config=ops/tools/coverage.ini \
+          --cov={{ conf.src_path }}/extra/scripts \
+          --cov-report=term \
+          --cov-report=html:{{ conf.build_dir }}/coverage/scripts \
+          test/unit
+
+      {% set cov_path = proj_path(conf.build_dir, 'coverage/scripts/index.html') %}
+      {{ cprint('<32>HTML report: <34>file://{}', cov_path) }}
+
+  docs:
+    about: Generate sphinx documentation
+    root_cli: true
+    options:
+      - name: ['--recreate']
+        about: Delete build and out directories before running.
+        is_flag: true
+      - name: ['--run-doctests']
+        about: Also run all doctests.
+        is_flag: true
+    command: |
+      {% if opts.recreate %}
+        {{ 'Cleaning after previous builds' | header }}
+
+        {{ '<91>Deleting <94>docs/html' | cprint }}
+        rm -rf docs/html
+
+        {{ '<91>Deleting <94>.build/docs' | cprint }}
+        rm -rf .build/docs
+      {% endif %}
+
+      {{ 'Generating documentation' | header }}
+      pipenv run sphinx-build \
+          -b html \
+          -d {{ conf.build_dir }}/docs \
+          docs docs/html
+
+      {% if opts.run_doctests %}
+        {{ 'Running doctests' | header }}
+        pipenv run sphinx-build \
+            -b doctest \
+            -d {{ conf.build_dir }}/docs \
+            docs docs/doctest
+      {% endif %}

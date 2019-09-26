@@ -23,6 +23,7 @@ import sys
 from peltak.core import conf
 from peltak.core import context
 from peltak.core import git
+from peltak.core import hooks
 from peltak.core import log
 from . import common
 
@@ -41,7 +42,10 @@ def start(name):
     develop = conf.get('git.devel_branch', 'develop')
 
     common.assert_on_branch(develop)
+
+    hooks.register.call('pre-feature-start', name)
     common.git_checkout(feature_name, create=True)
+    hooks.register.call('post-feature-start', name)
 
 
 def update():
@@ -90,6 +94,8 @@ def finish():
 
     common.assert_branch_type('feature')
 
+    hooks.register.call('pre-feature-finish', branch)
+
     # Merge feature into develop
     common.git_checkout(develop)
     common.git_pull(develop)
@@ -101,6 +107,8 @@ def finish():
 
     common.git_checkout(develop)
 
+    hooks.register.call('post-feature-finish', branch)
+
 
 def merged():
     # type: () -> None
@@ -109,6 +117,8 @@ def merged():
     branch = git.current_branch(refresh=True)
 
     common.assert_branch_type('feature')
+
+    hooks.register.call('pre-feature-merged', branch)
 
     # Pull develop with the merged feature
     common.git_checkout(develop)
@@ -119,3 +129,5 @@ def merged():
     common.git_prune()
 
     common.git_checkout(develop)
+
+    hooks.register.call('post-feature-merged', branch)

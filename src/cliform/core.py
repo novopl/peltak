@@ -111,7 +111,7 @@ class Form(with_metaclass(FormMeta)):
         self.values = {}
 
     def run(self, quick=False):
-        # type: () -> Form
+        # type: (bool) -> Form
         for field in self.fields:
             self.values[field.id] = self.get_value(field, quick)
 

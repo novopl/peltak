@@ -13,9 +13,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-""" git helpers. """
+"""
+##############
+``peltak git``
+##############
+
+git helpers.
+"""
 from __future__ import absolute_import
-from . import root_cli, pretend_option
+from . import click, root_cli, pretend_option
 
 
 @root_cli.group('git')
@@ -27,8 +33,26 @@ def git_cli():
 
 @git_cli.command('add-hooks')
 @pretend_option
-def add_hooks():
-    # type: () -> None
+@click.option(
+    '--pre-commit',
+    type=str,
+    prompt='Pre commit tool',
+    help=(
+        'Command that will be ran before every commit. If it fails, the commit '
+        'will fail.'
+    )
+)
+@click.option(
+    '--pre-push',
+    type=str,
+    prompt='Pre push tool',
+    help = (
+        'Command that will be ran before every push. If it fails, the push '
+        'will fail.'
+    )
+)
+def add_hooks(pre_commit, pre_push):
+    # type: (str, str) -> None
     """ Setup project git hooks.
 
     This will run all the checks before pushing to avoid waiting for the CI
@@ -40,7 +64,7 @@ def add_hooks():
     """
     from peltak.logic import git
 
-    git.add_hooks()
+    git.add_hooks(pre_commit, pre_push)
 
 
 @git_cli.command('push')

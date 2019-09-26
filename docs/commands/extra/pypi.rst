@@ -1,0 +1,1 @@
+.. automodule:: peltak.extra.pypi

@@ -19,7 +19,7 @@ from __future__ import absolute_import, unicode_literals
 # stdlib imports
 import re
 import sys
-from typing import List
+from typing import List, Optional, Iterable
 
 # 3rd party imports
 import click
@@ -195,7 +195,7 @@ def get_base_branch():
 
 
 def choose_branch(exclude=None):
-    # type: (List[str]) -> str
+    # type: (Optional[Iterable[str]]) -> str
     """ Show the user a menu to pick a branch from the existing ones.
 
     Args:
@@ -214,7 +214,7 @@ def choose_branch(exclude=None):
         develop = conf.get('git.devel_branch', 'develop')
         exclude = {master, develop}
 
-    branches = list(set(git.branches()) - exclude)
+    branches = list(set(git.branches()) - set(exclude))
 
     # Print the menu
     for i, branch_name in enumerate(branches):
@@ -226,7 +226,7 @@ def choose_branch(exclude=None):
         prompt = "Pick a base branch from the above [1-{}]".format(
             len(branches)
         )
-        choice = click.prompt(prompt, value_proc=int)
+        choice = click.prompt(prompt, value_proc=int)   # type: ignore
         if not (1 <= choice <= len(branches)):
             fmt = "Invalid choice {}, you must pick a number between {} and {}"
             log.err(fmt.format(choice, 1, len(branches)))
@@ -252,4 +252,4 @@ def to_branch_name(name):
 
 
 # Used in docstrings only until we drop python2 support
-del List
+del Iterable, List, Optional

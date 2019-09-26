@@ -19,7 +19,7 @@ from __future__ import absolute_import, unicode_literals
 # stdlib imports
 import os
 from collections import namedtuple
-from typing import Any, List, Optional
+from typing import Any, Dict, List, Optional
 
 # 3rd party imports
 import attr
@@ -32,7 +32,6 @@ from . import util
 
 
 Author = namedtuple('Author', 'name email')
-BranchDetails = namedtuple('BranchDetails', 'type title name')
 
 
 @attr.s
@@ -52,7 +51,7 @@ class BranchDetails(object):
             naming format and will be the text after ``/`` in the branch name.
     """
     name = attr.ib(type=str)
-    type = attr.ib(type=str, default=None)
+    type = attr.ib(type=Optional[str], default=None)
     title = attr.ib(type=str, default=None)
 
     @classmethod
@@ -166,6 +165,10 @@ class CommitDetails(object):
             )
             result = shell.run(cmd, capture=True, never_pretend=True).stdout
 
+        parts = result.split('||')
+        if len(parts) != 6:
+            raise ValueError('Invalid git show result:\n  {}'.format(result))
+
         sha1, name, email, title, desc, parents = result.split('||')
 
         return CommitDetails(
@@ -236,7 +239,7 @@ def commit_branches(sha1):
 
 @util.cached_result()
 def guess_base_branch():
-    # type: (str) -> Optional[str, None]
+    # type: () -> Optional[str]
     """ Try to guess the base branch for the current branch.
 
     Do not trust this guess. git makes it pretty much impossible to guess
@@ -408,7 +411,7 @@ def ignore():
         config().get('core.excludesfile')
     ]
 
-    result = []
+    result = []     # type: List[str]
     for ignore_file in ignore_files:
         if not (ignore_file and os.path.exists(ignore_file)):
             continue
@@ -437,7 +440,7 @@ def branches():
 
 
 def tag(name, message, author=None):
-    # type: (str, str, Author, bool) -> None
+    # type: (str, str, Optional[Author]) -> None
     """ Tag the current commit.
 
     Args:
@@ -464,7 +467,7 @@ def tag(name, message, author=None):
 
 @util.cached_result()
 def config():
-    # type: () -> dict[str, Any]
+    # type: () -> Dict[str, Any]
     """ Return the current git configuration.
 
     Returns:
@@ -526,7 +529,7 @@ def verify_branch(branch_name):
 
 @util.cached_result()
 def protected_branches():
-    # type: () -> list[str]
+    # type: () -> List[str]
     """ Return branches protected by deletion.
 
     By default those are master and devel branches as configured in pelconf.
@@ -540,4 +543,4 @@ def protected_branches():
 
 
 # Used in docstrings only until we drop python2 support
-del Any, List, Optional
+del Any, Dict, List, Optional
