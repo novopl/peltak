@@ -6,6 +6,6 @@ from peltak.core import context
 
 
 def test_only_one_instance_is_ever_created():
-    a = context.GlobalContext()
-    b = context.GlobalContext()
+    a = context.RunContext()
+    b = context.RunContext()
     assert a is b

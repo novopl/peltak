@@ -7,7 +7,7 @@ from mock import Mock, patch
 
 # local imports
 from peltak.core import conf
-from peltak.core.context import GlobalContext
+from peltak.core.context import RunContext
 from peltak.extra.scripts.types import ScriptFiles
 from peltak.extra.scripts.logic import collect_files
 
@@ -40,9 +40,9 @@ def test_prints_debug_info_if_verbose_lvl_ge_3(p_cprint):
         'paths': ['path1', 'path2'],
     })
 
-    GlobalContext().set('verbose', 3)
+    RunContext().set('verbose', 3)
     collect_files(files)
-    GlobalContext().set('verbose', 0)
+    RunContext().set('verbose', 0)
 
     assert next(
         (True for x in p_cprint.call_args_list if 'only_staged: ' in x[0][0]),

@@ -31,12 +31,12 @@ from peltak.core import conf
 from peltak.core import log
 from peltak.core import fs
 from peltak.core import shell
-from peltak.core.context import GlobalContext
+from peltak.core.context import RunContext
 from .types import CliOptions, Script
 from .templates import TemplateEngine
 
 
-ctx = GlobalContext()
+ctx = RunContext()
 
 
 def run_script(script, options):
@@ -123,7 +123,7 @@ def collect_files(files):
     """ Collect script files using the given configuration. """
     paths = [conf.proj_path(p) for p in files.paths]
 
-    if GlobalContext().get('verbose') >= 3:
+    if RunContext().get('verbose') >= 3:
         log.info("only_staged: <33>{}".format(files.only_staged))
         log.info("untracked: <33>{}".format(files.untracked))
         log.info("whitelist: <33>\n{}".format('\n'.join(files.whitelist())))

@@ -11,9 +11,9 @@ from peltak.core import context
 
 @pytest.fixture()
 def ctx():
-    old = context.GlobalContext().values
+    old = context.RunContext().values
     context.clear()
 
-    yield context.GlobalContext()
+    yield context.RunContext()
 
-    context.GlobalContext().values = old
+    context.RunContext().values = old
