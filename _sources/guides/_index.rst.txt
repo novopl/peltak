@@ -6,9 +6,9 @@ Guides
     :maxdepth: 1
 
     installation
-    quickstart/_index
+    quickstart
     scripts
-    project_commands/_index
-    share_commands/_index
-    pelconf/_index
+    project_commands
+    share_commands
+    pelconf
     changelog
