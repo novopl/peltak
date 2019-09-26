@@ -77,7 +77,7 @@ def write(version):
     # type: (str) -> None
     """ Write the given version to the VERSION_FILE """
     if not is_valid(version):
-        raise ValueError("Invalid version: ".format(version))
+        raise ValueError("Invalid version: '{}'".format(version))
 
     storage = get_version_storage()
     storage.write(version)
@@ -141,25 +141,20 @@ def _bump_version(version, component='patch'):
     minor = m.group('minor') or '0'
     patch = m.group('patch') or None
 
-    if patch == '0':
-        patch = None
-
     if component == 'major':
         major = str(int(major) + 1)
         minor = '0'
-        patch = None
+        patch = '0'
 
     elif component == 'minor':
         minor = str(int(minor) + 1)
-        patch = None
+        patch = '0'
 
     else:
         patch = patch or '0'
         patch = str(int(patch) + 1)
 
-    new_ver = '{}.{}'.format(major, minor)
-    if patch is not None:
-        new_ver += '.' + patch
+    new_ver = '{}.{}.{}'.format(major, minor, patch)
 
     return new_ver
 
