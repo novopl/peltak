@@ -176,12 +176,25 @@ scripts:
       pipenv run sphinx-build \
           -b html \
           -d {{ conf.build_dir }}/docs \
-          docs docs/html
+          docs/src docs/html
 
       {% if opts.run_doctests %}
         {{ 'Running doctests' | header }}
         pipenv run sphinx-build \
             -b doctest \
             -d {{ conf.build_dir }}/docs \
-            docs docs/doctest
+            docs/src docs/doctest
       {% endif %}
+
+  release-docs:
+    about: Build documentation and deploy to github pages
+    command: |
+      peltak docs
+      git checkout gh-pages
+      cp -r docs/html/* ./
+      git add .
+      git config user.email ${GIT_EMAIL}
+      git config user.name ${GIT_USER}
+      git commit -nm "Docs build #${CIRCLECI_BUILD_NUM}"
+      git push --no-verify origin gh-pages
+
