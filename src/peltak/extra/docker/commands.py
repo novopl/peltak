@@ -25,8 +25,7 @@ This is mainly for web apps that are deployed with docker.
 from __future__ import absolute_import
 
 # local imports
-from peltak.core import util
-from peltak.commands import root_cli, click, pretend_option
+from peltak.commands import root_cli, click
 
 
 @root_cli.group('docker')
@@ -34,75 +33,6 @@ def docker_cli():
     # type: () -> None
     """ Commands for building the project docker images. """
     pass
-
-
-@docker_cli.command('build')
-@pretend_option
-@util.mark_deprecated('peltak run')
-def build_images():
-    # type: () -> None
-    """ Build and tag a docker image for the project.
-
-    It requires a docker.images conf variable to be set and contain the
-    definitions for all the images built by the project. If docker.registry is
-    also set, then the resulting images will a have name of
-    ``<registry>/<image>``. This will create two tags for each image:
-    ``<name>:<version>`` and ``<name>:latest`` where <name> is the image name
-    as specified in docker.images entry and <version> is the current project
-    version (as shown by ``peltak version``).
-
-    Config example::
-
-        \b
-        docker:
-          registry: 'registry.mydomain.com'
-          images:
-            - name: 'myapp:1.0'
-              path: '.'
-              file: 'Dockerfile'
-
-    Example::
-
-        \b
-        $ peltak docker build
-
-    """
-    from . import logic
-
-    logic.build_images()
-
-
-@docker_cli.command('push')
-@pretend_option
-@util.mark_deprecated('peltak run')
-def push_images():
-    # type: () -> None
-    """ Push project docker images to the registry.
-
-    This command requires both docker.images and docker.registry conf variables
-    to be set. This will push the images built by ``peltak docker build`` to the
-    specified registry. For the details of how the names and tags are generated,
-    see ``peltak docker build --help``.
-
-    Config example::
-
-        \b
-        docker:
-          registry: 'registry.mydomain.com'
-          images:
-            - name: 'myapp:1.0'
-              path: '.'
-              file: 'Dockerfile'
-
-    Example::
-
-        \b
-        $ peltak docker push
-
-    """
-    from . import logic
-
-    logic.push_images()
 
 
 @docker_cli.command('list')
