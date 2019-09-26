@@ -59,9 +59,9 @@ def gen_pypirc(username=None, password=None):
             pypi password. If not given it will try to take it from the
             `` PYPI_PASS`` env variable.
     """
-    path = join(conf.getenv('HOME'), '.pypirc')
-    username = username or conf.getenv('PYPI_USER', None)
-    password = password or conf.getenv('PYPI_PASS', None)
+    path = join(conf.get_env('HOME'), '.pypirc')
+    username = username or conf.get_env('PYPI_USER', None)
+    password = password or conf.get_env('PYPI_PASS', None)
 
     if username is None or password is None:
         log.err("You must provide $PYPI_USER and $PYPI_PASS")

@@ -39,7 +39,7 @@ def add_hooks(pre_commit, pre_push):
     # Detect virtualenv the hooks should use
 
     # Detect virtualenv
-    virtual_env = conf.getenv('VIRTUAL_ENV')
+    virtual_env = conf.get_env('VIRTUAL_ENV')
     if virtual_env is None:
         log.err("You are not inside a virtualenv")
         confirm_msg = (

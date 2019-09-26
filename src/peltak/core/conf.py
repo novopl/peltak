@@ -100,7 +100,7 @@ def load_yaml_config(conf_file):
 
         for cmd in get('commands', []):
             try:
-                _import(cmd)
+                __import__(cmd)
             except ImportError as ex:
                 log.err("Failed to load commands from <33>{}<31>: {}", cmd, ex)
 
@@ -124,12 +124,7 @@ def load_template(filename):
         return fp.read()
 
 
-def _import(module):
-    # type: (str) -> ModuleType
-    return __import__(module)   # nocov
-
-
-def getenv(name, default=None):
+def get_env(name, default=None):
     # type: (str, Any) -> Union[str, Any]
     """ Get the value of an ENV variable. """
     return os.environ.get(name, default)   # nocov
