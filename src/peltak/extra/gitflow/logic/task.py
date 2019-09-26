@@ -25,6 +25,7 @@ import click
 # local imports
 from peltak.core import context
 from peltak.core import git
+from peltak.core import hooks
 from peltak.core import log
 from peltak.core import shell
 from . import common
@@ -48,7 +49,9 @@ def start(name):
                 "<33>hotfix<32> branches")
         sys.exit(1)
 
+    hooks.register.call('pre-task-start', name)
     common.git_checkout(task_branch, create=True)
+    hooks.register.call('post-task-start', name)
 
 
 def update():
@@ -102,6 +105,8 @@ def finish():
 
     common.assert_branch_type('task')
 
+    hooks.register.call('pre-task-finish', branch, base)
+
     # Merge task into it's base feature branch
     common.git_checkout(base)
     common.git_pull(base)
@@ -113,6 +118,8 @@ def finish():
 
     common.git_checkout(base)
 
+    hooks.register.call('post-task-finish', branch, base)
+
 
 def merged():
     # type: () -> None
@@ -121,6 +128,8 @@ def merged():
     branch = git.current_branch(refresh=True)
 
     common.assert_branch_type('task')
+
+    hooks.register.call('pre-task-merged', branch, base_branch)
 
     # Pull feature branch with the merged task
     common.git_checkout(base_branch)
@@ -131,3 +140,5 @@ def merged():
     common.git_prune()
 
     common.git_checkout(base_branch)
+
+    hooks.register.call('post-task-merged', branch, base_branch)

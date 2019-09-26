@@ -15,14 +15,14 @@ def test_works():
         paths=['src'],
         exclude=['__pycache__'],
         include=['*.py'],
-        commit=True,
+        only_staged=True,
         untracked=False,
     ))
 
     assert files.paths == ['src']
     assert files.exclude == ['__pycache__']
     assert files.include == ['*.py']
-    assert files.commit is True
+    assert files.only_staged is True
     assert files.untracked is False
 
 
@@ -32,7 +32,7 @@ def test_works_with_only_paths_defined():
     assert files.paths == ['src']
     assert list(files.exclude) == []
     assert list(files.include) == []
-    assert files.commit is False
+    assert files.only_staged is False
     assert files.untracked is True
 
 

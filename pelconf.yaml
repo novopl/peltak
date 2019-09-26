@@ -34,6 +34,7 @@ docker:
 
 # Custom scripts
 scripts:
+  # root scripts
   lint:
     about: Run all checks (types, pep8, code style)
     root_cli: true
@@ -57,34 +58,6 @@ scripts:
 
       {{ 'done' | header }}
 
-  lint-commit:
-    about: Perform all checks on files staged for commit
-    root_cli: true
-    files:
-      paths:
-        - src/peltak
-        - test/unit
-      commit: "*.py"
-      include: "*.py"
-      use_gitignore: true
-    command: |
-      set -e
-
-      {% if files %}
-        {{ 'mypy' | header }}
-        mypy --ignore-missing-imports {{ files | wrap_paths }}
-
-        {{ 'pep8' | header }}
-        pep8 --config ops/tools/pep8.ini {{ files | wrap_paths }};
-
-        {{ 'pylint' | header }}
-        pylint --rcfile ops/tools/pylint.ini {{ files | wrap_paths }}
-
-        {{ 'done' | header }}
-      {% else %}
-        {{ '<90>No relevant files in the commit' | cprint }}
-      {% endif %}
-
   test:
     about: Run unit tests
     root_cli: true
@@ -107,6 +80,34 @@ scripts:
 
       {% set cov_path = proj_path(conf.build_dir, 'coverage/index.html') %}
       {{ cprint('<32>HTML report: <34>file://{}', cov_path) }}
+
+  # run scripts
+  lint-commit:
+    about: Perform all checks on files staged for commit
+    files:
+      paths:
+        - src/peltak
+        - test/unit
+      only_staged: true
+      include: "*.py"
+      use_gitignore: true
+    command: |
+      set -e
+
+      {% if files %}
+        {{ 'mypy' | header }}
+        mypy --ignore-missing-imports {{ files | wrap_paths }}
+
+        {{ 'pep8' | header }}
+        pep8 --config ops/tools/pep8.ini {{ files | wrap_paths }};
+
+        {{ 'pylint' | header }}
+        pylint --rcfile ops/tools/pylint.ini {{ files | wrap_paths }}
+
+        {{ 'done' | header }}
+      {% else %}
+        {{ '<90>No relevant staged files - skipping lint...' | cprint }}
+      {% endif %}
 
   cov-core:
     about: Generate coverage report for peltak.core

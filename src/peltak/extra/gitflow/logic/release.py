@@ -24,6 +24,7 @@ import sys
 from peltak.core import conf
 from peltak.core import context
 from peltak.core import git
+from peltak.core import hooks
 from peltak.core import log
 from peltak.core import shell
 from peltak.core import versioning
@@ -69,6 +70,8 @@ def start(component, exact):
     with conf.within_proj_dir():
         branch = 'release/' + new_ver
 
+        hooks.register.call('pre-release-start', branch, old_ver, new_ver)
+
         common.git_checkout(branch, create=True)
 
         log.info("Creating commit for the release")
@@ -76,6 +79,8 @@ def start(component, exact):
             ver_file=version_file,
             msg="Releasing v{}".format(new_ver)
         ))
+
+        hooks.register.call('post-release-start', branch, old_ver, new_ver)
 
 
 def finish():
@@ -96,6 +101,8 @@ def finish():
 
     common.assert_branch_type('release')
 
+    hooks.register.call('pre-release-finish', branch)
+
     # Merge release into master
     common.git_checkout(develop)
     common.git_pull(develop)
@@ -115,6 +122,8 @@ def finish():
 
     common.git_checkout(master)
 
+    hooks.register.call('post-release-finish', branch)
+
 
 def merged():
     # type: () -> None
@@ -124,6 +133,8 @@ def merged():
     branch = git.current_branch(refresh=True)
 
     common.assert_branch_type('release')
+
+    hooks.register.call('pre-release-merged', branch)
 
     # Pull master with the merged release
     common.git_checkout(master)
@@ -139,6 +150,7 @@ def merged():
     common.git_prune()
 
     common.git_checkout(develop)
+    hooks.register.call('post-release-merged', branch)
 
 
 def tag(message):

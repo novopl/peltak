@@ -16,8 +16,7 @@
 """ Types and classes used by ``peltak.extra.scripts``. """
 
 # stdlib imports
-from fnmatch import fnmatch
-from typing import Any, Callable, Dict, List, Optional, Type, Union, cast
+from typing import Any, Callable, Dict, List, Optional, Type, cast
 
 # 3rd party imports
 import attr
@@ -25,6 +24,7 @@ import attr
 # local imports
 from six import string_types
 from peltak.commands import click, pretend_option, verbose_option
+from peltak.core import fs
 
 
 AnyFn = Callable[..., Any]
@@ -98,7 +98,7 @@ class ScriptFiles(object):
     paths = attr.ib(type=bool)
     include = attr.ib(type=List[str], factory=list)
     exclude = attr.ib(type=List[str], factory=list)
-    commit = attr.ib(type=Union[bool], default=False)
+    only_staged = attr.ib(type=bool, default=False)
     untracked = attr.ib(type=bool, default=True)
     use_gitignore = attr.ib(type=bool, default=True)
 
@@ -126,7 +126,7 @@ class ScriptFiles(object):
             paths=paths,
             include=include,
             exclude=exclude,
-            commit=files_conf.get('commit', fields.commit.default),
+            only_staged=files_conf.get('only_staged', fields.only_staged.default),
             untracked=files_conf.get('untracked', fields.untracked.default),
             use_gitignore=files_conf.get('use_gitignore',
                                          fields.use_gitignore.default),
@@ -137,13 +137,12 @@ class ScriptFiles(object):
         """ Return a full whitelist for use with `fs.filtered_walk()` """
         from peltak.core import git
 
-        if self.commit:
+        if self.only_staged:
             # Only include committed files if commit only is true.
-            if isinstance(self.commit, string_types):
-                include = ['*' + f for f in git.staged() if fnmatch(f, self.commit)]
-            else:
-                include = ['*' + f for f in git.staged()]
-
+            include = [
+                '*' + f for f in git.staged()
+                if fs.match_globs(f, self.include)
+            ]
         else:
             include = list(self.include)
 
