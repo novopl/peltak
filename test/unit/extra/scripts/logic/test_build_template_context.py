@@ -12,7 +12,6 @@ import attr
 from peltak import testing
 from peltak.core import conf
 from peltak.core.context import GlobalContext
-from peltak.extra.scripts import filters
 from peltak.extra.scripts.types import Script
 from peltak.extra.scripts.logic import build_template_context
 
@@ -30,7 +29,6 @@ def test_works():
     assert result['ctx'] == GlobalContext().values
     assert result['conf'] == {'pelconf': 'hello'}
     assert result['proj_path'] == conf.proj_path
-    assert result['cprint'] == filters.cprint
     assert result['script'] == attr.asdict(script)
     assert result['opts'] == {
         'verbose': 3,

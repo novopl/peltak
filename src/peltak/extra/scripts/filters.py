@@ -129,6 +129,17 @@ def cprint(msg, *args, **kw):
     Which inside a terminal will be rendered as *hello* in ping and world in
     green.
 
+    **cprint** also supports formatting, same as in the buil-in ``format()``
+    function:
+
+    .. code-block:: django
+
+        {{ 'hello, {}, I'm {name}' | cprint('Susan', name='John') }}
+
+    will result in::
+
+        echo "hello, Susan, I'm John\\x1b[0m"
+
     """
     return shell.fmt('echo "{}<0>"', str(msg).format(*args, **kw))
 

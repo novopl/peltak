@@ -79,7 +79,7 @@ scripts:
           test/unit
 
       {% set cov_path = proj_path(conf.build_dir, 'coverage/index.html') %}
-      {{ cprint('<32>HTML report: <34>file://{}', cov_path) }}
+      {{ '<32>HTML report: <34>file://{}' | cprint(cov_path) }}
 
   # run scripts
   lint-commit:
@@ -123,7 +123,7 @@ scripts:
           test/unit
 
       {% set cov_path = proj_path(conf.build_dir, 'coverage/core/index.html') %}
-      {{ cprint('<32>HTML report: <34>file://{}', cov_path) }}
+      {{ '<32>HTML report: <34>file://{}' | cprint(cov_path) }}
 
   cov-extra:
     about: Generate coverage report for peltak.extra
@@ -139,7 +139,7 @@ scripts:
           test/unit
 
       {% set cov_path = proj_path(conf.build_dir, 'coverage/extra/index.html') %}
-      {{ cprint('<32>HTML report: <34>file://{}', cov_path) }}
+      {{ '<32>HTML report: <34>file://{}' | cprint(cov_path) }}
 
   cov-scripts:
     about: Generate coverage report for peltak.extra.scripts
@@ -153,7 +153,7 @@ scripts:
           test/unit
 
       {% set cov_path = proj_path(conf.build_dir, 'coverage/scripts/index.html') %}
-      {{ cprint('<32>HTML report: <34>file://{}', cov_path) }}
+      {{ '<32>HTML report: <34>file://{}' | cprint(cov_path) }}
 
   docs:
     about: Generate sphinx documentation
