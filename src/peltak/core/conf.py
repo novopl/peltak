@@ -28,47 +28,12 @@ from typing import Any, Dict, Iterator, List, Optional, Text, Union
 
 # local imports
 from peltak import PKG_DIR
-from . import util
 from . import hooks
+from . import util
 
 
 PROJ_CONF_FILE = 'pelconf.py'
-requirements = []       # type: List[str]
 g_config = {}           # type: Dict[str, Any]
-
-
-def command_requirements(*dependencies):
-    # type: (*Text) -> None
-    """ Specify python dependencies for the command
-
-    Args:
-        *dependencies (str):
-            A list of dependencies (pypi package name with version spec) for the
-            command. This allows the user to have a list of only
-
-    If you're command requires some python packages to be installed to work
-    correctly, call this function once within the module that defines the CLI
-    commands and pass all the requirements for your code. This way the user
-    can have a list of packages required to install for peltak to work correctly
-    and that list will always depend on which commands are included in the
-    project configuration.
-
-    Example:
-
-        >>> from peltak.commands import root_cli
-        >>> from peltak.core import conf
-        >>>
-        >>> conf.command_requirements(
-        ...     'fancy_dependency~=1.3.0',
-        ... )
-        >>>
-        >>> @root_cli.command('my-command')
-        ... def my_command():
-        ...     pass
-
-    """
-    global requirements
-    requirements += dependencies
 
 
 def init(config):
@@ -214,7 +179,7 @@ def within_proj_dir(path='.'):
 
 
 def get(name, *default):
-    # type: (str, Any) -> Any
+    # type: (str, *Any) -> Any
     """ Get config value with the given name and optional default.
 
     Args:

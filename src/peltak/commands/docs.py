@@ -24,15 +24,8 @@ to justify a separate module.
 from __future__ import absolute_import
 
 # local imports
-from peltak.core import conf
 from peltak.core import util
 from . import root_cli, click, pretend_option, verbose_option
-
-
-conf.command_requirements(
-    'sphinx-refdoc~=0.3.0',
-    'sphinx-rtd-theme~=0.2'
-)
 
 
 @root_cli.group('docs', invoke_without_command=True)
