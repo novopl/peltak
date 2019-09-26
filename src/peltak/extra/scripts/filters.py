@@ -42,7 +42,7 @@ def header(title):
 
     **Usage:**
 
-    .. code-block:: django
+    .. code-block:: jinja
 
         {{ 'hello' | header }}
 
@@ -68,7 +68,7 @@ def count_flag(count, flag):
 
     **Usage:**
 
-    .. code-block:: django
+    .. code-block:: jinja
 
         {{ set verbose = 3 }}
         {{ verbose | count_flag('v') }}
@@ -118,7 +118,7 @@ def cprint(msg, *args, **kw):
 
     **Usage:**
 
-    .. code-block:: django
+    .. code-block:: jinja
 
         {{ '<35>hello, <32>world' | cprint }}
 
@@ -129,12 +129,12 @@ def cprint(msg, *args, **kw):
     Which inside a terminal will be rendered as *hello* in ping and world in
     green.
 
-    **cprint** also supports formatting, same as in the buil-in ``format()``
-    function:
+    **cprint** also supports formatting, same as in the built-in ``format()``
+    function.
 
-    .. code-block:: django
+    .. code-block:: jinja
 
-        {{ 'hello, {}, I'm {name}' | cprint('Susan', name='John') }}
+        {{ "hello, {}, I'm {name}" | cprint('Susan', name='John') }}
 
     will result in::
 

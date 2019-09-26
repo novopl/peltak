@@ -176,12 +176,12 @@ scripts:
       pipenv run sphinx-build \
           -b html \
           -d {{ conf.build_dir }}/docs \
-          docs docs/html
+          docs/src docs/html
 
       {% if opts.run_doctests %}
         {{ 'Running doctests' | header }}
         pipenv run sphinx-build \
             -b doctest \
             -d {{ conf.build_dir }}/docs \
-            docs docs/doctest
+            docs/src docs/doctest
       {% endif %}

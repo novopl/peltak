@@ -3,7 +3,7 @@ peltak documentation
 ####################
 
 
-.. include:: ../README.rst
+.. include:: ../../README.rst
     :start-after: readme_about_start
     :end-before: readme_about_end
 
