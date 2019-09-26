@@ -42,8 +42,3 @@ def test_data():
         one of the test data directories.
     """
     return testing.TestDataProvider(DATA_DIR)
-
-
-# pylint: disable=unused-import,wildcard-import,unused-wildcard-import
-# Import all peltak fixtures
-from peltak.testing.fixtures import *   # noqa
