@@ -68,7 +68,7 @@ scripts:
     command: |
       set -e
 
-      pipenv run pytest \
+      pytest \
           -c ops/tools/pytest.ini \
           --cov-config=ops/tools/coverage.ini \
           --cov={{ conf.src_path }} \

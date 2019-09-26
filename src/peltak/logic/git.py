@@ -32,8 +32,8 @@ from peltak.core import shell
 from peltak.core import util
 
 
-def add_hooks():
-    # type: () -> None
+def add_hooks(pre_commit, pre_push):
+    # type: (str, str) -> None
     """ Add git hooks for commit and push to run linting and tests. """
 
     # Detect virtualenv the hooks should use
@@ -66,9 +66,9 @@ def add_hooks():
         
         {load_venv}
         
-        peltak lint --commit
+        {command}
         
-    '''.format(load_venv=load_venv)))
+    '''.format(load_venv=load_venv, command=pre_commit)))
 
     # Write pre-push hook
     log.info("Adding pre-push hook: <33>{}", push_hook)
@@ -80,7 +80,9 @@ def add_hooks():
         
         peltak test --allow-empty
         
-    '''.format(load_venv=load_venv)))
+        {command}
+        
+    '''.format(load_venv=load_venv, command=pre_push)))
 
     log.info("Making hooks executable")
     if not context.get('pretend', False):
