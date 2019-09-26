@@ -47,18 +47,18 @@ test:
 test_config = yaml.load(test_yaml)
 
 
-@patch('peltak.core.conf.open', mock_open(read_data=test_yaml))
-@patch('peltak.core.conf._import', Mock())
+@patch('peltak.core.pelconf.open', mock_open(read_data=test_yaml))
+@patch('peltak.core.pelconf._import', Mock())
 def test_properly_loads_all_config_variables():
-    conf.load_yaml_config('pelconf.yaml')
+    conf.from_file('pelconf.yaml')
 
-    assert conf.g_config == test_config
+    assert conf.values == test_config
 
 
-@patch('peltak.core.conf.open', mock_open(read_data=test_yaml))
-@patch('peltak.core.conf._import')
+@patch('peltak.core.pelconf.open', mock_open(read_data=test_yaml))
+@patch('peltak.core.pelconf._import')
 def test_imports_commands(p_import):
-    conf.load_yaml_config('pelconf.yaml')
+    conf.from_file('pelconf.yaml')
 
     p_import.has_calls([
         call('peltak.cli.git'),
@@ -66,4 +66,4 @@ def test_imports_commands(p_import):
         call('peltak.cli.test'),
         call('peltak.cli.version'),
     ])
-    assert conf.g_config == test_config
+    assert conf.values == test_config

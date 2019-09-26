@@ -10,14 +10,14 @@ from peltak.core import conf
 
 
 def test_initialized_values_are_available():
-    conf.init({'fake': 'value'})
+    conf.reset({'fake': 'value'})
 
     assert conf.get('fake') == 'value'
 
 
 def test_overwrites_the_existing_config():
-    conf.init({'fake1': 'value1'})
-    conf.init({'fake2': 'value2'})
+    conf.reset({'fake1': 'value1'})
+    conf.reset({'fake2': 'value2'})
 
     assert conf.get('fake2') == 'value2'
     with pytest.raises(AttributeError):

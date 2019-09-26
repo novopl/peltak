@@ -108,7 +108,7 @@ def build_template_context(script, options):
             **options
         ),
         'script': attr.asdict(script),
-        'conf': conf.g_config,
+        'conf': conf.values,
         'ctx': ctx.values,
         'proj_path': conf.proj_path,
     }
