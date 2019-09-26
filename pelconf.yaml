@@ -15,10 +15,6 @@ commands:
   - peltak.extra.changelog
   - peltak.extra.gitflow
   - peltak.extra.pypi
-  - peltak.extra.scripts
-#  - peltak.commands.docs
-#  - peltak.commands.lint
-#  - peltak.commands.test
 
 # Configure what gets deleted when running `peltak clean`
 clean:

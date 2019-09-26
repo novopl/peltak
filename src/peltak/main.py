@@ -18,9 +18,12 @@
 from __future__ import absolute_import, unicode_literals
 
 # local imports
-# from peltak.core import conf
 from peltak.core.pelconf import Pelconf
 from peltak.commands import root_cli
+
+# Scripts should be available by default
+import peltak.extra.scripts     # pylint: disable=unused-import
+
 __all__ = [
     'root_cli'
 ]
