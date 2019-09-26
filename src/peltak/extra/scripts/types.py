@@ -141,7 +141,7 @@ class ScriptFiles(object):
             # Only include committed files if commit only is true.
             include = [
                 '*' + f for f in git.staged()
-                if fs.match_globs(f, self.include)
+                if not self.include or fs.match_globs(f, self.include)
             ]
         else:
             include = list(self.include)

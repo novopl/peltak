@@ -45,7 +45,7 @@ def test_prints_debug_info_if_verbose_lvl_ge_3(p_cprint):
     GlobalContext().set('verbose', 0)
 
     assert next(
-        (True for x in p_cprint.call_args_list if 'commit: ' in x[0][0]),
+        (True for x in p_cprint.call_args_list if 'only_staged: ' in x[0][0]),
         False
     )
     assert next(

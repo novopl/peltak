@@ -126,7 +126,7 @@ def collect_files(files):
     paths = [conf.proj_path(p) for p in files.paths]
 
     if GlobalContext().get('verbose') >= 3:
-        log.info("commit: <33>{}".format(files.commit))
+        log.info("only_staged: <33>{}".format(files.only_staged))
         log.info("untracked: <33>{}".format(files.untracked))
         log.info("whitelist: <33>\n{}".format('\n'.join(files.whitelist())))
         log.info("blacklist: <33>\n{}".format('\n'.join(files.blacklist())))
