@@ -22,7 +22,7 @@ Commands for managing the managed project version.
 """
 from __future__ import absolute_import
 
-from . import root_cli, click, pretend_option
+from peltak.commands import root_cli, click, pretend_option
 
 
 @root_cli.group('version', invoke_without_command=True)

@@ -10,11 +10,11 @@ version_file: 'src/peltak/__init__.py'
 
 # A list of py modules with commands that should be available for the project.
 commands:
-  - peltak.commands.git
-  - peltak.commands.version
   - peltak.extra.changelog
+  - peltak.extra.git
   - peltak.extra.gitflow
   - peltak.extra.pypi
+  - peltak.extra.version
 
 # Configure what gets deleted when running `peltak clean`
 clean:

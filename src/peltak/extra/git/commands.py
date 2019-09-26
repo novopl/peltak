@@ -21,7 +21,7 @@
 git helpers.
 """
 from __future__ import absolute_import
-from . import click, root_cli, pretend_option
+from peltak.commands import click, root_cli, pretend_option
 
 
 @root_cli.group('git')
@@ -62,9 +62,9 @@ def add_hooks(pre_commit, pre_push):
 
         $ peltak git add-hooks
     """
-    from peltak.logic import git
+    from . import impl
 
-    git.add_hooks(pre_commit, pre_push)
+    impl.add_hooks(pre_commit, pre_push)
 
 
 @git_cli.command('push')
@@ -78,6 +78,6 @@ def push():
         $ peltak git push
 
     """
-    from peltak.logic import git
+    from . import impl
 
-    git.push()
+    impl.push()
