@@ -14,9 +14,9 @@
 # limitations under the License.
 #
 """
-######################
-Custom project scripts
-######################
+#####################
+Create peltak scripts
+#####################
 
 .. module: peltak.extra.scripts
     :synopsis: Custom project scripts
