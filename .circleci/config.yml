@@ -104,13 +104,15 @@ jobs:
       - run:
           name: Setup
           command: |
-            pip install .
+            time pipenv lock -d --requirements | tee requirements.txt
+            time pip install -r requirements.txt
+            time pip install .
             peltak --help
 
       - run:
           name: Deploy gh-pages
           command: |
-            peltak docs
+            pipenv run peltak docs
             git checkout gh-pages
             cp -r docs/html/* ./
             git add .
@@ -133,6 +135,6 @@ workflows:
       - docs:
           requires:
             - build
-#          filters:
-#            branches:
-#              only: master
+          filters:
+            branches:
+              only: master
