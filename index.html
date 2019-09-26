@@ -1,0 +1,260 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>peltak documentation &mdash; peltak 0.25.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/overrides.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Guides" href="guides/_index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="#" class="icon icon-home"> peltak
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.25.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="guides/_index.html">Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/_index.html">Built-in Commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference/_index.html">Reference Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dev/_index.html">Dev Docs</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">peltak</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="#">Docs</a> &raquo;</li>
+        
+      <li>peltak documentation</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="peltak-documentation">
+<h1>peltak documentation<a class="headerlink" href="#peltak-documentation" title="Permalink to this headline">¶</a></h1>
+<p><strong>peltak</strong> is a command line tool to automate a lot of project related tasks.
+The tool should only wrap up existing project tools and not try to replace them.
+Also when implementing new commands lean towards just calling external tools
+rather than interfacing through the API. This way the commands implementation
+should resemble shell scripts in their structure and also serve as a reference
+on how to call the respective 3rd party tool without the use of <strong>peltak</strong>.
+Docker commands are a good example here as docker has a great python support
+but reading through the command implementation you know exactly what to do to
+do it manually and you probably don’t even have to know python.</p>
+<p><strong>WARNING: Beta:</strong> The project is mainly lacking good documentation and
+tutorials. The commands themselves are documented quite well, but there is
+no generic documentation or guides on how to extend and customize peltak.</p>
+<p>Right now only <code class="docutils literal notranslate"><span class="pre">peltak.core</span></code> is unit tested. The commands themselves are
+tested manually in multiple projects that use peltak for day to day management
+and CI runs. Before 1.0, the commands implementation should also be unit tested.
+Only the CLI interface shouldn’t (e2e tests for that if any).</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The CircleCI builds can be found
+<a class="reference external" href="https://circleci.com/gh/novopl/peltak">here</a></p>
+</div>
+<div class="section" id="table-of-contents">
+<h2>Table of Contents<a class="headerlink" href="#table-of-contents" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="guides/_index.html">Guides</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="guides/installation.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/quickstart/_index.html">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/scripts.html">Custom project scripts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/project_commands/_index.html">Write custom peltak commands for your project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/share_commands/_index.html">Share your peltak commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/pelconf/_index.html"><code class="docutils literal notranslate"><span class="pre">pelconf.yaml</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/changelog.html">Auto-generate changelog from git history</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="commands/_index.html">Built-in Commands</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="commands/_index.html#core">Core</a></li>
+<li class="toctree-l2"><a class="reference internal" href="commands/_index.html#git-flow">git-flow</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference/_index.html">Reference Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference/script_templates.html">Script template reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/script_filters.html">Built-in script template filters</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="dev/_index.html">Dev Docs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="dev/contrib.html">Setup up the project for development</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev/flows.html">Flows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev/_index.html#reference">Reference</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="guides/_index.html" class="btn btn-neutral float-right" title="Guides" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016-2018, Mateusz &#39;novo&#39; Klos
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

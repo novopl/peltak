@@ -1,0 +1,300 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>peltak run &mdash; peltak 0.25.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/overrides.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="peltak pypi - Releasing project to PyPi" href="pypi.html" />
+    <link rel="prev" title="peltak version" href="version.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> peltak
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.25.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../guides/_index.html">Guides</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="_index.html">Built-in Commands</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="_index.html#core">Core</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="git.html"><code class="docutils literal notranslate"><span class="pre">peltak</span> <span class="pre">git</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="version.html"><code class="docutils literal notranslate"><span class="pre">peltak</span> <span class="pre">version</span></code></a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">peltak</span> <span class="pre">run</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dev-docs">Dev Docs</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pypi.html"><code class="docutils literal notranslate"><span class="pre">peltak</span> <span class="pre">pypi</span></code> - Releasing project to PyPi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html"><code class="docutils literal notranslate"><span class="pre">peltak</span> <span class="pre">changelog</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gitflow.html"><code class="docutils literal notranslate"><span class="pre">peltak</span> <span class="pre">[feature|task|release]</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="_index.html#git-flow">git-flow</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/_index.html">Reference Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dev/_index.html">Dev Docs</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">peltak</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="_index.html">Built-in Commands</a> &raquo;</li>
+        
+      <li><code class="docutils literal notranslate"><span class="pre">peltak</span> <span class="pre">run</span></code></li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/commands/scripts.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <span class="target" id="module-peltak.extra.scripts.commands"></span><div class="section" id="peltak-run">
+<h1><code class="docutils literal notranslate"><span class="pre">peltak</span> <span class="pre">run</span></code><a class="headerlink" href="#peltak-run" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="dev-docs">
+<h2>Dev Docs<a class="headerlink" href="#dev-docs" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="what-need-to-be-done">
+<h3>What need to be done?<a class="headerlink" href="#what-need-to-be-done" title="Permalink to this headline">¶</a></h3>
+<p class="plantuml">
+<object data="../_images/plantuml-931ee713aa634276bd585322c9633b1511e801c0.svg" type="image/svg+xml" style="width:558px;height:276px;">
+<img src="../_images/plantuml-931ee713aa634276bd585322c9633b1511e801c0.png" alt="&#64;startwbs
+* Scripts support
+** Render command template
+*** Config values
+*** Env variables
+*** command line options
+** click integration
+*** Display about command as help
+*** Autocomplete script names
+&#64;endwbs"/>
+
+</object></p>
+</div>
+<div class="section" id="configuration">
+<h3>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h3>
+<p>Options for a single script</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">scripts</span><span class="p">:</span>
+  <span class="nt">checks</span><span class="p">:</span>
+    <span class="nt">about</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Run checks on the code base</span>
+    <span class="nt">accepts_files</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">True</span>
+    <span class="nt">command</span><span class="p">:</span> <span class="p p-Indicator">|</span>
+      <span class="no">mypy {{files}}; \</span>
+      <span class="no">pycodestyle --config ops/tools/pep8.ini {{files}}; \</span>
+      <span class="no">pylint --rc-file ops/tools/pylint.ini {{files}};</span>
+</pre></div>
+</div>
+<p class="rubric">Example</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">scripts</span><span class="p">:</span>
+  <span class="nt">build-docs</span><span class="p">:</span>
+    <span class="nt">about</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Generate sphinx documentation</span>
+    <span class="nt">command</span><span class="p">:</span> <span class="p p-Indicator">|</span>
+      <span class="no">sphinx-refdoc  \</span>
+        <span class="no">-i src/peltak \</span>
+        <span class="no">-i src/peltak_appengine \</span>
+        <span class="no">-i src/peltak_django \</span>
+        <span class="no">-i src/cliform \</span>
+        <span class="no">{{opts.verbosity | count_flag(&#39;-v&#39;)}} \</span>
+        <span class="no">docs/ref; \</span>
+        <span class="no">\</span>
+      <span class="no">sphinx-build \</span>
+        <span class="no">-b html \</span>
+        <span class="no">-d {{cfg.build_dir}}/docs \</span>
+        <span class="no">docs \</span>
+        <span class="no">docs/html</span>
+
+  <span class="nt">unit-tests</span><span class="p">:</span>
+    <span class="nt">about</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Run unit tests</span>
+    <span class="nt">command</span><span class="p">:</span> <span class="p p-Indicator">|</span>
+      <span class="no">pytest -c ops/tools/pytest.ini \</span>
+        <span class="no">--cov-config=ops/tools/coverage.ini \</span>
+        <span class="no">--cov={{cfg.src_dir}} \</span>
+        <span class="no">--cov-report=term \</span>
+        <span class="no">--cov-report=html:.build/coverage \</span>
+        <span class="no">--junitxml={cfg.build_dir}/test-results.xml \</span>
+        <span class="no">--full-trace \</span>
+        <span class="no">-vvv \</span>
+        <span class="no">test/unit</span>
+
+  <span class="nt">checks</span><span class="p">:</span>
+    <span class="nt">about</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Run checks on the code base</span>
+    <span class="nt">command</span><span class="p">:</span> <span class="p p-Indicator">|</span>
+      <span class="no">mypy {{files}}; \</span>
+      <span class="no">pycodestyle --config ops/tools/pep8.ini {{files}}; \</span>
+      <span class="no">pylint --rc-file ops/tools/pylint.ini {{files}};</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="pypi.html" class="btn btn-neutral float-right" title="peltak pypi - Releasing project to PyPi" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="version.html" class="btn btn-neutral float-left" title="peltak version" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016-2018, Mateusz &#39;novo&#39; Klos
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

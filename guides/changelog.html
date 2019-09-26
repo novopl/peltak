@@ -1,0 +1,301 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Auto-generate changelog from git history &mdash; peltak 0.25.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/overrides.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Built-in Commands" href="../commands/_index.html" />
+    <link rel="prev" title="pelconf.yaml" href="pelconf/_index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> peltak
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.25.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="_index.html">Guides</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart/_index.html">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scripts.html">Custom project scripts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="project_commands/_index.html">Write custom peltak commands for your project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="share_commands/_index.html">Share your peltak commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pelconf/_index.html"><code class="docutils literal notranslate"><span class="pre">pelconf.yaml</span></code></a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Auto-generate changelog from git history</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#commit-format">Commit Format</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#configuration">Configuration</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../commands/_index.html">Built-in Commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/_index.html">Reference Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dev/_index.html">Dev Docs</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">peltak</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="_index.html">Guides</a> &raquo;</li>
+        
+      <li>Auto-generate changelog from git history</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/guides/changelog.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <span class="target" id="module-peltak.extra.changelog"></span><div class="section" id="auto-generate-changelog-from-git-history">
+<h1>Auto-generate changelog from git history<a class="headerlink" href="#auto-generate-changelog-from-git-history" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>This package adds the commands that allow you to greatly reduce the amount of
+work required in maintaining a change log for your releases. The main command
+<strong>peltak changelog</strong> will parse all commits since the last release and extract
+all features/changes/fixes implemented. To achieve this, it will look for
+specific tags in the commit descriptions. Once all those are found it will print
+a nice change log. Here’s an example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ peltak changelog
+v0.21.2
+
+Features:
+- A description of a feature, taken from the commit message
+- Each feature has it&#39;s own list item
+- And each commit can have multiple features and/or fixes defined
+
+Changes:
+- One thing had to be change to something else.
+- Another thing also had to be changed.
+
+Fixes:
+- Description of the first fix
+- Each fix has it&#39;s own list item
+</pre></div>
+</div>
+</div>
+<div class="section" id="commit-format">
+<h2>Commit Format<a class="headerlink" href="#commit-format" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>&lt;title&gt;
+
+&lt;description text&gt;
+
+(&lt;tag&gt;) &lt;feature description&gt;
+
+&lt;description text&gt;
+</pre></div>
+</div>
+<p class="rubric">Example</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Just added some new cool feature
+
+(feature) This feature allows the user to do many
+great things.
+(fix) This feature also fixes some issues we had
+before
+
+Closes #1
+</pre></div>
+</div>
+</div>
+<div class="section" id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
+<p>The command can be configured through <a class="reference internal" href="pelconf/_index.html#pelconf-yaml"><span class="std std-ref">pelconf.yaml</span></a>. You can define what tags
+are searched and what is their corresponding header in the changelog. Here is
+an example:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">changelog</span><span class="p">:</span>
+  <span class="nt">tags</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="nt">header</span><span class="p">:</span> <span class="s">&#39;New</span><span class="nv"> </span><span class="s">Features&#39;</span>
+      <span class="nt">tag</span><span class="p">:</span> <span class="s">&#39;feature&#39;</span>
+    <span class="p p-Indicator">-</span> <span class="nt">header</span><span class="p">:</span> <span class="s">&#39;Changes</span><span class="nv"> </span><span class="s">since</span><span class="nv"> </span><span class="s">last</span><span class="nv"> </span><span class="s">release&#39;</span>
+      <span class="nt">tag</span><span class="p">:</span> <span class="s">&#39;change&#39;</span>
+    <span class="p p-Indicator">-</span> <span class="nt">header</span><span class="p">:</span> <span class="s">&#39;Bug</span><span class="nv"> </span><span class="s">fixes&#39;</span>
+      <span class="nt">tag</span><span class="p">:</span> <span class="s">&#39;fix&#39;</span>
+</pre></div>
+</div>
+<p>The defaults correspond to the following configuration:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">changelog</span><span class="p">:</span>
+  <span class="nt">tags</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="nt">header</span><span class="p">:</span> <span class="s">&#39;Features&#39;</span>
+      <span class="nt">tag</span><span class="p">:</span> <span class="s">&#39;feature&#39;</span>
+    <span class="p p-Indicator">-</span> <span class="nt">header</span><span class="p">:</span> <span class="s">&#39;Changes&#39;</span>
+      <span class="nt">tag</span><span class="p">:</span> <span class="s">&#39;change&#39;</span>
+    <span class="p p-Indicator">-</span> <span class="nt">header</span><span class="p">:</span> <span class="s">&#39;Fixes&#39;</span>
+      <span class="nt">tag</span><span class="p">:</span> <span class="s">&#39;fix&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../commands/_index.html" class="btn btn-neutral float-right" title="Built-in Commands" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="pelconf/_index.html" class="btn btn-neutral float-left" title="pelconf.yaml" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016-2018, Mateusz &#39;novo&#39; Klos
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
