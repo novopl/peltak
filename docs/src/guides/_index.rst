@@ -8,7 +8,8 @@ Guides
     installation
     quickstart
     scripts
-    project_commands
+    changelog
+
+..  create_custom_commands
     share_commands
     pelconf
-    changelog

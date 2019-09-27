@@ -11,6 +11,7 @@ to `peltak`_.
 
     contrib
     flows
+    notes
 
 
 Reference
