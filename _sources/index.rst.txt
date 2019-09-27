@@ -15,6 +15,5 @@ Table of Contents
     :maxdepth: 2
 
     guides/_index
-    commands/_index
     reference/_index
     dev/_index

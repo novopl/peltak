@@ -86,19 +86,16 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../guides/_index.html">Guides</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../commands/_index.html">Built-in Commands</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../reference/_index.html">Reference Documentation</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="_index.html">Dev Docs</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Setup up the project for development</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#setting-up-development-repo">Setting up development repo</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#running-tests">Running tests</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#linting">Linting</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#generating-docs">Generating docs</a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="#running-tests">Running tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#linting">Linting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#generating-docs">Generating docs</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="flows.html">Flows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notes.html">Dev Notes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="_index.html#reference">Reference</a></li>
 </ul>
 </li>
@@ -170,8 +167,6 @@
             
   <div class="section" id="setup-up-the-project-for-development">
 <h1>Setup up the project for development<a class="headerlink" href="#setup-up-the-project-for-development" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="setting-up-development-repo">
-<h2>Setting up development repo<a class="headerlink" href="#setting-up-development-repo" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ git clone git@github.com:novopl/peltak.git
 $ <span class="nb">cd</span> peltak
 $ virtualenv env
@@ -180,8 +175,13 @@ $ pip install -r requirements.txt -r ops/devrequirements.txt
 $ peltak git add-hooks
 </pre></div>
 </div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The CircleCI builds can be found
+<a class="reference external" href="https://circleci.com/gh/novopl/peltak">here</a></p>
+</div>
 <div class="section" id="running-tests">
-<h3>Running tests<a class="headerlink" href="#running-tests" title="Permalink to this headline">¶</a></h3>
+<h2>Running tests<a class="headerlink" href="#running-tests" title="Permalink to this headline">¶</a></h2>
 <p><strong>Config</strong>: The types of tests are defined in <code class="docutils literal notranslate"><span class="pre">pelconf.py</span></code> and the
 pytest configuration is defined in <code class="docutils literal notranslate"><span class="pre">ops/tools/pytest.ini</span></code>.</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ peltak <span class="nb">test</span>
@@ -196,7 +196,7 @@ and python3.6 all in one go.</p>
 </div>
 </div>
 <div class="section" id="linting">
-<h3>Linting<a class="headerlink" href="#linting" title="Permalink to this headline">¶</a></h3>
+<h2>Linting<a class="headerlink" href="#linting" title="Permalink to this headline">¶</a></h2>
 <p><strong>Config</strong>: The list of locations to lint is defined in <code class="docutils literal notranslate"><span class="pre">pelconf.py</span></code> and the
 linters configuration is defined in <code class="docutils literal notranslate"><span class="pre">ops/tools/{pylint,pep8}.ini</span></code>.</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ peltak lint
@@ -204,12 +204,11 @@ linters configuration is defined in <code class="docutils literal notranslate"><
 </div>
 </div>
 <div class="section" id="generating-docs">
-<h3>Generating docs<a class="headerlink" href="#generating-docs" title="Permalink to this headline">¶</a></h3>
+<h2>Generating docs<a class="headerlink" href="#generating-docs" title="Permalink to this headline">¶</a></h2>
 <p><strong>Config</strong>: The list of documented files and general configuration is in
 <code class="docutils literal notranslate"><span class="pre">pelconf.py</span></code> and the Sphinx configuration is defined in <code class="docutils literal notranslate"><span class="pre">docs/conf.py</span></code>.</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ peltak docs
 </pre></div>
-</div>
 </div>
 </div>
 </div>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Share your peltak commands &mdash; peltak 0.25.0 documentation</title>
+  <title>Dev Notes &mdash; peltak 0.25.0 documentation</title>
   
 
   
@@ -34,7 +34,8 @@
   <link rel="stylesheet" href="../_static/css/overrides.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" /> 
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Flows" href="flows.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -82,10 +83,16 @@
               
             
             
-              <ul>
-<li class="toctree-l1"><a class="reference internal" href="_index.html">Guides</a></li>
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../guides/_index.html">Guides</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../reference/_index.html">Reference Documentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../dev/_index.html">Dev Docs</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="_index.html">Dev Docs</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="contrib.html">Setup up the project for development</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flows.html">Flows</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Dev Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_index.html#reference">Reference</a></li>
+</ul>
+</li>
 </ul>
 
             
@@ -131,13 +138,15 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>Share your peltak commands</li>
+          <li><a href="_index.html">Dev Docs</a> &raquo;</li>
+        
+      <li>Dev Notes</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/guides/share_commands.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/dev/notes.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -150,10 +159,24 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="share-your-peltak-commands">
-<h1>Share your peltak commands<a class="headerlink" href="#share-your-peltak-commands" title="Permalink to this headline">¶</a></h1>
-<p>Create python packages and import commands from them. Like <code class="docutils literal notranslate"><span class="pre">peltak.cli</span></code>
-does.</p>
+  <div class="section" id="dev-notes">
+<h1>Dev Notes<a class="headerlink" href="#dev-notes" title="Permalink to this headline">¶</a></h1>
+<p><strong>peltak</strong> is a command line tool to automate a lot of project related tasks.
+The tool should only wrap up existing project tools and not try to replace them.
+Also when implementing new commands lean towards just calling external tools
+rather than interfacing through the API. This way the commands implementation
+should resemble shell scripts in their structure and also serve as a reference
+on how to call the respective 3rd party tool without the use of <strong>peltak</strong>.
+Docker commands are a good example here as docker has a great python support
+but reading through the command implementation you know exactly what to do to
+do it manually and you probably don’t even have to know python.</p>
+<p><strong>WARNING: Beta:</strong> The project is mainly lacking good documentation and
+tutorials. The commands themselves are documented quite well, but there is
+no generic documentation or guides on how to extend and customize peltak.</p>
+<p>Right now only <code class="docutils literal notranslate"><span class="pre">peltak.core</span></code> is unit tested. The commands themselves are
+tested manually in multiple projects that use peltak for day to day management
+and CI runs. Before 1.0, the commands implementation should also be unit tested.
+Only the CLI interface shouldn’t (e2e tests for that if any).</p>
 </div>
 
 
@@ -161,6 +184,13 @@ does.</p>
            
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="flows.html" class="btn btn-neutral float-left" title="Flows" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>

@@ -35,6 +35,7 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Dev Notes" href="notes.html" />
     <link rel="prev" title="Setup up the project for development" href="contrib.html" /> 
 </head>
 
@@ -85,7 +86,6 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../guides/_index.html">Guides</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../commands/_index.html">Built-in Commands</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../reference/_index.html">Reference Documentation</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="_index.html">Dev Docs</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="contrib.html">Setup up the project for development</a></li>
@@ -93,6 +93,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#initialization">Initialization</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="notes.html">Dev Notes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="_index.html#reference">Reference</a></li>
 </ul>
 </li>
@@ -168,6 +169,27 @@
 entry point.</p>
 <div class="section" id="initialization">
 <h2>Initialization<a class="headerlink" href="#initialization" title="Permalink to this headline">¶</a></h2>
+<p class="plantuml">
+<object data="../_images/plantuml-75f90d8db960a5ad7d0937899d506d2511db4e09.svg" type="image/svg+xml" style="width:913px;height:357px;">
+<img src="../_images/plantuml-75f90d8db960a5ad7d0937899d506d2511db4e09.png" alt="participant &quot;peltak.main&quot; as main
+participant &quot;root_cli()&quot; as root_cli
+participant &quot;conf.load()&quot; as load
+participant &quot;conf.load_yaml_config()&quot; as load_yaml_config
+participant &quot;util.load_yaml()&quot; as load_yaml
+participant &quot;&lt;command_file&gt; from pelconf.yaml &quot; as command
+
+main -&gt; load: Load project configuration
+load -&gt; load_yaml_config: Load &quot;&quot;pelconf.yaml&quot;&quot;
+load_yaml_config -&gt; load_yaml: Parse &quot;&quot;pelconf.yaml&quot;&quot;
+load_yaml_config -&gt; command: Import command file. \nThis will run the code in the module root.
+load_yaml_config &lt;-- command
+load_yaml_config -&gt; command: Import next command file.
+load_yaml_config &lt;-- command
+load &lt;-- load_yaml_config
+main &lt;-- load
+... Pass control to click to resolve and execute the command ..."/>
+
+</object></p>
 </div>
 </div>
 
@@ -178,6 +200,8 @@ entry point.</p>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="notes.html" class="btn btn-neutral float-right" title="Dev Notes" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="contrib.html" class="btn btn-neutral float-left" title="Setup up the project for development" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

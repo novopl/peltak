@@ -85,7 +85,6 @@
             
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="guides/_index.html">Guides</a></li>
-<li class="toctree-l1"><a class="reference internal" href="commands/_index.html">Built-in Commands</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reference/_index.html">Reference Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev/_index.html">Dev Docs</a></li>
 </ul>
@@ -154,27 +153,13 @@
             
   <div class="section" id="peltak-documentation">
 <h1>peltak documentation<a class="headerlink" href="#peltak-documentation" title="Permalink to this headline">¶</a></h1>
-<p><strong>peltak</strong> is a command line tool to automate a lot of project related tasks.
-The tool should only wrap up existing project tools and not try to replace them.
-Also when implementing new commands lean towards just calling external tools
-rather than interfacing through the API. This way the commands implementation
-should resemble shell scripts in their structure and also serve as a reference
-on how to call the respective 3rd party tool without the use of <strong>peltak</strong>.
-Docker commands are a good example here as docker has a great python support
-but reading through the command implementation you know exactly what to do to
-do it manually and you probably don’t even have to know python.</p>
-<p><strong>WARNING: Beta:</strong> The project is mainly lacking good documentation and
-tutorials. The commands themselves are documented quite well, but there is
-no generic documentation or guides on how to extend and customize peltak.</p>
-<p>Right now only <code class="docutils literal notranslate"><span class="pre">peltak.core</span></code> is unit tested. The commands themselves are
-tested manually in multiple projects that use peltak for day to day management
-and CI runs. Before 1.0, the commands implementation should also be unit tested.
-Only the CLI interface shouldn’t (e2e tests for that if any).</p>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">The CircleCI builds can be found
-<a class="reference external" href="https://circleci.com/gh/novopl/peltak">here</a></p>
-</div>
+<p><strong>peltak</strong>’s goal is to simplify day-to-day dev tasks that we all, as developers,
+have to do. It does not try to be a build system or to replace any of the tools
+you would normally use when developing project like test runners, linters, etc.
+Think of it rather as a replacement for the shell scripts that usually wrap
+those tools. It actually started years ago as a collection of those shell
+scripts that with time evolved into a very flexible, extensible and easy to use
+command line app.</p>
 <div class="section" id="table-of-contents">
 <h2>Table of Contents<a class="headerlink" href="#table-of-contents" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
@@ -183,14 +168,7 @@ Only the CLI interface shouldn’t (e2e tests for that if any).</p>
 <li class="toctree-l2"><a class="reference internal" href="guides/installation.html">Installation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="guides/quickstart.html">Quickstart</a></li>
 <li class="toctree-l2"><a class="reference internal" href="guides/scripts.html">Create peltak scripts</a></li>
-<li class="toctree-l2"><a class="reference internal" href="guides/share_commands.html">Share your peltak commands</a></li>
-<li class="toctree-l2"><a class="reference internal" href="guides/pelconf.html"><code class="docutils literal notranslate"><span class="pre">pelconf.yaml</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="guides/changelog.html">Auto-generate changelog from git history</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="commands/_index.html">Built-in Commands</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="commands/_index.html#core">Core</a></li>
-<li class="toctree-l2"><a class="reference internal" href="commands/_index.html#git-flow">git-flow</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="reference/_index.html">Reference Documentation</a><ul>
@@ -201,6 +179,7 @@ Only the CLI interface shouldn’t (e2e tests for that if any).</p>
 <li class="toctree-l1"><a class="reference internal" href="dev/_index.html">Dev Docs</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="dev/contrib.html">Setup up the project for development</a></li>
 <li class="toctree-l2"><a class="reference internal" href="dev/flows.html">Flows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev/notes.html">Dev Notes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="dev/_index.html#reference">Reference</a></li>
 </ul>
 </li>
