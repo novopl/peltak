@@ -18,7 +18,7 @@ from __future__ import absolute_import, unicode_literals
 
 # stdlib imports
 import os
-from os.path import exists, isdir, join
+from os.path import exists, isdir
 from shutil import rmtree
 from typing import List
 
@@ -87,24 +87,9 @@ class InitForm(cliform.Form):
         help=('The root directory for all your sources. This is what you '
               'would treat as PYTHONPATH')
     )
-    build_dir = cliform.Field(
-        'Build directory',
-        default='.build',
-        type=str,
-        help=('The directory where all build files should go. It will be '
-              'shared as much as possible across the tools to reduce '
-              'clutter')
-    )
-    src_path = cliform.Field(
-        'Path to your main package',
-        type=str,
-        help=('This will be used for a lot of default values in the config '
-              '(like for linting, reference docs etc.)')
-    )
     version_file = cliform.Field(
         'Version file',
         type=str,
-        default=lambda f: join(f['src_path'], '__init__.py'),
         help=('This will be used for a lot of default values in the config '
               '(like for linting, reference docs etc.)')
     )
