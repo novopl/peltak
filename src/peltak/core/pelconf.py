@@ -27,7 +27,7 @@ class Pelconf(util.Singleton):
         """ Load config values from a YAML file. """
         with self.within_proj_dir():
             with open(path) as fp:
-                self.values = util.yaml_load(fp)
+                self.values = util.yaml_load(fp) or {}
 
     def reset(self, config):
         """ Reset config to the given values.

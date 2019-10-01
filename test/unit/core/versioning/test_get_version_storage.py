@@ -36,7 +36,7 @@ def test_returns_NodeVersionStorage_if_file_name_is_package_json():
     'fake.py.txt',
 ])
 @patch('peltak.core.versioning.exists', Mock(return_value=True))
-def test_returns_NodeVersionStorage_if_nothing_else_is_recognized(version_file):
+def test_returns_RawVersionStorage_if_nothing_else_is_recognized(version_file):
     with testing.patch_pelconf({'version_file': version_file}):
         storage = versioning.get_version_storage()
 
