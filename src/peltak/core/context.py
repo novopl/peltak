@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*-
 """ Runtime context implementation.
 
+.. module:: peltak.core.context
+    :synopsis: Runtime context for peltak commands.
+
+
 Runtime context is a unified place to store dynamic global configuration. The
 verbosity and ``pretend`` is a good example of that.
 
-Works like `peltak.core.conf` but the configuration can be dynamically modified
+Works like `peltak.core.pelconf` but the configuration can be dynamically modified
 in runtime.
 """
 from __future__ import absolute_import, unicode_literals

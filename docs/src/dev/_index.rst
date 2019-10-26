@@ -12,6 +12,7 @@ to `peltak`_.
     contrib
     flows
     notes
+    core/_index
 
 
 Reference

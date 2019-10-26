@@ -13,7 +13,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-""" Various helpers that do not depend on anything else in the project. """
+"""
+.. module:: peltak.core.util
+    :synopsis: Various helpers that do not depend on anything else in the project.
+"""
 from __future__ import absolute_import, unicode_literals
 
 # stdlib imports

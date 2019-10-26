@@ -13,7 +13,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-""" Shell related functions """
+"""
+.. module:: peltak.core.shell
+    :synopsis: Shell related helpers.
+"""
 from __future__ import absolute_import, unicode_literals
 
 # stdlib imports
@@ -21,18 +24,44 @@ import os
 import re
 import subprocess
 import sys
-from collections import namedtuple
 from typing import Any, Dict
+
+# 3rd party imports
+import attr
 
 # local imports
 from . import context
 
 
 EnvDict = Dict[str, str]
-ExecResult = namedtuple(
-    'ExecResult',
-    'command return_code stdout stderr succeeded failed'
-)
+
+
+@attr.s
+class ExecResult(object):
+    """ Encapsulates a `shell.run` result.
+
+    Attributes:
+        command (str):
+            The command that was executed.
+        return_code (int):
+            The command exit code.
+        stdout (str):
+            The command standard output content after the execution.
+        stderr (str):
+            The command standard error content after the execution.
+        succeeded (bool):
+            **True** if command was successful (return_code was 0 or the one
+            that was expected).
+        failed (bool):
+            **True** if command failed.
+
+    """
+    command = attr.ib(type=str)
+    return_code = attr.ib(type=int)
+    stdout = attr.ib(type=str)
+    stderr = attr.ib(type=str)
+    succeeded = attr.ib(type=bool)
+    failed = attr.ib(type=bool)
 
 
 is_tty = sys.stdout.isatty()

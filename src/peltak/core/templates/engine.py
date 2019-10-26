@@ -88,9 +88,29 @@ class Engine(util.Singleton):
 
         Examples:
 
+            \b
             >>> from peltak.core.templates import Engine
             >>>
             >>> Engine().render_file("pelconf.yaml", {'src_dir': 'src'})
+            # peltak configuration file
+            # Visit https://novopl.github.io/peltak for more information
+            pelconf_version: '1'
+            # You can add custom project commands or 3rd party packages here.
+            commands:
+              - peltak.extra.git
+              - peltak.extra.gitflow
+              - peltak.extra.scripts
+
+            # This directory will be added to sys.path when the config is loaded.
+            # Useful if do not keep the source code in th root directory.
+            src_dir: "src"
+
+            # Scripts to help you manage your project.
+            scripts:
+              test:
+                about: Test your code
+                command: |
+                  echo "Change me, to run your tests"
 
         """
         template = self.env.get_template(template_file)

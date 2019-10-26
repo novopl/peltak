@@ -14,12 +14,12 @@
 # limitations under the License.
 #
 """
+.. module: peltak.core.templates
+    :synopsis: Jinja2 templates support.
+
 #########################
 Script template reference
 #########################
-
-.. module: peltak.extra.scripts.templates
-    :synopsis: Script template reference
 
 
 Using jinja filters

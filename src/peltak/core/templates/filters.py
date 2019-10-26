@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-.. module:: peltak.extra.scripts.filters
+.. module:: peltak.core.templates.filters
     :synopsis: Built-in script template filters
 
 ################################
@@ -100,8 +100,8 @@ def count_flag(count, flag):
 def cprint(msg, *args, **kw):
     """ Will convert the given message to an echo statement with color opcodes.
 
-    This supports the same syntax as `shell.fmt` (used internally here). The
-    color processing will replace any tag like object in format ``<NUMBER>``
+    This supports the same syntax as `peltak.core.shell.fmt` (used internally here).
+    The color processing will replace any tag like object in format ``<NUMBER>``
     into a corresponding opcode. Here's a quick cheatsheet on some of the more
     usefull opcodes
 

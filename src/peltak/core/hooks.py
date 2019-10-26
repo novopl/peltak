@@ -14,6 +14,8 @@
 # limitations under the License.
 #
 """
+.. module:: peltak.core.hooks
+    :synopsis: Runtime hooks framework.
 
 ###########
 Using Hooks

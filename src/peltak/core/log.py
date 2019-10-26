@@ -14,7 +14,8 @@
 # limitations under the License.
 #
 """
-Helpers for nice shell output formatting.
+.. module:: peltak.core.log
+    :synopsis: Helpers for nice shell output formatting.
 """
 from __future__ import absolute_import, unicode_literals
 

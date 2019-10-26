@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
-""" `pelconf.yaml` handling. """
+"""
+.. module:: peltak.core.pelconf
+    :synopsis: `pelconf.yaml` handling.
+"""
 from __future__ import absolute_import, unicode_literals
 
 # stdlib imports
@@ -176,7 +179,7 @@ class Pelconf(util.Singleton):
 
         Args:
             filename (str):
-                The template path. Relative to `peltak` package directory.
+                The template path. Relative to ``peltak`` package directory.
 
         Returns:
             str: The content of the chosen template.
