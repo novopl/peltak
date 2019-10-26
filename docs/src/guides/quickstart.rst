@@ -26,21 +26,9 @@ the tests passed or not. It would be nice if we could also generate coverage
 report and see the slowest tests (so we can quickly see if some tests take
 suspiciously large amount of time to execute). Here's the full setup for tests:
 
-.. code-block:: yaml
-
-    pelconf_version: '1'
-    build_dir: '.build'
-
-    scripts:
-      test:
-        about: Run unit tests
-        command: |
-          pytest -c tools/pytest.ini \
-              --cov-config=tools/coverage.ini \
-              --cov=src/todo_api \
-              --cov-report=term \
-              --cov-report=html:{{ conf.build_dir }}/coverage \
-              .
+.. literalinclude:: /examples/quickstart/pelconf.yaml
+    :language: yaml
+    :lines: 3,5-6,21,26-27,29-35
 
 As you can see, we defined an extra config value **build_dir**. Right now we use
 it only in one place so it might not be necessary, but once we start integrating
@@ -57,22 +45,11 @@ We can actually make it even more simple, by attaching our script to the root
 **peltak** command. To do so, we only need to set ``root_cli`` to **true** in
 our script config:
 
-.. code-block:: yaml
 
-    pelconf_version: '1'
-    build_dir: '.build'
+.. literalinclude:: /examples/quickstart/pelconf.yaml
+    :language: yaml
+    :lines: 3,5-6,21,26-35
 
-    scripts:
-      test:
-        about: Run unit tests
-        root_cli: true
-        command: |
-          pytest -c tools/pytest.ini \
-              --cov-config=tools/coverage.ini \
-              --cov=src/todo_api \
-              --cov-report=term \
-              --cov-report=html:{{ conf.build_dir }}/coverage \
-              .
 
 Now you can run your script with::
 
@@ -102,23 +79,10 @@ spaces, etc.
 
 Here's an example of pylint + mypy based lint script:
 
-.. code-block:: yaml
 
-    scripts:
-      lint:
-        about: Run code checks (pylint + mypy)
-        root_cli: true
-        files:
-          paths:
-            - src/todo_api
-            - test/unit
-          include: "*.py"
-          use_gitignore: true
-        command: |
-          set -e
-
-          mypy --ignore-missing-imports {{ files | wrap_paths }}
-          pylint --rcfile tools/pylint.ini {{ files | wrap_paths }}
+.. literalinclude:: /examples/quickstart/pelconf.yaml
+    :language: yaml
+    :lines: 3,5-6,21,37-50
 
 
 Using git-flow with peltak
