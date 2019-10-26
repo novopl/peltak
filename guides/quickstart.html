@@ -88,16 +88,18 @@
 <li class="toctree-l1 current"><a class="reference internal" href="_index.html">Guides</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Quickstart</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#intro">Intro</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#goals">Goals</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#simple-by-default">Simple by default</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#extensible">Extensible</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#auto-completion">Auto-completion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#configure-test-runner-with-peltak">Configure test runner with peltak</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#configure-code-check-tools-linters-with-peltak">Configure code check tools (linters) with peltak</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#using-git-flow-with-peltak">Using git-flow with peltak</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#feature-life-cycle">Feature life-cycle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#release-life-cycle">Release life-cycle</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="scripts.html">Create peltak scripts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="create_custom_commands.html">Write custom peltak commands for your project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="package_commands.html">Share your peltak commands</a></li>
 <li class="toctree-l2"><a class="reference internal" href="changelog.html">Auto-generate changelog from git history</a></li>
 </ul>
 </li>
@@ -171,80 +173,166 @@
             
   <div class="section" id="quickstart">
 <h1>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="intro">
-<h2>Intro<a class="headerlink" href="#intro" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="goals">
-<h3>Goals<a class="headerlink" href="#goals" title="Permalink to this headline">¶</a></h3>
-<p><strong>peltak</strong>’s goal is to simplify day-to-day dev tasks that we all, as developers,
-have to do. It does not try to be a build system or to replace any of the tools
-you would normally use when developing project like test runners, linters, etc.
-Think of it rather as a replacement for the shell scripts that usually wrap
-those tools. It actually started years ago as a collection of those shell
-scripts that with time evolved into a very flexible, extensible and easy to use
-command line app.</p>
-<p>The way <strong>peltak</strong> tackles this problem is to try and create an invocation layer
-between the developer and different 3rd party tools. The requirements we set
-for ourselves are:</p>
-<ul class="simple">
-<li><strong>Simple by default</strong>. The app should be useful for small projects where
-things are simple. You do not need to have a big, complex project for
-<strong>peltak</strong> to provide you with value. This means that the basic setup has
-to be as simple as possible.</li>
-<li><strong>Extensible</strong>. It has to be easy to extend and still be useful when the
-project grows. This is the biggest drawback of shell scripts - with time
-they are either too simple to handle all cases or get so complex that
-maintaining them becomes hell for anyone but the orignal author.</li>
-<li><strong>Full auto-completion.</strong> Once you get used to a tool, auto-completion
-becomes a second nature and can speed up your workflow considerably.</li>
-<li><strong>Easy command discovery and self help</strong>.  This means the user can see what
-commands he can execute without having access to any manuals or guides. The
-way we achieve that is through implementing the <code class="docutils literal notranslate"><span class="pre">--help</span></code> flag on every
-command and sub command in peltak. This way you can always append <code class="docutils literal notranslate"><span class="pre">--help</span></code>
-to your invocation and see what’s available.</li>
-</ul>
-</div>
-<div class="section" id="simple-by-default">
-<h3>Simple by default<a class="headerlink" href="#simple-by-default" title="Permalink to this headline">¶</a></h3>
-<p><strong>peltak</strong> comes with a small set of built-in commands that provide for a very
-flexible base for simple projects. You can initialize a new peltak configuration
-(<a class="reference internal" href="pelconf.html#pelconf-yaml"><span class="std std-ref">pelconf.yaml</span></a>) in the current project with:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">peltak</span> <span class="n">init</span>
+<p>In this guide, we will walk through an example flask project and how can you use
+<strong>peltak</strong> to manage it. Our app will be a very simple simple TODO app API.</p>
+<div class="section" id="configure-test-runner-with-peltak">
+<h2>Configure test runner with peltak<a class="headerlink" href="#configure-test-runner-with-peltak" title="Permalink to this headline">¶</a></h2>
+<p>In our <a class="reference internal" href="../reference/pelconf.html#pelconf-yaml"><span class="std std-ref">pelconf.yaml</span></a> configuration, we will define a <strong>test</strong> script that will
+run all of our unit test with some default configuration:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">pelconf_version</span><span class="p">:</span> <span class="s">&#39;1&#39;</span>
+
+<span class="nt">scripts</span><span class="p">:</span>
+  <span class="nt">test</span><span class="p">:</span>
+    <span class="nt">about</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Run unit tests</span>
+    <span class="nt">command</span><span class="p">:</span> <span class="p p-Indicator">|</span>
+      <span class="no">pytest test/unit</span>
 </pre></div>
 </div>
-<p>This will ask you a few simple questions and you’re ready to go.</p>
+<p>This is the simplest version of that command, but it will only tell us whether
+the tests passed or not. It would be nice if we could also generate coverage
+report and see the slowest tests (so we can quickly see if some tests take
+suspiciously large amount of time to execute). Here’s the full setup for tests:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">pelconf_version</span><span class="p">:</span> <span class="s">&#39;1&#39;</span>
+<span class="nt">build_dir</span><span class="p">:</span> <span class="s">&#39;.build&#39;</span>
+
+<span class="nt">scripts</span><span class="p">:</span>
+  <span class="nt">test</span><span class="p">:</span>
+    <span class="nt">about</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Run unit tests</span>
+    <span class="nt">command</span><span class="p">:</span> <span class="p p-Indicator">|</span>
+      <span class="no">pytest -c tools/pytest.ini \</span>
+          <span class="no">--cov-config=tools/coverage.ini \</span>
+          <span class="no">--cov=src/todo_api \</span>
+          <span class="no">--cov-report=term \</span>
+          <span class="no">--cov-report=html:{{ conf.build_dir }}/coverage \</span>
+          <span class="no">.</span>
+</pre></div>
 </div>
-<div class="section" id="extensible">
-<h3>Extensible<a class="headerlink" href="#extensible" title="Permalink to this headline">¶</a></h3>
-<p><strong>peltak</strong> is designed to grow with your project and provides a few layers of
-that allow you to start small just like with simple shell scripts (but with more
-capabilities). For that there is the <code class="docutils literal notranslate"><span class="pre">scripts:</span></code> section in <a class="reference internal" href="pelconf.html#pelconf-yaml"><span class="std std-ref">pelconf.yaml</span></a>. You
-can define shell scripts that can make use of a very flexible templating engine.
-For most projects this will actually be enough. <strong>peltak</strong> allows you to easily
-define cmd line options for your scripts and thanks to the templating support
-you can actually dynamically build your script based on configuration and
-command line options. You can read more on how to use scripts in
-<a class="reference internal" href="scripts.html"><span class="doc">Create peltak scripts</span></a>.</p>
-<p>If you need more functionality, <strong>peltak</strong> also makes it very easy to extend
-the default set of commands with python. If your project suddenly needs
-something more complicated, or to link to your existing tools you can write
-a new peltak command with few lines of python and thanks to the way the app
-is designed you can use it in your project right away. You can find more
-information about creating custom peltak commands in
-<a class="reference internal" href="create_custom_commands.html"><span class="doc">Write custom peltak commands for your project</span></a>.</p>
-<p>In fact, the way the commands are implemented, makes it also very easy to turn
-them into packages. If you find out that there is a lot of peltak commands that
-overlap between your projects it might be a good idea to turn them into a
-library and use it with each project. Even better if you can open source your
-code and let others use it in their projects too. We created a helper guide on
-how to create packages for peltak commands if you need more information:
-<a class="reference internal" href="share_commands.html"><span class="doc">Share your peltak commands</span></a>.</p>
-<p><strong>peltak</strong> is designed to be possibly least intrusive. Even if your team decides
-not to use it, you can use it yourself, just don’t commit the <a class="reference internal" href="pelconf.html#pelconf-yaml"><span class="std std-ref">pelconf.yaml</span></a>
-file and you will be good. This way you can have a smooth developer experience
-on every project you work on.</p>
+<p>As you can see, we defined an extra config value <strong>build_dir</strong>. Right now we use
+it only in one place so it might not be necessary, but once we start integrating
+other tools, we can share that value so it’s easier to maintain and change in the
+future (if needed). This also shows how easy it is to define your own config
+values and use them in your scripts.</p>
+<p>Now you can run tests in your projects with a simple command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">peltak</span> <span class="n">run</span> <span class="n">test</span>
+</pre></div>
 </div>
-<div class="section" id="auto-completion">
-<h3>Auto-completion<a class="headerlink" href="#auto-completion" title="Permalink to this headline">¶</a></h3>
+<p>We can actually make it even more simple, by attaching our script to the root
+<strong>peltak</strong> command. To do so, we only need to set <code class="docutils literal notranslate"><span class="pre">root_cli</span></code> to <strong>true</strong> in
+our script config:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">pelconf_version</span><span class="p">:</span> <span class="s">&#39;1&#39;</span>
+<span class="nt">build_dir</span><span class="p">:</span> <span class="s">&#39;.build&#39;</span>
+
+<span class="nt">scripts</span><span class="p">:</span>
+  <span class="nt">test</span><span class="p">:</span>
+    <span class="nt">about</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Run unit tests</span>
+    <span class="nt">root_cli</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+    <span class="nt">command</span><span class="p">:</span> <span class="p p-Indicator">|</span>
+      <span class="no">pytest -c tools/pytest.ini \</span>
+          <span class="no">--cov-config=tools/coverage.ini \</span>
+          <span class="no">--cov=src/todo_api \</span>
+          <span class="no">--cov-report=term \</span>
+          <span class="no">--cov-report=html:{{ conf.build_dir }}/coverage \</span>
+          <span class="no">.</span>
+</pre></div>
+</div>
+<p>Now you can run your script with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">peltak</span> <span class="n">test</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="configure-code-check-tools-linters-with-peltak">
+<h2>Configure code check tools (linters) with peltak<a class="headerlink" href="#configure-code-check-tools-linters-with-peltak" title="Permalink to this headline">¶</a></h2>
+<p>Another thing you would probably use on a project are various code checkers.
+Often times you will have more than one. One of the issues you might run into
+is how different tools handle filtering files. It might be the case you need to
+write 2 sets of completely different file filters just to get the same file
+list as a result. <strong>peltak</strong> comes with a built in method of filtering files
+and injecting them into your scripts. This way you can bypass the built-in
+filters and just pass the pre-filtered list of files to any of the tools you use
+in your script.</p>
+<p>To use it, you have to define a <code class="docutils literal notranslate"><span class="pre">files:</span></code> section in your script config where
+you define filtering rules. Then in your script you will have a <code class="docutils literal notranslate"><span class="pre">{{</span> <span class="pre">files</span> <span class="pre">}}</span></code>
+template variable that you can use. This is a list of strings, so be careful
+how you pass at to your tools. There is a built-in filter
+<a class="reference internal" href="../reference/script_filters.html#peltak.extra.scripts.filters.wrap_paths" title="peltak.extra.scripts.filters.wrap_paths"><code class="xref any py py-func docutils literal notranslate"><span class="pre">wrap_paths</span></code></a> to help you with getting the files
+ready to pass to a command line. It will wrap all items in the given array with
+double quotes, making sure you don’t have unexpected errors due to paths having
+spaces, etc.</p>
+<p>Here’s an example of pylint + mypy based lint script:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">scripts</span><span class="p">:</span>
+  <span class="nt">lint</span><span class="p">:</span>
+    <span class="nt">about</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Run code checks (pylint + mypy)</span>
+    <span class="nt">root_cli</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+    <span class="nt">files</span><span class="p">:</span>
+      <span class="nt">paths</span><span class="p">:</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">src/todo_api</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">test/unit</span>
+      <span class="nt">include</span><span class="p">:</span> <span class="s">&quot;*.py&quot;</span>
+      <span class="nt">use_gitignore</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+    <span class="nt">command</span><span class="p">:</span> <span class="p p-Indicator">|</span>
+      <span class="no">set -e</span>
+
+      <span class="no">mypy --ignore-missing-imports {{ files | wrap_paths }}</span>
+      <span class="no">pylint --rcfile tools/pylint.ini {{ files | wrap_paths }}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="using-git-flow-with-peltak">
+<h2>Using git-flow with peltak<a class="headerlink" href="#using-git-flow-with-peltak" title="Permalink to this headline">¶</a></h2>
+<p><strong>peltak</strong> comes bundled with few commands that implement the full git-flow.
+Those can be a real help if you and your team are using git-flow. The commands
+themselves have a pretty straightforward implementation as well so if you would
+like to automate a different kind of work-flow your team is using, looking at
+the <code class="xref any docutils literal notranslate"><span class="pre">peltak.extra.gitflow</span></code> commands implementation can be a good start in
+implementing your own commands.</p>
+<p>The git-flow commands are not enabled by default. You need to explicitly enable
+them using the <code class="docutils literal notranslate"><span class="pre">commands:</span></code> section in <a class="reference internal" href="../reference/pelconf.html#pelconf-yaml"><span class="std std-ref">pelconf.yaml</span></a>:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">pelconf_version</span><span class="p">:</span> <span class="s">&#39;1&#39;</span>
+
+<span class="nt">commands</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">peltak.extra.gitflow</span>
+</pre></div>
+</div>
+<p>If you have used <code class="docutils literal notranslate"><span class="pre">peltak</span> <span class="pre">init</span></code> to generate the initial configuration than
+those the gitflow commands will be enabled for you already.</p>
+<p>There are 3 main command groups: <strong>feature</strong>, <strong>release</strong> and <strong>hotfix</strong>.
+Each of them has a set of commands to manage the given branch (be it <em>feature</em>,
+<em>hotfix</em> or <em>release</em>). The commands are:</p>
+<dl class="docutils">
+<dt><code class="docutils literal notranslate"><span class="pre">start</span></code></dt>
+<dd>Will create the branch. The <em>feature/</em> and <em>release/</em> branches must always
+be created from the develop branch and the <em>hotfix/</em> branches from the
+<em>master</em> branch. When creating the <em>feature</em> and <em>hotfix</em> branch it will
+ask you the feature name and create a branch in format
+<code class="docutils literal notranslate"><span class="pre">feature/&lt;feature_name_in_lowercase_underscore&gt;</span></code>. The release branch will
+always be <code class="docutils literal notranslate"><span class="pre">release/&lt;released_ver&gt;</span></code>.</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">merged</span></code></dt>
+<dd><p class="first">This command will cleanup after the given branch is merged remotely (eg on
+github). This will:</p>
+<ol class="last arabic simple">
+<li>Checkout the target branch</li>
+<li>Pull the merged changes,</li>
+<li>delete the merged branch locally</li>
+<li>run <code class="xref any docutils literal notranslate"><span class="pre">git</span> <span class="pre">fetch</span> <span class="pre">--prune</span></code> to remove the references to the merged remote
+branch.</li>
+</ol>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">finish</span></code></dt>
+<dd><p class="first">This will merge the branch locally and cleanup:</p>
+<ol class="last arabic simple">
+<li>Checkout the target branch</li>
+<li>Merge the branch we want to merge (be it <strong>feature</strong>, <strong>hotfix</strong> or
+<strong>release</strong>.</li>
+<li>Delete the merged branch</li>
+</ol>
+</dd>
+</dl>
+<div class="section" id="feature-life-cycle">
+<h3>Feature life-cycle<a class="headerlink" href="#feature-life-cycle" title="Permalink to this headline">¶</a></h3>
+<p>Let’s see how we would manage a git-flow feature branch with <strong>peltak</strong>.</p>
+</div>
+<div class="section" id="release-life-cycle">
+<h3>Release life-cycle<a class="headerlink" href="#release-life-cycle" title="Permalink to this headline">¶</a></h3>
 </div>
 </div>
 </div>

@@ -7,3 +7,4 @@ Reference Documentation
 
     script_templates
     script_filters
+    pelconf

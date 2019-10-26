@@ -169,6 +169,7 @@
 <span class="sd">.. autofunction:: header</span>
 <span class="sd">.. autofunction:: count_flag</span>
 <span class="sd">.. autofunction:: cprint</span>
+<span class="sd">.. autofunction:: wrap_paths</span>
 
 
 <span class="sd">.. _jinja2 documentation:</span>
@@ -184,6 +185,7 @@
 <span class="kn">from</span> <span class="nn">six</span> <span class="k">import</span> <span class="n">string_types</span>
 
 <span class="c1"># local imports</span>
+<span class="kn">from</span> <span class="nn">peltak.core</span> <span class="k">import</span> <span class="n">fs</span>
 <span class="kn">from</span> <span class="nn">peltak.core</span> <span class="k">import</span> <span class="n">shell</span>
 
 
@@ -293,6 +295,24 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">shell</span><span class="o">.</span><span class="n">fmt</span><span class="p">(</span><span class="s1">&#39;echo &quot;</span><span class="si">{}</span><span class="s1">&lt;0&gt;&quot;&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="wrap_paths"><a class="viewcode-back" href="../../../../reference/script_filters.html#peltak.extra.scripts.filters.wrap_paths">[docs]</a><span class="k">def</span> <span class="nf">wrap_paths</span><span class="p">(</span><span class="n">paths</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Returns a string with all items wrapped in quotes and separated by space.</span>
+
+<span class="sd">    **Usage:**</span>
+
+<span class="sd">    .. code-block:: jinja</span>
+
+<span class="sd">        {% set paths = [&#39;file 1&#39;, &#39;file 2&#39;, &#39;file 3&#39;] %}</span>
+<span class="sd">        cp {{ paths | wrap_paths }} out_dir/</span>
+
+<span class="sd">    will result in::</span>
+
+<span class="sd">        cp &quot;file 1&quot; &quot;file 2&quot; &quot;file 3&quot; out_dir/</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">fs</span><span class="o">.</span><span class="n">wrap_paths</span><span class="p">(</span><span class="n">paths</span><span class="p">)</span></div>
 
 
 <span class="c1"># Used only in type hint comments</span>
