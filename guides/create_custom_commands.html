@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Write custom peltak commands for your project &mdash; peltak 0.25.0 documentation</title>
+  <title>Custom peltak commands &mdash; peltak 0.26.0 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                0.25.0
+                0.26.0
               </div>
             
           
@@ -89,7 +89,14 @@
 <li class="toctree-l2"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
 <li class="toctree-l2"><a class="reference internal" href="scripts.html">Create peltak scripts</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Write custom peltak commands for your project</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Custom peltak commands</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#background">Background</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#how-to-create-custom-commands">How to create custom commands</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#hello-world-command">Hello world command</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="package_commands.html">Share your peltak commands</a></li>
 <li class="toctree-l2"><a class="reference internal" href="changelog.html">Auto-generate changelog from git history</a></li>
 </ul>
@@ -143,7 +150,7 @@
         
           <li><a href="_index.html">Guides</a> &raquo;</li>
         
-      <li>Write custom peltak commands for your project</li>
+      <li>Custom peltak commands</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -162,9 +169,43 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="write-custom-peltak-commands-for-your-project">
-<h1>Write custom peltak commands for your project<a class="headerlink" href="#write-custom-peltak-commands-for-your-project" title="Permalink to this headline">¶</a></h1>
-<p>Write commands in <code class="docutils literal notranslate"><span class="pre">pelconf.py</span></code>.</p>
+  <div class="section" id="custom-peltak-commands">
+<h1>Custom peltak commands<a class="headerlink" href="#custom-peltak-commands" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="background">
+<h2>Background<a class="headerlink" href="#background" title="Permalink to this headline">¶</a></h2>
+<p>When the built in scripts functionality is not enough <strong>peltak</strong> allows you to
+write commands directly in python. You are free to keep your <strong>peltak</strong> commands
+as part of your project or move them to a separate directory. You always need
+to specify what commands are available within your project’s <strong>pelconf.yaml</strong> so
+from <strong>peltak’s</strong> perspective it really doesn’t matter where you store them.</p>
+<p>The rule of thumb is to start with project specific commands being stored as
+part of the project repo and as you progress you might extract some of your
+commands into a separate packages so you can reuse them in other projects or
+just share with the community.</p>
+<p><strong>peltak</strong> internally uses <a class="reference external" href="https://click.palletsprojects.com/en/7.x/">click</a>
+so everything you can find in the click docs applies here as well. <strong>peltak</strong>
+does provide some functionality built on top of click that makes some of the
+tasks easier to implement (<code class="xref any docutils literal notranslate"><span class="pre">pretend_option</span></code> for example), and already provides
+the root CLI group (<code class="xref any docutils literal notranslate"><span class="pre">peltak.commands.root_cli</span></code>) as well as some predefined
+groups that you can extend.</p>
+<p>You can attach your commands to any existing group as well as create new groups
+and attach them wherever you want. <strong>peltak</strong> tries to be very flexible in terms
+of how you structure the CLI commands for your project.</p>
+</div>
+<div class="section" id="how-to-create-custom-commands">
+<h2>How to create custom commands<a class="headerlink" href="#how-to-create-custom-commands" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="hello-world-command">
+<h3>Hello world command<a class="headerlink" href="#hello-world-command" title="Permalink to this headline">¶</a></h3>
+<p>Let’s start with the most basic command that will just print hello world to
+terminal. This will show you all the steps you need to take to implement the
+command and make it available to peltak. We will assume that you keep all your
+code inside a <code class="docutils literal notranslate"><span class="pre">./src</span></code> directory in your project. The <a class="reference internal" href="../reference/pelconf.html#pelconf-yaml"><span class="std std-ref">pelconf.yaml</span></a> file
+will live in the project root.</p>
+<p>For peltak to be able to load your command file you need to place it within
+<code class="docutils literal notranslate"><span class="pre">src_dir</span></code> as defined by <a class="reference internal" href="../reference/pelconf.html#pelconf-yaml"><span class="std std-ref">pelconf.yaml</span></a>. Here is an example config we will
+start</p>
+</div>
+</div>
 </div>
 
 
