@@ -54,7 +54,7 @@ class Engine(util.Singleton):
             self.env = self._make_env()
             pass
 
-    def render(self, template_str, template_ctx):
+    def render(self, template_str, template_ctx=None):
         # type: (str, Dict[str, Any]) -> str
         """ Render a script template using the given context.
 
@@ -68,7 +68,7 @@ class Engine(util.Singleton):
         """
         return self.env.from_string(template_str).render(template_ctx)
 
-    def render_file(self, template_file, template_ctx):
+    def render_file(self, template_file, template_ctx=None):
         # type: (str, Dict[str, Any]) -> str
         """ Render a template file from src/peltak/templates directory.
 

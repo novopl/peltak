@@ -14,7 +14,6 @@ from types import ModuleType
 from typing import Any, Dict, Iterator, List, Optional, Text, Union
 
 # local imports
-from peltak import PKG_DIR
 from . import hooks
 from . import log
 from . import util
@@ -169,24 +168,6 @@ class Pelconf(util.Singleton):
         yield
 
         os.chdir(curr_dir)
-
-    def load_template(self, filename):
-        # type: (str) -> str
-        """ Load template from file.
-
-        The templates are part of the package and must be included as
-        ``package_data`` in project ``setup.py``.
-
-        Args:
-            filename (str):
-                The template path. Relative to ``peltak`` package directory.
-
-        Returns:
-            str: The content of the chosen template.
-        """
-        template_file = os.path.join(PKG_DIR, 'templates', filename)
-        with open(template_file) as fp:
-            return fp.read()
 
 
 @util.cached_result()
