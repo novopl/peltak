@@ -13,7 +13,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-""" Common code used by all commands. """
+"""
+Common code used by all commands.
+
+.. module:: peltak.core
+    :synopsis: Core peltak code. Should help building any peltak command.
+
+"""
 from __future__ import absolute_import, unicode_literals
 
 from .pelconf import Pelconf

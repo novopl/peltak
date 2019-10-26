@@ -14,7 +14,8 @@
 # limitations under the License.
 #
 """
-File system related helpers.
+.. module:: peltak.core.fs
+    :synopsis: File system related helpers.
 """
 from __future__ import absolute_import, unicode_literals
 

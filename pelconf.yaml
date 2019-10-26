@@ -186,3 +186,6 @@ scripts:
             -d {{ conf.build_dir }}/docs \
             docs/src docs/doctest
       {% endif %}
+
+      {% set docs_path = proj_path('docs/html/index.html') %}
+      {{ '<32>Documentation: <34>{}' | cprint(docs_path) }}
