@@ -97,22 +97,30 @@ class InitForm(cliform.Form):
     )
 
 
-def init(quick):
-    # type: (bool) -> None
+def init(quick, blank, force):
+    # type: (bool, bool, bool) -> None
     """ Create an empty pelconf.yaml from template """
     config_file = 'pelconf.yaml'
     prompt = "-- <35>{} <32>already exists. Wipe it?<0>".format(config_file)
 
-    if exists(config_file) and not click.confirm(shell.fmt(prompt)):
+    if not force and exists(config_file) and not click.confirm(shell.fmt(prompt)):
         log.info("Canceled")
         return
 
-    form = InitForm().run(quick=quick)
+    ctx = dict(blank=blank)
+
+    if not blank:
+        form = InitForm().run(quick=quick)
+        ctx.update(form.values)
+
+    confg_content = templates.Engine().render_file('pelconf.yaml', ctx)
 
     log.info('Writing <35>{}'.format(config_file))
+    fs.write_file(config_file, confg_content)
 
-    pelconf = templates.Engine().render_file('pelconf.yaml', form.values)
-    fs.write_file(config_file, pelconf)
+    if context.get('verbose') > 0:
+        for line in shell.highlight(confg_content, 'yaml').splitlines():
+            log.info('  {}', line)
 
 
 # Used in docstrings only until we drop python2 support

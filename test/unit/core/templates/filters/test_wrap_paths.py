@@ -5,7 +5,6 @@ from __future__ import absolute_import, unicode_literals
 # 3rd party imports
 from mock import Mock, patch
 
-
 # local imports
 from peltak.core.templates.filters import wrap_paths
 
