@@ -21,6 +21,7 @@ from __future__ import absolute_import, unicode_literals
 
 # stdlib imports
 import fnmatch
+import itertools
 import os
 import re
 from os.path import isdir, join, normpath
@@ -28,6 +29,12 @@ from typing import List, Iterator, Text, Union
 
 # 3rd party imports
 from six import string_types
+
+# local imports
+from . import conf
+from . import log
+from . import types
+from . import context
 
 
 def wrap_paths(paths):
@@ -174,5 +181,22 @@ def write_file(path, content, mode='w'):
             fp.write(content)
 
 
+def collect_files(files):
+    # type: (types.FilesCollection) -> List[str]
+    """ Collect files using the given configuration. """
+    paths = [conf.proj_path(p) for p in files.paths]
+
+    if context.RunContext().get('verbose', 0) >= 3:
+        log.info("only_staged: <33>{}".format(files.only_staged))
+        log.info("untracked: <33>{}".format(files.untracked))
+        log.info("whitelist: <33>\n{}".format('\n'.join(files.whitelist())))
+        log.info("blacklist: <33>\n{}".format('\n'.join(files.blacklist())))
+
+    return list(itertools.chain.from_iterable(
+        filtered_walk(path, files.whitelist(), files.blacklist())
+        for path in paths
+    ))
+
+
 # Used in type hint comments only (until we drop python2 support)
-del List, Iterator, Text, Union
+del List, Iterator, Text, Union, types

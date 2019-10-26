@@ -38,7 +38,7 @@ def test_works():
     assert 'files' not in result
 
 
-@patch('peltak.extra.scripts.logic.collect_files', Mock(return_value=[
+@patch('peltak.core.fs.collect_files', Mock(return_value=[
     'file1',
     'file2',
     'file3'

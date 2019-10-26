@@ -7,7 +7,8 @@ import pytest
 
 
 # local imports
-from peltak.extra.scripts.types import Script, ScriptOption, ScriptFiles
+from peltak.core import types
+from peltak.extra.scripts.types import Script, ScriptOption
 
 
 def test_works():
@@ -34,7 +35,7 @@ def test_works():
     assert script.success_exit_codes == [0, 5]
     assert script.command == 'echo test'
 
-    assert isinstance(script.files, ScriptFiles)
+    assert isinstance(script.files, types.FilesCollection)
     assert script.files.paths == ['src']
 
     assert isinstance(script.options, list)

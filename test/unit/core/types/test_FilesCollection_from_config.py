@@ -7,11 +7,11 @@ import pytest
 
 
 # local imports
-from peltak.extra.scripts.types import ScriptFiles
+from peltak.core.types import FilesCollection
 
 
 def test_works():
-    files = ScriptFiles.from_config(dict(
+    files = FilesCollection.from_config(dict(
         paths=['src'],
         exclude=['__pycache__'],
         include=['*.py'],
@@ -27,7 +27,7 @@ def test_works():
 
 
 def test_works_with_only_paths_defined():
-    files = ScriptFiles.from_config({'paths': ['src']})
+    files = FilesCollection.from_config({'paths': ['src']})
 
     assert files.paths == ['src']
     assert list(files.exclude) == []
@@ -38,17 +38,17 @@ def test_works_with_only_paths_defined():
 
 def test_raises_ValueError_if_command_is_not_defined():
     with pytest.raises(ValueError):
-        ScriptFiles.from_config({})
+        FilesCollection.from_config({})
 
 
 def test_can_specify_a_single_path_as_just_a_string():
-    files = ScriptFiles.from_config(dict(paths='src'))
+    files = FilesCollection.from_config(dict(paths='src'))
 
     assert files.paths == ['src']
 
 
 def test_can_specify_single_include_path_as_just_a_string():
-    files = ScriptFiles.from_config(dict(
+    files = FilesCollection.from_config(dict(
         paths='src',
         include='*.py'
     ))
@@ -56,7 +56,7 @@ def test_can_specify_single_include_path_as_just_a_string():
 
 
 def test_can_specify_single_exclude_path_as_just_a_string():
-    files = ScriptFiles.from_config(dict(
+    files = FilesCollection.from_config(dict(
         paths='src',
         exclude='*.pyc'
     ))

@@ -16,7 +16,6 @@
 """ scripts logic. """
 
 # stdlib imports
-import itertools
 import subprocess
 import sys
 from typing import Any, Dict, List
@@ -111,25 +110,9 @@ def build_template_context(script, options):
     }
 
     if script.files:
-        template_ctx['files'] = collect_files(script.files)
+        template_ctx['files'] = fs.collect_files(script.files)
 
     return template_ctx
-
-
-def collect_files(files):
-    """ Collect script files using the given configuration. """
-    paths = [conf.proj_path(p) for p in files.paths]
-
-    if RunContext().get('verbose') >= 3:
-        log.info("only_staged: <33>{}".format(files.only_staged))
-        log.info("untracked: <33>{}".format(files.untracked))
-        log.info("whitelist: <33>\n{}".format('\n'.join(files.whitelist())))
-        log.info("blacklist: <33>\n{}".format('\n'.join(files.blacklist())))
-
-    return list(itertools.chain.from_iterable(
-        fs.filtered_walk(path, files.whitelist(), files.blacklist())
-        for path in paths
-    ))
 
 
 # Used only in type hint comments.
