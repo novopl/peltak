@@ -28,7 +28,7 @@ def test_does_not_load_yaml_config_if_not_found(p_from_file):
 
 
 @patch('os.path.exists', Mock(return_value=True))
-@patch('builtins.open', mock_open(read_data=''))
+@patch('peltak.core.pelconf.open', mock_open(read_data=''))
 @patch('peltak.core.conf.within_proj_dir', MagicMock())
 def test_has_initialized_values_if_yaml_is_an_empty_file():
     conf.init()
