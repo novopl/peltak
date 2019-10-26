@@ -33,6 +33,7 @@ from peltak.core import fs
 from peltak.core import log
 from peltak.core import shell
 from peltak.core import util
+from peltak.core import templates
 
 
 def clean(exclude):
@@ -90,6 +91,7 @@ class InitForm(cliform.Form):
     version_file = cliform.Field(
         'Version file',
         type=str,
+        default='',
         help=('This will be used for a lot of default values in the config '
               '(like for linting, reference docs etc.)')
     )
@@ -108,8 +110,9 @@ def init(quick):
     form = InitForm().run(quick=quick)
 
     log.info('Writing <35>{}'.format(config_file))
-    pelconf_template = conf.load_template('pelconf.yaml')
-    fs.write_file(config_file, pelconf_template.format(**form.values))
+
+    pelconf = templates.Engine().render_file('pelconf.yaml', form.values)
+    fs.write_file(config_file, pelconf)
 
 
 # Used in docstrings only until we drop python2 support

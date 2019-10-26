@@ -32,19 +32,16 @@ from peltak.core import log
 from peltak.core import fs
 from peltak.core import shell
 from peltak.core.context import RunContext
+from peltak.core import templates
 from .types import CliOptions, Script
-from .templates import TemplateEngine
-
-
-ctx = RunContext()
 
 
 def run_script(script, options):
     # type: (Script, CliOptions) -> None
     """ Run the script with the given (command line) options. """
     template_ctx = build_template_context(script, options)
-    verbose = ctx.get('verbose')
-    pretend = ctx.get('pretend')
+    verbose = RunContext().get('verbose')
+    pretend = RunContext().get('pretend')
 
     if verbose >= 3:
         log.info('Compiling script <35>{name}\n{script}'.format(
@@ -54,7 +51,7 @@ def run_script(script, options):
         yaml_str = yaml.dump(template_ctx, default_flow_style=False)
         log.info('with context:\n{}\n'.format(shell.highlight(yaml_str, 'yaml')))
 
-    cmd = TemplateEngine().render(script.command, template_ctx)
+    cmd = templates.Engine().render(script.command, template_ctx)
     retcode = exec_script_command(cmd, pretend)
 
     if verbose:
@@ -103,13 +100,13 @@ def build_template_context(script, options):
     """
     template_ctx = {
         'opts': dict(
-            verbose=ctx.get('verbose'),
-            pretend=ctx.get('pretend'),
+            verbose=RunContext().get('verbose'),
+            pretend=RunContext().get('pretend'),
             **options
         ),
         'script': attr.asdict(script),
         'conf': conf.values,
-        'ctx': ctx.values,
+        'ctx': RunContext().values,
         'proj_path': conf.proj_path,
     }
 

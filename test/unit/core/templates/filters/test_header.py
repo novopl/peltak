@@ -4,7 +4,7 @@ from __future__ import absolute_import, unicode_literals
 
 # local imports
 from peltak import testing
-from peltak.extra.scripts.filters import header
+from peltak.core.templates.filters import header
 
 
 @testing.patch_is_tty(True)

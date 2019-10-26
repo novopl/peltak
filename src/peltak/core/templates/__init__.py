@@ -86,75 +86,8 @@ On top of all the values in the context, you can also use
 Dev Reference
 =============
 
-.. autoclass:: peltak.extra.scripts.templates.TemplateEngine
+.. autoclass:: peltak.core.templates.Engine
     :members:
 
 """
-from typing import Any, Dict
-
-# 3rd party imports
-import jinja2
-
-# local imports
-from peltak.core import util
-from . import filters
-
-
-class TemplateEngine(util.Singleton):
-    """ Template engine wrapper.
-
-    TemplateEngine is a singleton, which means there is always a single instance
-    in existence during the app run. You can access this instance by calling
-    the class initializer:
-
-    >>> from peltak.extra.scripts.templates import TemplateEngine
-    >>>
-    >>> engine = TemplateEngine()
-
-
-    Only on first call will the class be actually constructed, all following
-    calls will return the same instance:
-
-    >>> from peltak.extra.scripts.templates import TemplateEngine
-    >>>
-    >>> TemplateEngine() is TemplateEngine()
-    True
-
-    """
-    def __init__(self):
-        if not self._singleton_initialized:
-            self.env = self._make_env()
-            pass
-
-    def render(self, template_str, template_ctx):
-        # type: (str, Dict[str, Any]) -> str
-        """ Render a script template using the given context.
-
-        Examples:
-
-            >>> from peltak.extra.scripts.templates import TemplateEngine
-            >>>
-            >>> TemplateEngine().render("{{ msg | upper }}", {'msg': 'hello'})
-            'HELLO'
-
-        """
-        return self.env.from_string(template_str).render(template_ctx)
-
-    def _make_env(self):
-        # type: () -> jinja2.Environment
-        """ Initialize jinja2 env. """
-        env = jinja2.Environment(
-            variable_start_string='{{',
-            variable_end_string='}}',
-        )
-
-        env.filters['header'] = filters.header
-        env.filters['count_flag'] = filters.count_flag
-        env.filters['cprint'] = filters.cprint
-        env.filters['wrap_paths'] = filters.wrap_paths
-
-        return env
-
-
-# Used only in type hint comments.
-del Dict, Any
+from .engine import Engine

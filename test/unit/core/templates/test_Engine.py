@@ -8,20 +8,20 @@ from mock import Mock, patch
 
 # local imports
 from peltak.core import util
-from peltak.extra.scripts.templates import TemplateEngine
+from peltak.core.templates import Engine
 
 
 def test_is_singleton():
-    assert TemplateEngine() is TemplateEngine()
+    assert Engine() is Engine()
 
 
-@patch.object(TemplateEngine, '_make_env')
+@patch.object(Engine, '_make_env')
 def test_calls_make_env_when_created_for_the_first_time(p_make_env):
     # type: (Mock) -> None
     # Make sure we don't have any lingering instance from other tests.
     util.Singleton.instances = {}
 
-    TemplateEngine()
+    Engine()
 
     p_make_env.assert_called_once()
 
@@ -39,12 +39,12 @@ def test_calls_make_env_when_created_for_the_first_time(p_make_env):
 def test_has_all_filters(filter_name):
     # type: (str) -> None
     # Make sure we don't have any lingering instance from other tests.
-    assert filter_name in TemplateEngine().env.filters
+    assert filter_name in Engine().env.filters
 
 
 def test_uses_double_curly_brace_for_expressions():
-    assert TemplateEngine().env.variable_start_string == '{{'
-    assert TemplateEngine().env.variable_end_string == '}}'
+    assert Engine().env.variable_start_string == '{{'
+    assert Engine().env.variable_end_string == '}}'
 
 
 # Used only in type hint comments
