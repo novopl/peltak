@@ -2,12 +2,6 @@
 # See https://github.com/novopl/peltak for more information.
 pelconf_version: '0'
 
-# General project settings - used by many commands
-src_dir: 'src'
-src_path: 'src/peltak'
-build_dir: '.build'
-version_file: 'src/peltak/__init__.py'
-
 # A list of py modules with commands that should be available for the project.
 commands:
   - peltak.extra.changelog
@@ -16,12 +10,19 @@ commands:
   - peltak.extra.pypi
   - peltak.extra.version
 
+# General project settings - used by many commands
+src_dir: 'src'
+version:
+  file: 'src/peltak/__init__.py'
+
 # Configure what gets deleted when running `peltak clean`
 clean:
   exclude:
     - ".tox"
     - ".venv"
 
+src_path: 'src/peltak'
+build_dir: '.build'
 
 # Configure your docker registry and images within the project
 docker:
@@ -67,7 +68,7 @@ scripts:
       pytest \
           -c ops/tools/pytest.ini \
           --cov-config=ops/tools/coverage.ini \
-          --cov={{ conf.src_path }} \
+          --cov=src/peltak \
           --cov-report=term \
           --cov-report=html:{{ conf.build_dir }}/coverage \
           {{ ctx.verbose | count_flag('v') }} \
@@ -113,7 +114,7 @@ scripts:
       pipenv run pytest \
           -c ops/tools/pytest.ini \
           --cov-config=ops/tools/coverage.ini \
-          --cov={{ conf.src_path }}/core \
+          --cov=src/peltak/core \
           --cov-report=term \
           --cov-report=html:{{ conf.build_dir }}/coverage/core \
           test/unit
@@ -129,7 +130,7 @@ scripts:
       pipenv run pytest \
           -c ops/tools/pytest.ini \
           --cov-config=ops/tools/coverage.ini \
-          --cov={{ conf.src_path }}/extra \
+          --cov=src/peltak/extra \
           --cov-report=term \
           --cov-report=html:{{ conf.build_dir }}/coverage/extra \
           test/unit
@@ -143,7 +144,7 @@ scripts:
       pipenv run pytest \
           -c ops/tools/pytest.ini \
           --cov-config=ops/tools/coverage.ini \
-          --cov={{ conf.src_path }}/extra/scripts \
+          --cov=src/peltak/extra/scripts \
           --cov-report=term \
           --cov-report=html:{{ conf.build_dir }}/coverage/scripts \
           test/unit
@@ -173,14 +174,14 @@ scripts:
       {% endif %}
 
       {{ 'Generating documentation' | header }}
-      pipenv run sphinx-build \
+      sphinx-build \
           -b html \
           -d {{ conf.build_dir }}/docs \
           docs/src docs/html
 
       {% if opts.run_doctests %}
         {{ 'Running doctests' | header }}
-        pipenv run sphinx-build \
+        sphinx-build \
             -b doctest \
             -d {{ conf.build_dir }}/docs \
             docs/src docs/doctest

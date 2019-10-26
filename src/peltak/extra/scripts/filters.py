@@ -18,6 +18,7 @@ Filters provided by peltak
 .. autofunction:: header
 .. autofunction:: count_flag
 .. autofunction:: cprint
+.. autofunction:: wrap_paths
 
 
 .. _jinja2 documentation:
@@ -33,6 +34,7 @@ from typing import Any
 from six import string_types
 
 # local imports
+from peltak.core import fs
 from peltak.core import shell
 
 
@@ -142,6 +144,24 @@ def cprint(msg, *args, **kw):
 
     """
     return shell.fmt('echo "{}<0>"', str(msg).format(*args, **kw))
+
+
+def wrap_paths(paths):
+    """ Returns a string with all items wrapped in quotes and separated by space.
+
+    **Usage:**
+
+    .. code-block:: jinja
+
+        {% set paths = ['file 1', 'file 2', 'file 3'] %}
+        cp {{ paths | wrap_paths }} out_dir/
+
+    will result in::
+
+        cp "file 1" "file 2" "file 3" out_dir/
+
+    """
+    return fs.wrap_paths(paths)
 
 
 # Used only in type hint comments

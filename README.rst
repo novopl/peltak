@@ -1,4 +1,3 @@
-
 ######
 peltak
 ######
@@ -14,6 +13,16 @@ scripts that with time evolved into a very flexible, extensible and easy to use
 command line app.
 
 .. readme_about_end
+
+Useful links
+============
+
+- `Documentation <https://novopl.github.io/peltak>`_
+    - `Installation <https://novopl.github.io/peltak/docs/html/guides/installation.html>`_
+    - `Quickstart <https://novopl.github.io/peltak/docs/html/guides/quickstart.html>`_
+    - `Dev Docs <https://novopl.github.io/peltak/docs/html/dev/_index.html>`_
+- `Source Code <https://github.com/novopl/peltak>`_
+- `CI Builds <https://circleci.com/gh/novopl/peltak>`_
 
 
 Installation
