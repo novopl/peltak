@@ -45,7 +45,7 @@ def start(component, exact):
             argument. This allows to re-release a version if something went
             wrong with the release upload.
     """
-    version_file = conf.get_path('version_file', 'VERSION')
+    version_file = conf.get_path('version.file', 'VERSION')
 
     develop = conf.get('git.devel_branch', 'develop')
     common.assert_on_branch(develop)
