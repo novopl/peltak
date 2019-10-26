@@ -20,16 +20,12 @@ jobs:
             echo '== python --version ======================================'
             whoami
             echo '== whoami ================================================'
-            time pipenv lock -d --requirements | tee requirements.txt
-            echo '== pipenv lock -d --requirements | tee requirements.txt =='
-            time pip install -r requirements.txt
-            echo '== pip install -r requirements.txt ======================='
-            pip uninstall peltak -y || true
-            echo '== pip uninstall peltak -y || true ======================='
-            python setup.py develop
-            echo '== python setup.py develop ==============================='
-            cat requirements.txt
-            echo '== cat requirements.txt =================================='
+            pipenv lock -d
+            echo '== pipenv lock -d ========================================'
+            pipenv lock -d --requirements | tee requirements.txt
+            echo '== pipenv lock -d --requirements ========================='
+            pipenv install -d
+            echo '== pipenv install -d ====================================='
 
       - save_cache:
           key: deps-rev1-{{ checksum "Pipfile.lock" }}
@@ -40,13 +36,13 @@ jobs:
 
       - run:
           name: Lint
-          command: peltak lint
+          command: pipenv run peltak lint
       - restore_cache:
           name: Restore tox cache
           key: tox-rev1-{{ checksum "Pipfile.lock" }}
       - run:
           name: Test
-          command: tox
+          command: pipenv run tox
       - save_cache:
           name: Save tox cache
           key: tox-rev1-{{ checksum "Pipfile.lock" }}
@@ -56,7 +52,7 @@ jobs:
       - run:
           name: Build Documentation
           command: |
-            peltak docs --recreate --run-doctests
+            pipenv run peltak docs --recreate --run-doctests
             mv docs/html docs/peltak-docs
             cd docs && zip -r ../.build/peltak-docs.zip peltak-docs
 
@@ -76,22 +72,25 @@ jobs:
       - checkout
       - restore_cache:
           key: deps-rev1-{{ checksum "Pipfile.lock" }}
+
       - run:
           name: Setup peltak
           command: |
-            pip uninstall peltak -y
-            python setup.py develop
+            pipenv install -d
+            echo '== pipenv install -d ====================================='
+
       - run:
           name: Upload to pypi
           command: |
-            peltak pypi configure
-            peltak pypi upload pypi
+            pipenv run peltak pypi configure
+            pipenv run peltak pypi upload pypi
             rm ~/.pypirc
+
       - run:
           name: Create release tag
           command: |
-            peltak release tag -m "$(peltak changelog)"
-            git push origin v$(peltak version --porcelain)
+            pipenv run peltak release tag -m "$(pipenv run peltak changelog)"
+            git push origin v$(pipenv run peltak version --porcelain)
 
   docs:
     docker:
@@ -104,10 +103,10 @@ jobs:
       - run:
           name: Setup
           command: |
-            time pipenv lock -d --requirements | tee requirements.txt
-            time pip install -r requirements.txt
-            time pip install .
-            peltak --help
+            time pipenv run install -d
+            echo '== peltak install -d ====================================='
+            pipenv run peltak --help
+            echo '== peltak --help ========================================='
 
       - run:
           name: Build docs
