@@ -10,7 +10,6 @@ import attr
 
 # local imports
 from six import string_types
-from peltak.core import fs
 
 
 AnyFn = Callable[..., Any]
@@ -72,6 +71,7 @@ class FilesCollection(object):
     def whitelist(self):
         # type: () -> List[str]
         """ Return a full whitelist for use with `fs.filtered_walk()` """
+        from peltak.core import fs      # avoid circular dependency.
         from peltak.core import git
 
         if self.only_staged:

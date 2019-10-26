@@ -18,9 +18,9 @@ from __future__ import absolute_import, unicode_literals
 
 # stdlib imports
 import re
-from collections import OrderedDict
-from typing import Dict, List, Optional, Pattern
 import textwrap
+from collections import OrderedDict
+from typing import Any, Dict, List, Optional, Pattern
 
 # local imports
 from peltak.core import conf
@@ -28,9 +28,7 @@ from peltak.core import git
 from peltak.core import shell
 from peltak.core import util
 from peltak.core import versioning
-
-
-TagList = List[Dict[str, str]]
+from .types import ChangelogItems, ChangelogTag
 
 
 @util.mark_experimental
@@ -47,15 +45,16 @@ def changelog():
     hashes = shell.run(cmd, capture=True).stdout.strip().splitlines()
     commits = [git.CommitDetails.get(h) for h in hashes]
 
-    tags = conf.get('changelog.tags', [
-        {'header': 'Features', 'tag': 'feature'},
-        {'header': 'Changes', 'tag': 'change'},
-        {'header': 'Fixes', 'tag': 'fix'},
-    ])
+    tags = [
+        ChangelogTag(**x) for x in
+        conf.get('changelog.tags', (
+            {'header': 'Features', 'tag': 'feature'},
+            {'header': 'Changes', 'tag': 'change'},
+            {'header': 'Fixes', 'tag': 'fix'},
+        ))
+    ]
 
-    results = OrderedDict((
-        (x['header'], []) for x in tags
-    ))  # type: Dict[str, List[str]]
+    results = OrderedDict((tag.header, []) for tag in tags)    # type: ChangelogItems
 
     for commit in commits:
         commit_items = extract_changelog_items(commit.desc, tags)
@@ -84,7 +83,7 @@ def changelog():
 
 
 def extract_changelog_items(text, tags):
-    # type: (str, TagList) -> Dict[str, List[str]]
+    # type: (str, List[ChangelogTag]) -> Dict[str, List[str]]
     """ Extract all tagged items from text.
 
     Args:
@@ -101,8 +100,8 @@ def extract_changelog_items(text, tags):
     through `pelconf.yaml`.
     """
 
-    patterns = {x['header']: tag_re(x['tag']) for x in tags}
-    items = {x['header']: [] for x in tags}     # type: Dict[str, List[str]]
+    patterns = {tag.header: tag_re(tag.tag) for tag in tags}
+    items = {tag.header: [] for tag in tags}    # type: ChangelogItems
     curr_tag = None
     curr_text = ''
 
@@ -114,13 +113,13 @@ def extract_changelog_items(text, tags):
             curr_tag = None
 
         for tag in tags:
-            m = patterns[tag['header']].match(line)
+            m = patterns[tag.header].match(line)
             if m:
                 if curr_tag is not None:
                     items[curr_tag].append(curr_text)
                     curr_text = ''
 
-                curr_tag = tag['header']
+                curr_tag = tag.header
                 line = m.group('text')
                 break
 
@@ -139,7 +138,8 @@ def tag_re(tag):
 
     Args:
         tag (str):
-            A tag for which you need the regex pattern. This should be a single word.
+            A tag for which you need the regex pattern. This should be a single
+            word.
 
     Returns:
         Pattern: Regex patter object as returned by `re.compile`.
@@ -155,4 +155,4 @@ def tag_re(tag):
 
 
 # Used in type hint comments only (until we drop python2 support)
-del Dict, List, Optional, Pattern
+del Any, Dict, List, Optional, Pattern, ChangelogItems

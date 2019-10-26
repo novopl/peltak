@@ -13,23 +13,35 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-""" Application entry point. """
-# pylint: disable=unused-import
+""" Types and classes used by `peltak.extra.changelog`. """
 from __future__ import absolute_import, unicode_literals
 
-# local imports
-from peltak.core.pelconf import Pelconf
-from peltak.commands import root_cli
-
-# Scripts should be available by default
-import peltak.extra.scripts     # pylint: disable=unused-import
-
-__all__ = [
-    'root_cli'
-]
+# stdlib imports
+from typing import Any, Dict, List
 
 
-Pelconf.init()
+# 3rd party imports
+import attr
 
 
-from peltak.commands.root import clean   # noqa
+ChangelogItems = Dict[str, List[Any]]
+
+
+@attr.s
+class ChangelogTag(object):
+    """ Changelog tag config.
+
+    This is used to map the tags used in commit message details to the actual
+    headers used in the generated changelog.
+
+    Attributes:
+        header (str):   The header used in the generated changelog.
+        tag (str):      The tag used in commit message details.
+
+    """
+    header = attr.ib(type=str)
+    tag = attr.ib(type=str)
+
+
+# Used only in type hint comments
+del Any, Dict, List

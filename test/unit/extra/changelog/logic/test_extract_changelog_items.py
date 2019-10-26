@@ -5,6 +5,7 @@ from __future__ import absolute_import, unicode_literals
 import pytest
 
 from peltak.extra.changelog import logic
+from peltak.extra.changelog.types import ChangelogTag
 
 
 @pytest.mark.parametrize('header,tag', [
@@ -19,9 +20,9 @@ def test_detects_each_tag(header, tag):
     ])
 
     items = logic.extract_changelog_items(desc, tags=[
-        {'header': 'Features', 'tag': 'feature'},
-        {'header': 'Changes', 'tag': 'change'},
-        {'header': 'Fixes', 'tag': 'fix'},
+        ChangelogTag(header='Features', tag='feature'),
+        ChangelogTag(header='Changes', tag='change'),
+        ChangelogTag(header='Fixes', tag='fix'),
     ])
 
     assert len(items[header]) == 1
@@ -41,9 +42,9 @@ def test_supports_dense_descriptions(header, tag):
     ])
 
     items = logic.extract_changelog_items(desc, tags=[
-        {'header': 'Features', 'tag': 'feature'},
-        {'header': 'Changes', 'tag': 'change'},
-        {'header': 'Fixes', 'tag': 'fix'},
+        ChangelogTag(header='Features', tag='feature'),
+        ChangelogTag(header='Changes', tag='change'),
+        ChangelogTag(header='Fixes', tag='fix'),
     ])
 
     assert len(items[header]) == 2
@@ -66,9 +67,9 @@ def test_supports_loose_descriptions(header, tag):
     ])
 
     items = logic.extract_changelog_items(desc, tags=[
-        {'header': 'Features', 'tag': 'feature'},
-        {'header': 'Changes', 'tag': 'change'},
-        {'header': 'Fixes', 'tag': 'fix'},
+        ChangelogTag(header='Features', tag='feature'),
+        ChangelogTag(header='Changes', tag='change'),
+        ChangelogTag(header='Fixes', tag='fix'),
     ])
 
     assert len(items[header]) == 2
@@ -86,9 +87,9 @@ def test_supports_all_tags_used_together():
     ])
 
     items = logic.extract_changelog_items(desc, tags=[
-        {'header': 'Features', 'tag': 'feature'},
-        {'header': 'Changes', 'tag': 'change'},
-        {'header': 'Fixes', 'tag': 'fix'},
+        ChangelogTag(header='Features', tag='feature'),
+        ChangelogTag(header='Changes', tag='change'),
+        ChangelogTag(header='Fixes', tag='fix'),
     ])
 
     assert len(items['Features']) == 1
@@ -110,7 +111,7 @@ def test_ignores_non_tagged_text():
     ])
 
     items = logic.extract_changelog_items(desc, tags=[
-        {'header': 'Features', 'tag': 'feature'},
+        ChangelogTag(header='Features', tag='feature'),
     ])
 
     assert len(items['Features']) == 1
