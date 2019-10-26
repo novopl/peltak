@@ -22,7 +22,6 @@ from __future__ import absolute_import, unicode_literals
 
 
 # pkg interface
-from .mocks import mock_response
 from .mocks import mock_result
 from .patches import patch_is_tty
 from .patches import patch_proj_root

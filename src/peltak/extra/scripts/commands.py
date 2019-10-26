@@ -92,13 +92,11 @@ from __future__ import absolute_import
 # local imports
 from peltak.commands import root_cli
 from peltak.core import hooks
-from peltak.core import util
 from peltak.core import conf
 from .types import Script
 
 
 @root_cli.group('run')
-@util.mark_experimental
 def run_cli():
     # type: () -> None
     """ Run custom scripts """

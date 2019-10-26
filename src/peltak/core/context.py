@@ -29,7 +29,7 @@ class InvalidPath(ContextError):
         ))
 
 
-class GlobalContext(util.Singleton):
+class RunContext(util.Singleton):
     """ Runtime context.
 
     This class is the equivalent of conf but for values that can be modified
@@ -126,7 +126,7 @@ def get(name, *default):
         AttributeError: If the value does not exist and *default* was not
             given.
     """
-    return GlobalContext().get(name, *default)
+    return RunContext().get(name, *default)
 
 
 def set(name, value):   # pylint: disable=redefined-builtin
@@ -139,13 +139,13 @@ def set(name, value):   # pylint: disable=redefined-builtin
         value (Any):
             The new value for the selected context value
     """
-    GlobalContext().set(name, value)
+    RunContext().set(name, value)
 
 
 def clear():
     # type: () -> None
     """ Clear all existing values. """
-    return GlobalContext().clear()
+    return RunContext().clear()
 
 
 # Used in type hints comments only (until we drop python2 support)

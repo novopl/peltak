@@ -96,7 +96,6 @@ from typing import Any, Dict
 import jinja2
 
 # local imports
-from peltak.core import fs
 from peltak.core import util
 from . import filters
 
@@ -152,7 +151,7 @@ class TemplateEngine(util.Singleton):
         env.filters['header'] = filters.header
         env.filters['count_flag'] = filters.count_flag
         env.filters['cprint'] = filters.cprint
-        env.filters['wrap_paths'] = fs.wrap_paths
+        env.filters['wrap_paths'] = filters.wrap_paths
 
         return env
 

@@ -70,7 +70,7 @@ def patch_pelconf(config):
         config (dict[str, Any]):
             The dictionary with the peltak configuration.
     """
-    return patch('peltak.core.conf.g_config', config)
+    return patch('peltak.core.conf.values', config)
 
 
 def patch_run(stdout=None, retcode=None, stderr=None, cmd=None):

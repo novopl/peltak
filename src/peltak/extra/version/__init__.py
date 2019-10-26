@@ -13,24 +13,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-""" Application entry point. """
-# pylint: disable=unused-import
-from __future__ import absolute_import, unicode_literals
+"""
+##################
+``peltak version``
+##################
 
-# local imports
-from peltak.core.pelconf import Pelconf
-from peltak.commands import root_cli
-
-# Scripts should be available by default
-import peltak.extra.scripts     # pylint: disable=unused-import
-
-__all__ = [
-    'root_cli'
-]
-
-
-Pelconf.init()
-# conf.load()
-
-
-from peltak.commands.root import clean   # noqa
+Commands for managing the managed project version.
+"""
+from __future__ import absolute_import
+from .commands import version_cli

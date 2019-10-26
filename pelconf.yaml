@@ -2,23 +2,18 @@
 # See https://github.com/novopl/peltak for more information.
 pelconf_version: '0'
 
-# General project settings - used by many commands
-src_dir: 'src'
-src_path: 'src/peltak'
-build_dir: '.build'
-version_file: 'src/peltak/__init__.py'
-
 # A list of py modules with commands that should be available for the project.
 commands:
-  - peltak.commands.git
-  - peltak.commands.version
   - peltak.extra.changelog
+  - peltak.extra.git
   - peltak.extra.gitflow
   - peltak.extra.pypi
-  - peltak.extra.scripts
-#  - peltak.commands.docs
-#  - peltak.commands.lint
-#  - peltak.commands.test
+  - peltak.extra.version
+
+# General project settings - used by many commands
+src_dir: 'src'
+version:
+  file: 'src/peltak/__init__.py'
 
 # Configure what gets deleted when running `peltak clean`
 clean:
@@ -26,6 +21,8 @@ clean:
     - ".tox"
     - ".venv"
 
+src_path: 'src/peltak'
+build_dir: '.build'
 
 # Configure your docker registry and images within the project
 docker:
@@ -71,7 +68,7 @@ scripts:
       pytest \
           -c ops/tools/pytest.ini \
           --cov-config=ops/tools/coverage.ini \
-          --cov={{ conf.src_path }} \
+          --cov=src/peltak \
           --cov-report=term \
           --cov-report=html:{{ conf.build_dir }}/coverage \
           {{ ctx.verbose | count_flag('v') }} \
@@ -79,7 +76,7 @@ scripts:
           test/unit
 
       {% set cov_path = proj_path(conf.build_dir, 'coverage/index.html') %}
-      {{ cprint('<32>HTML report: <34>file://{}', cov_path) }}
+      {{ '<32>HTML report: <34>file://{}' | cprint(cov_path) }}
 
   # run scripts
   lint-commit:
@@ -117,13 +114,13 @@ scripts:
       pipenv run pytest \
           -c ops/tools/pytest.ini \
           --cov-config=ops/tools/coverage.ini \
-          --cov={{ conf.src_path }}/core \
+          --cov=src/peltak/core \
           --cov-report=term \
           --cov-report=html:{{ conf.build_dir }}/coverage/core \
           test/unit
 
       {% set cov_path = proj_path(conf.build_dir, 'coverage/core/index.html') %}
-      {{ cprint('<32>HTML report: <34>file://{}', cov_path) }}
+      {{ '<32>HTML report: <34>file://{}' | cprint(cov_path) }}
 
   cov-extra:
     about: Generate coverage report for peltak.extra
@@ -133,13 +130,13 @@ scripts:
       pipenv run pytest \
           -c ops/tools/pytest.ini \
           --cov-config=ops/tools/coverage.ini \
-          --cov={{ conf.src_path }}/extra \
+          --cov=src/peltak/extra \
           --cov-report=term \
           --cov-report=html:{{ conf.build_dir }}/coverage/extra \
           test/unit
 
       {% set cov_path = proj_path(conf.build_dir, 'coverage/extra/index.html') %}
-      {{ cprint('<32>HTML report: <34>file://{}', cov_path) }}
+      {{ '<32>HTML report: <34>file://{}' | cprint(cov_path) }}
 
   cov-scripts:
     about: Generate coverage report for peltak.extra.scripts
@@ -147,13 +144,13 @@ scripts:
       pipenv run pytest \
           -c ops/tools/pytest.ini \
           --cov-config=ops/tools/coverage.ini \
-          --cov={{ conf.src_path }}/extra/scripts \
+          --cov=src/peltak/extra/scripts \
           --cov-report=term \
           --cov-report=html:{{ conf.build_dir }}/coverage/scripts \
           test/unit
 
       {% set cov_path = proj_path(conf.build_dir, 'coverage/scripts/index.html') %}
-      {{ cprint('<32>HTML report: <34>file://{}', cov_path) }}
+      {{ '<32>HTML report: <34>file://{}' | cprint(cov_path) }}
 
   docs:
     about: Generate sphinx documentation
@@ -177,15 +174,15 @@ scripts:
       {% endif %}
 
       {{ 'Generating documentation' | header }}
-      pipenv run sphinx-build \
+      sphinx-build \
           -b html \
           -d {{ conf.build_dir }}/docs \
-          docs docs/html
+          docs/src docs/html
 
       {% if opts.run_doctests %}
         {{ 'Running doctests' | header }}
-        pipenv run sphinx-build \
+        sphinx-build \
             -b doctest \
             -d {{ conf.build_dir }}/docs \
-            docs docs/doctest
+            docs/src docs/doctest
       {% endif %}

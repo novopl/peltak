@@ -10,7 +10,7 @@ from mock import Mock, patch
 
 # local imports
 from peltak import testing
-from peltak.core.context import GlobalContext
+from peltak.core.context import RunContext
 from peltak.extra.scripts.types import Script
 from peltak.extra.scripts.logic import run_script
 
@@ -52,7 +52,7 @@ def test_exits_with_script_return_code_if_its_non_zero(p_exec_script_command,
 def test_prints_return_code_if_verbose_lvl_ge_3(p_exec_script_command,
                                                 p_cprint):
     # type: (Mock, Mock) -> None
-    GlobalContext().set('verbose', 1)
+    RunContext().set('verbose', 1)
     p_exec_script_command.return_value = -99
     options = {}    # type: Dict[str, Any]
     script = Script.from_config('test', {
@@ -75,7 +75,7 @@ def test_prints_return_code_if_verbose_lvl_ge_3(p_exec_script_command,
 def test_prints_template_context_if_verbose_lvl_ge_3(p_exec_script_command,
                                                      p_cprint):
     # type: (Mock, Mock) -> None
-    GlobalContext().set('verbose', 3)
+    RunContext().set('verbose', 3)
     p_exec_script_command.return_value = -99
     options = {}    # type: Dict[str, Any]
     script = Script.from_config('test', {

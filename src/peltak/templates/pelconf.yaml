@@ -1,36 +1,22 @@
 # peltak configuration file
-# Visit https://github.com/novopl/peltak for more information
+# Visit https://novopl.github.io/peltak for more information
 pelconf_version: '1'
-
-src_dir: "{src_dir}"
-src_path: "{src_path}"
-build_dir: "{build_dir}"
-version_file: "{version_file}"
-
 commands:
-  - peltak.cli.docs
-  - peltak.cli.git
-  - peltak.cli.lint
-  - peltak.cli.test
-  - peltak.cli.version
-  - peltak.extra.pypi
+  # Extra commands enabled. You can add local project commands, peltak built-ins
+  # or 3rd party packages here.
+  - peltak.extra.git
   - peltak.extra.gitflow
 
-clean:
-  exclude:
-    - ".tox"
-    - ".venv"
+# This directory will be added to sys.path when the config is loaded.
+# Useful if do not keep the source code in th root directory.
+src_dir: "{src_dir}"
+version:
+  file: "{version_file}"
 
-lint:
-  paths:
-    - {src_path}
-
-docs:
-  reference:
-    - {src_path}
-
-test:
-  types:
-    default:
-      paths:
-        - {src_path}
+# Scripts to help you manage your project. You can create as many scripts you
+# want.
+scripts:
+  test:
+    about: Test your code
+    command: |
+      echo "Change me, to run your tests"

@@ -8,26 +8,8 @@ from __future__ import absolute_import, unicode_literals
 # stdlib imports
 from typing import Any, Dict, List, Union
 
-# 3rd party imports
-from mock import Mock
-
 # local imports
 from peltak.core.shell import ExecResult
-
-
-def mock_response(data):
-    # type: (Union[Dict[str, Any], List[Any]]) -> Mock
-    """ Create a mock response that can be set as requests return value.
-
-    Args:
-        data (Union[dict[str, Any], list[Any]]):
-
-    Returns:
-        MagicMock:
-    """
-    resp_mock = Mock()
-    resp_mock.json = Mock(return_value=data)
-    return resp_mock
 
 
 def mock_result(stdout=None, retcode=None, stderr=None, cmd=None):

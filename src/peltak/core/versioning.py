@@ -289,7 +289,7 @@ def get_version_storage():
 
     The storage engine used depends on the extension of the *version_file*.
     """
-    version_file = conf.get_path('version_file', 'VERSION')
+    version_file = conf.get_path('version.file', 'VERSION')
     if version_file.endswith('.py'):
         return PyVersionStorage(version_file)
     elif version_file.endswith('package.json'):

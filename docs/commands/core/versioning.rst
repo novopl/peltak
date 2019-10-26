@@ -1,1 +1,0 @@
-.. automodule:: peltak.commands.version
