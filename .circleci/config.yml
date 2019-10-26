@@ -93,12 +93,46 @@ jobs:
             peltak release tag -m "$(peltak changelog)"
             git push origin v$(peltak version --porcelain)
 
+  docs:
+    docker:
+      - image: novopl/python36:ci-alpine
+    steps:
+      - checkout
+      - restore_cache:
+          key: deps-rev1-{{ checksum "setup.py" }}
+
+      - run:
+          name: Setup
+          command: |
+            time pipenv lock -d --requirements | tee requirements.txt
+            time pip install -r requirements.txt
+            time pip install .
+            peltak --help
+
+      - run:
+          name: Deploy gh-pages
+          command: |
+            pipenv run peltak docs
+            git checkout gh-pages
+            cp -r docs/html/* ./
+            git add .
+            git config user.email ${GIT_EMAIL}
+            git config user.name ${GIT_USER}
+            git commit -nm "Docs build #${CIRCLECI_BUILD_NUM}"
+            git push --no-verify origin gh-pages
+
 workflows:
   version: 2
   main:
     jobs:
       - build
       - release:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
+      - docs:
           requires:
             - build
           filters:

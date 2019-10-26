@@ -10,7 +10,7 @@ author = u"Mateusz 'novo' Klos"
 
 
 def repo_path(path):
-    ret = os.path.join(os.path.dirname(__file__), '..', path)
+    ret = os.path.join(os.path.dirname(__file__), '../..', path)
     return os.path.normpath(ret)
 
 

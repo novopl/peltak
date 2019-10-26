@@ -14,9 +14,9 @@
 # limitations under the License.
 #
 """
-######################
-Custom project scripts
-######################
+#####################
+Create peltak scripts
+#####################
 
 .. module: peltak.extra.scripts
     :synopsis: Custom project scripts
@@ -25,16 +25,6 @@ Custom project scripts
 top of just defining the command, by default the command is processed by jinja
 before it's being ran. This makes it possible to inject some dynamic values into
 the command and makes the whole scripts subsystem very flexible.
-
-How to enable ``peltak run`` command
-====================================
-
-You need to specify it in your **commands:** section in `pelconf.yaml`:
-
-.. code-block:: yaml
-
-    commands:
-        - peltak.extra.scripts
 
 
 Get a list of scripts available in the project
