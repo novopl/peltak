@@ -287,7 +287,8 @@ def get_version_storage():
     # type: () -> VersionStorage
     """ Get version storage for the given version file.
 
-    The storage engine used depends on the extension of the *version_file*.
+    The storage engine used depends on the extension of the *version.file* conf
+    variable.
     """
     version_file = conf.get_path('version.file', 'VERSION')
     if version_file.endswith('.py'):

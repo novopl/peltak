@@ -30,7 +30,8 @@ def release_cli():
     **Example Config**::
 
         \b
-        version_file: 'src/mypkg/__init__.py'
+        version:
+            file: 'src/mypkg/__init__.py'
         git:
             devel_branch: 'develop'
             master_branch: 'master'
@@ -71,7 +72,8 @@ def start(component, exact):
     **Example Config**::
 
         \b
-        version_file: 'src/mypkg/__init__.py'
+        version:
+            file: 'src/mypkg/__init__.py'
 
     **Examples**::
 
@@ -103,7 +105,8 @@ def tag_release(message):
     **Example Config**::
 
         \b
-        version_file: 'src/mypkg/__init__.py'
+        version:
+            file: 'src/mypkg/__init__.py'
 
     Examples::
 
