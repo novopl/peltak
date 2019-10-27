@@ -1,0 +1,430 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>peltak.core.shell &mdash; peltak 0.26.2 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/overrides.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> peltak
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.26.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/_index.html">Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference/_index.html">Reference Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dev/_index.html">Dev Docs</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">peltak</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>peltak.core.shell</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for peltak.core.shell</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1"># Copyright 2017-2018 Mateusz Klos</span>
+<span class="c1">#</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1"># you may not use this file except in compliance with the License.</span>
+<span class="c1"># You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1"># http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1"># See the License for the specific language governing permissions and</span>
+<span class="c1"># limitations under the License.</span>
+<span class="c1">#</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">.. module:: peltak.core.shell</span>
+<span class="sd">    :synopsis: Shell related helpers.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">absolute_import</span><span class="p">,</span> <span class="n">unicode_literals</span>
+
+<span class="c1"># stdlib imports</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span>
+
+<span class="c1"># 3rd party imports</span>
+<span class="kn">import</span> <span class="nn">attr</span>
+
+<span class="c1"># local imports</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">context</span>
+
+
+<span class="n">EnvDict</span> <span class="o">=</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="ExecResult"><a class="viewcode-back" href="../../../dev/core/shell.html#peltak.core.shell.ExecResult">[docs]</a><span class="nd">@attr</span><span class="o">.</span><span class="n">s</span>
+<span class="k">class</span> <span class="nc">ExecResult</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Encapsulates a `shell.run` result.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        command (str):</span>
+<span class="sd">            The command that was executed.</span>
+<span class="sd">        return_code (int):</span>
+<span class="sd">            The command exit code.</span>
+<span class="sd">        stdout (str):</span>
+<span class="sd">            The command standard output content after the execution.</span>
+<span class="sd">        stderr (str):</span>
+<span class="sd">            The command standard error content after the execution.</span>
+<span class="sd">        succeeded (bool):</span>
+<span class="sd">            **True** if command was successful (return_code was 0 or the one</span>
+<span class="sd">            that was expected).</span>
+<span class="sd">        failed (bool):</span>
+<span class="sd">            **True** if command failed.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">command</span> <span class="o">=</span> <span class="n">attr</span><span class="o">.</span><span class="n">ib</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+    <span class="n">return_code</span> <span class="o">=</span> <span class="n">attr</span><span class="o">.</span><span class="n">ib</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">stdout</span> <span class="o">=</span> <span class="n">attr</span><span class="o">.</span><span class="n">ib</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+    <span class="n">stderr</span> <span class="o">=</span> <span class="n">attr</span><span class="o">.</span><span class="n">ib</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+    <span class="n">succeeded</span> <span class="o">=</span> <span class="n">attr</span><span class="o">.</span><span class="n">ib</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+    <span class="n">failed</span> <span class="o">=</span> <span class="n">attr</span><span class="o">.</span><span class="n">ib</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span></div>
+
+
+<span class="n">is_tty</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">isatty</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="decolorize"><a class="viewcode-back" href="../../../dev/core/shell.html#peltak.core.shell.decolorize">[docs]</a><span class="k">def</span> <span class="nf">decolorize</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="c1"># type: (str) -&gt; str</span>
+    <span class="sd">&quot;&quot;&quot; Remove all opcodes from the text.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        text (str):</span>
+<span class="sd">            Source text that includes color opcodes as used in `shell.fmt`</span>
+<span class="sd">            function.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: The same text but with all opcodes removed.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;&lt;(\d{1,2})&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="fmt"><a class="viewcode-back" href="../../../dev/core/shell.html#peltak.core.shell.fmt">[docs]</a><span class="k">def</span> <span class="nf">fmt</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+    <span class="c1"># type: (str, *Any, **Any) -&gt; str</span>
+    <span class="sd">&quot;&quot;&quot; Generate shell color opcodes from a pretty coloring syntax. &quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">is_tty</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">kw</span><span class="p">):</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">)</span>
+
+    <span class="n">opcode_subst</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\x1b</span><span class="s1">[</span><span class="se">\\</span><span class="s1">1m&#39;</span> <span class="k">if</span> <span class="n">is_tty</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span>
+    <span class="k">return</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;&lt;(\d{1,2})&gt;&#39;</span><span class="p">,</span> <span class="n">opcode_subst</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="cprint"><a class="viewcode-back" href="../../../dev/core/shell.html#peltak.core.shell.cprint">[docs]</a><span class="k">def</span> <span class="nf">cprint</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+    <span class="c1"># type: (str, *Any, **Any) -&gt; None</span>
+    <span class="sd">&quot;&quot;&quot; Print colored message to stdout. &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">kw</span><span class="p">):</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">&lt;0&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">msg</span><span class="p">)))</span></div>
+
+
+<div class="viewcode-block" id="run"><a class="viewcode-back" href="../../../dev/core/shell.html#peltak.core.shell.run">[docs]</a><span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span>
+        <span class="n">capture</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">env</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">exit_on_error</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">never_pretend</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="c1"># type: (str, bool, bool, EnvDict, bool, bool) -&gt; ExecResult</span>
+    <span class="sd">&quot;&quot;&quot; Run a shell command.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        cmd (str):</span>
+<span class="sd">            The shell command to execute.</span>
+<span class="sd">        shell (bool):</span>
+<span class="sd">            Same as in `subprocess.Popen`.</span>
+<span class="sd">        capture (bool):</span>
+<span class="sd">            If set to True, it will capture the standard input/error instead of</span>
+<span class="sd">            just piping it to the caller stdout/stderr.</span>
+<span class="sd">        env (dict[str, str]):</span>
+<span class="sd">            The subprocess environment variables.</span>
+<span class="sd">        exit_on_error (bool):</span>
+<span class="sd">            If set to **True**, on failure it will call `sys.exit` with the</span>
+<span class="sd">            return code for the executed command.</span>
+<span class="sd">        never_pretend (bool):</span>
+<span class="sd">            If set to **True** the command will always be executed, even if</span>
+<span class="sd">            context.get(&#39;pretend&#39;) is set to True. If set to **False** or not</span>
+<span class="sd">            given, if the ``pretend`` context value is **True**, this function</span>
+<span class="sd">            will only print the command it would execute and then return</span>
+<span class="sd">            a fake result.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        ExecResult: The execution result containing the return code and output</span>
+<span class="sd">        (if capture was set to *True*).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">context</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;pretend&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">never_pretend</span><span class="p">:</span>
+        <span class="n">cprint</span><span class="p">(</span><span class="s1">&#39;&lt;90&gt;</span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">cmd</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ExecResult</span><span class="p">(</span>
+            <span class="n">cmd</span><span class="p">,</span>
+            <span class="mi">0</span><span class="p">,</span>              <span class="c1"># retcode</span>
+            <span class="s1">&#39;&#39;</span><span class="p">,</span>             <span class="c1"># stdout</span>
+            <span class="s1">&#39;&#39;</span><span class="p">,</span>             <span class="c1"># stderr</span>
+            <span class="kc">True</span><span class="p">,</span>           <span class="c1"># succeeded</span>
+            <span class="kc">False</span><span class="p">,</span>          <span class="c1"># failed</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">context</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;verbose&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">cprint</span><span class="p">(</span><span class="s1">&#39;&lt;90&gt;</span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">cmd</span><span class="p">)</span>
+
+    <span class="n">options</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;bufsize&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>       <span class="c1"># line buffered</span>
+        <span class="s1">&#39;shell&#39;</span><span class="p">:</span> <span class="n">shell</span>
+    <span class="p">}</span>   <span class="c1"># type: Dict[str, Any]</span>
+
+    <span class="k">if</span> <span class="n">exit_on_error</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">exit_on_error</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">capture</span>
+
+    <span class="k">if</span> <span class="n">capture</span><span class="p">:</span>
+        <span class="n">options</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+            <span class="s1">&#39;stdout&#39;</span><span class="p">:</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span>
+            <span class="s1">&#39;stderr&#39;</span><span class="p">:</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span>
+        <span class="p">})</span>
+
+    <span class="k">if</span> <span class="n">env</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">options</span><span class="p">[</span><span class="s1">&#39;env&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">)</span>
+        <span class="n">options</span><span class="p">[</span><span class="s1">&#39;env&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+
+    <span class="n">p</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">stdout</span><span class="p">,</span> <span class="n">stderr</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">communicate</span><span class="p">()</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">stdout</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">stdout</span> <span class="o">=</span> <span class="n">stdout</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">stderr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">stderr</span> <span class="o">=</span> <span class="n">stderr</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="c1"># &#39;str&#39; has no attribute &#39;decode&#39;</span>
+            <span class="k">pass</span>
+
+        <span class="k">if</span> <span class="n">exit_on_error</span> <span class="ow">and</span> <span class="n">p</span><span class="o">.</span><span class="n">returncode</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">returncode</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">ExecResult</span><span class="p">(</span>
+            <span class="n">cmd</span><span class="p">,</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">returncode</span><span class="p">,</span>
+            <span class="n">stdout</span><span class="p">,</span>
+            <span class="n">stderr</span><span class="p">,</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">returncode</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">returncode</span> <span class="o">!=</span> <span class="mi">0</span>
+        <span class="p">)</span>
+
+    <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">kill</span><span class="p">()</span>
+        <span class="k">raise</span></div>
+
+
+<div class="viewcode-block" id="highlight"><a class="viewcode-back" href="../../../dev/core/shell.html#peltak.core.shell.highlight">[docs]</a><span class="k">def</span> <span class="nf">highlight</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">fmt</span><span class="p">):</span>
+    <span class="c1"># type: (str, str) -&gt; str</span>
+    <span class="sd">&quot;&quot;&quot; Highlight a given code snippet for printing in the terminal.</span>
+
+<span class="sd">    Assumes 256 color terminal.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">pygments</span>
+    <span class="kn">from</span> <span class="nn">pygments.lexers.data</span> <span class="k">import</span> <span class="n">YamlLexer</span>
+    <span class="kn">from</span> <span class="nn">pygments.lexers.data</span> <span class="k">import</span> <span class="n">JsonLexer</span>
+    <span class="kn">from</span> <span class="nn">pygments.lexers.python</span> <span class="k">import</span> <span class="n">PythonLexer</span>
+    <span class="kn">from</span> <span class="nn">pygments.lexers.python</span> <span class="k">import</span> <span class="n">Python3Lexer</span>
+    <span class="kn">from</span> <span class="nn">pygments.lexers.templates</span> <span class="k">import</span> <span class="n">DjangoLexer</span>
+    <span class="kn">from</span> <span class="nn">pygments.lexers.shell</span> <span class="k">import</span> <span class="n">BashLexer</span>
+    <span class="kn">from</span> <span class="nn">pygments.formatters.terminal256</span> <span class="k">import</span> <span class="n">Terminal256Formatter</span>
+
+    <span class="c1"># Get lexer class based on format.</span>
+    <span class="n">lexer_cls</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;yaml&#39;</span><span class="p">:</span> <span class="n">YamlLexer</span><span class="p">,</span>
+        <span class="s1">&#39;json&#39;</span><span class="p">:</span> <span class="n">JsonLexer</span><span class="p">,</span>
+        <span class="s1">&#39;bash&#39;</span><span class="p">:</span> <span class="n">BashLexer</span><span class="p">,</span>
+        <span class="s1">&#39;py&#39;</span><span class="p">:</span> <span class="n">Python3Lexer</span><span class="p">,</span>
+        <span class="s1">&#39;py3&#39;</span><span class="p">:</span> <span class="n">Python3Lexer</span><span class="p">,</span>
+        <span class="s1">&#39;py2&#39;</span><span class="p">:</span> <span class="n">PythonLexer</span><span class="p">,</span>
+        <span class="s1">&#39;jinja&#39;</span><span class="p">:</span> <span class="n">DjangoLexer</span><span class="p">,</span>
+        <span class="s1">&#39;django&#39;</span><span class="p">:</span> <span class="n">DjangoLexer</span><span class="p">,</span>
+    <span class="p">}</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">fmt</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">lexer_cls</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Unsupported code format: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fmt</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">pygments</span><span class="o">.</span><span class="n">highlight</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">lexer_cls</span><span class="p">(),</span> <span class="n">Terminal256Formatter</span><span class="p">())</span></div>
+
+
+<span class="c1"># Used in docstrings only until we drop python2 support</span>
+<span class="k">del</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016-2018, Mateusz &#39;novo&#39; Klos
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

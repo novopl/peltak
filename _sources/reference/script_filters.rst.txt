@@ -1,1 +1,1 @@
-.. automodule:: peltak.extra.scripts.filters
+.. automodule:: peltak.core.templates.filters

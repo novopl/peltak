@@ -1,0 +1,393 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>peltak.core.pelconf &mdash; peltak 0.26.2 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/overrides.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> peltak
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.26.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/_index.html">Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference/_index.html">Reference Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dev/_index.html">Dev Docs</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">peltak</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>peltak.core.pelconf</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for peltak.core.pelconf</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">.. module:: peltak.core.pelconf</span>
+<span class="sd">    :synopsis: `pelconf.yaml` handling.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">absolute_import</span><span class="p">,</span> <span class="n">unicode_literals</span>
+
+<span class="c1"># stdlib imports</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">os.path</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">contextlib</span> <span class="k">import</span> <span class="n">contextmanager</span>
+<span class="kn">from</span> <span class="nn">types</span> <span class="k">import</span> <span class="n">ModuleType</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Text</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="c1"># local imports</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">hooks</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">log</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">util</span>
+
+
+<div class="viewcode-block" id="Pelconf"><a class="viewcode-back" href="../../../dev/core/pelconf.html#peltak.core.pelconf.Pelconf">[docs]</a><span class="k">class</span> <span class="nc">Pelconf</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">Singleton</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Represents the `pelconf.yaml` file. &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_singleton_initialized</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="p">{}</span>    <span class="c1"># type: Dict[str, Any]</span>
+
+<div class="viewcode-block" id="Pelconf.from_file"><a class="viewcode-back" href="../../../dev/core/pelconf.html#peltak.core.pelconf.Pelconf.from_file">[docs]</a>    <span class="k">def</span> <span class="nf">from_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Load config values from a YAML file. &quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">within_proj_dir</span><span class="p">():</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">yaml_load</span><span class="p">(</span><span class="n">fp</span><span class="p">)</span> <span class="ow">or</span> <span class="p">{}</span></div>
+
+<div class="viewcode-block" id="Pelconf.reset"><a class="viewcode-back" href="../../../dev/core/pelconf.html#peltak.core.pelconf.Pelconf.reset">[docs]</a>    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Reset config to the given values.</span>
+
+<span class="sd">        This will completely overwrite the current configuration.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">config</span></div>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">init</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="s2">&quot;&quot;</span>
+        <span class="n">cfg</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">()</span>
+        <span class="n">cfg</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s1">&#39;pelconf.yaml&#39;</span><span class="p">):</span>
+            <span class="n">cfg</span><span class="o">.</span><span class="n">from_file</span><span class="p">(</span><span class="s1">&#39;pelconf.yaml&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Add src_dir to sys.paths if it&#39;s set. This is only done with YAML</span>
+        <span class="c1"># configs, py configs have to do this manually.</span>
+        <span class="n">src_dir</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">get_path</span><span class="p">(</span><span class="s1">&#39;src_dir&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">src_dir</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">src_dir</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">cmd</span> <span class="ow">in</span> <span class="n">cfg</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;commands&#39;</span><span class="p">,</span> <span class="p">[]):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">_import</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
+                <span class="n">log</span><span class="o">.</span><span class="n">err</span><span class="p">(</span><span class="s2">&quot;Failed to load commands from &lt;33&gt;</span><span class="si">{}</span><span class="s2">&lt;31&gt;: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">cmd</span><span class="p">,</span> <span class="n">ex</span><span class="p">)</span>
+
+        <span class="n">hooks</span><span class="o">.</span><span class="n">register</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s1">&#39;post-conf-load&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Pelconf.get"><a class="viewcode-back" href="../../../dev/core/pelconf.html#peltak.core.pelconf.Pelconf.get">[docs]</a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">default</span><span class="p">):</span>
+        <span class="c1"># type: (str, *Any) -&gt; Any</span>
+        <span class="sd">&quot;&quot;&quot; Get config value with the given name and optional default.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            name (str):</span>
+<span class="sd">                The name of the config value.</span>
+<span class="sd">            *default (Any):</span>
+<span class="sd">                If given and the key doesn&#39;t not exist, this will be returned</span>
+<span class="sd">                instead. If it&#39;s not given and the config value does not exist,</span>
+<span class="sd">                AttributeError will be raised</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The requested config value. This is one of the global values defined</span>
+<span class="sd">            in this file. If the value does not exist it will return *default* if</span>
+<span class="sd">            give or raise `AttributeError`.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            AttributeError: If the value does not exist and *default* was not given.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">curr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span>
+        <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">curr</span><span class="p">:</span>
+                <span class="n">curr</span> <span class="o">=</span> <span class="n">curr</span><span class="p">[</span><span class="n">part</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="n">default</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">default</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;Config value &#39;</span><span class="si">{}</span><span class="s2">&#39; does not exist&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">name</span>
+                <span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">curr</span></div>
+
+<div class="viewcode-block" id="Pelconf.get_path"><a class="viewcode-back" href="../../../dev/core/pelconf.html#peltak.core.pelconf.Pelconf.get_path">[docs]</a>    <span class="k">def</span> <span class="nf">get_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">default</span><span class="p">):</span>
+        <span class="c1"># type: (str, Any) -&gt; Any</span>
+        <span class="sd">&quot;&quot;&quot; Get config value as path relative to the project directory.</span>
+
+<span class="sd">        This allows easily defining the project configuration within the fabfile</span>
+<span class="sd">        as always relative to that fabfile.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            name (str):</span>
+<span class="sd">                The name of the config value containing the path.</span>
+<span class="sd">            *default (Any):</span>
+<span class="sd">                If given and the key doesn&#39;t not exist, this will be returned</span>
+<span class="sd">                instead. If it&#39;s not given and the config value does not exist,</span>
+<span class="sd">                AttributeError will be raised</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The requested config value. This is one of the global values defined</span>
+<span class="sd">            in this file. If the value does not exist it will return *default* if</span>
+<span class="sd">            give or raise `AttributeError`.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            AttributeError: If the value does not exist and *default* was not given.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">default</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">proj_path</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Pelconf.get_env"><a class="viewcode-back" href="../../../dev/core/pelconf.html#peltak.core.pelconf.Pelconf.get_env">[docs]</a>    <span class="k">def</span> <span class="nf">get_env</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">default</span><span class="p">):</span>
+        <span class="c1"># type: (str, Any) -&gt; Union[str, Any]</span>
+        <span class="sd">&quot;&quot;&quot; Get the value of an ENV variable. &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">default</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Pelconf.proj_path"><a class="viewcode-back" href="../../../dev/core/pelconf.html#peltak.core.pelconf.Pelconf.proj_path">[docs]</a>    <span class="k">def</span> <span class="nf">proj_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">path_parts</span><span class="p">):</span>
+        <span class="c1"># type: (*str) -&gt; str</span>
+        <span class="sd">&quot;&quot;&quot; Return absolute path to the repo dir (root project directory).</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            path (str):</span>
+<span class="sd">                The path relative to the project root (pelconf.yaml).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: The given path converted to an absolute path.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">parts</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">path_parts</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[</span><span class="s1">&#39;.&#39;</span><span class="p">]</span>
+
+        <span class="c1"># If path represented by path_parts is absolute, do not modify it.</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isabs</span><span class="p">(</span><span class="n">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+            <span class="n">proj_path</span> <span class="o">=</span> <span class="n">_find_proj_root</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="n">proj_path</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">parts</span> <span class="o">=</span> <span class="p">[</span><span class="n">proj_path</span><span class="p">]</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="o">*</span><span class="n">parts</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="Pelconf.within_proj_dir"><a class="viewcode-back" href="../../../dev/core/pelconf.html#peltak.core.pelconf.Pelconf.within_proj_dir">[docs]</a>    <span class="nd">@contextmanager</span>
+    <span class="k">def</span> <span class="nf">within_proj_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">):</span>
+        <span class="c1"># type: (str) -&gt; Iterator[None]</span>
+        <span class="sd">&quot;&quot;&quot; Return an absolute path to the given project relative path.</span>
+
+<span class="sd">        :param path:</span>
+<span class="sd">            Project relative path that will be converted to the system wide absolute</span>
+<span class="sd">            path.</span>
+<span class="sd">        :return:</span>
+<span class="sd">            Absolute path.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">curr_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+
+        <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">proj_path</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
+
+        <span class="k">yield</span>
+
+        <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">curr_dir</span><span class="p">)</span></div></div>
+
+
+<span class="nd">@util</span><span class="o">.</span><span class="n">cached_result</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">_find_proj_root</span><span class="p">():</span>
+    <span class="c1"># type: () -&gt; Optional[str]</span>
+    <span class="sd">&quot;&quot;&quot; Find the project path by going up the file tree.</span>
+
+<span class="sd">    This will look in the current directory and upwards for the pelconf file</span>
+<span class="sd">    (.yaml or .py)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">proj_files</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">((</span><span class="s1">&#39;pelconf.py&#39;</span><span class="p">,</span> <span class="s1">&#39;pelconf.yaml&#39;</span><span class="p">))</span>
+    <span class="n">curr</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+
+    <span class="k">while</span> <span class="n">curr</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">curr</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">proj_files</span> <span class="o">&amp;</span> <span class="nb">frozenset</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">curr</span><span class="p">)):</span>
+            <span class="k">return</span> <span class="n">curr</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">curr</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">curr</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="kc">None</span>
+
+
+<span class="k">def</span> <span class="nf">_import</span><span class="p">(</span><span class="n">cmd</span><span class="p">):</span>
+    <span class="c1"># type: (str) -&gt; ModuleType</span>
+    <span class="sd">&quot;&quot;&quot; Exists only so we can patch it in tests.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">__import__</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>   <span class="c1"># nocov</span>
+
+
+<span class="c1"># Used in type hint comments only (until we drop python2 support)</span>
+<span class="k">del</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Text</span><span class="p">,</span> <span class="n">ModuleType</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016-2018, Mateusz &#39;novo&#39; Klos
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

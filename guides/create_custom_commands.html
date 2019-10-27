@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Custom peltak commands &mdash; peltak 0.26.0 documentation</title>
+  <title>Custom peltak commands &mdash; peltak 0.26.2 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                0.26.0
+                0.26.2
               </div>
             
           
@@ -93,6 +93,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#background">Background</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#how-to-create-custom-commands">How to create custom commands</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#hello-world-command">Hello world command</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#a-more-advanced-example">A more advanced example</a></li>
 </ul>
 </li>
 </ul>
@@ -171,6 +172,11 @@
             
   <div class="section" id="custom-peltak-commands">
 <h1>Custom peltak commands<a class="headerlink" href="#custom-peltak-commands" title="Permalink to this headline">¶</a></h1>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You can find the example code for this tutorial here:
+<a class="reference external" href="https://github.com/novopl/peltak/tree/master/docs/src/examples/custom_commands">here</a></p>
+</div>
 <div class="section" id="background">
 <h2>Background<a class="headerlink" href="#background" title="Permalink to this headline">¶</a></h2>
 <p>When the built in scripts functionality is not enough <strong>peltak</strong> allows you to
@@ -197,13 +203,209 @@ of how you structure the CLI commands for your project.</p>
 <div class="section" id="hello-world-command">
 <h3>Hello world command<a class="headerlink" href="#hello-world-command" title="Permalink to this headline">¶</a></h3>
 <p>Let’s start with the most basic command that will just print hello world to
-terminal. This will show you all the steps you need to take to implement the
-command and make it available to peltak. We will assume that you keep all your
-code inside a <code class="docutils literal notranslate"><span class="pre">./src</span></code> directory in your project. The <a class="reference internal" href="../reference/pelconf.html#pelconf-yaml"><span class="std std-ref">pelconf.yaml</span></a> file
-will live in the project root.</p>
-<p>For peltak to be able to load your command file you need to place it within
-<code class="docutils literal notranslate"><span class="pre">src_dir</span></code> as defined by <a class="reference internal" href="../reference/pelconf.html#pelconf-yaml"><span class="std std-ref">pelconf.yaml</span></a>. Here is an example config we will
-start</p>
+the terminal. This will show you all the steps you need to take to implement the
+command and make it available to peltak. Let’s initialize a new
+<a class="reference internal" href="../reference/pelconf.html#pelconf-yaml"><span class="std std-ref">pelconf.yaml</span></a> with <code class="docutils literal notranslate"><span class="pre">peltak</span> <span class="pre">init</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>peltak init --blank -v
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>The generated <a class="reference internal" href="../reference/pelconf.html#pelconf-yaml"><span class="std std-ref">pelconf.yaml</span></a> should look like this:</p>
+<div class="last highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># peltak configuration file</span>
+<span class="c1"># Visit https://novopl.github.io/peltak for more information</span>
+<span class="nt">pelconf_version</span><span class="p">:</span> <span class="s">&#39;1&#39;</span>
+
+<span class="c1"># You can add custom project commands or 3rd party packages here.</span>
+<span class="nt">commands</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">peltak.extra.scripts</span>
+
+<span class="c1"># This directory will be added to sys.path when the config is loaded.</span>
+<span class="c1"># Useful if do not keep the source code in th root directory.</span>
+<span class="nt">src_dir</span><span class="p">:</span> <span class="s">&quot;.&quot;</span>
+</pre></div>
+</div>
+</div>
+<p>The next step is to create the python module with the commands. It has to be
+importable by peltak so needs to be inside whatever <code class="docutils literal notranslate"><span class="pre">src_dir</span></code> in <a class="reference internal" href="../reference/pelconf.html#pelconf-yaml"><span class="std std-ref">pelconf.yaml</span></a>
+is set to. Let’s create a new file called <code class="docutils literal notranslate"><span class="pre">./custom_commands.py</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot; Custom command definitions for the project. &quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">absolute_import</span><span class="p">,</span> <span class="n">unicode_literals</span>
+
+<span class="kn">from</span> <span class="nn">peltak.commands</span> <span class="k">import</span> <span class="n">root_cli</span><span class="p">,</span> <span class="n">click</span>
+
+
+</pre></div>
+</div>
+<p>For peltak to be able to load your command file you need to add it to your
+<code class="docutils literal notranslate"><span class="pre">commands:</span></code> section in <a class="reference internal" href="../reference/pelconf.html#pelconf-yaml"><span class="std std-ref">pelconf.yaml</span></a>:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># peltak configuration file</span>
+<span class="c1"># Visit https://novopl.github.io/peltak for more information</span>
+<span class="nt">pelconf_version</span><span class="p">:</span> <span class="s">&#39;1&#39;</span>
+
+<span class="c1"># You can add custom project commands or 3rd party packages here.</span>
+<span class="nt">commands</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">peltak.extra.scripts</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">custom_commands</span>
+
+<span class="c1"># This directory will be added to sys.path when the config is loaded.</span>
+<span class="c1"># Useful if do not keep the source code in th root directory.</span>
+<span class="nt">src_dir</span><span class="p">:</span> <span class="s">&quot;.&quot;</span>
+</pre></div>
+</div>
+<p>Now our new command is visible to peltak and we can execute it with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ peltak hello-world
+Hello, World!
+</pre></div>
+</div>
+</div>
+<div class="section" id="a-more-advanced-example">
+<h3>A more advanced example<a class="headerlink" href="#a-more-advanced-example" title="Permalink to this headline">¶</a></h3>
+<p>As a more advanced example, we will re-implement the <strong>lint</strong> script defined
+in the <a class="reference internal" href="quickstart.html"><span class="doc">Quickstart</span></a> guide. First let’s define the command itself along
+with it’s options to match the <code class="docutils literal notranslate"><span class="pre">files:</span></code> section so we can filter the files
+that will be linted:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot; Custom command definitions for the project. &quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">absolute_import</span><span class="p">,</span> <span class="n">unicode_literals</span>
+
+<span class="kn">from</span> <span class="nn">peltak.commands</span> <span class="k">import</span> <span class="n">root_cli</span><span class="p">,</span> <span class="n">click</span>
+
+
+<span class="nd">@root_cli</span><span class="o">.</span><span class="n">command</span><span class="p">(</span><span class="s1">&#39;hello-world&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">hello_world</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; Hello world command. &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Hello, World!&#39;</span><span class="p">)</span>
+
+
+<span class="nd">@root_cli</span><span class="o">.</span><span class="n">command</span><span class="p">(</span><span class="s1">&#39;lint&#39;</span><span class="p">)</span>
+<span class="nd">@click</span><span class="o">.</span><span class="n">argument</span><span class="p">(</span>
+    <span class="s1">&#39;paths&#39;</span><span class="p">,</span>
+    <span class="n">nargs</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="nb">type</span><span class="o">=</span><span class="n">click</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="nd">@click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span>
+    <span class="s1">&#39;-i&#39;</span><span class="p">,</span> <span class="s1">&#39;--include&#39;</span><span class="p">,</span>
+    <span class="n">multiple</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">help</span><span class="o">=</span><span class="s1">&#39;A pattern to include in linting. Can be passed multiple times. This &#39;</span>
+         <span class="s1">&#39;can be used to limit the results in the given paths to only files &#39;</span>
+         <span class="s1">&#39;that match the include patterns.&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="nd">@click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span>
+    <span class="s1">&#39;-e&#39;</span><span class="p">,</span> <span class="s1">&#39;--exclude&#39;</span><span class="p">,</span>
+    <span class="n">multiple</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">help</span><span class="o">=</span><span class="s1">&#39;A pattern to exclude from linting. Can be passed multiple times.&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="nd">@click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span>
+    <span class="s1">&#39;--commit&#39;</span><span class="p">,</span> <span class="s1">&#39;only_staged&#39;</span><span class="p">,</span>
+    <span class="n">is_flag</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">help</span><span class="o">=</span><span class="s1">&#39;If given, only files staged for commit will be checked.&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="nd">@click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span>
+    <span class="s1">&#39;--ignore-untracked&#39;</span><span class="p">,</span>
+    <span class="n">is_flag</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Include untracked files&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="k">def</span> <span class="nf">lint</span><span class="p">(</span><span class="n">paths</span><span class="p">,</span> <span class="n">include</span><span class="p">,</span> <span class="n">exclude</span><span class="p">,</span> <span class="n">only_staged</span><span class="p">,</span> <span class="n">ignore_untracked</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Run code checks (pylint + mypy) &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">peltak.core</span> <span class="k">import</span> <span class="n">log</span>
+
+    <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;&lt;0&gt;&lt;1&gt;</span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;paths:            </span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">paths</span><span class="p">)</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;include:          </span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">include</span><span class="p">)</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;exclude:          </span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">exclude</span><span class="p">)</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;only_staged:      </span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">only_staged</span><span class="p">)</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;ignore_untracked: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">ignore_untracked</span><span class="p">)</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;&lt;0&gt;&lt;1&gt;</span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>Try not to import anything at the top module level in the module that
+defines commands. Only things that are required to define the command (and
+it’s arguments) should be imported at top level.</p>
+<p>This is due to the fact that all command modules need to be imported during
+shell completion, so the more they import globally the slower the
+completion gets. This might not be an issue with just one module
+misbehaving, but if that laziness spreads it quickly becomes noticeable and
+hurts user experience.</p>
+<p class="last">Ideally you want to have a separate module with the implementation of each
+command you export. The click command handlers just import that code inside
+the command handler. This way the import won’t happen until the command
+is actually executed and it keeps the command file size small for faster
+parsing.</p>
+</div>
+<p>Now we will create a new file with the business logic behind our lint command.
+In this tutorial we will call it <code class="xref any docutils literal notranslate"><span class="pre">custom_commands_lint.py</span></code> but you can use
+whatever structure you like.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot; Custom commands business logic. &quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">absolute_import</span><span class="p">,</span> <span class="n">unicode_literals</span>
+
+<span class="c1"># stdlib imports</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Sequence</span>
+
+<span class="c1"># local imports</span>
+<span class="kn">from</span> <span class="nn">peltak.core</span> <span class="k">import</span> <span class="n">fs</span>
+<span class="kn">from</span> <span class="nn">peltak.core</span> <span class="k">import</span> <span class="n">log</span>
+<span class="kn">from</span> <span class="nn">peltak.core</span> <span class="k">import</span> <span class="n">shell</span>
+<span class="kn">from</span> <span class="nn">peltak.core</span> <span class="k">import</span> <span class="n">types</span>
+
+
+<span class="k">def</span> <span class="nf">check</span><span class="p">(</span><span class="n">paths</span><span class="p">,</span> <span class="n">include</span><span class="p">,</span> <span class="n">exclude</span><span class="p">,</span> <span class="n">only_staged</span><span class="p">,</span> <span class="n">untracked</span><span class="p">):</span>
+    <span class="c1"># type: (str, Sequence[str], Sequence[str], bool, bool) -&gt; None</span>
+    <span class="sd">&quot;&quot;&quot; Run mypy and pylint against the current directory.&quot;&quot;&quot;</span>
+
+    <span class="n">files</span> <span class="o">=</span> <span class="n">types</span><span class="o">.</span><span class="n">FilesCollection</span><span class="p">(</span>
+        <span class="n">paths</span><span class="o">=</span><span class="n">paths</span><span class="p">,</span>
+        <span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*.py&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">include</span><span class="p">),</span>     <span class="c1"># We only want to lint python files.</span>
+        <span class="n">exclude</span><span class="o">=</span><span class="n">exclude</span><span class="p">,</span>
+        <span class="n">only_staged</span><span class="o">=</span><span class="n">only_staged</span><span class="p">,</span>
+        <span class="n">untracked</span><span class="o">=</span><span class="n">untracked</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">paths</span> <span class="o">=</span> <span class="n">fs</span><span class="o">.</span><span class="n">collect_files</span><span class="p">(</span><span class="n">files</span><span class="p">)</span>
+    <span class="n">wrapped_paths</span> <span class="o">=</span> <span class="n">fs</span><span class="o">.</span><span class="n">wrap_paths</span><span class="p">(</span><span class="n">paths</span><span class="p">)</span>
+
+    <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Paths:            &lt;33&gt;</span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">paths</span><span class="p">)</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Wrapped paths:    &lt;33&gt;</span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">wrapped_paths</span><span class="p">)</span>
+
+    <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Running &lt;35&gt;mypy&quot;</span><span class="p">)</span>
+    <span class="n">shell</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;mypy --ignore-missing-imports </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">wrapped_paths</span><span class="p">))</span>
+
+    <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Running &lt;35&gt;pylint&quot;</span><span class="p">)</span>
+    <span class="n">shell</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;pylint </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">wrapped_paths</span><span class="p">))</span>
+
+
+<span class="c1"># Used only in type hint comments</span>
+<span class="k">del</span> <span class="n">Sequence</span>
+</pre></div>
+</div>
+<p>The last bit is to actually call our lint function from our peltak command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">lint</span><span class="p">(</span><span class="n">paths</span><span class="p">,</span> <span class="n">include</span><span class="p">,</span> <span class="n">exclude</span><span class="p">,</span> <span class="n">only_staged</span><span class="p">,</span> <span class="n">ignore_untracked</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Run code checks (pylint + mypy) &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">peltak.core</span> <span class="k">import</span> <span class="n">log</span>
+    <span class="kn">from</span> <span class="nn">custom_commands_logic</span> <span class="k">import</span> <span class="n">check</span>
+
+    <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;&lt;0&gt;&lt;1&gt;</span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;paths:            </span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">paths</span><span class="p">)</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;include:          </span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">include</span><span class="p">)</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;exclude:          </span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">exclude</span><span class="p">)</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;only_staged:      </span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">only_staged</span><span class="p">)</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;ignore_untracked: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">ignore_untracked</span><span class="p">)</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;&lt;0&gt;&lt;1&gt;</span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
+
+    <span class="n">check</span><span class="p">(</span>
+        <span class="n">paths</span><span class="o">=</span><span class="n">paths</span><span class="p">,</span>
+        <span class="n">include</span><span class="o">=</span><span class="n">include</span><span class="p">,</span>
+        <span class="n">exclude</span><span class="o">=</span><span class="n">exclude</span><span class="p">,</span>
+        <span class="n">only_staged</span><span class="o">=</span><span class="n">only_staged</span><span class="p">,</span>
+        <span class="n">untracked</span><span class="o">=</span><span class="ow">not</span> <span class="n">ignore_untracked</span><span class="p">,</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
 </div>
 </div>
 </div>

@@ -1,0 +1,330 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>peltak.core.templates.engine &mdash; peltak 0.26.2 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/overrides.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> peltak
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.26.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../guides/_index.html">Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../reference/_index.html">Reference Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../dev/_index.html">Dev Docs</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">peltak</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>peltak.core.templates.engine</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for peltak.core.templates.engine</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1"># Copyright 2017-2018 Mateusz Klos</span>
+<span class="c1">#</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1"># you may not use this file except in compliance with the License.</span>
+<span class="c1"># You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1"># http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1"># See the License for the specific language governing permissions and</span>
+<span class="c1"># limitations under the License.</span>
+<span class="c1">#</span>
+<span class="sd">&quot;&quot;&quot; Engine wraps the jinja2 environment and exposes it to the rest of the code. &quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">absolute_import</span><span class="p">,</span> <span class="n">unicode_literals</span>
+
+<span class="c1"># stdlib imports</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span>
+
+<span class="c1"># 3rd party imports</span>
+<span class="kn">import</span> <span class="nn">jinja2</span>
+
+<span class="c1"># local imports</span>
+<span class="kn">from</span> <span class="nn">peltak.core</span> <span class="k">import</span> <span class="n">util</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">filters</span>
+
+
+<div class="viewcode-block" id="Engine"><a class="viewcode-back" href="../../../../reference/script_templates.html#peltak.core.templates.Engine">[docs]</a><span class="k">class</span> <span class="nc">Engine</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">Singleton</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Template engine wrapper.</span>
+
+<span class="sd">    Engine is a singleton, which means there is always a single instance</span>
+<span class="sd">    in existence during the app run. You can access this instance by calling</span>
+<span class="sd">    the class initializer:</span>
+
+<span class="sd">    &gt;&gt;&gt; from peltak.core.templates import Engine</span>
+<span class="sd">    &gt;&gt;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; engine = Engine()</span>
+
+
+<span class="sd">    Only on first call will the class be actually constructed, all following</span>
+<span class="sd">    calls will return the same instance:</span>
+
+<span class="sd">    &gt;&gt;&gt; from peltak.core.templates import Engine</span>
+<span class="sd">    &gt;&gt;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; Engine() is Engine()</span>
+<span class="sd">    True</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_singleton_initialized</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">env</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_env</span><span class="p">()</span>
+            <span class="k">pass</span>
+
+<div class="viewcode-block" id="Engine.render"><a class="viewcode-back" href="../../../../reference/script_templates.html#peltak.core.templates.Engine.render">[docs]</a>    <span class="k">def</span> <span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">template_str</span><span class="p">,</span> <span class="n">template_ctx</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># type: (str, Dict[str, Any]) -&gt; str</span>
+        <span class="sd">&quot;&quot;&quot; Render a script template using the given context.</span>
+
+<span class="sd">        Examples:</span>
+
+<span class="sd">            &gt;&gt;&gt; from peltak.core.templates import Engine</span>
+<span class="sd">            &gt;&gt;&gt;</span>
+<span class="sd">            &gt;&gt;&gt; Engine().render(&quot;{{ msg | upper }}&quot;, {&#39;msg&#39;: &#39;hello&#39;})</span>
+<span class="sd">            &#39;HELLO&#39;</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="n">template_str</span><span class="p">)</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">template_ctx</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Engine.render_file"><a class="viewcode-back" href="../../../../reference/script_templates.html#peltak.core.templates.Engine.render_file">[docs]</a>    <span class="k">def</span> <span class="nf">render_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">template_file</span><span class="p">,</span> <span class="n">template_ctx</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># type: (str, Dict[str, Any]) -&gt; str</span>
+        <span class="sd">&quot;&quot;&quot; Render a template file from src/peltak/templates directory.</span>
+
+<span class="sd">        All built-in peltak templates should go to the ``src/peltak/templates``</span>
+<span class="sd">        directory.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            template_file (str):</span>
+<span class="sd">                The name of the template file to use. This file needs to reside</span>
+<span class="sd">                in the templates directory and will be automatically loaded.</span>
+<span class="sd">            template_ctx (dict[str, Any]):</span>
+<span class="sd">                The template context to use. This is a dictionary of values that</span>
+<span class="sd">                will be injected into the template during rendering.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: A rendered template.</span>
+
+<span class="sd">        Examples:</span>
+
+<span class="sd">            \b</span>
+<span class="sd">            &gt;&gt;&gt; from peltak.core.templates import Engine</span>
+<span class="sd">            &gt;&gt;&gt;</span>
+<span class="sd">            &gt;&gt;&gt; Engine().render_file(&quot;pelconf.yaml&quot;, {&#39;src_dir&#39;: &#39;src&#39;})</span>
+<span class="sd">            # peltak configuration file</span>
+<span class="sd">            # Visit https://novopl.github.io/peltak for more information</span>
+<span class="sd">            pelconf_version: &#39;1&#39;</span>
+<span class="sd">            # You can add custom project commands or 3rd party packages here.</span>
+<span class="sd">            commands:</span>
+<span class="sd">              - peltak.extra.git</span>
+<span class="sd">              - peltak.extra.gitflow</span>
+<span class="sd">              - peltak.extra.scripts</span>
+
+<span class="sd">            # This directory will be added to sys.path when the config is loaded.</span>
+<span class="sd">            # Useful if do not keep the source code in th root directory.</span>
+<span class="sd">            src_dir: &quot;src&quot;</span>
+
+<span class="sd">            # Scripts to help you manage your project.</span>
+<span class="sd">            scripts:</span>
+<span class="sd">              test:</span>
+<span class="sd">                about: Test your code</span>
+<span class="sd">                command: |</span>
+<span class="sd">                  echo &quot;Change me, to run your tests&quot;</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">template</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">get_template</span><span class="p">(</span><span class="n">template_file</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">template</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">template_ctx</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_make_env</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># type: () -&gt; jinja2.Environment</span>
+        <span class="sd">&quot;&quot;&quot; Initialize jinja2 env. &quot;&quot;&quot;</span>
+        <span class="n">env</span> <span class="o">=</span> <span class="n">jinja2</span><span class="o">.</span><span class="n">Environment</span><span class="p">(</span>
+            <span class="n">loader</span><span class="o">=</span><span class="n">jinja2</span><span class="o">.</span><span class="n">PackageLoader</span><span class="p">(</span><span class="s1">&#39;peltak&#39;</span><span class="p">,</span> <span class="s1">&#39;templates&#39;</span><span class="p">),</span>
+            <span class="n">variable_start_string</span><span class="o">=</span><span class="s1">&#39;{{&#39;</span><span class="p">,</span>
+            <span class="n">variable_end_string</span><span class="o">=</span><span class="s1">&#39;}}&#39;</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">env</span><span class="o">.</span><span class="n">filters</span><span class="p">[</span><span class="s1">&#39;header&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">filters</span><span class="o">.</span><span class="n">header</span>
+        <span class="n">env</span><span class="o">.</span><span class="n">filters</span><span class="p">[</span><span class="s1">&#39;count_flag&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">filters</span><span class="o">.</span><span class="n">count_flag</span>
+        <span class="n">env</span><span class="o">.</span><span class="n">filters</span><span class="p">[</span><span class="s1">&#39;cprint&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">filters</span><span class="o">.</span><span class="n">cprint</span>
+        <span class="n">env</span><span class="o">.</span><span class="n">filters</span><span class="p">[</span><span class="s1">&#39;wrap_paths&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">filters</span><span class="o">.</span><span class="n">wrap_paths</span>
+
+        <span class="k">return</span> <span class="n">env</span></div>
+
+
+<span class="c1"># Used only in type hint comments.</span>
+<span class="k">del</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016-2018, Mateusz &#39;novo&#39; Klos
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

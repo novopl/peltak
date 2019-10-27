@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Built-in script template filters &mdash; peltak 0.26.0 documentation</title>
+  <title>Built-in script template filters &mdash; peltak 0.26.2 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                0.26.0
+                0.26.2
               </div>
             
           
@@ -163,7 +163,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <span class="target" id="module-peltak.extra.scripts.filters"></span><span class="target" id="module-peltak.extra.scripts.filters"></span><div class="section" id="built-in-script-template-filters">
+  <span class="target" id="module-peltak.core.templates.filters"></span><span class="target" id="module-peltak.core.templates.filters"></span><div class="section" id="built-in-script-template-filters">
 <h1>Built-in script template filters<a class="headerlink" href="#built-in-script-template-filters" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="built-in-jinja2-filters">
 <h2>Built-in jinja2 filters<a class="headerlink" href="#built-in-jinja2-filters" title="Permalink to this headline">¶</a></h2>
@@ -172,8 +172,8 @@
 <div class="section" id="filters-provided-by-peltak">
 <h2>Filters provided by peltak<a class="headerlink" href="#filters-provided-by-peltak" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
-<dt id="peltak.extra.scripts.filters.header">
-<code class="descclassname">peltak.extra.scripts.filters.</code><code class="descname">header</code><span class="sig-paren">(</span><em>title</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/peltak/extra/scripts/filters.html#header"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.extra.scripts.filters.header" title="Permalink to this definition">¶</a></dt>
+<dt id="peltak.core.templates.filters.header">
+<code class="descclassname">peltak.core.templates.filters.</code><code class="descname">header</code><span class="sig-paren">(</span><em>title</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/peltak/core/templates/filters.html#header"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.templates.filters.header" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts a given title into a pretty header with colors.</p>
 <p><strong>Usage:</strong></p>
 <div class="highlight-jinja notranslate"><div class="highlight"><pre><span></span><span class="cp">{{</span> <span class="s1">&#39;hello&#39;</span> <span class="o">|</span> <span class="nf">header</span> <span class="cp">}}</span><span class="x"></span>
@@ -187,8 +187,8 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="peltak.extra.scripts.filters.count_flag">
-<code class="descclassname">peltak.extra.scripts.filters.</code><code class="descname">count_flag</code><span class="sig-paren">(</span><em>count</em>, <em>flag</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/peltak/extra/scripts/filters.html#count_flag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.extra.scripts.filters.count_flag" title="Permalink to this definition">¶</a></dt>
+<dt id="peltak.core.templates.filters.count_flag">
+<code class="descclassname">peltak.core.templates.filters.</code><code class="descname">count_flag</code><span class="sig-paren">(</span><em>count</em>, <em>flag</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/peltak/core/templates/filters.html#count_flag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.templates.filters.count_flag" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the given flag letter as a count flag.</p>
 <p><strong>Usage:</strong></p>
 <div class="highlight-jinja notranslate"><div class="highlight"><pre><span></span><span class="cp">{{</span> <span class="nv">set</span> <span class="nv">verbose</span> <span class="o">=</span> <span class="m">3</span> <span class="cp">}}</span><span class="x"></span>
@@ -204,11 +204,11 @@ be an empty string.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="peltak.extra.scripts.filters.cprint">
-<code class="descclassname">peltak.extra.scripts.filters.</code><code class="descname">cprint</code><span class="sig-paren">(</span><em>msg</em>, <em>*args</em>, <em>**kw</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/peltak/extra/scripts/filters.html#cprint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.extra.scripts.filters.cprint" title="Permalink to this definition">¶</a></dt>
+<dt id="peltak.core.templates.filters.cprint">
+<code class="descclassname">peltak.core.templates.filters.</code><code class="descname">cprint</code><span class="sig-paren">(</span><em>msg</em>, <em>*args</em>, <em>**kw</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/peltak/core/templates/filters.html#cprint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.templates.filters.cprint" title="Permalink to this definition">¶</a></dt>
 <dd><p>Will convert the given message to an echo statement with color opcodes.</p>
-<p>This supports the same syntax as <code class="xref any docutils literal notranslate"><span class="pre">shell.fmt</span></code> (used internally here). The
-color processing will replace any tag like object in format <code class="docutils literal notranslate"><span class="pre">&lt;NUMBER&gt;</span></code>
+<p>This supports the same syntax as <a class="reference internal" href="../dev/core/shell.html#peltak.core.shell.fmt" title="peltak.core.shell.fmt"><code class="xref any py py-func docutils literal notranslate"><span class="pre">peltak.core.shell.fmt</span></code></a> (used internally here).
+The color processing will replace any tag like object in format <code class="docutils literal notranslate"><span class="pre">&lt;NUMBER&gt;</span></code>
 into a corresponding opcode. Here’s a quick cheatsheet on some of the more
 usefull opcodes</p>
 <table border="1" class="docutils">
@@ -268,8 +268,8 @@ function.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="peltak.extra.scripts.filters.wrap_paths">
-<code class="descclassname">peltak.extra.scripts.filters.</code><code class="descname">wrap_paths</code><span class="sig-paren">(</span><em>paths</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/peltak/extra/scripts/filters.html#wrap_paths"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.extra.scripts.filters.wrap_paths" title="Permalink to this definition">¶</a></dt>
+<dt id="peltak.core.templates.filters.wrap_paths">
+<code class="descclassname">peltak.core.templates.filters.</code><code class="descname">wrap_paths</code><span class="sig-paren">(</span><em>paths</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/peltak/core/templates/filters.html#wrap_paths"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.templates.filters.wrap_paths" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a string with all items wrapped in quotes and separated by space.</p>
 <p><strong>Usage:</strong></p>
 <div class="highlight-jinja notranslate"><div class="highlight"><pre><span></span><span class="cp">{%</span> <span class="k">set</span> <span class="nv">paths</span> <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;file 1&#39;</span><span class="o">,</span> <span class="s1">&#39;file 2&#39;</span><span class="o">,</span> <span class="s1">&#39;file 3&#39;</span><span class="o">]</span> <span class="cp">%}</span><span class="x"></span>

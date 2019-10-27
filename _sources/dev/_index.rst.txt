@@ -7,11 +7,11 @@ This section contains information helpful for developers that wish to contribute
 to `peltak`_.
 
 .. toctree::
-    :maxdepth: 3
+    :maxdepth: 2
 
     contrib
     flows
-    notes
+    core/_index
 
 
 Reference

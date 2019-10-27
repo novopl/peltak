@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Script template reference &mdash; peltak 0.26.0 documentation</title>
+  <title>Script template reference &mdash; peltak 0.26.2 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                0.26.0
+                0.26.2
               </div>
             
           
@@ -166,7 +166,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <span class="target" id="module-peltak.extra.scripts.templates"></span><div class="section" id="script-template-reference">
+  <span class="target" id="module-peltak.core.templates"></span><div class="section" id="script-template-reference">
 <h1>Script template reference<a class="headerlink" href="#script-template-reference" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="using-jinja-filters">
 <h2>Using jinja filters<a class="headerlink" href="#using-jinja-filters" title="Permalink to this headline">¶</a></h2>
@@ -254,36 +254,96 @@ peltak run <span class="nb">test</span> -vv
 <div class="section" id="dev-reference">
 <h3>Dev Reference<a class="headerlink" href="#dev-reference" title="Permalink to this headline">¶</a></h3>
 <dl class="class">
-<dt id="peltak.extra.scripts.templates.TemplateEngine">
-<em class="property">class </em><code class="descclassname">peltak.extra.scripts.templates.</code><code class="descname">TemplateEngine</code><a class="reference internal" href="../_modules/peltak/extra/scripts/templates.html#TemplateEngine"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.extra.scripts.templates.TemplateEngine" title="Permalink to this definition">¶</a></dt>
+<dt id="peltak.core.templates.Engine">
+<em class="property">class </em><code class="descclassname">peltak.core.templates.</code><code class="descname">Engine</code><a class="reference internal" href="../_modules/peltak/core/templates/engine.html#Engine"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.templates.Engine" title="Permalink to this definition">¶</a></dt>
 <dd><p>Template engine wrapper.</p>
-<p>TemplateEngine is a singleton, which means there is always a single instance
+<p>Engine is a singleton, which means there is always a single instance
 in existence during the app run. You can access this instance by calling
 the class initializer:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">peltak.extra.scripts.templates</span> <span class="k">import</span> <span class="n">TemplateEngine</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">peltak.core.templates</span> <span class="k">import</span> <span class="n">Engine</span>
 <span class="go">&gt;&gt;&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">engine</span> <span class="o">=</span> <span class="n">TemplateEngine</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">engine</span> <span class="o">=</span> <span class="n">Engine</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>Only on first call will the class be actually constructed, all following
 calls will return the same instance:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">peltak.extra.scripts.templates</span> <span class="k">import</span> <span class="n">TemplateEngine</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">peltak.core.templates</span> <span class="k">import</span> <span class="n">Engine</span>
 <span class="go">&gt;&gt;&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">TemplateEngine</span><span class="p">()</span> <span class="ow">is</span> <span class="n">TemplateEngine</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Engine</span><span class="p">()</span> <span class="ow">is</span> <span class="n">Engine</span><span class="p">()</span>
 <span class="go">True</span>
 </pre></div>
 </div>
 <dl class="method">
-<dt id="peltak.extra.scripts.templates.TemplateEngine.render">
-<code class="descname">render</code><span class="sig-paren">(</span><em>template_str</em>, <em>template_ctx</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/peltak/extra/scripts/templates.html#TemplateEngine.render"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.extra.scripts.templates.TemplateEngine.render" title="Permalink to this definition">¶</a></dt>
+<dt id="peltak.core.templates.Engine.render">
+<code class="descname">render</code><span class="sig-paren">(</span><em>template_str</em>, <em>template_ctx=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/peltak/core/templates/engine.html#Engine.render"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.templates.Engine.render" title="Permalink to this definition">¶</a></dt>
 <dd><p>Render a script template using the given context.</p>
 <p class="rubric">Examples</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">peltak.extra.scripts.templates</span> <span class="k">import</span> <span class="n">TemplateEngine</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">peltak.core.templates</span> <span class="k">import</span> <span class="n">Engine</span>
 <span class="go">&gt;&gt;&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">TemplateEngine</span><span class="p">()</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="s2">&quot;{{ msg | upper }}&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;msg&#39;</span><span class="p">:</span> <span class="s1">&#39;hello&#39;</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Engine</span><span class="p">()</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="s2">&quot;{{ msg | upper }}&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;msg&#39;</span><span class="p">:</span> <span class="s1">&#39;hello&#39;</span><span class="p">})</span>
 <span class="go">&#39;HELLO&#39;</span>
 </pre></div>
 </div>
+</dd></dl>
+
+<dl class="method">
+<dt id="peltak.core.templates.Engine.render_file">
+<code class="descname">render_file</code><span class="sig-paren">(</span><em>template_file</em>, <em>template_ctx=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/peltak/core/templates/engine.html#Engine.render_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.templates.Engine.render_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Render a template file from src/peltak/templates directory.</p>
+<p>All built-in peltak templates should go to the <code class="docutils literal notranslate"><span class="pre">src/peltak/templates</span></code>
+directory.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>template_file</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The name of the template file to use. This file needs to reside
+in the templates directory and will be automatically loaded.</li>
+<li><strong>template_ctx</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a><em>, </em><em>Any</em><em>]</em>) – The template context to use. This is a dictionary of values that
+will be injected into the template during rendering.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A rendered template.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<p>
+&gt;&gt;&gt; from peltak.core.templates import Engine
+&gt;&gt;&gt;
+&gt;&gt;&gt; Engine().render_file(“pelconf.yaml”, {‘src_dir’: ‘src’})
+# peltak configuration file
+# Visit <a class="reference external" href="https://novopl.github.io/peltak">https://novopl.github.io/peltak</a> for more information
+pelconf_version: ‘1’
+# You can add custom project commands or 3rd party packages here.
+commands:</p>
+<blockquote>
+<div><ul class="simple">
+<li>peltak.extra.git</li>
+<li>peltak.extra.gitflow</li>
+<li>peltak.extra.scripts</li>
+</ul>
+</div></blockquote>
+<p># This directory will be added to sys.path when the config is loaded.
+# Useful if do not keep the source code in th root directory.
+src_dir: “src”</p>
+<p># Scripts to help you manage your project.
+scripts:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>test:</dt>
+<dd><p class="first">about: Test your code
+command: |</p>
+<blockquote class="last">
+<div>echo “Change me, to run your tests”</div></blockquote>
+</dd>
+</dl>
+</div></blockquote>
 </dd></dl>
 
 </dd></dl>

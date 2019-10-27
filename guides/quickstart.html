@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Quickstart &mdash; peltak 0.26.0 documentation</title>
+  <title>Quickstart &mdash; peltak 0.26.2 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                0.26.0
+                0.26.2
               </div>
             
           
@@ -254,12 +254,15 @@ in your script.</p>
 you define filtering rules. Then in your script you will have a <code class="docutils literal notranslate"><span class="pre">{{</span> <span class="pre">files</span> <span class="pre">}}</span></code>
 template variable that you can use. This is a list of strings, so be careful
 how you pass at to your tools. There is a built-in filter
-<a class="reference internal" href="../reference/script_filters.html#peltak.extra.scripts.filters.wrap_paths" title="peltak.extra.scripts.filters.wrap_paths"><code class="xref any py py-func docutils literal notranslate"><span class="pre">wrap_paths</span></code></a> to help you with getting the files
+<a class="reference internal" href="../dev/core/fs.html#peltak.core.fs.wrap_paths" title="peltak.core.fs.wrap_paths"><code class="xref any py py-func docutils literal notranslate"><span class="pre">wrap_paths</span></code></a> to help you with getting the files
 ready to pass to a command line. It will wrap all items in the given array with
 double quotes, making sure you don’t have unexpected errors due to paths having
 spaces, etc.</p>
 <p>Here’s an example of pylint + mypy based lint script:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">scripts</span><span class="p">:</span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">pelconf_version</span><span class="p">:</span> <span class="s">&#39;1&#39;</span>
+<span class="nt">build_dir</span><span class="p">:</span> <span class="s">&#39;.build&#39;</span>
+
+<span class="nt">scripts</span><span class="p">:</span>
   <span class="nt">lint</span><span class="p">:</span>
     <span class="nt">about</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Run code checks (pylint + mypy)</span>
     <span class="nt">root_cli</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>

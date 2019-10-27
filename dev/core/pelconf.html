@@ -1,0 +1,347 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>peltak.core.pelconf &mdash; peltak 0.26.2 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/overrides.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="peltak.core.shell" href="shell.html" />
+    <link rel="prev" title="peltak.core.log" href="log.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> peltak
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.26.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../guides/_index.html">Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/_index.html">Reference Documentation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../_index.html">Dev Docs</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../contrib.html">Setup up the project for development</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flows.html">Flows</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="_index.html"><code class="docutils literal notranslate"><span class="pre">peltak.core</span></code></a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="context.html"><code class="docutils literal notranslate"><span class="pre">peltak.core.context</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="fs.html"><code class="docutils literal notranslate"><span class="pre">peltak.core.fs</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="git.html"><code class="docutils literal notranslate"><span class="pre">peltak.core.git</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="hooks.html"><code class="docutils literal notranslate"><span class="pre">peltak.core.hooks</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="log.html"><code class="docutils literal notranslate"><span class="pre">peltak.core.log</span></code></a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">peltak.core.pelconf</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="shell.html"><code class="docutils literal notranslate"><span class="pre">peltak.core.shell</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="util.html"><code class="docutils literal notranslate"><span class="pre">peltak.core.util</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="versioning.html"><code class="docutils literal notranslate"><span class="pre">peltak.core.versioning</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../_index.html#reference">Reference</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">peltak</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../_index.html">Dev Docs</a> &raquo;</li>
+        
+          <li><a href="_index.html"><code class="docutils literal notranslate"><span class="pre">peltak.core</span></code></a> &raquo;</li>
+        
+      <li><code class="docutils literal notranslate"><span class="pre">peltak.core.pelconf</span></code></li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/dev/core/pelconf.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-peltak.core.pelconf">
+<span id="peltak-core-pelconf"></span><h1><code class="docutils literal notranslate"><span class="pre">peltak.core.pelconf</span></code><a class="headerlink" href="#module-peltak.core.pelconf" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="module-peltak.core.pelconf"></span><dl class="class">
+<dt id="peltak.core.pelconf.Pelconf">
+<em class="property">class </em><code class="descclassname">peltak.core.pelconf.</code><code class="descname">Pelconf</code><a class="reference internal" href="../../_modules/peltak/core/pelconf.html#Pelconf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.pelconf.Pelconf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represents the <a class="reference internal" href="../../reference/pelconf.html#pelconf-yaml"><span class="std std-ref">pelconf.yaml</span></a> file.</p>
+<dl class="method">
+<dt id="peltak.core.pelconf.Pelconf.from_file">
+<code class="descname">from_file</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/pelconf.html#Pelconf.from_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.pelconf.Pelconf.from_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load config values from a YAML file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="peltak.core.pelconf.Pelconf.get">
+<code class="descname">get</code><span class="sig-paren">(</span><em>name</em>, <em>*default</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/pelconf.html#Pelconf.get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.pelconf.Pelconf.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get config value with the given name and optional default.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The name of the config value.</li>
+<li><strong>*default</strong> (<em>Any</em>) – If given and the key doesn’t not exist, this will be returned
+instead. If it’s not given and the config value does not exist,
+AttributeError will be raised</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The requested config value. This is one of the global values defined
+in this file. If the value does not exist it will return <em>default</em> if
+give or raise <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#AttributeError" title="(in Python v3.8)"><code class="xref any docutils literal notranslate"><span class="pre">AttributeError</span></code></a>.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#AttributeError" title="(in Python v3.8)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">AttributeError</span></code></a> – If the value does not exist and <em>default</em> was not given.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="peltak.core.pelconf.Pelconf.get_env">
+<code class="descname">get_env</code><span class="sig-paren">(</span><em>name</em>, <em>*default</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/pelconf.html#Pelconf.get_env"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.pelconf.Pelconf.get_env" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the value of an ENV variable.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="peltak.core.pelconf.Pelconf.get_path">
+<code class="descname">get_path</code><span class="sig-paren">(</span><em>name</em>, <em>*default</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/pelconf.html#Pelconf.get_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.pelconf.Pelconf.get_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get config value as path relative to the project directory.</p>
+<p>This allows easily defining the project configuration within the fabfile
+as always relative to that fabfile.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The name of the config value containing the path.</li>
+<li><strong>*default</strong> (<em>Any</em>) – If given and the key doesn’t not exist, this will be returned
+instead. If it’s not given and the config value does not exist,
+AttributeError will be raised</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The requested config value. This is one of the global values defined
+in this file. If the value does not exist it will return <em>default</em> if
+give or raise <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#AttributeError" title="(in Python v3.8)"><code class="xref any docutils literal notranslate"><span class="pre">AttributeError</span></code></a>.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#AttributeError" title="(in Python v3.8)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">AttributeError</span></code></a> – If the value does not exist and <em>default</em> was not given.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="peltak.core.pelconf.Pelconf.proj_path">
+<code class="descname">proj_path</code><span class="sig-paren">(</span><em>*path_parts</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/pelconf.html#Pelconf.proj_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.pelconf.Pelconf.proj_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return absolute path to the repo dir (root project directory).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The path relative to the project root (pelconf.yaml).</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The given path converted to an absolute path.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="peltak.core.pelconf.Pelconf.reset">
+<code class="descname">reset</code><span class="sig-paren">(</span><em>config</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/pelconf.html#Pelconf.reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.pelconf.Pelconf.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset config to the given values.</p>
+<p>This will completely overwrite the current configuration.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="peltak.core.pelconf.Pelconf.within_proj_dir">
+<code class="descname">within_proj_dir</code><span class="sig-paren">(</span><em>path='.'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/pelconf.html#Pelconf.within_proj_dir"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.pelconf.Pelconf.within_proj_dir" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an absolute path to the given project relative path.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>path</strong> – Project relative path that will be converted to the system wide absolute
+path.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Absolute path.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="shell.html" class="btn btn-neutral float-right" title="peltak.core.shell" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="log.html" class="btn btn-neutral float-left" title="peltak.core.log" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016-2018, Mateusz &#39;novo&#39; Klos
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

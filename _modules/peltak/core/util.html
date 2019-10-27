@@ -1,0 +1,501 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>peltak.core.util &mdash; peltak 0.26.2 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/overrides.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> peltak
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.26.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/_index.html">Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference/_index.html">Reference Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dev/_index.html">Dev Docs</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">peltak</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>peltak.core.util</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for peltak.core.util</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1"># Copyright 2017-2018 Mateusz Klos</span>
+<span class="c1">#</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1"># you may not use this file except in compliance with the License.</span>
+<span class="c1"># You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1"># http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1"># See the License for the specific language governing permissions and</span>
+<span class="c1"># limitations under the License.</span>
+<span class="c1">#</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">.. module:: peltak.core.util</span>
+<span class="sd">    :synopsis: Various helpers that do not depend on anything else in the project.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">absolute_import</span><span class="p">,</span> <span class="n">unicode_literals</span>
+
+<span class="c1"># stdlib imports</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">wraps</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="p">(</span>
+    <span class="n">Any</span><span class="p">,</span>
+    <span class="n">Callable</span><span class="p">,</span>
+    <span class="n">Dict</span><span class="p">,</span>
+    <span class="n">Iterable</span><span class="p">,</span>
+    <span class="n">Iterator</span><span class="p">,</span>
+    <span class="n">List</span><span class="p">,</span>
+    <span class="n">Optional</span><span class="p">,</span>
+    <span class="n">Text</span><span class="p">,</span>
+    <span class="n">TextIO</span><span class="p">,</span>
+    <span class="n">Union</span>
+<span class="p">)</span>
+
+<span class="c1"># 3rd party imports</span>
+<span class="kn">import</span> <span class="nn">yaml</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">yaml</span> <span class="k">import</span> <span class="n">CLoader</span> <span class="k">as</span> <span class="n">Loader</span><span class="p">,</span> <span class="n">CDumper</span> <span class="k">as</span> <span class="n">Dumper</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">yaml</span> <span class="k">import</span> <span class="n">Loader</span><span class="p">,</span> <span class="n">Dumper</span>     <span class="c1"># type: ignore</span>
+
+
+<span class="n">TextOrStream</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">Text</span><span class="p">,</span> <span class="n">TextIO</span><span class="p">]</span>
+<span class="n">YamlData</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="n">Text</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]]</span>
+<span class="n">AnyFunction</span> <span class="o">=</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>
+<span class="n">Decorator</span> <span class="o">=</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">AnyFunction</span><span class="p">],</span> <span class="n">AnyFunction</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="timed_block"><a class="viewcode-back" href="../../../dev/core/util.html#peltak.core.util.timed_block">[docs]</a><span class="k">class</span> <span class="nc">timed_block</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>  <span class="c1"># noqa</span>
+    <span class="sd">&quot;&quot;&quot; Context manager to measure execution time for a give block of code.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; import time</span>
+<span class="sd">        &gt;&gt;&gt; from peltak.core import util</span>
+<span class="sd">        &gt;&gt;&gt;</span>
+<span class="sd">        &gt;&gt;&gt; with util.timed_block() as t:</span>
+<span class="sd">        ...     time.sleep(1)</span>
+<span class="sd">        &gt;&gt;&gt;</span>
+<span class="sd">        &gt;&gt;&gt; print(&quot;Code executed in {}s&quot;.format(int(t.elapsed_s)))</span>
+<span class="sd">        Code executed in 1s</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        t0 (float):</span>
+<span class="sd">            The time at the start of execution.</span>
+<span class="sd">        elapsed (float);</span>
+<span class="sd">            Raw elapsed time in seconds.</span>
+<span class="sd">        elapsed_s (float):</span>
+<span class="sd">            Elapsed time in seconds, rounded to 3 decimal places for easy</span>
+<span class="sd">            display.</span>
+<span class="sd">        elapsed_ms (float):</span>
+<span class="sd">            Elapsed time in milliseconds, rounded to 3 decimal places for easy</span>
+<span class="sd">            display.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t0</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="nf">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_val</span><span class="p">,</span> <span class="n">exc_tb</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">elapsed</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">t0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">elapsed_s</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">elapsed</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">elapsed_ms</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">elapsed</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="mark_experimental"><a class="viewcode-back" href="../../../dev/core/util.html#peltak.core.util.mark_experimental">[docs]</a><span class="k">def</span> <span class="nf">mark_experimental</span><span class="p">(</span><span class="n">fn</span><span class="p">):</span>
+    <span class="c1"># type: (AnyFunction) -&gt; AnyFunction</span>
+    <span class="sd">&quot;&quot;&quot; Mark function as experimental.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        fn (FunctionType):</span>
+<span class="sd">            The command function to decorate.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nd">@wraps</span><span class="p">(</span><span class="n">fn</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>   <span class="c1"># pylint: disable=missing-docstring</span>
+        <span class="kn">from</span> <span class="nn">peltak.core</span> <span class="k">import</span> <span class="n">shell</span>
+
+        <span class="k">if</span> <span class="n">shell</span><span class="o">.</span><span class="n">is_tty</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;This command is has experimental status. The &quot;</span>
+                          <span class="s2">&quot;interface is not yet stable and might change &quot;</span>
+                          <span class="s2">&quot;without notice. Use at your own risk&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">fn</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">wrapper</span></div>
+
+
+<div class="viewcode-block" id="mark_deprecated"><a class="viewcode-back" href="../../../dev/core/util.html#peltak.core.util.mark_deprecated">[docs]</a><span class="k">def</span> <span class="nf">mark_deprecated</span><span class="p">(</span><span class="n">replaced_by</span><span class="p">):</span>
+    <span class="c1"># type: (Text) -&gt; Decorator</span>
+    <span class="sd">&quot;&quot;&quot; Mark command as deprecated.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        replaced_by (str):</span>
+<span class="sd">            The command that deprecated this command and should be used instead.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="n">fn</span><span class="p">):</span>   <span class="c1"># pylint: disable=missing-docstring</span>
+        <span class="nd">@wraps</span><span class="p">(</span><span class="n">fn</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>   <span class="c1"># pylint: disable=missing-docstring</span>
+            <span class="kn">from</span> <span class="nn">peltak.core</span> <span class="k">import</span> <span class="n">shell</span>
+
+            <span class="k">if</span> <span class="n">shell</span><span class="o">.</span><span class="n">is_tty</span><span class="p">:</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;This command is has been deprecated. Please use &quot;</span>
+                              <span class="s2">&quot;&#39;</span><span class="si">{new}</span><span class="s2">&#39; instead.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">new</span><span class="o">=</span><span class="n">replaced_by</span><span class="p">))</span>
+
+            <span class="k">return</span> <span class="n">fn</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">wrapper</span>
+
+    <span class="k">return</span> <span class="n">decorator</span></div>
+
+
+<div class="viewcode-block" id="cached_result"><a class="viewcode-back" href="../../../dev/core/util.html#peltak.core.util.cached_result">[docs]</a><span class="k">class</span> <span class="nc">cached_result</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Decorator that caches the function result.</span>
+
+<span class="sd">    This is especially useful for functions whose output won&#39;t change during</span>
+<span class="sd">    a single *peltak* execution run and are expensive (i.e. call external</span>
+<span class="sd">    shell commands).</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; from peltak.core import util</span>
+<span class="sd">        &gt;&gt;&gt;</span>
+<span class="sd">        &gt;&gt;&gt; @util.cached_result()</span>
+<span class="sd">        ... def foo():</span>
+<span class="sd">        ...     call_count = getattr(foo, &#39;call_count&#39;, 0)</span>
+<span class="sd">        ...     call_count += 1</span>
+<span class="sd">        ...     setattr(foo, &#39;call_count&#39;, call_count)</span>
+<span class="sd">        &gt;&gt;&gt; foo()</span>
+<span class="sd">        &gt;&gt;&gt; print(foo.call_count)</span>
+<span class="sd">        1</span>
+<span class="sd">        &gt;&gt;&gt; foo()</span>
+<span class="sd">        &gt;&gt;&gt; print(foo.call_count)</span>
+<span class="sd">        1</span>
+<span class="sd">        &gt;&gt;&gt; util.cached_result.clear(foo)</span>
+<span class="sd">        &gt;&gt;&gt; foo()</span>
+<span class="sd">        &gt;&gt;&gt; print(foo.call_count)</span>
+<span class="sd">        2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">CACHE_VAR</span> <span class="o">=</span> <span class="s1">&#39;__cached_result&#39;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fn</span><span class="p">):</span>
+        <span class="c1"># type: (AnyFunction) -&gt; AnyFunction</span>
+        <span class="sd">&quot;&quot;&quot; Apply the decorator to the given function.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            fn (FunctionType):</span>
+<span class="sd">                The function to decorate.</span>
+<span class="sd">        :return Function:</span>
+<span class="sd">            The function wrapped in caching logic.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nd">@wraps</span><span class="p">(</span><span class="n">fn</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="n">refresh</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>   <span class="c1"># pylint: disable=missing-docstring</span>
+            <span class="k">if</span> <span class="n">refresh</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">wrapper</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">CACHE_VAR</span><span class="p">):</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">fn</span><span class="p">()</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="n">wrapper</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">CACHE_VAR</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">wrapper</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">CACHE_VAR</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">wrapper</span>
+
+<div class="viewcode-block" id="cached_result.clear"><a class="viewcode-back" href="../../../dev/core/util.html#peltak.core.util.cached_result.clear">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">clear</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">fn</span><span class="p">):</span>
+        <span class="c1"># type: (AnyFunction) -&gt; None</span>
+        <span class="sd">&quot;&quot;&quot; Clear result cache on the given function.</span>
+
+<span class="sd">        If the function has no cached result, this call will do nothing.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            fn (FunctionType):</span>
+<span class="sd">                The function whose cache should be cleared.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="n">CACHE_VAR</span><span class="p">):</span>
+            <span class="nb">delattr</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="n">CACHE_VAR</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="in_batches"><a class="viewcode-back" href="../../../dev/core/util.html#peltak.core.util.in_batches">[docs]</a><span class="k">def</span> <span class="nf">in_batches</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">):</span>
+    <span class="c1"># type: (Iterable[Any], int) -&gt; Iterator[List[Any]]</span>
+    <span class="sd">&quot;&quot;&quot; Split the given iterable into batches.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        iterable (Iterable[Any]):</span>
+<span class="sd">            The iterable you want to split into batches.</span>
+<span class="sd">        batch_size (int):</span>
+<span class="sd">            The size of each bach. The last batch will be probably smaller (if</span>
+<span class="sd">            the number of elements cannot be equally divided.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Iterator[list[Any]]: Will yield all items in batches of **batch_size**</span>
+<span class="sd">            size.</span>
+
+<span class="sd">    Example:</span>
+
+<span class="sd">        &gt;&gt;&gt; from peltak.core import util</span>
+<span class="sd">        &gt;&gt;&gt;</span>
+<span class="sd">        &gt;&gt;&gt; batches = util.in_batches([1, 2, 3, 4, 5, 6, 7], 3)</span>
+<span class="sd">        &gt;&gt;&gt; batches = list(batches)     # so we can query for length</span>
+<span class="sd">        &gt;&gt;&gt; len(batches)</span>
+<span class="sd">        3</span>
+<span class="sd">        &gt;&gt;&gt; batches</span>
+<span class="sd">        [[1, 2, 3], [4, 5, 6], [7]]</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">items</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">iterable</span><span class="p">)</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">):</span>
+        <span class="k">yield</span> <span class="n">items</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="nb">min</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">size</span><span class="p">)]</span></div>
+
+
+<div class="viewcode-block" id="yaml_load"><a class="viewcode-back" href="../../../dev/core/util.html#peltak.core.util.yaml_load">[docs]</a><span class="k">def</span> <span class="nf">yaml_load</span><span class="p">(</span><span class="n">str_or_fp</span><span class="p">):</span>
+    <span class="c1"># type: (TextOrStream) -&gt; YamlData</span>
+    <span class="sd">&quot;&quot;&quot; Load data from YAML string or file-like object.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        str_or_fp (Union[str, TextIO]):</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        YamlData: The data loaded from the YAML string/file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">str_or_fp</span><span class="p">,</span> <span class="n">Loader</span><span class="o">=</span><span class="n">Loader</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="yaml_dump"><a class="viewcode-back" href="../../../dev/core/util.html#peltak.core.util.yaml_dump">[docs]</a><span class="k">def</span> <span class="nf">yaml_dump</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="c1"># type: (YamlData, Optional[Any]) -&gt; Text</span>
+    <span class="sd">&quot;&quot;&quot; Dump data to a YAML string/file.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        data (YamlData):</span>
+<span class="sd">            The data to serialize as YAML.</span>
+<span class="sd">        stream (TextIO):</span>
+<span class="sd">            The file-like object to save to. If given, this function will write</span>
+<span class="sd">            the resulting YAML to that stream.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: The YAML string.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">yaml</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span>
+        <span class="n">data</span><span class="p">,</span>
+        <span class="n">stream</span><span class="o">=</span><span class="n">stream</span><span class="p">,</span>
+        <span class="n">Dumper</span><span class="o">=</span><span class="n">Dumper</span><span class="p">,</span>
+        <span class="n">default_flow_style</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="remove_indent"><a class="viewcode-back" href="../../../dev/core/util.html#peltak.core.util.remove_indent">[docs]</a><span class="k">def</span> <span class="nf">remove_indent</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="c1"># type: (Text) -&gt; Text</span>
+    <span class="sd">&quot;&quot;&quot; Remove indentation from the text.</span>
+
+<span class="sd">    All indentation will be removed no matter if it&#39;s consistent across the</span>
+<span class="sd">    *text*.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        text (str): The text that contains indentation.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: The same text but with all indentation removed from each line.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">[ </span><span class="se">\t</span><span class="s1">]+&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">text</span><span class="o">.</span><span class="n">lstrip</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="Singleton"><a class="viewcode-back" href="../../../dev/core/util.html#peltak.core.util.Singleton">[docs]</a><span class="k">class</span> <span class="nc">Singleton</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Base class for singletons.</span>
+
+<span class="sd">    Inheriting from this class will make your class a singleton. It should have</span>
+<span class="sd">    an initializer that takes no arguments.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">instances</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># type: Dict[str, Any]</span>
+
+    <span class="k">def</span> <span class="nf">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+        <span class="c1"># Could upgrade this to thread local storage</span>
+        <span class="n">instance</span> <span class="o">=</span> <span class="n">Singleton</span><span class="o">.</span><span class="n">instances</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">instance</span><span class="p">:</span>
+            <span class="n">instance</span><span class="o">.</span><span class="n">_singleton_initialized</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">instance</span> <span class="o">=</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+            <span class="n">instance</span><span class="o">.</span><span class="n">_singleton_initialized</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">Singleton</span><span class="o">.</span><span class="n">instances</span><span class="p">[</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="p">]</span> <span class="o">=</span> <span class="n">instance</span>
+
+        <span class="k">return</span> <span class="n">instance</span></div>
+
+
+<span class="c1"># Used in type hint comments only (until we drop python2 support)</span>
+<span class="k">del</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Text</span><span class="p">,</span> <span class="n">TextIO</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">Optional</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016-2018, Mateusz &#39;novo&#39; Klos
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,488 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>peltak.core.util &mdash; peltak 0.26.2 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/overrides.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="peltak.core.versioning" href="versioning.html" />
+    <link rel="prev" title="peltak.core.shell" href="shell.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> peltak
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.26.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../guides/_index.html">Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/_index.html">Reference Documentation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../_index.html">Dev Docs</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../contrib.html">Setup up the project for development</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flows.html">Flows</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="_index.html"><code class="docutils literal notranslate"><span class="pre">peltak.core</span></code></a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="context.html"><code class="docutils literal notranslate"><span class="pre">peltak.core.context</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="fs.html"><code class="docutils literal notranslate"><span class="pre">peltak.core.fs</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="git.html"><code class="docutils literal notranslate"><span class="pre">peltak.core.git</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="hooks.html"><code class="docutils literal notranslate"><span class="pre">peltak.core.hooks</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="log.html"><code class="docutils literal notranslate"><span class="pre">peltak.core.log</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pelconf.html"><code class="docutils literal notranslate"><span class="pre">peltak.core.pelconf</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="shell.html"><code class="docutils literal notranslate"><span class="pre">peltak.core.shell</span></code></a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">peltak.core.util</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="versioning.html"><code class="docutils literal notranslate"><span class="pre">peltak.core.versioning</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../_index.html#reference">Reference</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">peltak</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../_index.html">Dev Docs</a> &raquo;</li>
+        
+          <li><a href="_index.html"><code class="docutils literal notranslate"><span class="pre">peltak.core</span></code></a> &raquo;</li>
+        
+      <li><code class="docutils literal notranslate"><span class="pre">peltak.core.util</span></code></li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/dev/core/util.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-peltak.core.util">
+<span id="peltak-core-util"></span><h1><code class="docutils literal notranslate"><span class="pre">peltak.core.util</span></code><a class="headerlink" href="#module-peltak.core.util" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="module-peltak.core.util"></span><dl class="class">
+<dt id="peltak.core.util.Singleton">
+<em class="property">class </em><code class="descclassname">peltak.core.util.</code><code class="descname">Singleton</code><a class="reference internal" href="../../_modules/peltak/core/util.html#Singleton"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.util.Singleton" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class for singletons.</p>
+<p>Inheriting from this class will make your class a singleton. It should have
+an initializer that takes no arguments.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="peltak.core.util.cached_result">
+<em class="property">class </em><code class="descclassname">peltak.core.util.</code><code class="descname">cached_result</code><a class="reference internal" href="../../_modules/peltak/core/util.html#cached_result"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.util.cached_result" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decorator that caches the function result.</p>
+<p>This is especially useful for functions whose output won’t change during
+a single <em>peltak</em> execution run and are expensive (i.e. call external
+shell commands).</p>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">peltak.core</span> <span class="k">import</span> <span class="n">util</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nd">@util</span><span class="o">.</span><span class="n">cached_result</span><span class="p">()</span>
+<span class="gp">... </span><span class="k">def</span> <span class="nf">foo</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="n">call_count</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">foo</span><span class="p">,</span> <span class="s1">&#39;call_count&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">call_count</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="gp">... </span>    <span class="nb">setattr</span><span class="p">(</span><span class="n">foo</span><span class="p">,</span> <span class="s1">&#39;call_count&#39;</span><span class="p">,</span> <span class="n">call_count</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">foo</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">foo</span><span class="o">.</span><span class="n">call_count</span><span class="p">)</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">foo</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">foo</span><span class="o">.</span><span class="n">call_count</span><span class="p">)</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">util</span><span class="o">.</span><span class="n">cached_result</span><span class="o">.</span><span class="n">clear</span><span class="p">(</span><span class="n">foo</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">foo</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">foo</span><span class="o">.</span><span class="n">call_count</span><span class="p">)</span>
+<span class="go">2</span>
+</pre></div>
+</div>
+<dl class="classmethod">
+<dt id="peltak.core.util.cached_result.clear">
+<em class="property">classmethod </em><code class="descname">clear</code><span class="sig-paren">(</span><em>fn</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/util.html#cached_result.clear"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.util.cached_result.clear" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clear result cache on the given function.</p>
+<p>If the function has no cached result, this call will do nothing.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fn</strong> (<em>FunctionType</em>) – The function whose cache should be cleared.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="peltak.core.util.in_batches">
+<code class="descclassname">peltak.core.util.</code><code class="descname">in_batches</code><span class="sig-paren">(</span><em>iterable</em>, <em>batch_size</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/util.html#in_batches"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.util.in_batches" title="Permalink to this definition">¶</a></dt>
+<dd><p>Split the given iterable into batches.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>iterable</strong> (<em>Iterable</em><em>[</em><em>Any</em><em>]</em>) – The iterable you want to split into batches.</li>
+<li><strong>batch_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The size of each bach. The last batch will be probably smaller (if
+the number of elements cannot be equally divided.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><dl class="docutils">
+<dt>Will yield all items in batches of <strong>batch_size</strong></dt>
+<dd><p class="first last">size.</p>
+</dd>
+</dl>
+</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">Iterator[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a>[Any]]</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">peltak.core</span> <span class="k">import</span> <span class="n">util</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">batches</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">in_batches</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span> <span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">batches</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">batches</span><span class="p">)</span>     <span class="c1"># so we can query for length</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">batches</span><span class="p">)</span>
+<span class="go">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">batches</span>
+<span class="go">[[1, 2, 3], [4, 5, 6], [7]]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="peltak.core.util.mark_deprecated">
+<code class="descclassname">peltak.core.util.</code><code class="descname">mark_deprecated</code><span class="sig-paren">(</span><em>replaced_by</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/util.html#mark_deprecated"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.util.mark_deprecated" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mark command as deprecated.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>replaced_by</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The command that deprecated this command and should be used instead.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="peltak.core.util.mark_experimental">
+<code class="descclassname">peltak.core.util.</code><code class="descname">mark_experimental</code><span class="sig-paren">(</span><em>fn</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/util.html#mark_experimental"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.util.mark_experimental" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mark function as experimental.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fn</strong> (<em>FunctionType</em>) – The command function to decorate.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="peltak.core.util.remove_indent">
+<code class="descclassname">peltak.core.util.</code><code class="descname">remove_indent</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/util.html#remove_indent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.util.remove_indent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove indentation from the text.</p>
+<p>All indentation will be removed no matter if it’s consistent across the
+<em>text</em>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The text that contains indentation.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The same text but with all indentation removed from each line.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="peltak.core.util.timed_block">
+<em class="property">class </em><code class="descclassname">peltak.core.util.</code><code class="descname">timed_block</code><a class="reference internal" href="../../_modules/peltak/core/util.html#timed_block"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.util.timed_block" title="Permalink to this definition">¶</a></dt>
+<dd><p>Context manager to measure execution time for a give block of code.</p>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">time</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">peltak.core</span> <span class="k">import</span> <span class="n">util</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">util</span><span class="o">.</span><span class="n">timed_block</span><span class="p">()</span> <span class="k">as</span> <span class="n">t</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Code executed in </span><span class="si">{}</span><span class="s2">s&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">elapsed_s</span><span class="p">)))</span>
+<span class="go">Code executed in 1s</span>
+</pre></div>
+</div>
+<dl class="attribute">
+<dt id="peltak.core.util.timed_block.t0">
+<code class="descname">t0</code><a class="headerlink" href="#peltak.core.util.timed_block.t0" title="Permalink to this definition">¶</a></dt>
+<dd><p>The time at the start of execution.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="peltak.core.util.timed_block.elapsed">
+<code class="descname">elapsed</code><a class="headerlink" href="#peltak.core.util.timed_block.elapsed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raw elapsed time in seconds.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="peltak.core.util.timed_block.elapsed_s">
+<code class="descname">elapsed_s</code><a class="headerlink" href="#peltak.core.util.timed_block.elapsed_s" title="Permalink to this definition">¶</a></dt>
+<dd><p>Elapsed time in seconds, rounded to 3 decimal places for easy
+display.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="peltak.core.util.timed_block.elapsed_ms">
+<code class="descname">elapsed_ms</code><a class="headerlink" href="#peltak.core.util.timed_block.elapsed_ms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Elapsed time in milliseconds, rounded to 3 decimal places for easy
+display.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="peltak.core.util.yaml_dump">
+<code class="descclassname">peltak.core.util.</code><code class="descname">yaml_dump</code><span class="sig-paren">(</span><em>data</em>, <em>stream=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/util.html#yaml_dump"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.util.yaml_dump" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dump data to a YAML string/file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>data</strong> (<em>YamlData</em>) – The data to serialize as YAML.</li>
+<li><strong>stream</strong> (<em>TextIO</em>) – The file-like object to save to. If given, this function will write
+the resulting YAML to that stream.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The YAML string.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="peltak.core.util.yaml_load">
+<code class="descclassname">peltak.core.util.</code><code class="descname">yaml_load</code><span class="sig-paren">(</span><em>str_or_fp</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/util.html#yaml_load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.util.yaml_load" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load data from YAML string or file-like object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>str_or_fp</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a><em>, </em><em>TextIO</em><em>]</em>) – </td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The data loaded from the YAML string/file.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">YamlData</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="versioning.html" class="btn btn-neutral float-right" title="peltak.core.versioning" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="shell.html" class="btn btn-neutral float-left" title="peltak.core.shell" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016-2018, Mateusz &#39;novo&#39; Klos
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

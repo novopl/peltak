@@ -1,0 +1,438 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>peltak.core.versioning &mdash; peltak 0.26.2 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/overrides.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="prev" title="peltak.core.util" href="util.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> peltak
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.26.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../guides/_index.html">Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/_index.html">Reference Documentation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../_index.html">Dev Docs</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../contrib.html">Setup up the project for development</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flows.html">Flows</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="_index.html"><code class="docutils literal notranslate"><span class="pre">peltak.core</span></code></a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="context.html"><code class="docutils literal notranslate"><span class="pre">peltak.core.context</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="fs.html"><code class="docutils literal notranslate"><span class="pre">peltak.core.fs</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="git.html"><code class="docutils literal notranslate"><span class="pre">peltak.core.git</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="hooks.html"><code class="docutils literal notranslate"><span class="pre">peltak.core.hooks</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="log.html"><code class="docutils literal notranslate"><span class="pre">peltak.core.log</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pelconf.html"><code class="docutils literal notranslate"><span class="pre">peltak.core.pelconf</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="shell.html"><code class="docutils literal notranslate"><span class="pre">peltak.core.shell</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="util.html"><code class="docutils literal notranslate"><span class="pre">peltak.core.util</span></code></a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">peltak.core.versioning</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../_index.html#reference">Reference</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">peltak</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../_index.html">Dev Docs</a> &raquo;</li>
+        
+          <li><a href="_index.html"><code class="docutils literal notranslate"><span class="pre">peltak.core</span></code></a> &raquo;</li>
+        
+      <li><code class="docutils literal notranslate"><span class="pre">peltak.core.versioning</span></code></li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/dev/core/versioning.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-peltak.core.versioning">
+<span id="peltak-core-versioning"></span><h1><code class="docutils literal notranslate"><span class="pre">peltak.core.versioning</span></code><a class="headerlink" href="#module-peltak.core.versioning" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="module-peltak.core.versioning"></span><dl class="class">
+<dt id="peltak.core.versioning.NodeVersionStorage">
+<em class="property">class </em><code class="descclassname">peltak.core.versioning.</code><code class="descname">NodeVersionStorage</code><span class="sig-paren">(</span><em>version_file</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/versioning.html#NodeVersionStorage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.versioning.NodeVersionStorage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Store project version in package.json.</p>
+<dl class="method">
+<dt id="peltak.core.versioning.NodeVersionStorage.read">
+<code class="descname">read</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/versioning.html#NodeVersionStorage.read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.versioning.NodeVersionStorage.read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read the current project version.</p>
+<p>All subclasses must implement this method.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.8)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">NotImplementedError</span></code></a> – If the subclass does nto implement the read() method.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="peltak.core.versioning.NodeVersionStorage.write">
+<code class="descname">write</code><span class="sig-paren">(</span><em>version</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/versioning.html#NodeVersionStorage.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.versioning.NodeVersionStorage.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save the given version as the current project version.</p>
+<p>All subclasses must implement this method.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.8)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">NotImplementedError</span></code></a> – If the subclass does nto implement the write() method.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="peltak.core.versioning.PyVersionStorage">
+<em class="property">class </em><code class="descclassname">peltak.core.versioning.</code><code class="descname">PyVersionStorage</code><span class="sig-paren">(</span><em>version_file</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/versioning.html#PyVersionStorage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.versioning.PyVersionStorage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Store project version in one of the py module/package files.</p>
+<dl class="method">
+<dt id="peltak.core.versioning.PyVersionStorage.read">
+<code class="descname">read</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/versioning.html#PyVersionStorage.read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.versioning.PyVersionStorage.read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read the project version from .py file.</p>
+<p>This will regex search in the file for a
+<code class="docutils literal notranslate"><span class="pre">__version__</span> <span class="pre">=</span> <span class="pre">VERSION_STRING</span></code> and read the version string.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="peltak.core.versioning.PyVersionStorage.write">
+<code class="descname">write</code><span class="sig-paren">(</span><em>version</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/versioning.html#PyVersionStorage.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.versioning.PyVersionStorage.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write the project version to .py file.</p>
+<p>This will regex search in the file for a
+<code class="docutils literal notranslate"><span class="pre">__version__</span> <span class="pre">=</span> <span class="pre">VERSION_STRING</span></code> and substitute the version string
+for the new version.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="peltak.core.versioning.RawVersionStorage">
+<em class="property">class </em><code class="descclassname">peltak.core.versioning.</code><code class="descname">RawVersionStorage</code><span class="sig-paren">(</span><em>version_file</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/versioning.html#RawVersionStorage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.versioning.RawVersionStorage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Store project version as a simple value in a text file.</p>
+<dl class="method">
+<dt id="peltak.core.versioning.RawVersionStorage.read">
+<code class="descname">read</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/versioning.html#RawVersionStorage.read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.versioning.RawVersionStorage.read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read the project version from .py file.</p>
+<p>This will regex search in the file for a
+<code class="docutils literal notranslate"><span class="pre">__version__</span> <span class="pre">=</span> <span class="pre">VERSION_STRING</span></code> and read the version string.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="peltak.core.versioning.RawVersionStorage.write">
+<code class="descname">write</code><span class="sig-paren">(</span><em>version</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/versioning.html#RawVersionStorage.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.versioning.RawVersionStorage.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save the given version as the current project version.</p>
+<p>All subclasses must implement this method.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.8)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">NotImplementedError</span></code></a> – If the subclass does nto implement the write() method.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="peltak.core.versioning.VersionStorage">
+<em class="property">class </em><code class="descclassname">peltak.core.versioning.</code><code class="descname">VersionStorage</code><span class="sig-paren">(</span><em>version_file</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/versioning.html#VersionStorage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.versioning.VersionStorage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class for version storage.</p>
+<p>A version storage is a way to store the project version. Different projects
+will have different ways of storing the version. The simplest case is a
+text file that holds just the version number (probably called VERSION).
+Python projects can also use a version stored as <code class="docutils literal notranslate"><span class="pre">__version__</span></code> variable
+inside the project package/module. A Node.js project on the other hand will
+probably keep the version in <code class="docutils literal notranslate"><span class="pre">package.json</span></code>. All of the above strategies
+can be (and are) implemented through subclassing this class.</p>
+<p>&#64;see <a class="reference internal" href="#peltak.core.versioning.PyVersionStorage" title="peltak.core.versioning.PyVersionStorage"><code class="xref any py py-class docutils literal notranslate"><span class="pre">PyVersionStorage</span></code></a>, <a class="reference internal" href="#peltak.core.versioning.RawVersionStorage" title="peltak.core.versioning.RawVersionStorage"><code class="xref any py py-class docutils literal notranslate"><span class="pre">RawVersionStorage</span></code></a>, <a class="reference internal" href="#peltak.core.versioning.NodeVersionStorage" title="peltak.core.versioning.NodeVersionStorage"><code class="xref any py py-class docutils literal notranslate"><span class="pre">NodeVersionStorage</span></code></a></p>
+<dl class="method">
+<dt id="peltak.core.versioning.VersionStorage.read">
+<code class="descname">read</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/versioning.html#VersionStorage.read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.versioning.VersionStorage.read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read the current project version.</p>
+<p>All subclasses must implement this method.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.8)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">NotImplementedError</span></code></a> – If the subclass does nto implement the read() method.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="peltak.core.versioning.VersionStorage.write">
+<code class="descname">write</code><span class="sig-paren">(</span><em>version</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/versioning.html#VersionStorage.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.versioning.VersionStorage.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save the given version as the current project version.</p>
+<p>All subclasses must implement this method.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.8)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">NotImplementedError</span></code></a> – If the subclass does nto implement the write() method.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="peltak.core.versioning.bump">
+<code class="descclassname">peltak.core.versioning.</code><code class="descname">bump</code><span class="sig-paren">(</span><em>component='patch'</em>, <em>exact=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/versioning.html#bump"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.versioning.bump" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bump the given version component.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>component</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – <p>What part of the version should be bumped. Can be one of:</p>
+<ul>
+<li>major</li>
+<li>minor</li>
+<li>patch</li>
+</ul>
+</li>
+<li><strong>exact</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The exact version that should be set instead of bumping the current
+one.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A tuple of old and bumped version.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.8)">tuple</a>(<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a>)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="peltak.core.versioning.current">
+<code class="descclassname">peltak.core.versioning.</code><code class="descname">current</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/versioning.html#current"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.versioning.current" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the project’s current version.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The current project version in MAJOR.MINOR.PATCH format. PATCH
+might be omitted if it’s 0, so 1.0.0 becomes 1.0 and 0.1.0 becomes 0.1.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="peltak.core.versioning.get_version_storage">
+<code class="descclassname">peltak.core.versioning.</code><code class="descname">get_version_storage</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/versioning.html#get_version_storage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.versioning.get_version_storage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get version storage for the given version file.</p>
+<p>The storage engine used depends on the extension of the <em>version.file</em> conf
+variable.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="peltak.core.versioning.is_valid">
+<code class="descclassname">peltak.core.versioning.</code><code class="descname">is_valid</code><span class="sig-paren">(</span><em>version_str</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/versioning.html#is_valid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.versioning.is_valid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if the given string is a version string</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>version_str</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – A string to check</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>True</strong> if the given string is a version.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="peltak.core.versioning.write">
+<code class="descclassname">peltak.core.versioning.</code><code class="descname">write</code><span class="sig-paren">(</span><em>version</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/versioning.html#write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.versioning.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write the given version to the VERSION_FILE</p>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="util.html" class="btn btn-neutral float-left" title="peltak.core.util" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016-2018, Mateusz &#39;novo&#39; Klos
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
