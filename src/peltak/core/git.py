@@ -13,7 +13,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-""" Git helpers. """
+"""
+.. module:: peltak.core.git
+    :synopsis: Git helpers.
+"""
 from __future__ import absolute_import, unicode_literals
 
 # stdlib imports

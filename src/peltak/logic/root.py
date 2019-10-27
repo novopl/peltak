@@ -33,6 +33,7 @@ from peltak.core import fs
 from peltak.core import log
 from peltak.core import shell
 from peltak.core import util
+from peltak.core import templates
 
 
 def clean(exclude):
@@ -90,26 +91,36 @@ class InitForm(cliform.Form):
     version_file = cliform.Field(
         'Version file',
         type=str,
+        default='',
         help=('This will be used for a lot of default values in the config '
               '(like for linting, reference docs etc.)')
     )
 
 
-def init(quick):
-    # type: (bool) -> None
+def init(quick, blank, force):
+    # type: (bool, bool, bool) -> None
     """ Create an empty pelconf.yaml from template """
     config_file = 'pelconf.yaml'
     prompt = "-- <35>{} <32>already exists. Wipe it?<0>".format(config_file)
 
-    if exists(config_file) and not click.confirm(shell.fmt(prompt)):
+    if not force and exists(config_file) and not click.confirm(shell.fmt(prompt)):
         log.info("Canceled")
         return
 
-    form = InitForm().run(quick=quick)
+    ctx = dict(blank=blank)
+
+    if not blank:
+        form = InitForm().run(quick=quick)
+        ctx.update(form.values)
+
+    confg_content = templates.Engine().render_file('pelconf.yaml', ctx)
 
     log.info('Writing <35>{}'.format(config_file))
-    pelconf_template = conf.load_template('pelconf.yaml')
-    fs.write_file(config_file, pelconf_template.format(**form.values))
+    fs.write_file(config_file, confg_content)
+
+    if context.get('verbose') > 0:
+        for line in shell.highlight(confg_content, 'yaml').splitlines():
+            log.info('  {}', line)
 
 
 # Used in docstrings only until we drop python2 support

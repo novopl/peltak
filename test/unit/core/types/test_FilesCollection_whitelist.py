@@ -6,11 +6,11 @@ from __future__ import absolute_import, unicode_literals
 from mock import patch
 
 # local imports
-from peltak.extra.scripts.types import ScriptFiles
+from peltak.core.types import FilesCollection
 
 
 def test_contains_elements_from_include_property():
-    files = ScriptFiles.from_config({
+    files = FilesCollection.from_config({
         'paths': 'src/fake',
         'include': ['*.py', '*.yaml', '*.js'],
     })
@@ -22,7 +22,7 @@ def test_contains_elements_from_include_property():
 def test_uses_staged_files_if_only_staged_is_True(p_git_staged):
     p_git_staged.return_value = ['some', 'fake', 'files']
 
-    files = ScriptFiles.from_config({
+    files = FilesCollection.from_config({
         'paths': 'src/fake',
         'only_staged': True,
     })
@@ -34,7 +34,7 @@ def test_uses_staged_files_if_only_staged_is_True(p_git_staged):
 def test_filters_staged_files_with_include_if_both_are_present(p_git_staged):
     p_git_staged.return_value = ['some.py', 'fake.js', 'files.py']
 
-    files = ScriptFiles.from_config({
+    files = FilesCollection.from_config({
         'paths': 'src/fake',
         'only_staged': True,
         'include': ['*.py'],
@@ -44,6 +44,6 @@ def test_filters_staged_files_with_include_if_both_are_present(p_git_staged):
 
 
 def test_returns_empty_list_if_no_includes_and_commit_is_False():
-    files = ScriptFiles.from_config({'paths': 'src/fake'})
+    files = FilesCollection.from_config({'paths': 'src/fake'})
 
     assert files.whitelist() == []

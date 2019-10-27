@@ -13,9 +13,35 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-""" peltak package. """
+""" Types and classes used by `peltak.extra.changelog`. """
 from __future__ import absolute_import, unicode_literals
-from os.path import abspath, dirname
 
-__version__ = '0.26.1'
-PKG_DIR = abspath(dirname(__file__))
+# stdlib imports
+from typing import Any, Dict, List
+
+
+# 3rd party imports
+import attr
+
+
+ChangelogItems = Dict[str, List[Any]]
+
+
+@attr.s
+class ChangelogTag(object):
+    """ Changelog tag config.
+
+    This is used to map the tags used in commit message details to the actual
+    headers used in the generated changelog.
+
+    Attributes:
+        header (str):   The header used in the generated changelog.
+        tag (str):      The tag used in commit message details.
+
+    """
+    header = attr.ib(type=str)
+    tag = attr.ib(type=str)
+
+
+# Used only in type hint comments
+del Any, Dict, List

@@ -17,10 +17,10 @@
 from __future__ import absolute_import
 
 # stdlib imports
-from typing import List
+from typing import Any, List
 
 # local imports
-from . import root_cli, click, pretend_option
+from . import root_cli, click, pretend_option, verbose_option
 
 
 @root_cli.command('clean')
@@ -68,9 +68,21 @@ def clean(exclude):
     is_flag=True,
     help="Enable quick mode. Defaults will be used wherever possible."
 )
+@click.option(
+    '-b', '--blank',
+    is_flag=True,
+    help="Create a blank configuration without asking any questions."
+)
+@click.option(
+    '-f', '--force',
+    is_flag=True,
+    help="Force creating. This will not ask whether to wipe out existing config"
+         "or cancel in case the config already exists."
+)
 @pretend_option
-def init(quick):
-    # type: (bool) -> None
+@verbose_option
+def init(**args):
+    # type: (**Any) -> None
     """ Create new peltak config file in the current directory.
 
     If ``pelconf.py`` already exists the user will be prompted to confirm
@@ -82,8 +94,8 @@ def init(quick):
 
     """
     from peltak.logic import root
-    root.init(quick)
+    root.init(**args)
 
 
 # Used in docstrings only until we drop python2 support
-del List
+del Any, List

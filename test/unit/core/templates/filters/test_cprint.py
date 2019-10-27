@@ -10,7 +10,7 @@ import pytest
 
 # local imports
 from peltak import testing
-from peltak.extra.scripts.filters import cprint
+from peltak.core.templates.filters import cprint
 
 
 @testing.patch_is_tty(True)

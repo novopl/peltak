@@ -7,19 +7,19 @@ from mock import Mock, patch
 
 # local imports
 from peltak.core import conf
-from peltak.core.context import RunContext
-from peltak.extra.scripts.types import ScriptFiles
-from peltak.extra.scripts.logic import collect_files
+from peltak.core import context
+from peltak.core import fs
+from peltak.core import types
 
 
 @patch('peltak.core.fs.filtered_walk')
 def test_calls_filtered_walk_with_paths_configured(p_filtered_walk):
     # type: (Mock) -> None
-    files = ScriptFiles.from_config({
+    files = types.FilesCollection.from_config({
         'paths': ['path1', 'path2'],
     })
 
-    collect_files(files)
+    fs.collect_files(files)
 
     assert p_filtered_walk.call_count == 2
 
@@ -36,13 +36,13 @@ def test_calls_filtered_walk_with_paths_configured(p_filtered_walk):
 @patch('peltak.core.shell.cprint')
 def test_prints_debug_info_if_verbose_lvl_ge_3(p_cprint):
     # type: (Mock) -> None
-    files = ScriptFiles.from_config({
+    files = types.FilesCollection.from_config({
         'paths': ['path1', 'path2'],
     })
 
-    RunContext().set('verbose', 3)
-    collect_files(files)
-    RunContext().set('verbose', 0)
+    context.RunContext().set('verbose', 3)
+    fs.collect_files(files)
+    context.RunContext().set('verbose', 0)
 
     assert next(
         (True for x in p_cprint.call_args_list if 'only_staged: ' in x[0][0]),

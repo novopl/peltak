@@ -1,0 +1,50 @@
+# peltak configuration file
+# Visit https://novopl.github.io/peltak for more information
+pelconf_version: '1'
+
+build_dir: '.build'
+
+commands:
+  # Extra commands enabled. You can add local project commands, peltak built-ins
+  # or 3rd party packages here.
+  - peltak.extra.git
+  - peltak.extra.gitflow
+
+# This directory will be added to sys.path when the config is loaded.
+# Useful if do not keep the source code in th root directory.
+src_dir: "src"
+version:
+  file: "src/todo_api/__init__.py"
+
+# Scripts to help you manage your project. You can create as many scripts you
+# want.
+scripts:
+#  test:
+#    about: Test your code
+#    command: |
+#      echo "Change me, to run your tests"
+  test:
+    about: Run unit tests
+    root_cli: true
+    command: |
+      pytest -c tools/pytest.ini \
+          --cov-config=tools/coverage.ini \
+          --cov=src/todo_api \
+          --cov-report=term \
+          --cov-report=html:{{ conf.build_dir }}/coverage \
+          .
+
+  lint:
+    about: Run code checks (pylint + mypy)
+    root_cli: true
+    files:
+      paths:
+        - src/todo_api
+        - test/unit
+      include: "*.py"
+      use_gitignore: true
+    command: |
+      set -e
+
+      mypy --ignore-missing-imports {{ files | wrap_paths }}
+      pylint --rcfile tools/pylint.ini {{ files | wrap_paths }}

@@ -7,7 +7,7 @@ import pytest
 
 
 # local imports
-from peltak.extra.scripts.filters import count_flag
+from peltak.core.templates.filters import count_flag
 
 
 @pytest.mark.parametrize('count,flag,expected_value', [

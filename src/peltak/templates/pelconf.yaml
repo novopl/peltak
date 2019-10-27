@@ -1,22 +1,30 @@
 # peltak configuration file
 # Visit https://novopl.github.io/peltak for more information
 pelconf_version: '1'
+
+# You can add custom project commands or 3rd party packages here.
 commands:
-  # Extra commands enabled. You can add local project commands, peltak built-ins
-  # or 3rd party packages here.
+  - peltak.extra.scripts {% if not blank %}
   - peltak.extra.git
   - peltak.extra.gitflow
+  {% if version_file %}
+  - peltak.extra.version
+  {% endif %}
+{% endif %}
+
 
 # This directory will be added to sys.path when the config is loaded.
 # Useful if do not keep the source code in th root directory.
-src_dir: "{src_dir}"
+src_dir: "{{ '.' if blank else src_dir }}"
+{% if version_file %}
 version:
-  file: "{version_file}"
+  file: "{{version_file}}"
+{% endif %}
 
-# Scripts to help you manage your project. You can create as many scripts you
-# want.
+
+{% if not blank %} # Scripts to help you manage your project.
 scripts:
   test:
-    about: Test your code
+    about: Test command
     command: |
-      echo "Change me, to run your tests"
+      echo "Change me, I'm just a test command" {% endif %}

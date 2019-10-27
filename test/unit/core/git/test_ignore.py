@@ -7,6 +7,7 @@ from mock import patch, mock_open
 
 # local imports
 from peltak.core import git
+from peltak.core import util
 
 
 FAKE_GIT_IGNORE = '\n'.join([
@@ -22,11 +23,13 @@ FAKE_GIT_IGNORE = '\n'.join([
     'pattern3',
 ])))
 def test_returns_all_patterns():
+    util.cached_result.clear(git.ignore)
     assert frozenset(git.ignore()) == frozenset((
         'pattern1',
         'pattern2',
         'pattern3'
     ))
+    util.cached_result.clear(git.ignore)
 
 
 @patch('peltak.core.git.open', mock_open(read_data='\n'.join([
@@ -35,11 +38,13 @@ def test_returns_all_patterns():
     '\tpattern3',
 ])))
 def test_strips_whitespace():
+    util.cached_result.clear(git.ignore)
     assert frozenset(git.ignore()) == frozenset((
         'pattern1',
         'pattern2',
         'pattern3'
     ))
+    util.cached_result.clear(git.ignore)
 
 
 @patch('peltak.core.git.open', mock_open(read_data='\n'.join([
@@ -51,11 +56,13 @@ def test_strips_whitespace():
     ''
 ])))
 def test_skips_empty_lines():
+    util.cached_result.clear(git.ignore)
     assert frozenset(git.ignore()) == frozenset((
         'pattern1',
         'pattern2',
         'pattern3'
     ))
+    util.cached_result.clear(git.ignore)
 
 
 @patch('peltak.core.git.open', mock_open(read_data=b'\n'.join([
@@ -67,8 +74,10 @@ def test_skips_empty_lines():
     b''
 ])))
 def test_works_if_parse_data_is_bytes():
+    util.cached_result.clear(git.ignore)
     assert frozenset(git.ignore()) == frozenset((
         'pattern1',
         'pattern2',
         'pattern3'
     ))
+    util.cached_result.clear(git.ignore)

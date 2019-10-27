@@ -26,7 +26,7 @@ def read_version():
 
 requirements = [
     'click~=7.0',
-    'PyYAML>=3.13',
+    'PyYAML>=5.1.2',
     'six>=1.11',
     'attrs>=18.2',
 ]

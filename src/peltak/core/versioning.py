@@ -14,8 +14,8 @@
 # limitations under the License.
 #
 """
-Functionality related to versioning. This makes project version management
-much easier.
+.. module:: peltak.core.versioning
+    :synopsis: Functionality related to project versioning.
 """
 from __future__ import absolute_import
 

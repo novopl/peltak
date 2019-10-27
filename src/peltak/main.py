@@ -30,7 +30,6 @@ __all__ = [
 
 
 Pelconf.init()
-# conf.load()
 
 
 from peltak.commands.root import clean   # noqa

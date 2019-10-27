@@ -4,7 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-peltak = {editable = true,path = "."}
+peltak = {editable = true, path = "."}
 
 [dev-packages]
 coverage = "~=4.5"
