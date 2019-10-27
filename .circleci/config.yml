@@ -122,8 +122,8 @@ jobs:
           command: |
             export PIPENV_VENV_IN_PROJECT=1
 
-            time pipenv run install -d
-            echo '== peltak install -d ====================================='
+            time pipenv sync -d
+            echo '== peltak sync -d ========================================'
             pipenv run peltak --help
             echo '== peltak --help ========================================='
 
