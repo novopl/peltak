@@ -13,21 +13,21 @@ jobs:
           name: Setup peltak
           command: |
             export PIPENV_VENV_IN_PROJECT=1
+            export PIPENV_IGNORE_VIRTUALENVS=1
 
-            which pip
             echo '== which pip ============================================='
-            which python
+            which pip
             echo '== which python =========================================='
-            python --version
+            which python
             echo '== python --version ======================================'
-            whoami
+            python --version
             echo '== whoami ================================================'
-            pipenv lock -d
-            echo '== pipenv lock -d ========================================'
-            pipenv lock -d --requirements | tee requirements.txt
+            whoami
             echo '== pipenv lock -d --requirements ========================='
-            pipenv sync -d
+            pipenv lock -d --requirements | tee requirements.txt
             echo '== pipenv sync -d ========================================'
+            pipenv sync -d
+            echo '=========================================================='
 
       - save_cache:
           key: deps-rev3-{{ checksum "Pipfile.lock" }}
@@ -40,6 +40,7 @@ jobs:
           name: Lint
           command: |
             export PIPENV_VENV_IN_PROJECT=1
+            export PIPENV_IGNORE_VIRTUALENVS=1
 
             pipenv run peltak lint
 
@@ -91,8 +92,9 @@ jobs:
           command: |
             export PIPENV_VENV_IN_PROJECT=1
 
-            pipenv install -d
             echo '== pipenv install -d ====================================='
+            pipenv install -d
+            echo '=========================================================='
 
       - run:
           name: Upload to pypi
@@ -122,10 +124,11 @@ jobs:
           command: |
             export PIPENV_VENV_IN_PROJECT=1
 
-            time pipenv run install -d
-            echo '== peltak install -d ====================================='
-            pipenv run peltak --help
+            echo '== peltak sync -d ========================================'
+            time pipenv sync -d
             echo '== peltak --help ========================================='
+            pipenv run peltak --help
+            echo '=========================================================='
 
       - run:
           name: Build docs
