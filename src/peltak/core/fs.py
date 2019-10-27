@@ -25,7 +25,7 @@ import itertools
 import os
 import re
 from os.path import isdir, join, normpath
-from typing import List, Iterator, Text, Union
+from typing import Iterator, List, Optional, Text, Union
 
 # 3rd party imports
 from six import string_types
@@ -49,7 +49,7 @@ def wrap_paths(paths):
 
 
 def filtered_walk(path, include=None, exclude=None):
-    # type: (str, List[str], List[str]) -> Iterator[str]
+    # type: (str, Optional[List[str]], Optional[List[str]]) -> Iterator[str]
     """ Walk recursively starting at *path* excluding files matching *exclude*
 
     Args:
@@ -82,7 +82,7 @@ def filtered_walk(path, include=None, exclude=None):
         # If we have a whitelist and the pattern matches, yield it. If the
         # pattern didn't match and it's a dir, it will still be recursively
         # processed.
-        if include is None or match_globs(filename, include):
+        if not include or match_globs(filename, include):
             yield filename
 
         if isdir(filename):
@@ -199,4 +199,4 @@ def collect_files(files):
 
 
 # Used in type hint comments only (until we drop python2 support)
-del List, Iterator, Text, Union, types
+del Iterator, List, Optional, Text, Union, types
