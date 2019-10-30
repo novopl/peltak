@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Auto-generate changelog from git history &mdash; peltak 0.26.2 documentation</title>
+  <title>Auto-generate changelog from git history &mdash; peltak 0.26.3 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                0.26.2
+                0.26.3
               </div>
             
           
@@ -222,18 +222,7 @@ Closes #1
 <h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
 <p>The command can be configured through <a class="reference internal" href="../reference/pelconf.html#pelconf-yaml"><span class="std std-ref">pelconf.yaml</span></a>. You can define what tags
 are searched and what is their corresponding header in the changelog. Here is
-an example:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">changelog</span><span class="p">:</span>
-  <span class="nt">tags</span><span class="p">:</span>
-    <span class="p p-Indicator">-</span> <span class="nt">header</span><span class="p">:</span> <span class="s">&#39;New</span><span class="nv"> </span><span class="s">Features&#39;</span>
-      <span class="nt">tag</span><span class="p">:</span> <span class="s">&#39;feature&#39;</span>
-    <span class="p p-Indicator">-</span> <span class="nt">header</span><span class="p">:</span> <span class="s">&#39;Changes</span><span class="nv"> </span><span class="s">since</span><span class="nv"> </span><span class="s">last</span><span class="nv"> </span><span class="s">release&#39;</span>
-      <span class="nt">tag</span><span class="p">:</span> <span class="s">&#39;change&#39;</span>
-    <span class="p p-Indicator">-</span> <span class="nt">header</span><span class="p">:</span> <span class="s">&#39;Bug</span><span class="nv"> </span><span class="s">fixes&#39;</span>
-      <span class="nt">tag</span><span class="p">:</span> <span class="s">&#39;fix&#39;</span>
-</pre></div>
-</div>
-<p>The defaults correspond to the following configuration:</p>
+an example (this is the default configuration):</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">changelog</span><span class="p">:</span>
   <span class="nt">tags</span><span class="p">:</span>
     <span class="p p-Indicator">-</span> <span class="nt">header</span><span class="p">:</span> <span class="s">&#39;Features&#39;</span>
