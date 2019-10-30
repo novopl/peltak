@@ -20,6 +20,18 @@
 
 The improvement over raw git-flow is that you will have to type way less. Most
 of the time all the branch names required will be filled in.
+
+
+Default configuration
+====================
+
+.. code-block:: yaml
+
+    version_file: '/must/be/defined/in/the/project'
+    git:
+        devel_branch:  'develop'
+        master_branch: 'master'
+
 """
 from __future__ import absolute_import, unicode_literals
 
