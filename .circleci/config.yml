@@ -7,7 +7,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: deps-rev3-{{ checksum "Pipfile.lock" }}
+          key: deps-rev1-{{ checksum "Pipfile.lock" }}
 
       - run:
           name: Setup peltak
@@ -30,7 +30,7 @@ jobs:
             echo '=========================================================='
 
       - save_cache:
-          key: deps-rev3-{{ checksum "Pipfile.lock" }}
+          key: deps-rev1-{{ checksum "Pipfile.lock" }}
           paths:
             - /usr/local/bin
             - /usr/local/lib/python3.6/site-packages
@@ -85,7 +85,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: deps-rev3-{{ checksum "Pipfile.lock" }}
+          key: deps-rev1-{{ checksum "Pipfile.lock" }}
 
       - run:
           name: Setup peltak
@@ -117,7 +117,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: deps-rev3-{{ checksum "setup.py" }}
+          key: deps-rev1-{{ checksum "setup.py" }}
 
       - run:
           name: Setup

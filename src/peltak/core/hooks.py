@@ -21,7 +21,7 @@
 Using Hooks
 ###########
 
-Hook allow responding to various events during command execution. Peltak exposes
+Hook allow responding to various events during command execution. peltak exposes
 a set of standard hooks that you can use to react to what's happening. Commands
 (including ones in external packages) can provide their own hooks to be used
 by other commands.

@@ -29,6 +29,7 @@ requirements = [
     'PyYAML>=5.1.2',
     'six>=1.11',
     'attrs>=18.2',
+    'jinja2>=2.10.3,<3.0'
 ]
 if sys.version_info < (3, 5):
     requirements += ['typing~=3.6']

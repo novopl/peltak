@@ -78,20 +78,7 @@ Configuration
 
 The command can be configured through `pelconf.yaml`. You can define what tags
 are searched and what is their corresponding header in the changelog. Here is
-an example:
-
-.. code-block:: yaml
-
-    changelog:
-      tags:
-        - header: 'New Features'
-          tag: 'feature'
-        - header: 'Changes since last release'
-          tag: 'change'
-        - header: 'Bug fixes'
-          tag: 'fix'
-
-The defaults correspond to the following configuration:
+an example (this is the default configuration):
 
 .. code-block:: yaml
 
