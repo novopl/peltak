@@ -120,7 +120,7 @@ def tag_release(message):
 @release_cli.command('finish')
 @pretend_option
 @click.option(
-    '--ff', '--fast-forward',
+    '--ff', '--fast-forward', 'fast_forward',
     is_flag=True,
     help="Try to perform a fast-forward merge. If possible this will not "
          "create a merge commit on the target branch."
