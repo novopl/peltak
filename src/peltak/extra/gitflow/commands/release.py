@@ -119,15 +119,21 @@ def tag_release(message):
 
 @release_cli.command('finish')
 @pretend_option
-def finish():
-    # type: () -> None
+@click.option(
+    '--ff', '--fast-forward',
+    is_flag=True,
+    help="Try to perform a fast-forward merge. If possible this will not "
+         "create a merge commit on the target branch."
+)
+def finish(fast_forward):
+    # type: (bool) -> None
     """ Merge the current release to both develop and master.
 
     This will perform a FF merge with develop if possible and --no-ff merge
     with master and then tag the merge commit with the current version.
     """
     from peltak.extra.gitflow import logic
-    logic.release.finish()
+    logic.release.finish(fast_forward)
 
 
 @release_cli.command('merged')

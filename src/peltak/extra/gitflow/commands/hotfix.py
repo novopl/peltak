@@ -76,11 +76,17 @@ def update():
 
 @hotfix_cli.command('finish')
 @pretend_option
-def finish():
-    # type: () -> None
+@click.option(
+    '--ff', '--fast-forward',
+    is_flag=True,
+    help="Try to perform a fast-forward merge. If possible this will not "
+         "create a merge commit on the target branch."
+)
+def finish(fast_forward):
+    # type: (bool) -> None
     """ Merge current hotfix into master. """
     from peltak.extra.gitflow import logic
-    logic.hotfix.finish()
+    logic.hotfix.finish(fast_forward)
 
 
 @hotfix_cli.command('merged')
