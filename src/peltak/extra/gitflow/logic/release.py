@@ -83,8 +83,8 @@ def start(component, exact):
         hooks.register.call('post-release-start', branch, old_ver, new_ver)
 
 
-def finish():
-    # type: () -> None
+def finish(fast_forward):
+    # type: (bool) -> None
     """ Merge current release into develop and master and tag it. """
     pretend = context.get('pretend', False)
 
@@ -106,12 +106,12 @@ def finish():
     # Merge release into master
     common.git_checkout(develop)
     common.git_pull(develop)
-    common.git_merge(develop, branch.name)
+    common.git_merge(develop, branch.name, no_ff=not fast_forward)
 
-    # Merge hotfix into develop
+    # Merge release into develop
     common.git_checkout(master)
     common.git_pull(master)
-    common.git_merge(master, branch.name, no_ff=True)
+    common.git_merge(master, branch.name, no_ff=not fast_forward)
 
     # Tag the release commit with version number
     tag(changelog())

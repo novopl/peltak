@@ -77,8 +77,8 @@ def rename(name):
     common.git_branch_rename('feature/' + name.strip().replace(' ', '_'))
 
 
-def finish():
-    # type: () -> None
+def finish(fast_forward):
+    # type: (bool) -> None
     """ Merge current feature branch into develop. """
     pretend = context.get('pretend', False)
 
@@ -99,7 +99,7 @@ def finish():
     # Merge feature into develop
     common.git_checkout(develop)
     common.git_pull(develop)
-    common.git_merge(develop, branch.name)
+    common.git_merge(develop, branch.name, no_ff=not fast_forward)
 
     # Cleanup
     common.git_branch_delete(branch.name)

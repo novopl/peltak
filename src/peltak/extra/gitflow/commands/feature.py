@@ -68,11 +68,17 @@ def update():
 
 @feature_cli.command('finish')
 @pretend_option
-def finish():
-    # type: () -> None
+@click.option(
+    '--ff', '--fast-forward',
+    is_flag=True,
+    help="Try to perform a fast-forward merge. If possible this will not "
+         "create a merge commit on the target branch."
+)
+def finish(fast_forward):
+    # type: (bool) -> None
     """ Merge current feature into develop. """
     from peltak.extra.gitflow import logic
-    logic.feature.finish()
+    logic.feature.finish(fast_forward)
 
 
 @feature_cli.command('merged')

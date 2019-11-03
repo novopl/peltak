@@ -77,8 +77,8 @@ def update():
     common.git_merge(branch.name, master)
 
 
-def finish():
-    # type: () -> None
+def finish(fast_forward):
+    # type: (bool) -> None
     """ Merge current feature into develop. """
     pretend = context.get('pretend', False)
 
@@ -100,12 +100,12 @@ def finish():
     # Merge hotfix into master
     common.git_checkout(master)
     common.git_pull(master)
-    common.git_merge(master, branch.name)
+    common.git_merge(master, branch.name, no_ff=not fast_forward)
 
     # Merge hotfix into develop
     common.git_checkout(develop)
     common.git_pull(develop)
-    common.git_merge(develop, branch.name)
+    common.git_merge(develop, branch.name, no_ff=not fast_forward)
 
     # Cleanup
     common.git_branch_delete(branch.name)
