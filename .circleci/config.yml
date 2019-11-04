@@ -37,12 +37,12 @@ jobs:
             - .venv
 
       - run:
-          name: Lint
+          name: Checks
           command: |
             export PIPENV_VENV_IN_PROJECT=1
             export PIPENV_IGNORE_VIRTUALENVS=1
 
-            pipenv run peltak lint
+            pipenv run peltak check
 
       - restore_cache:
           name: Restore tox cache
