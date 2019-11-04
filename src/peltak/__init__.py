@@ -17,5 +17,5 @@
 from __future__ import absolute_import, unicode_literals
 from os.path import abspath, dirname
 
-__version__ = '0.26.5'
+__version__ = '0.26.6'
 PKG_DIR = abspath(dirname(__file__))
