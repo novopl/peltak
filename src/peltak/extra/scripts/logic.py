@@ -50,7 +50,17 @@ def run_script(script, options):
         yaml_str = yaml.dump(template_ctx, default_flow_style=False)
         log.info('with context:\n{}\n'.format(shell.highlight(yaml_str, 'yaml')))
 
-    cmd = templates.Engine().render(script.command, template_ctx)
+    # Command is either specified directly in pelconf.yaml or lives in a
+    # separate file.
+    command = script.command
+    if script.command_file:
+        with open(conf.proj_path(script.command_file)) as fp:
+            command = fp.read()
+
+    if not command:
+        raise ValueError("Scripts must have 'command' or 'command_file' specified.")
+
+    cmd = templates.Engine().render(command, template_ctx)
     retcode = exec_script_command(cmd, pretend)
 
     if verbose:

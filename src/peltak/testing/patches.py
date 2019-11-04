@@ -11,7 +11,7 @@ from os.path import join
 from typing import Any, Dict
 
 # 3rd party imports
-from mock import patch, Mock
+from mock import Mock, mock_open, patch
 from peltak.core.shell import ExecResult
 
 # local imports
@@ -97,6 +97,20 @@ def patch_run(stdout=None, retcode=None, stderr=None, cmd=None):
     ))
 
     return patch('peltak.core.shell.run', p_run)
+
+
+def patch_open(module, read_data='', create=True):
+    # type: (str, str, bool) -> Any
+    """ Patch builtin open() function for the given module
+
+    This is a convenient wrapper around mock_open.
+    """
+    return patch(
+        module + '.open',
+        create=create,
+        new_callable=mock_open,
+        read_data=read_data,
+    )
 
 
 # Used only in type hint comments

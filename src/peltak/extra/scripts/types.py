@@ -92,6 +92,7 @@ class Script(object):
     """
     name = attr.ib(type=str)
     command = attr.ib(type=str)
+    command_file = attr.ib(type=str)
     about = attr.ib(type=str, default='')
     root_cli = attr.ib(type=bool, default=False)
     success_exit_codes = attr.ib(type=List[int], factory=lambda: [0])
@@ -118,13 +119,17 @@ class Script(object):
         if isinstance(success_exit_codes, int):
             success_exit_codes = [success_exit_codes]
 
-        # Cannot have a script without a 'command'.
-        if 'command' not in script_conf:
-            raise ValueError("Missing 'command' for '{}' script".format(name))
+        # Cannot have a script without a 'command' or `command_file`.
+        if 'command' not in script_conf and 'command_file' not in script_conf:
+            raise ValueError(
+                "'command' or 'command_file' must be specified "
+                "for script '{}'".format(name)
+            )
 
         return cls(
             name=name,
-            command=script_conf['command'],
+            command=script_conf.get('command', ''),
+            command_file=script_conf.get('command_file', ''),
             about=script_conf.get('about', fields.about.default),
             root_cli=script_conf.get('root_cli', fields.root_cli.default),
             success_exit_codes=success_exit_codes,
