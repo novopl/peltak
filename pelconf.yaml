@@ -51,6 +51,12 @@ scripts:
       - name: ['--no-sugar']
         is_flag: true
         about: Disable pytest-sugar. Might be useful for CI runs.
+      - name: ['--cov']
+        type: str
+        default: all
+        about: |
+          What type of coverage should we define. Allowed values are:
+          all/core/scripts/extra. Defaults to 'all'.
 
   docs:
     about: Generate sphinx documentation
@@ -75,15 +81,3 @@ scripts:
       only_staged: true
       include: "*.py"
       use_gitignore: true
-
-  cov-core:
-    about: Generate coverage report for peltak.core
-    command_file: ops/scripts/run/cov-core.sh.j2
-
-  cov-extra:
-    about: Generate coverage report for peltak.extra
-    command_file: ops/scripts/run/cov-extra.sh.j2
-
-  cov-scripts:
-    about: Generate coverage report for peltak.extra.scripts
-    command_file: ops/scripts/run/cov-scripts.sh.j2
