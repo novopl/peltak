@@ -80,6 +80,7 @@ class FilesCollection(object):
                 '*' + f for f in git.staged()
                 if not self.include or fs.match_globs(f, self.include)
             ]
+
         else:
             include = list(self.include)
 
