@@ -73,7 +73,7 @@ scripts:
   # run scripts
   check-commit:
     about: Perform all checks on files staged for commit
-    command_file: ops/scripts/run/check-commit.sh.j2
+    command_file: ops/scripts/check.sh.j2
     files:
       paths:
         - src/peltak
