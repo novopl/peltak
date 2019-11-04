@@ -60,3 +60,19 @@ def test_prints_debug_info_if_verbose_lvl_ge_3(p_cprint):
         (True for x in p_cprint.call_args_list if 'blacklist: ' in x[0][0]),
         False
     )
+
+
+@patch('peltak.core.git.staged', Mock(return_value=['file1.txt', 'file2.yml']))
+def test_return_empty_list_if_none_of_the_whitelisted_files_are_staged():
+    """
+    GIVEN files collection has a non-empty whitelist and only_staged == True
+     WHEN no staged files match the whitelist
+     THEN return empty list.
+    """
+    files = types.FilesCollection.from_config({
+        'paths': ['path1'],
+        'include': ['*.py'],
+        'only_staged': True,
+    })
+
+    assert fs.collect_files(files) == []

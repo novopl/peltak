@@ -100,7 +100,7 @@ from .types import Script
 def run_cli():
     # type: () -> None
     """ Run custom scripts """
-    pass
+    pass  # nocov
 
 
 @hooks.register('post-conf-load')

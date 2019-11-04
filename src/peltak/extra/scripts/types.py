@@ -139,8 +139,8 @@ class Script(object):
         @pretend_option
         @click.pass_context
         def script_command(ctx, **options):  # pylint: disable=missing-docstring
-            from .logic import run_script
-            run_script(self, options)
+            from .logic import run_script   # nocov
+            run_script(self, options)   # nocov
 
         script_command.__doc__ = self.about
 
