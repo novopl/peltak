@@ -19,11 +19,15 @@ from . import log
 from . import util
 
 
+DEFAULT_PELCONF_NAME = 'pelconf.yaml'
+
+
 class Pelconf(util.Singleton):
     """ Represents the `pelconf.yaml` file. """
     def __init__(self):
         if not self._singleton_initialized:
             self.values = {}    # type: Dict[str, Any]
+            self.proj_root_path = _find_proj_root()
 
     def from_file(self, path):
         """ Load config values from a YAML file. """
@@ -43,8 +47,10 @@ class Pelconf(util.Singleton):
         ""
         cfg = cls()
         cfg.values = {}
-        if os.path.exists('pelconf.yaml'):
-            cfg.from_file('pelconf.yaml')
+        _proj_path = _find_proj_root()
+
+        if cfg.proj_root_path:
+            cfg.from_file(os.path.join(cfg.proj_root_path, DEFAULT_PELCONF_NAME))
 
         # Add src_dir to sys.paths if it's set. This is only done with YAML
         # configs, py configs have to do this manually.
@@ -143,10 +149,9 @@ class Pelconf(util.Singleton):
 
         # If path represented by path_parts is absolute, do not modify it.
         if not os.path.isabs(parts[0]):
-            proj_path = _find_proj_root()
 
-            if proj_path is not None:
-                parts = [proj_path] + list(parts)
+            if self.proj_root_path is not None:
+                parts = [self.proj_root_path] + list(parts)
 
         return os.path.normpath(os.path.join(*parts))
 
@@ -178,11 +183,10 @@ def _find_proj_root():
     This will look in the current directory and upwards for the pelconf file
     (.yaml or .py)
     """
-    proj_files = frozenset(('pelconf.py', 'pelconf.yaml'))
     curr = os.getcwd()
 
     while curr.startswith('/') and len(curr) > 1:
-        if proj_files & frozenset(os.listdir(curr)):
+        if DEFAULT_PELCONF_NAME in os.listdir(curr):
             return curr
         else:
             curr = os.path.dirname(curr)
