@@ -194,7 +194,7 @@ def collect_files(files):
         log.info("blacklist: <33>\n{}".format('\n'.join(files.blacklist())))
 
     if files.only_staged and files.include and not files.whitelist():
-        # include will be empty if none of the staged filed match include
+        # include will be empty if none of the staged files match include
         # and thus the final fs walk will pick up everything. We want
         # to preserve the include patterns defined in `pelconf.yaml`
         # so nothing is picked if none of the staged files match.

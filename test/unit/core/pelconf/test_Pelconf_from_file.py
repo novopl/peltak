@@ -5,11 +5,9 @@ from __future__ import absolute_import, unicode_literals
 # stdlib imports
 from mock import patch, mock_open, Mock, call
 
-# 3rd party imports
-import yaml
-
 # local imports
 from peltak.core import conf
+from peltak.core import util
 
 
 test_yaml = '''
@@ -44,7 +42,7 @@ test:
         - src/peltak
         - test/unit
 '''
-test_config = yaml.load(test_yaml)
+test_config = util.yaml_load(test_yaml)
 
 
 @patch('peltak.core.pelconf.open', mock_open(read_data=test_yaml))

@@ -7,7 +7,6 @@ from __future__ import absolute_import, unicode_literals
 
 # stdlib imports
 from functools import wraps
-from os.path import join
 from typing import Any, Dict
 
 # 3rd party imports
@@ -35,28 +34,23 @@ def patch_is_tty(value):
     return decorator
 
 
-class patch_proj_root(object):
-    """ Patch project root decorator. """
-    def __init__(self, proj_root, nest_level=0):
-        self.proj_root = proj_root
-        self.nest = nest_level
+def patch_proj_root(path):
+    """ Overwrite the project root path in Pelconf singleton. """
+    from peltak.core import conf
 
-    def __call__(self, fn):
-        if self.proj_root is not None:
-            cwd = join(self.proj_root, *(['fake_dir'] * self.nest))
-            dirs = ['not_pelconf'] * self.nest + ['pelconf.py']
-            dirs = [[d] for d in dirs]
-        else:
-            cwd = join('/', *(['fake_dir'] * self.nest))
-            dirs = [[d] for d in ['not_pelconf'] * self.nest]
-
-        @patch('os.getcwd', Mock(return_value=cwd))
-        @patch('os.listdir', Mock(side_effect=dirs))
+    def decorator(fn):  # pylint: disable=missing-docstring
         @wraps(fn)
-        def wrapper(*args, **kw):       # pylint: disable=missing-docstring
-            return fn(*args, **kw)
+        def wrapper(*args, **kw):  # pylint: disable=missing-docstring
+            current_proj_root = conf.proj_root_path
+            conf.proj_root_path = path
+
+            result = fn(*args, **kw)
+
+            conf.proj_root_path = current_proj_root
+            return result
 
         return wrapper
+    return decorator
 
 
 def patch_pelconf(config):
