@@ -18,7 +18,7 @@ def test_loads_yaml_config_if_exists(p_from_file):
     p_from_file.assert_called_once()
 
 
-@patch('os.path.exists', Mock(return_value=False))
+@patch('peltak.core.pelconf._find_proj_root', Mock(return_value=None))
 @patch('peltak.core.conf.from_file')
 @patch('peltak.core.conf.within_proj_dir', MagicMock())
 def test_does_not_load_yaml_config_if_not_found(p_from_file):

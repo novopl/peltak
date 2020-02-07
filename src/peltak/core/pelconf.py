@@ -27,7 +27,7 @@ class Pelconf(util.Singleton):
     def __init__(self):
         if not self._singleton_initialized:
             self.values = {}    # type: Dict[str, Any]
-            self.proj_root_path = _find_proj_root()
+            self.proj_root_path = None
 
     def from_file(self, path):
         """ Load config values from a YAML file. """
@@ -47,7 +47,7 @@ class Pelconf(util.Singleton):
         ""
         cfg = cls()
         cfg.values = {}
-        _proj_path = _find_proj_root()
+        cfg.proj_root_path = _find_proj_root()
 
         if cfg.proj_root_path:
             cfg.from_file(os.path.join(cfg.proj_root_path, DEFAULT_PELCONF_NAME))
@@ -186,7 +186,8 @@ def _find_proj_root():
     curr = os.getcwd()
 
     while curr.startswith('/') and len(curr) > 1:
-        if DEFAULT_PELCONF_NAME in os.listdir(curr):
+        files = os.listdir(curr)
+        if DEFAULT_PELCONF_NAME in files:
             return curr
         else:
             curr = os.path.dirname(curr)
