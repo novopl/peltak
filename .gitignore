@@ -1,16 +1,8 @@
-################
-# Secret files #
-################
-
-###############
-# local files #
-###############
+# local files
 local
 ___*.py
 
-##############
-# Temp files #
-##############
+# Temp files
 *~
 *sw[po]
 cache.sqlite
@@ -18,16 +10,12 @@ cache.sqlite
 .pytest_cache
 .mypy_cache
 
-################
-# Python files #
-################
+# Python files
 *.py[cod]
 __pycache__
 *.egg-info
 
-###################
-# Generated files #
-###################
+# Generated files
 env
 requirements.txt
 .venv
@@ -38,9 +26,7 @@ docs/html
 docs/doctest
 docs/dev/ref
 
-##############
-# Data files #
-##############
+# Data files
 *.db
 *.sqlite
 *.sqlite3
@@ -53,10 +39,9 @@ docs/dev/ref
 *.bz2
 *.rar
 
-###########################
-# 3rd party configuration #
-###########################
+# 3rd party configuration
 *.kdev4
 .ropeproject
 .idea
 .directory
+.DS_Store

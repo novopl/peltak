@@ -34,7 +34,22 @@ from .types import ChangelogItems, ChangelogTag
 @util.mark_experimental
 def changelog():
     # type: () -> str
-    """ Print change log since last release. """
+    """ Print change log since last release.
+
+    TODO: Add the ability to omit sections of changelog in the output. This way
+        We can use changelog command to automatically generate changelog for
+        public releases without any references to the ticket board but still
+        have the ability to associate tickets with releases. For example we can
+        add a (jira) tag that would be used to pass the JIRA ticket URL and then
+        in the official changelog we just omit the jira section. We can still
+        use the jira section in developer tooling like PRs and internal
+        progress tracking.
+    TODO: Add ability to specify the starting point for the changelog command.
+        Ideally the user could specify the base branch and get the changelog
+        only for his branch. This would make it very easy to use tags in the
+        commit messages in your branch and then use peltak changelog to generate
+        a PR description.
+    """
     # Skip 'v' prefix
     versions = [x for x in git.tags() if versioning.is_valid(x[1:])]
 
@@ -61,8 +76,10 @@ def changelog():
         for header, items in commit_items.items():
             results[header] += items
 
+    version = versioning.current()
     lines = [
-        '<35>v{}<0>'.format(versioning.current()),
+        '<35>v{}<0>'.format(version),
+        '<32>{}<0>'.format('=' * (len(version) + 1)),
         '',
     ]
     for header, items in results.items():

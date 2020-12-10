@@ -44,7 +44,8 @@ class Pelconf(util.Singleton):
 
     @classmethod
     def init(cls):
-        ""
+        """ Load pelconf and all commands specified in it. """
+
         cfg = cls()
         cfg.values = {}
         cfg.proj_root_path = _find_proj_root()
@@ -139,7 +140,7 @@ class Pelconf(util.Singleton):
         """ Return absolute path to the repo dir (root project directory).
 
         Args:
-            path (str):
+            *path_parts (str):
                 The path relative to the project root (pelconf.yaml).
 
         Returns:
