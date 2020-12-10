@@ -93,7 +93,7 @@ class HooksRegister(object):
         Args:
             name:
                 Then name of the hook.
-            *args, \**kw:
+            *args, **kw:
                 Arguments and keyword arguments that should be passed to the
                 hook handlers.
         """

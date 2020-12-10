@@ -32,7 +32,7 @@ from peltak.core import log
 from peltak.core import shell
 
 
-RE_INVALID_CHARS = re.compile('[\-\[\]\s(),.]+')
+RE_INVALID_CHARS = re.compile(r'[\-\[\]\s(),.]+')
 
 
 def assert_branch_type(branch_type):

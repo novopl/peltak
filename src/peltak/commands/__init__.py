@@ -117,7 +117,7 @@ def _pretend_msg():
         # We do empty format() here so that it forces unicode errors here
         # and not when it's used/printed.
         return '{}'.format(util.remove_indent(msg))
-    except:
+    except Exception:
         return util.remove_indent('''
         +-----------------------------------------------------------------+
         |                     Running in pretend mode.                    |

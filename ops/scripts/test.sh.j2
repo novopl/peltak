@@ -3,10 +3,10 @@ set -e
 
 {# --cov        source dir                  out dir #}
 {% set cov_config = {
-  'all':      ('src/peltak',                '/coverage'),
-  'core':     ('src/peltak/core',           '/coverage/core'),
-  'extra':    ('src/peltak/extra',          '/coverage/extra'),
-  'scripts':  ('src/peltak/extra/scripts',  '/coverage/extra/scripts'),
+  'all':      ('src/peltak',                '.build/coverage'),
+  'core':     ('src/peltak/core',           '.build/coverage/core'),
+  'extra':    ('src/peltak/extra',          '.build/coverage/extra'),
+  'scripts':  ('src/peltak/extra/scripts',  '.build/coverage/extra/scripts'),
 }.get(opts.cov, ('', ''))  %}
 
 {% if not cov_config %}

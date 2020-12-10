@@ -54,7 +54,7 @@ def start(component, exact):
         out = shell.run('git status --porcelain', capture=True).stdout
         lines = out.split(os.linesep)
         has_changes = any(
-            not l.startswith('??') for l in lines if l.strip()
+            not line.startswith('??') for line in lines if line.strip()
         )
 
     if has_changes:

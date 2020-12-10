@@ -420,7 +420,7 @@ def ignore():
             continue
 
         with open(ignore_file) as fp:
-            parsed = (parse_line(l) for l in fp.readlines())
+            parsed = (parse_line(line) for line in fp.readlines())
             result += [x for x in parsed if x]
 
     return result

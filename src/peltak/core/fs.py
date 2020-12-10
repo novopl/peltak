@@ -116,7 +116,7 @@ def match_globs(path, patterns):
                 return True
 
         elif fnmatch.fnmatch(path, pattern):
-                return True
+            return True
 
     return False
 

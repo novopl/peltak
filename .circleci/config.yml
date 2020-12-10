@@ -52,8 +52,7 @@ jobs:
           name: Test
           command: |
             export PIPENV_VENV_IN_PROJECT=1
-
-            pipenv run tox
+            pipenv run peltak test
 
       - save_cache:
           name: Save tox cache

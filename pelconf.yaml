@@ -18,7 +18,6 @@ version:
 # Configure what gets deleted when running `peltak clean`
 clean:
   exclude:
-    - ".tox"
     - ".venv"
 
 src_path: 'src/peltak'
