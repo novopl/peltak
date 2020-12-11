@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """ A place to store all patch functions specific to peltak.
 
 Easier to track them down, when you need one.

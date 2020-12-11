@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 .. module:: peltak.core.templates.filters
     :synopsis: Built-in script template filters

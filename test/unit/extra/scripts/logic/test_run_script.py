@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # pylint: disable=missing-docstring
 from typing import Any, Dict
 from unittest.mock import Mock, patch

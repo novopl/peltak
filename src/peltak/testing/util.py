@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """ Various utilities to help write tests for peltak. """
 import os
 import shutil

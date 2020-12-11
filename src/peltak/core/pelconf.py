@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 .. module:: peltak.core.pelconf
     :synopsis: `pelconf.yaml` handling.

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # pylint: disable=missing-docstring
 from unittest.mock import patch, MagicMock, Mock, mock_open
 

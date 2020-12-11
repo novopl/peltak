@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-# Copyright 2017-2018 Mateusz Klos
+# Copyright 2017-2020 Mateusz Klos
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -110,10 +109,11 @@ def _pretend_msg():
         msg = msg.decode('utf-8')
 
     try:
-        # We do empty format() here so that it forces unicode errors here
+        # We do empty format() so that it forces unicode errors to happen here
         # and not when it's used/printed.
         return '{}'.format(util.remove_indent(msg))
     except Exception:
+        # Pretty printing the frame is not supported - fallback to raw ASCII.
         return util.remove_indent('''
         +-----------------------------------------------------------------+
         |                     Running in pretend mode.                    |

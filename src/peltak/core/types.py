@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """ Types and classes used across **peltak** codebase. """
 from typing import Any, Callable, Dict, List
 

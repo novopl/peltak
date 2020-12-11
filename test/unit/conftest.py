@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """ pytest setup """
 from os.path import dirname, join, relpath
 
