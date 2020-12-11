@@ -54,8 +54,7 @@ class Engine(util.Singleton):
             self.env = self._make_env()
             pass
 
-    def render(self, template_str, template_ctx=None):
-        # type: (str, Dict[str, Any]) -> str
+    def render(self, template_str: str, template_ctx: Dict[str, Any] = None) -> str:
         """ Render a script template using the given context.
 
         Examples:
@@ -68,8 +67,7 @@ class Engine(util.Singleton):
         """
         return self.env.from_string(template_str).render(template_ctx)
 
-    def render_file(self, template_file, template_ctx=None):
-        # type: (str, Dict[str, Any]) -> str
+    def render_file(self, template_file: str, template_ctx:  Dict[str, Any] = None):
         """ Render a template file from src/peltak/templates directory.
 
         All built-in peltak templates should go to the ``src/peltak/templates``
@@ -116,8 +114,7 @@ class Engine(util.Singleton):
         template = self.env.get_template(template_file)
         return template.render(template_ctx)
 
-    def _make_env(self):
-        # type: () -> jinja2.Environment
+    def _make_env(self) -> jinja2.Environment:
         """ Initialize jinja2 env. """
         env = jinja2.Environment(
             loader=jinja2.PackageLoader('peltak', 'templates'),
@@ -131,7 +128,3 @@ class Engine(util.Singleton):
         env.filters['wrap_paths'] = filters.wrap_paths
 
         return env
-
-
-# Used only in type hint comments.
-del Dict, Any

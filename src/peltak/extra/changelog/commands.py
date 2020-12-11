@@ -27,8 +27,7 @@ from peltak.commands import root_cli, click
 
 @root_cli.group('changelog', invoke_without_command=True)
 @click.pass_context
-def changelog_cli(ctx):
-    # type: (click.Context) -> None
+def changelog_cli(ctx: click.Context) -> None:
     """ Generate changelog from commit messages. """
     if ctx.invoked_subcommand:
         return

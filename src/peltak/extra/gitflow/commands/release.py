@@ -24,7 +24,6 @@ from peltak.commands import root_cli, click, pretend_option
 
 @root_cli.group('release', invoke_without_command=True)
 def release_cli():
-    # type: () -> None
     """ Commands that implement the release git flow.
 
     **Example Config**::
@@ -62,8 +61,7 @@ def release_cli():
     help="Set the newly released version to be exactly as specified."
 )
 @pretend_option
-def start(component, exact):
-    # type: (str, str) -> None
+def start(component: str, exact: str):
     """ Create a new release.
 
     It will bump the current version number and create a release branch called
@@ -95,8 +93,7 @@ def start(component, exact):
     help=("Tag message. Will replace the default 'Mark vX.X release'")
 )
 @pretend_option
-def tag_release(message):
-    # type: (str) -> None
+def tag_release(message: str):
     """ Tag the current commit with as the current version release.
 
     This should be the same commit as the one that's uploaded as the release
@@ -125,8 +122,7 @@ def tag_release(message):
     help="Try to perform a fast-forward merge. If possible this will not "
          "create a merge commit on the target branch."
 )
-def finish(fast_forward):
-    # type: (bool) -> None
+def finish(fast_forward: bool):
     """ Merge the current release to both develop and master.
 
     This will perform a FF merge with develop if possible and --no-ff merge
@@ -139,7 +135,6 @@ def finish(fast_forward):
 @release_cli.command('merged')
 @pretend_option
 def merged():
-    # type: () -> None
     """ Checkout the target branch, pull and delete the merged branch.
 
     This is to ease the repetitive cleanup of each merged branch.

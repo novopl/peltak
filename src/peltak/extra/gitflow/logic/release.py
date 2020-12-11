@@ -32,8 +32,7 @@ from peltak.extra.changelog.logic import changelog
 from . import common
 
 
-def start(component, exact):
-    # type: (str, str) -> None
+def start(component: str, exact: str):
     """ Create a new release branch.
 
     Args:
@@ -83,8 +82,7 @@ def start(component, exact):
         hooks.register.call('post-release-start', branch, old_ver, new_ver)
 
 
-def finish(fast_forward):
-    # type: (bool) -> None
+def finish(fast_forward: bool):
     """ Merge current release into develop and master and tag it. """
     pretend = context.get('pretend', False)
 
@@ -126,7 +124,6 @@ def finish(fast_forward):
 
 
 def merged():
-    # type: () -> None
     """ Cleanup the release branch after it was remotely merged to master. """
     develop = conf.get('git.devel_branch', 'develop')
     master = conf.get('git.master_branch', 'master')
@@ -153,8 +150,7 @@ def merged():
     hooks.register.call('post-release-merged', branch)
 
 
-def tag(message):
-    # type: (str) -> None
+def tag(message: str):
     """ Tag the current commit with the current version. """
     release_ver = versioning.current()
     message = message or 'v{} release'.format(release_ver)

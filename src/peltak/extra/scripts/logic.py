@@ -18,14 +18,12 @@
 # stdlib imports
 import subprocess
 import sys
-from typing import Any, Dict, List
 
 # 3rd party imports
 import attr
 import yaml
 
 # local imports
-from peltak.commands import click
 from peltak.core import conf
 from peltak.core import log
 from peltak.core import fs
@@ -35,8 +33,7 @@ from peltak.core import templates
 from .types import CliOptions, Script
 
 
-def run_script(script, options):
-    # type: (Script, CliOptions) -> None
+def run_script(script: Script, options: CliOptions) -> None:
     """ Run the script with the given (command line) options. """
     template_ctx = build_template_context(script, options)
     verbose = RunContext().get('verbose')
@@ -70,8 +67,7 @@ def run_script(script, options):
         sys.exit(retcode)
 
 
-def exec_script_command(cmd, pretend):
-    # type: (str, bool) -> int
+def exec_script_command(cmd: str, pretend: bool) -> int:
     """ This will execute the already compiled script command.
 
     This function serves the purpose of encapsulating the low level code of
@@ -123,7 +119,3 @@ def build_template_context(script, options):
         template_ctx['files'] = fs.collect_files(script.files)
 
     return template_ctx
-
-
-# Used only in type hint comments.
-del Dict, Any, List, click, CliOptions, Script

@@ -36,8 +36,7 @@ AnyFn = Callable[..., Any]
 
 @click.group()
 @click.version_option(version=peltak.__version__, message='%(version)s')
-def root_cli():
-    # type: () -> None
+def root_cli() -> None:
     """
 
     To get help for a specific command:
@@ -56,8 +55,7 @@ def root_cli():
     pass
 
 
-def pretend_option(fn):
-    # type: (AnyFn) -> AnyFn
+def pretend_option(fn: AnyFn) -> AnyFn:
     """ Decorator to add a --pretend option to any click command.
 
     The value won't be passed down to the command, but rather handled in the
@@ -75,8 +73,11 @@ def pretend_option(fn):
     This value will be accessible from anywhere in the code.
     """
 
-    def set_pretend(ctx, param, value):     # pylint: disable=missing-docstring
-        # type: (click.Context, Union[click.Option, click.Parameter], Any) -> Any
+    def set_pretend(     # pylint: disable=missing-docstring
+        ctx: click.Context,
+        param: Union[click.Option, click.Parameter],
+        value: Any
+    ) -> Any:
         from peltak.core import context
         from peltak.core import shell
 
@@ -147,8 +148,11 @@ def verbose_option(fn):
     This value will be accessible from anywhere in the code.
     """
 
-    def set_verbose(ctx, param, value):     # pylint: disable=missing-docstring
-        # type: (click.Context, Union[click.Option, click.Parameter], Any) -> Any
+    def set_verbose(    # pylint: disable=missing-docstring
+        ctx: click.Context,
+        param: Union[click.Option, click.Parameter],
+        value: Any
+    ) -> Any:
         from peltak.core import context
         context.set('verbose', value or 0)
 

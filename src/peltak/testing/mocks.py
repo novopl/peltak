@@ -6,14 +6,18 @@ Easier to track them down, when you need one.
 from __future__ import absolute_import, unicode_literals
 
 # stdlib imports
-from typing import Any, Dict, List, Union
+from typing import Optional
 
 # local imports
 from peltak.core.shell import ExecResult
 
 
-def mock_result(stdout=None, retcode=None, stderr=None, cmd=None):
-    # type: (str, int, str, str) -> ExecResult
+def mock_result(
+    stdout: Optional[str] = None,
+    retcode: Optional[int] = None,
+    stderr: Optional[str] = None,
+    cmd: Optional[str] = None
+) -> ExecResult:
     """ Helper for creating ExecResults for tests.
 
     Args:
@@ -33,7 +37,3 @@ def mock_result(stdout=None, retcode=None, stderr=None, cmd=None):
         retcode == 0,
         retcode != 0,
     )
-
-
-# Used only in type hint comments
-del Any, Dict, List, Union

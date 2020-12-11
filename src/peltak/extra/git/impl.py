@@ -32,8 +32,7 @@ from peltak.core import shell
 from peltak.core import util
 
 
-def add_hooks(pre_commit, pre_push):
-    # type: (str, str) -> None
+def add_hooks(pre_commit: str, pre_push: str):
     """ Add git hooks for commit and push to run linting and tests. """
 
     # Detect virtualenv the hooks should use
@@ -91,7 +90,6 @@ def add_hooks(pre_commit, pre_push):
 
 
 def push():
-    # type: () -> None
     """ Push the current branch to origin.
 
     This is an equivalent of ``git push -u origin <branch>``. Mainly useful for

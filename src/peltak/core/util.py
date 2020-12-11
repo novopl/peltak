@@ -86,8 +86,7 @@ class timed_block(object):  # noqa
         self.elapsed_ms = round(self.elapsed * 1000, 3)
 
 
-def mark_experimental(fn):
-    # type: (AnyFunction) -> AnyFunction
+def mark_experimental(fn: AnyFunction) -> AnyFunction:
     """ Mark function as experimental.
 
     Args:
@@ -107,8 +106,7 @@ def mark_experimental(fn):
     return wrapper
 
 
-def mark_deprecated(replaced_by):
-    # type: (Text) -> Decorator
+def mark_deprecated(replaced_by: str) -> Decorator:
     """ Mark command as deprecated.
 
     Args:
@@ -162,8 +160,7 @@ class cached_result(object):
     def __init__(self):
         pass
 
-    def __call__(self, fn):
-        # type: (AnyFunction) -> AnyFunction
+    def __call__(self, fn: AnyFunction) -> AnyFunction:
         """ Apply the decorator to the given function.
 
         Args:
@@ -183,8 +180,7 @@ class cached_result(object):
         return wrapper
 
     @classmethod
-    def clear(cls, fn):
-        # type: (AnyFunction) -> None
+    def clear(cls, fn: AnyFunction):
         """ Clear result cache on the given function.
 
         If the function has no cached result, this call will do nothing.
@@ -197,8 +193,7 @@ class cached_result(object):
             delattr(fn, cls.CACHE_VAR)
 
 
-def in_batches(iterable, batch_size):
-    # type: (Iterable[Any], int) -> Iterator[List[Any]]
+def in_batches(iterable: Iterable[Any], batch_size: int) -> Iterator[List[Any]]:
     """ Split the given iterable into batches.
 
     Args:
@@ -231,8 +226,7 @@ def in_batches(iterable, batch_size):
         yield items[i:min(i + batch_size, size)]
 
 
-def yaml_load(str_or_fp):
-    # type: (TextOrStream) -> YamlData
+def yaml_load(str_or_fp: TextOrStream) -> YamlData:
     """ Load data from YAML string or file-like object.
 
     Args:
@@ -244,8 +238,7 @@ def yaml_load(str_or_fp):
     return yaml.load(str_or_fp, Loader=Loader)
 
 
-def yaml_dump(data, stream=None):
-    # type: (YamlData, Optional[Any]) -> Text
+def yaml_dump(data: YamlData, stream: Optional[Any] = None) -> Text:
     """ Dump data to a YAML string/file.
 
     Args:
@@ -266,8 +259,7 @@ def yaml_dump(data, stream=None):
     )
 
 
-def remove_indent(text):
-    # type: (Text) -> Text
+def remove_indent(text: str) -> str:
     """ Remove indentation from the text.
 
     All indentation will be removed no matter if it's consistent across the
@@ -288,7 +280,7 @@ class Singleton(object):
     Inheriting from this class will make your class a singleton. It should have
     an initializer that takes no arguments.
     """
-    instances = {}  # type: Dict[str, Any]
+    instances: Dict[str, Any] = {}
 
     def __new__(cls, *args, **kw):
         # Could upgrade this to thread local storage
@@ -302,7 +294,3 @@ class Singleton(object):
             Singleton.instances[cls.__name__] = instance
 
         return instance
-
-
-# Used in type hint comments only (until we drop python2 support)
-del Any, Dict, Iterable, List, Text, TextIO, Union, Iterator, Optional

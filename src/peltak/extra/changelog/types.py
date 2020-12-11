@@ -41,7 +41,3 @@ class ChangelogTag(object):
     """
     header = attr.ib(type=str)
     tag = attr.ib(type=str)
-
-
-# Used only in type hint comments
-del Any, Dict, List

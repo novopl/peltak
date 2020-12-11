@@ -36,8 +36,7 @@ from peltak.core import util
 from peltak.core import templates
 
 
-def clean(exclude):
-    # type: (List[str]) -> None
+def clean(exclude: List[str]):
     """ Remove all unnecessary files.
 
     Args:
@@ -97,8 +96,7 @@ class InitForm(cliform.Form):
     )
 
 
-def init(quick, blank, force):
-    # type: (bool, bool, bool) -> None
+def init(quick: bool, blank: bool, force: bool):
     """ Create an empty pelconf.yaml from template """
     config_file = 'pelconf.yaml'
     prompt = "-- <35>{} <32>already exists. Wipe it?<0>".format(config_file)
@@ -121,7 +119,3 @@ def init(quick, blank, force):
     if context.get('verbose') > 0:
         for line in shell.highlight(confg_content, 'yaml').splitlines():
             log.info('  {}', line)
-
-
-# Used in docstrings only until we drop python2 support
-del List

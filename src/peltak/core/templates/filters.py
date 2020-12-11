@@ -28,7 +28,7 @@ Filters provided by peltak
 from __future__ import absolute_import, unicode_literals
 
 # stdlib imports
-from typing import Any
+from typing import Any, List
 
 # 3rd party imports
 from six import string_types
@@ -38,8 +38,7 @@ from peltak.core import fs
 from peltak.core import shell
 
 
-def header(title):
-    # type: (Any) -> str
+def header(title: Any) -> str:
     """ Converts a given title into a pretty header with colors.
 
     **Usage:**
@@ -64,8 +63,7 @@ def header(title):
                      bar='=' * remaining)
 
 
-def count_flag(count, flag):
-    # type: (int, str) -> str
+def count_flag(count: int, flag: str) -> str:
     """ Returns the given flag letter as a count flag.
 
     **Usage:**
@@ -97,7 +95,7 @@ def count_flag(count, flag):
     return '-' + flag * count if count else ''
 
 
-def cprint(msg, *args, **kw):
+def cprint(msg: str, *args: Any, **kw: Any):
     """ Will convert the given message to an echo statement with color opcodes.
 
     This supports the same syntax as `peltak.core.shell.fmt` (used internally here).
@@ -146,7 +144,7 @@ def cprint(msg, *args, **kw):
     return shell.fmt('echo "{}<0>"', str(msg).format(*args, **kw))
 
 
-def wrap_paths(paths):
+def wrap_paths(paths: List[str]):
     """ Returns a string with all items wrapped in quotes and separated by space.
 
     **Usage:**
@@ -162,7 +160,3 @@ def wrap_paths(paths):
 
     """
     return fs.wrap_paths(paths)
-
-
-# Used only in type hint comments
-del Any

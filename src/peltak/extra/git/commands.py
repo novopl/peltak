@@ -26,7 +26,6 @@ from peltak.commands import click, root_cli, pretend_option
 
 @root_cli.group('git')
 def git_cli():
-    # type: () -> None
     """ Git related commands """
     pass
 
@@ -51,8 +50,7 @@ def git_cli():
         'will fail.'
     )
 )
-def add_hooks(pre_commit, pre_push):
-    # type: (str, str) -> None
+def add_hooks(pre_commit: str, pre_push: str):
     """ Setup project git hooks.
 
     This will run all the checks before pushing to avoid waiting for the CI
@@ -70,7 +68,6 @@ def add_hooks(pre_commit, pre_push):
 @git_cli.command('push')
 @pretend_option
 def push():
-    # type: () -> None
     """ Push the current branch and set to track remote.
 
     Example::

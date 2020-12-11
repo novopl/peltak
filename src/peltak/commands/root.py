@@ -31,8 +31,7 @@ from . import root_cli, click, pretend_option, verbose_option
     help='Comma separated list of paths to exclude from deletion'
 )
 @pretend_option
-def clean(exclude):
-    # type: (List[str]) -> None
+def clean(exclude: List[str]) -> None:
     """ Remove temporary files like python cache, swap files, etc.
 
     You can configure the list of patterns with clean_patterns config variable.
@@ -81,8 +80,7 @@ def clean(exclude):
 )
 @pretend_option
 @verbose_option
-def init(**args):
-    # type: (**Any) -> None
+def init(**args: Any) -> None:
     """ Create new peltak config file in the current directory.
 
     If ``pelconf.py`` already exists the user will be prompted to confirm
@@ -95,7 +93,3 @@ def init(**args):
     """
     from peltak.logic import root
     root.init(**args)
-
-
-# Used in docstrings only until we drop python2 support
-del Any, List

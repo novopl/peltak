@@ -47,8 +47,7 @@ RE_VERSION = re.compile(
 )
 
 
-def is_valid(version_str):
-    # type: (str) -> bool
+def is_valid(version_str: str) -> bool:
     """ Check if the given string is a version string
 
     Args:
@@ -61,8 +60,7 @@ def is_valid(version_str):
     return bool(version_str and RE_VERSION.match(version_str))
 
 
-def current():
-    # type: () -> str
+def current() -> str:
     """ Return the project's current version.
 
     Returns:
@@ -73,8 +71,7 @@ def current():
     return storage.read() or ''
 
 
-def write(version):
-    # type: (str) -> None
+def write(version: str) -> None:
     """ Write the given version to the VERSION_FILE """
     if not is_valid(version):
         raise ValueError("Invalid version: '{}'".format(version))
@@ -83,8 +80,7 @@ def write(version):
     storage.write(version)
 
 
-def bump(component='patch', exact=None):
-    # type: (str, str) -> Tuple[str, str]
+def bump(component: str = 'patch', exact: Optional[str] = None) -> Tuple[str, str]:
     """ Bump the given version component.
 
     Args:
@@ -113,8 +109,7 @@ def bump(component='patch', exact=None):
     return old_ver, new_ver
 
 
-def _bump_version(version, component='patch'):
-    # type: (str, str) -> str
+def _bump_version(version: str, component: str = 'patch') -> str:
     """ Bump the given version component.
 
     Args:
@@ -172,8 +167,7 @@ class VersionStorage(object):
 
     @see `PyVersionStorage`, `RawVersionStorage`, `NodeVersionStorage`
     """
-    def __init__(self, version_file):
-        # type: (str) -> None
+    def __init__(self, version_file: str) -> None:
         self.version_file = version_file
 
         if not exists(version_file):
@@ -181,8 +175,7 @@ class VersionStorage(object):
                 version_file
             ))
 
-    def read(self):
-        # type: () -> Optional[str]
+    def read(self) -> Optional[str]:
         """ Read the current project version.
 
         All subclasses must implement this method.
@@ -195,8 +188,7 @@ class VersionStorage(object):
             self.__class__.__name__
         ))
 
-    def write(self, version):
-        # type: (str) -> None
+    def write(self, version: str):
         """ Save the given version as the current project version.
 
         All subclasses must implement this method.
@@ -212,8 +204,7 @@ class VersionStorage(object):
 
 class PyVersionStorage(VersionStorage):
     """ Store project version in one of the py module/package files. """
-    def read(self):
-        # type: () -> Optional[str]
+    def read(self) -> Optional[str]:
         """ Read the project version from .py file.
 
         This will regex search in the file for a
@@ -227,8 +218,7 @@ class PyVersionStorage(VersionStorage):
             else:
                 return m.group('version')
 
-    def write(self, version):
-        # type: (str) -> None
+    def write(self, version: str):
         """ Write the project version to .py file.
 
         This will regex search in the file for a
@@ -245,8 +235,7 @@ class PyVersionStorage(VersionStorage):
 
 class RawVersionStorage(VersionStorage):
     """ Store project version as a simple value in a text file. """
-    def read(self):
-        # type: () -> Optional[str]
+    def read(self) -> Optional[str]:
         """ Read the project version from .py file.
 
         This will regex search in the file for a
@@ -260,21 +249,18 @@ class RawVersionStorage(VersionStorage):
 
             return None
 
-    def write(self, version):
-        # type: (str) -> None
+    def write(self, version: str):
         fs.write_file(self.version_file, version)
 
 
 class NodeVersionStorage(VersionStorage):
     """ Store project version in package.json. """
-    def read(self):
-        # type: () -> Optional[str]
+    def read(self) -> Optional[str]:
         with open(self.version_file) as fp:
             config = json.load(fp)
             return config.get('version')
 
-    def write(self, version):
-        # type: (str) -> None
+    def write(self, version: str):
         with open(self.version_file, 'r') as fp:
             config = json.load(fp, object_pairs_hook=OrderedDict)
 
@@ -283,8 +269,7 @@ class NodeVersionStorage(VersionStorage):
         fs.write_file(self.version_file, json.dumps(config, indent=2) + '\n')
 
 
-def get_version_storage():
-    # type: () -> VersionStorage
+def get_version_storage() -> VersionStorage:
     """ Get version storage for the given version file.
 
     The storage engine used depends on the extension of the *version.file* conf
@@ -297,7 +282,3 @@ def get_version_storage():
         return NodeVersionStorage(version_file)
     else:
         return RawVersionStorage(version_file)
-
-
-# Used in docstrings only until we drop python2 support
-del Optional, Tuple

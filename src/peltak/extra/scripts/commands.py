@@ -98,7 +98,6 @@ from .types import Script
 
 @root_cli.group('run')
 def run_cli():
-    # type: () -> None
     """ Run custom scripts """
     pass  # nocov
 

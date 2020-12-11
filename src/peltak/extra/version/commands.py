@@ -21,6 +21,7 @@
 Commands for managing the managed project version.
 """
 from __future__ import absolute_import
+from typing import Optional
 
 from peltak.commands import root_cli, click, pretend_option
 
@@ -28,8 +29,7 @@ from peltak.commands import root_cli, click, pretend_option
 @root_cli.group('version', invoke_without_command=True)
 @click.option('--porcelain', is_flag=True)
 @click.pass_context
-def version_cli(ctx, porcelain):
-    # type: (click.Context, bool) -> None
+def version_cli(ctx: click.Context, porcelain: bool) -> None:
     """ Show project version. Has sub commands.
 
     For this command to work you must specify where the project version is
@@ -80,8 +80,7 @@ def version_cli(ctx, porcelain):
 )
 @click.option('--exact', type=str)
 @pretend_option
-def bump_version(component='patch', exact=None):
-    # type: (str, str) -> None
+def bump_version(component: str = 'patch', exact: Optional[str] = None):
     """ Bump current project version without committing anything.
 
     No tags are created either.

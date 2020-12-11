@@ -26,8 +26,7 @@ from typing import Any
 from . import shell
 
 
-def info(msg, *args, **kw):
-    # type: (str, *Any, **Any) -> None
+def info(msg: str, *args: Any, **kw: Any) -> None:
     """ Print sys message to stdout.
 
     System messages should inform about the flow of the script. This should
@@ -39,8 +38,7 @@ def info(msg, *args, **kw):
     shell.cprint('-- <32>{}<0>'.format(msg))
 
 
-def err(msg, *args, **kw):
-    # type: (str, *Any, **Any) -> None
+def err(msg: str, *args: Any, **kw: Any) -> None:
     """ Per step status messages
 
     Use this locally in a command definition to highlight more important
@@ -50,7 +48,3 @@ def err(msg, *args, **kw):
         msg = msg.format(*args, **kw)
 
     shell.cprint('-- <31>{}<0>'.format(msg))
-
-
-# Used in docstrings only until we drop python2 support
-del Any
