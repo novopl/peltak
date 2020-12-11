@@ -7,9 +7,10 @@ set -e
   'core':     ('src/peltak/core',           '.build/coverage/core'),
   'extra':    ('src/peltak/extra',          '.build/coverage/extra'),
   'scripts':  ('src/peltak/extra/scripts',  '.build/coverage/extra/scripts'),
-}.get(opts.cov, ('', ''))  %}
+}.get(opts.cov, ('', ''))
+%}
 
-{% if not cov_config %}
+{% if not cov_config[0] and not cov_config[1] %}
   {{ "<31>Invalid <35>--cov <31>option value: <33>{}" | cprint(opts.cov) }}
   exit 1
 {%  endif %}
@@ -23,8 +24,7 @@ pytest \
     --cov={{ cov_path }} \
     --cov-report=term \
     --cov-report=html:{{ cov_html_path }} \
-    {{ ctx.verbose | count_flag('v') }} \
-    {{ '-p no:sugar' if opts.no_sugar else '' }} \
+    {{ ctx.verbose | count_flag('v') }} {{ '\n-p no:sugar' if opts.no_sugar else '' }} \
     test/unit
 
 {% set cov_path = proj_path(cov_html_path, 'index.html') %}

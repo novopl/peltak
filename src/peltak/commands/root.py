@@ -14,12 +14,8 @@
 # limitations under the License.
 #
 """ Root level CLI commands. """
-from __future__ import absolute_import
-
-# stdlib imports
 from typing import Any, List
 
-# local imports
 from . import root_cli, click, pretend_option, verbose_option
 
 

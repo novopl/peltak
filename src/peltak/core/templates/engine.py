@@ -15,15 +15,10 @@
 # limitations under the License.
 #
 """ Engine wraps the jinja2 environment and exposes it to the rest of the code. """
-from __future__ import absolute_import, unicode_literals
-
-# stdlib imports
 from typing import Any, Dict
 
-# 3rd party imports
 import jinja2
 
-# local imports
 from peltak.core import util
 from . import filters
 

@@ -20,7 +20,6 @@
 
 Commands for managing the managed project version.
 """
-from __future__ import absolute_import
 from typing import Optional
 
 from peltak.commands import root_cli, click, pretend_option

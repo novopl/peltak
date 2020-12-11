@@ -17,9 +17,6 @@
 .. module:: peltak.core.versioning
     :synopsis: Functionality related to project versioning.
 """
-from __future__ import absolute_import
-
-# stdlib imports
 import json
 import re
 from collections import OrderedDict

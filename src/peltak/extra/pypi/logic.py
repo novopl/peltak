@@ -14,14 +14,10 @@
 # limitations under the License.
 #
 """ pypi related commands implementation. """
-from __future__ import absolute_import, unicode_literals
-
-# stdlib imports
 import sys
 from os.path import join
 from typing import Optional
 
-# local imports
 from peltak.core import conf
 from peltak.core import fs
 from peltak.core import log

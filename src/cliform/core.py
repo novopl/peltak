@@ -14,16 +14,11 @@
 # limitations under the License.
 #
 """ Simple command line form/wizard implementation. """
-from __future__ import absolute_import, unicode_literals
-
-# stdlib imports
 from typing import Any, Callable, Dict, Tuple
 
-# 3rd party imports
 import click
 from six import with_metaclass
 
-# local imports
 from peltak.core import shell
 
 

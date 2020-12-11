@@ -14,15 +14,12 @@
 # limitations under the License.
 #
 """ Implementation. """
-from __future__ import absolute_import, unicode_literals
 
-# stdlib imports
 import re
 import textwrap
 from collections import OrderedDict
 from typing import Dict, List, Pattern
 
-# local imports
 from peltak.core import conf
 from peltak.core import git
 from peltak.core import shell

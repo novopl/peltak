@@ -17,19 +17,14 @@
 .. module:: peltak.core.shell
     :synopsis: Shell related helpers.
 """
-from __future__ import absolute_import, unicode_literals
-
-# stdlib imports
 import os
 import re
 import subprocess
 import sys
 from typing import Any, Dict
 
-# 3rd party imports
 import attr
 
-# local imports
 from . import context
 
 

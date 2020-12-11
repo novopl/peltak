@@ -1,14 +1,9 @@
 # -*- coding: utf-8 -*-
 # pylint: disable=missing-docstring
-from __future__ import absolute_import, unicode_literals
-
-# stdlib imports
 import sys
 
-# 3rd party imports
 import pytest
 
-# local imports
 from peltak import testing
 from peltak.core.templates.filters import cprint
 

@@ -18,9 +18,6 @@
 This is kept inside the peltak package as it ca be used by 3rd party packages
 extending the app.
 """
-from __future__ import absolute_import, unicode_literals
-
-
 # pkg interface
 from .mocks import mock_result
 from .patches import patch_is_tty

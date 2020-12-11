@@ -20,8 +20,7 @@ Common code used by all commands.
     :synopsis: Core peltak code. Should help building any peltak command.
 
 """
-from __future__ import absolute_import, unicode_literals
-
 from .pelconf import Pelconf
+
 
 conf = Pelconf()

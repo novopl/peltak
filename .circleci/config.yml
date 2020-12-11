@@ -23,8 +23,6 @@ jobs:
             python --version
             echo '== whoami ================================================'
             whoami
-            echo '== pipenv lock -d --requirements ========================='
-            pipenv lock -d --requirements | tee requirements.txt
             echo '== pipenv sync -d ========================================'
             pipenv sync -d
             echo '=========================================================='
@@ -44,21 +42,11 @@ jobs:
 
             pipenv run peltak check
 
-      - restore_cache:
-          name: Restore tox cache
-          key: tox-rev1-{{ checksum "requirements.txt" }}
-
       - run:
           name: Test
           command: |
             export PIPENV_VENV_IN_PROJECT=1
             pipenv run peltak test
-
-      - save_cache:
-          name: Save tox cache
-          key: tox-rev1-{{ checksum "requirements.txt" }}
-          paths:
-            - .tox
 
       - run:
           name: Build Documentation

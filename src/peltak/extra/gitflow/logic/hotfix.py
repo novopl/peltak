@@ -14,12 +14,8 @@
 # limitations under the License.
 #
 """ git flow hotfix commands implementation. """
-from __future__ import absolute_import, unicode_literals
-
-# stdlib imports
 import sys
 
-# local imports
 from peltak.core import conf
 from peltak.core import context
 from peltak.core import git

@@ -14,19 +14,14 @@
 # limitations under the License.
 #
 """ AppEngine commands implementation. """
-from __future__ import absolute_import, unicode_literals
-
-# stdlib imports
 import itertools
 import sys
 from fnmatch import fnmatch
 from os.path import exists, join, normpath
 from typing import Optional
 
-# 3rd party imports
 import attr
 
-# local imports
 from peltak.core import conf
 from peltak.core import context
 from peltak.core import fs

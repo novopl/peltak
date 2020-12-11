@@ -92,5 +92,4 @@ an example (this is the default configuration):
           tag: 'fix'
 
 """
-from __future__ import absolute_import, unicode_literals
 from .commands import changelog_cli

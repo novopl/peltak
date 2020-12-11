@@ -11,12 +11,8 @@ verbosity and ``pretend`` is a good example of that.
 Works like `peltak.core.pelconf` but the configuration can be dynamically modified
 in runtime.
 """
-from __future__ import absolute_import, unicode_literals
-
-# stdlib imports
 from typing import Any
 
-# local imports
 from . import util
 
 

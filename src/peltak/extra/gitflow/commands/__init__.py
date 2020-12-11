@@ -20,4 +20,3 @@
 
 peltak git-flow commands CLI definition.
 """
-from __future__ import absolute_import, unicode_literals

@@ -33,5 +33,4 @@ Configuration
             app_id: 'my-appspot-project-id'
 
 """
-from __future__ import absolute_import
 from .cli import appengine_cli

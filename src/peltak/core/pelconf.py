@@ -3,9 +3,6 @@
 .. module:: peltak.core.pelconf
     :synopsis: `pelconf.yaml` handling.
 """
-from __future__ import absolute_import, unicode_literals
-
-# stdlib imports
 import os
 import os.path
 import sys
@@ -13,7 +10,6 @@ from contextlib import contextmanager
 from types import ModuleType
 from typing import Any, Dict, Iterator, Optional, Union
 
-# local imports
 from . import hooks
 from . import log
 from . import util

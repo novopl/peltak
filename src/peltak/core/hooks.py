@@ -50,9 +50,6 @@ Registering a handler for any hook is also very simple:
         print("pre_test_command called with ({}, {})".format(pi, msg))
 
 """
-from __future__ import absolute_import, unicode_literals
-
-# stdlib imports
 from typing import Any, Callable
 
 

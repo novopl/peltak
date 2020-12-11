@@ -17,9 +17,6 @@
 .. module:: peltak.core.util
     :synopsis: Various helpers that do not depend on anything else in the project.
 """
-from __future__ import absolute_import, unicode_literals
-
-# stdlib imports
 import re
 import time
 import warnings
@@ -37,7 +34,6 @@ from typing import (
     Union
 )
 
-# 3rd party imports
 import yaml
 try:
     from yaml import CLoader as Loader, CDumper as Dumper

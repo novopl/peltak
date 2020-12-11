@@ -15,9 +15,7 @@
 #
 """ Application entry point. """
 # pylint: disable=unused-import
-from __future__ import absolute_import, unicode_literals
 
-# local imports
 from peltak.core.pelconf import Pelconf
 from peltak.commands import root_cli
 

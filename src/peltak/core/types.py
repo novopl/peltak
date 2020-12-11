@@ -1,14 +1,9 @@
 # -*- coding: utf-8 -*-
 """ Types and classes used across **peltak** codebase. """
-from __future__ import absolute_import, unicode_literals
-
-# stdlib imports
 from typing import Any, Callable, Dict, List
 
-# 3rd party imports
 import attr
 
-# local imports
 from six import string_types
 
 

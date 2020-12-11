@@ -19,15 +19,10 @@ All commands (and only commands) should be defined inside this package. This
 should be as thin layer as possible. Ideally just processing CLI params and
 displaying results.
 """
-from __future__ import absolute_import
-
-# stdlib imports
 from typing import Any, Callable, Union
 
-# 3rd party imports
 import click
 
-# local imports
 import peltak
 
 

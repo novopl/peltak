@@ -3,12 +3,8 @@
 
 Easier to track them down, when you need one.
 """
-from __future__ import absolute_import, unicode_literals
-
-# stdlib imports
 from typing import Optional
 
-# local imports
 from peltak.core.shell import ExecResult
 
 

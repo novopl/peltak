@@ -14,17 +14,12 @@
 # limitations under the License.
 #
 """ Helper function to ease implementation of all git flow commands. """
-from __future__ import absolute_import, unicode_literals
-
-# stdlib imports
 import re
 import sys
 from typing import Optional, Iterable
 
-# 3rd party imports
 import click
 
-# local imports
 from peltak.core import conf
 from peltak.core import context
 from peltak.core import git

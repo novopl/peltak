@@ -14,13 +14,8 @@
 # limitations under the License.
 #
 """ Types and classes used by `peltak.extra.changelog`. """
-from __future__ import absolute_import, unicode_literals
-
-# stdlib imports
 from typing import Any, Dict, List
 
-
-# 3rd party imports
 import attr
 
 

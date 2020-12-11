@@ -1,15 +1,10 @@
 # -*- coding: utf-8 -*-
 # pylint: disable=missing-docstring
-from __future__ import absolute_import, unicode_literals
-
-# stdlib imports
 from typing import Any, Dict
+from unittest.mock import Mock, patch
 
-# 3rd party imports
 import pytest
-from mock import Mock, patch
 
-# local imports
 from peltak import testing
 from peltak.core import conf
 from peltak.core.context import RunContext

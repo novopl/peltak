@@ -14,7 +14,6 @@
 # limitations under the License.
 #
 """ Helper commands for dealing with pypi. """
-from __future__ import absolute_import
 from peltak.commands import click, root_cli, pretend_option
 
 

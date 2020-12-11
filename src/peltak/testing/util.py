@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
 """ Various utilities to help write tests for peltak. """
-from __future__ import absolute_import, unicode_literals
-
-# stdlib imports
 import os
 import shutil
 import tempfile

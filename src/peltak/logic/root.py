@@ -14,19 +14,14 @@
 # limitations under the License.
 #
 """ Miscellaneous commands implementation. """
-from __future__ import absolute_import, unicode_literals
-
-# stdlib imports
 import os
 from os.path import exists, isdir
 from shutil import rmtree
 from typing import List
 
-# 3rd party imports
 import click
 import cliform
 
-# local imports
 from peltak.core import conf
 from peltak.core import context
 from peltak.core import fs

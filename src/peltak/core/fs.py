@@ -17,9 +17,6 @@
 .. module:: peltak.core.fs
     :synopsis: File system related helpers.
 """
-from __future__ import absolute_import, unicode_literals
-
-# stdlib imports
 import fnmatch
 import itertools
 import os
@@ -27,10 +24,8 @@ import re
 from os.path import isdir, join, normpath
 from typing import Iterator, List, Optional, Union
 
-# 3rd party imports
 from six import string_types
 
-# local imports
 from . import conf
 from . import log
 from . import types

@@ -15,15 +15,12 @@
 #
 """ scripts logic. """
 
-# stdlib imports
 import subprocess
 import sys
 
-# 3rd party imports
 import attr
 import yaml
 
-# local imports
 from peltak.core import conf
 from peltak.core import log
 from peltak.core import fs

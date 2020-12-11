@@ -15,13 +15,10 @@
 #
 """ Types and classes used by ``peltak.extra.scripts``. """
 
-# stdlib imports
 from typing import Any, Callable, Dict, List, Optional, Type, cast
 
-# 3rd party imports
 import attr
 
-# local imports
 from six import string_types
 from peltak.commands import click, pretend_option, verbose_option
 from peltak.core import types

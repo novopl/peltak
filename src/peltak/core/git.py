@@ -17,18 +17,13 @@
 .. module:: peltak.core.git
     :synopsis: Git helpers.
 """
-from __future__ import absolute_import, unicode_literals
-
-# stdlib imports
 import os
 from collections import namedtuple
 from typing import Any, Dict, List, Optional
 
-# 3rd party imports
 import attr
 from six import string_types
 
-# local imports
 from . import conf
 from . import shell
 from . import util

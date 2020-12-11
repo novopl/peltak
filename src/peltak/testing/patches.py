@@ -3,17 +3,12 @@
 
 Easier to track them down, when you need one.
 """
-from __future__ import absolute_import, unicode_literals
-
-# stdlib imports
 from functools import wraps
 from typing import Any, Dict, Optional
+from unittest.mock import Mock, mock_open, patch
 
-# 3rd party imports
-from mock import Mock, mock_open, patch
 from peltak.core.shell import ExecResult
 
-# local imports
 from peltak.core import shell
 
 

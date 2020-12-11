@@ -25,15 +25,10 @@ Filters provided by peltak
     https://jinja.palletsprojects.com/en/2.10.x/templates/#list-of-builtin-filters
 
 """
-from __future__ import absolute_import, unicode_literals
-
-# stdlib imports
 from typing import Any, List
 
-# 3rd party imports
 from six import string_types
 
-# local imports
 from peltak.core import fs
 from peltak.core import shell
 

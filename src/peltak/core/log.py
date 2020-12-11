@@ -17,12 +17,8 @@
 .. module:: peltak.core.log
     :synopsis: Helpers for nice shell output formatting.
 """
-from __future__ import absolute_import, unicode_literals
-
-# stdlib imports
 from typing import Any
 
-# local imports
 from . import shell
 
 

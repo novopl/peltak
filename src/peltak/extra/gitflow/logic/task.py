@@ -14,15 +14,10 @@
 # limitations under the License.
 #
 """ git flow feature commands implementation. """
-from __future__ import absolute_import, unicode_literals
-
-# stdlib imports
 import sys
 
-# 3rd party imports
 import click
 
-# local imports
 from peltak.core import context
 from peltak.core import git
 from peltak.core import hooks
