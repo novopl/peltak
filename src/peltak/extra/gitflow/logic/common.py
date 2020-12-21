@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-# Copyright 2017-2018 Mateusz Klos
+# Copyright 2017-2020 Mateusz Klos
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,17 +13,12 @@
 # limitations under the License.
 #
 """ Helper function to ease implementation of all git flow commands. """
-from __future__ import absolute_import, unicode_literals
-
-# stdlib imports
 import re
 import sys
-from typing import List, Optional, Iterable
+from typing import Optional, Iterable
 
-# 3rd party imports
 import click
 
-# local imports
 from peltak.core import conf
 from peltak.core import context
 from peltak.core import git
@@ -32,11 +26,10 @@ from peltak.core import log
 from peltak.core import shell
 
 
-RE_INVALID_CHARS = re.compile('[\-\[\]\s(),.]+')
+RE_INVALID_CHARS = re.compile(r'[\-\[\]\s(),.]+')
 
 
-def assert_branch_type(branch_type):
-    # type: (str) -> None
+def assert_branch_type(branch_type: str):
     """ Print error and exit if the current branch is not of a given type.
 
     Args:
@@ -58,8 +51,7 @@ def assert_branch_type(branch_type):
             sys.exit(1)
 
 
-def assert_on_branch(branch_name):
-    # type: (str) -> None
+def assert_on_branch(branch_name: str):
     """ Print error and exit if *branch_name* is not the current branch.
 
     Args:
@@ -77,8 +69,7 @@ def assert_on_branch(branch_name):
             sys.exit(1)
 
 
-def git_branch_delete(branch_name):
-    # type: (str) -> None
+def git_branch_delete(branch_name: str):
     """ Delete the given branch.
 
     Args:
@@ -90,8 +81,7 @@ def git_branch_delete(branch_name):
         shell.run('git branch -d {}'.format(branch_name))
 
 
-def git_branch_rename(new_name):
-    # type: (str) -> None
+def git_branch_rename(new_name: str):
     """ Rename the current branch
 
     Args:
@@ -107,8 +97,7 @@ def git_branch_rename(new_name):
         shell.run('git branch -m {}'.format(new_name))
 
 
-def git_checkout(branch_name, create=False):
-    # type: (str, bool) -> None
+def git_checkout(branch_name: str, create: bool = False):
     """ Checkout or create a given branch
 
     Args:
@@ -122,8 +111,7 @@ def git_checkout(branch_name, create=False):
     shell.run('git checkout {} {}'.format('-b' if create else '', branch_name))
 
 
-def git_pull(branch_name):
-    # type: (str) -> None
+def git_pull(branch_name: str):
     """ Pull from remote branch.
 
     Args:
@@ -134,8 +122,7 @@ def git_pull(branch_name):
     shell.run('git pull origin {}'.format(branch_name))
 
 
-def git_merge(base, head, no_ff=False):
-    # type: (str, str, bool) -> None
+def git_merge(base: str, head: str, no_ff: bool = False):
     """ Merge *head* into *base*.
 
     Args:
@@ -169,14 +156,12 @@ def git_merge(base, head, no_ff=False):
 
 
 def git_prune():
-    # type: () -> None
     """ Prune dead branches. """
     log.info("Pruning")
     shell.run('git fetch --prune origin')
 
 
-def get_base_branch():
-    # type: () -> str
+def get_base_branch() -> str:
     """ Return the base branch for the current branch.
 
     This function will first try to guess the base branch and if it can't it
@@ -194,8 +179,7 @@ def get_base_branch():
     return base_branch
 
 
-def choose_branch(exclude=None):
-    # type: (Optional[Iterable[str]]) -> str
+def choose_branch(exclude: Optional[Iterable[str]] = None) -> str:
     """ Show the user a menu to pick a branch from the existing ones.
 
     Args:
@@ -234,8 +218,7 @@ def choose_branch(exclude=None):
     return branches[choice - 1]
 
 
-def to_branch_name(name):
-    # type: (str) -> str
+def to_branch_name(name: str) -> str:
     """ Convert a given name into a valid branch name.
 
     This is helpful to sanitize user input before creating a new branch.
@@ -249,7 +232,3 @@ def to_branch_name(name):
         replaced by underscores.
     """
     return RE_INVALID_CHARS.sub(' ', name).strip().replace(' ', '_').lower()
-
-
-# Used in docstrings only until we drop python2 support
-del Iterable, List, Optional

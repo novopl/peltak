@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-# Copyright 2017-2018 Mateusz Klos
+# Copyright 2017-2020 Mateusz Klos
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,5 +19,4 @@
 
 Commands for managing the managed project version.
 """
-from __future__ import absolute_import
 from .commands import version_cli

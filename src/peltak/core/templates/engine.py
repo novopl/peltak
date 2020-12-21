@@ -1,6 +1,4 @@
-# -*- coding: utf-8 -*-
-# -*- coding: utf-8 -*-
-# Copyright 2017-2018 Mateusz Klos
+# Copyright 2017-2020 Mateusz Klos
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,15 +13,10 @@
 # limitations under the License.
 #
 """ Engine wraps the jinja2 environment and exposes it to the rest of the code. """
-from __future__ import absolute_import, unicode_literals
-
-# stdlib imports
 from typing import Any, Dict
 
-# 3rd party imports
 import jinja2
 
-# local imports
 from peltak.core import util
 from . import filters
 
@@ -54,8 +47,7 @@ class Engine(util.Singleton):
             self.env = self._make_env()
             pass
 
-    def render(self, template_str, template_ctx=None):
-        # type: (str, Dict[str, Any]) -> str
+    def render(self, template_str: str, template_ctx: Dict[str, Any] = None) -> str:
         """ Render a script template using the given context.
 
         Examples:
@@ -68,8 +60,7 @@ class Engine(util.Singleton):
         """
         return self.env.from_string(template_str).render(template_ctx)
 
-    def render_file(self, template_file, template_ctx=None):
-        # type: (str, Dict[str, Any]) -> str
+    def render_file(self, template_file: str, template_ctx:  Dict[str, Any] = None):
         """ Render a template file from src/peltak/templates directory.
 
         All built-in peltak templates should go to the ``src/peltak/templates``
@@ -116,8 +107,7 @@ class Engine(util.Singleton):
         template = self.env.get_template(template_file)
         return template.render(template_ctx)
 
-    def _make_env(self):
-        # type: () -> jinja2.Environment
+    def _make_env(self) -> jinja2.Environment:
         """ Initialize jinja2 env. """
         env = jinja2.Environment(
             loader=jinja2.PackageLoader('peltak', 'templates'),
@@ -131,7 +121,3 @@ class Engine(util.Singleton):
         env.filters['wrap_paths'] = filters.wrap_paths
 
         return env
-
-
-# Used only in type hint comments.
-del Dict, Any

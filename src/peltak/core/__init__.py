@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-# Copyright 2017-2018 Mateusz Klos
+# Copyright 2017-2020 Mateusz Klos
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,8 +19,7 @@ Common code used by all commands.
     :synopsis: Core peltak code. Should help building any peltak command.
 
 """
-from __future__ import absolute_import, unicode_literals
-
 from .pelconf import Pelconf
+
 
 conf = Pelconf()

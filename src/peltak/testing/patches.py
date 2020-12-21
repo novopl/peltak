@@ -1,20 +1,13 @@
-# -*- coding: utf-8 -*-
 """ A place to store all patch functions specific to peltak.
 
 Easier to track them down, when you need one.
 """
-from __future__ import absolute_import, unicode_literals
-
-# stdlib imports
 from functools import wraps
-from os.path import join
-from typing import Any, Dict
+from typing import Any, Dict, Optional
+from unittest.mock import Mock, mock_open, patch
 
-# 3rd party imports
-from mock import Mock, mock_open, patch
 from peltak.core.shell import ExecResult
 
-# local imports
 from peltak.core import shell
 
 
@@ -35,32 +28,26 @@ def patch_is_tty(value):
     return decorator
 
 
-class patch_proj_root(object):
-    """ Patch project root decorator. """
-    def __init__(self, proj_root, nest_level=0):
-        self.proj_root = proj_root
-        self.nest = nest_level
+def patch_proj_root(path):
+    """ Overwrite the project root path in Pelconf singleton. """
+    from peltak.core import conf
 
-    def __call__(self, fn):
-        if self.proj_root is not None:
-            cwd = join(self.proj_root, *(['fake_dir'] * self.nest))
-            dirs = ['not_pelconf'] * self.nest + ['pelconf.py']
-            dirs = [[d] for d in dirs]
-        else:
-            cwd = join('/', *(['fake_dir'] * self.nest))
-            dirs = [[d] for d in ['not_pelconf'] * self.nest]
-
-        @patch('os.getcwd', Mock(return_value=cwd))
-        @patch('os.listdir', Mock(side_effect=dirs))
+    def decorator(fn):  # pylint: disable=missing-docstring
         @wraps(fn)
-        def wrapper(*args, **kw):       # pylint: disable=missing-docstring
-            return fn(*args, **kw)
+        def wrapper(*args, **kw):  # pylint: disable=missing-docstring
+            current_proj_root = conf.proj_root_path
+            conf.proj_root_path = path
+
+            result = fn(*args, **kw)
+
+            conf.proj_root_path = current_proj_root
+            return result
 
         return wrapper
+    return decorator
 
 
-def patch_pelconf(config):
-    # type: (Dict[str, Any]) -> Any
+def patch_pelconf(config: Dict[str, Any]) -> Any:
     """ Patch the peltak configuration.
 
     This will patch all content retrieved through `peltak.core.conf.get()` and
@@ -73,8 +60,12 @@ def patch_pelconf(config):
     return patch('peltak.core.conf.values', config)
 
 
-def patch_run(stdout=None, retcode=None, stderr=None, cmd=None):
-    # type: (str, int, str, str) -> Any
+def patch_run(
+    stdout: Optional[str] = None,
+    retcode: Optional[int] = None,
+    stderr: Optional[str] = None,
+    cmd: Optional[str] = None
+) -> Any:
     """ Patch shell.run and make it return a given result.
 
     Args:
@@ -99,8 +90,7 @@ def patch_run(stdout=None, retcode=None, stderr=None, cmd=None):
     return patch('peltak.core.shell.run', p_run)
 
 
-def patch_open(module, read_data='', create=True):
-    # type: (str, str, bool) -> Any
+def patch_open(module: str, read_data: str = '', create: bool = True) -> Any:
     """ Patch builtin open() function for the given module
 
     This is a convenient wrapper around mock_open.
@@ -111,7 +101,3 @@ def patch_open(module, read_data='', create=True):
         new_callable=mock_open,
         read_data=read_data,
     )
-
-
-# Used only in type hint comments
-del Any, Dict

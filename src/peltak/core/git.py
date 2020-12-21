@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-# Copyright 2017-2018 Mateusz Klos
+# Copyright 2017-2020 Mateusz Klos
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,18 +16,13 @@
 .. module:: peltak.core.git
     :synopsis: Git helpers.
 """
-from __future__ import absolute_import, unicode_literals
-
-# stdlib imports
 import os
 from collections import namedtuple
 from typing import Any, Dict, List, Optional
 
-# 3rd party imports
 import attr
 from six import string_types
 
-# local imports
 from . import conf
 from . import shell
 from . import util
@@ -58,8 +52,7 @@ class BranchDetails(object):
     title = attr.ib(type=str, default=None)
 
     @classmethod
-    def parse(cls, branch_name):
-        # type: (str) -> BranchDetails
+    def parse(cls, branch_name: str) -> 'BranchDetails':
         """ Parse branch name into BranchDetails instance.
 
         Args:
@@ -106,8 +99,7 @@ class CommitDetails(object):
         self._parents = None
 
     @property
-    def branches(self):
-        # type: () -> List[str]
+    def branches(self) -> List[str]:
         """ List of all branches this commit is a part of. """
         if self._branches is None:
             cmd = 'git branch --contains {}'.format(self.sha1)
@@ -121,8 +113,7 @@ class CommitDetails(object):
         return self._branches
 
     @property
-    def parents(self):
-        # type: () -> List[CommitDetails]
+    def parents(self) -> List['CommitDetails']:
         """ Parents of the this commit. """
         if self._parents is None:
             self._parents = [CommitDetails.get(x) for x in self.parents_sha1]
@@ -130,8 +121,7 @@ class CommitDetails(object):
         return self._parents
 
     @property
-    def number(self):
-        # type: () -> int
+    def number(self) -> int:
         """ Return this commits number.
 
         This is the same as the total number of commits in history up until
@@ -149,8 +139,7 @@ class CommitDetails(object):
         return len(out.splitlines())
 
     @classmethod
-    def get(cls, sha1=''):
-        # type: (str) -> CommitDetails
+    def get(cls, sha1: str = '') -> 'CommitDetails':
         """ Return details about a given commit.
 
         Args:
@@ -184,8 +173,7 @@ class CommitDetails(object):
 
 
 @util.cached_result()
-def current_branch():
-    # type: () -> BranchDetails
+def current_branch() -> BranchDetails:
     """ Return the BranchDetails for the current branch.
 
     Return:
@@ -202,8 +190,7 @@ def current_branch():
 
 
 @util.cached_result()
-def latest_commit():
-    # type: () -> CommitDetails
+def latest_commit() -> CommitDetails:
     """ Return details for the latest commit.
 
     Returns:
@@ -213,8 +200,7 @@ def latest_commit():
     return CommitDetails.get()
 
 
-def commit_details(sha1=''):
-    # type: (str) -> CommitDetails
+def commit_details(sha1: str = '') -> CommitDetails:
     """ Return details about a given commit.
 
     Args:
@@ -229,8 +215,7 @@ def commit_details(sha1=''):
     return CommitDetails.get(sha1)
 
 
-def commit_branches(sha1):
-    # type: (str) -> List[str]
+def commit_branches(sha1: str) -> List[str]:
     """ Get the name of the branches that this commit belongs to. """
     cmd = 'git branch --contains {}'.format(sha1)
     return shell.run(
@@ -241,8 +226,7 @@ def commit_branches(sha1):
 
 
 @util.cached_result()
-def guess_base_branch():
-    # type: () -> Optional[str]
+def guess_base_branch() -> Optional[str]:
     """ Try to guess the base branch for the current branch.
 
     Do not trust this guess. git makes it pretty much impossible to guess
@@ -298,8 +282,7 @@ def guess_base_branch():
 
 
 @util.mark_deprecated('CommitDetails.get().author')
-def commit_author(sha1=''):
-    # type: (str) -> Author
+def commit_author(sha1: str = '') -> Author:
     """ Return the author of the given commit.
 
     Args:
@@ -321,8 +304,7 @@ def commit_author(sha1=''):
 
 
 @util.cached_result()
-def untracked():
-    # type: () -> List[str]
+def untracked() -> List[str]:
     """ Return a list of untracked files in the project repository.
 
     Returns:
@@ -344,8 +326,7 @@ def untracked():
 
 
 @util.cached_result()
-def unstaged():
-    # type: () -> List[str]
+def unstaged() -> List[str]:
     """ Return a list of unstaged files in the project repository.
 
     Returns:
@@ -367,8 +348,7 @@ def unstaged():
 
 
 @util.cached_result()
-def staged():
-    # type: () -> List[str]
+def staged() -> List[str]:
     """ Return a list of project files staged for commit.
 
     Returns:
@@ -390,8 +370,7 @@ def staged():
 
 
 @util.cached_result()
-def ignore():
-    # type: () -> List[str]
+def ignore() -> List[str]:
     """ Return a list of patterns in the project .gitignore
 
     Returns:
@@ -414,21 +393,20 @@ def ignore():
         config().get('core.excludesfile')
     ]
 
-    result = []     # type: List[str]
+    result: List[str] = []
     for ignore_file in ignore_files:
         if not (ignore_file and os.path.exists(ignore_file)):
             continue
 
         with open(ignore_file) as fp:
-            parsed = (parse_line(l) for l in fp.readlines())
+            parsed = (parse_line(line) for line in fp.readlines())
             result += [x for x in parsed if x]
 
     return result
 
 
 @util.cached_result()
-def branches():
-    # type: () -> List[str]
+def branches() -> List[str]:
     """ Return a list of branches in the current repo.
 
     Returns:
@@ -442,8 +420,7 @@ def branches():
     return [x.strip('* \t\n') for x in out.splitlines()]
 
 
-def tag(name, message, author=None):
-    # type: (str, str, Optional[Author]) -> None
+def tag(name: str, message: str, author: Optional[Author] = None):
     """ Tag the current commit.
 
     Args:
@@ -469,8 +446,7 @@ def tag(name, message, author=None):
 
 
 @util.cached_result()
-def config():
-    # type: () -> Dict[str, Any]
+def config() -> Dict[str, Any]:
     """ Return the current git configuration.
 
     Returns:
@@ -491,8 +467,7 @@ def config():
 
 
 @util.cached_result()
-def tags():
-    # type: () -> List[str]
+def tags() -> List[str]:
     """ Returns all tags in the repo.
 
     Returns:
@@ -508,8 +483,7 @@ def tags():
     ).stdout.strip().splitlines()
 
 
-def verify_branch(branch_name):
-    # type: (str) -> bool
+def verify_branch(branch_name: str) -> bool:
     """ Verify if the given branch exists.
 
     Args:
@@ -531,8 +505,7 @@ def verify_branch(branch_name):
 
 
 @util.cached_result()
-def protected_branches():
-    # type: () -> List[str]
+def protected_branches() -> List[str]:
     """ Return branches protected by deletion.
 
     By default those are master and devel branches as configured in pelconf.
@@ -543,7 +516,3 @@ def protected_branches():
     master = conf.get('git.master_branch', 'master')
     develop = conf.get('git.devel_branch', 'develop')
     return conf.get('git.protected_branches', (master, develop))
-
-
-# Used in docstrings only until we drop python2 support
-del Any, Dict, List, Optional

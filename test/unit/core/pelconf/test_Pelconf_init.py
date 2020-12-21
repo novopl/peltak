@@ -1,11 +1,6 @@
-# -*- coding: utf-8 -*-
 # pylint: disable=missing-docstring
-from __future__ import absolute_import, unicode_literals
+from unittest.mock import patch, MagicMock, Mock, mock_open
 
-# 3rd party imports
-from mock import patch, MagicMock, Mock, mock_open
-
-# local imports
 from peltak.core import conf
 
 
@@ -18,7 +13,7 @@ def test_loads_yaml_config_if_exists(p_from_file):
     p_from_file.assert_called_once()
 
 
-@patch('os.path.exists', Mock(return_value=False))
+@patch('peltak.core.pelconf._find_proj_root', Mock(return_value=None))
 @patch('peltak.core.conf.from_file')
 @patch('peltak.core.conf.within_proj_dir', MagicMock())
 def test_does_not_load_yaml_config_if_not_found(p_from_file):

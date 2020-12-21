@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """ Runtime context implementation.
 
 .. module:: peltak.core.context
@@ -11,12 +10,8 @@ verbosity and ``pretend`` is a good example of that.
 Works like `peltak.core.pelconf` but the configuration can be dynamically modified
 in runtime.
 """
-from __future__ import absolute_import, unicode_literals
+from typing import Any
 
-# stdlib imports
-from typing import Any, Text
-
-# local imports
 from . import util
 
 
@@ -46,13 +41,11 @@ class RunContext(util.Singleton):
         if not self._singleton_initialized:
             self.values = {}
 
-    def clear(self):
-        # type: () -> None
+    def clear(self) -> None:
         """ Clear all existing values. """
         self.values = {}
 
-    def get(self, name, *default):
-        # type: (str, Any) -> Any
+    def get(self, name: str, *default: Any) -> Any:
         """ Get context value with the given name and optional default.
 
         Args:
@@ -86,7 +79,7 @@ class RunContext(util.Singleton):
 
         return curr
 
-    def set(self, name, value):
+    def set(self, name: str, value: Any) -> None:
         """ Set context value.
 
         Args:
@@ -110,8 +103,7 @@ class RunContext(util.Singleton):
             raise InvalidPath('.'.join(parts[:-1]))
 
 
-def get(name, *default):
-    # type: (Text, *Any) -> Any
+def get(name: str, *default: Any) -> Any:
     """ Get context value with the given name and optional default.
 
     Args:
@@ -133,8 +125,7 @@ def get(name, *default):
     return RunContext().get(name, *default)
 
 
-def set(name, value):   # pylint: disable=redefined-builtin
-    # type: (Text, Any) -> None
+def set(name: str, value: Any) -> None:   # pylint: disable=redefined-builtin
     """ Set context value.
 
     Args:
@@ -146,11 +137,6 @@ def set(name, value):   # pylint: disable=redefined-builtin
     RunContext().set(name, value)
 
 
-def clear():
-    # type: () -> None
+def clear() -> None:
     """ Clear all existing values. """
     return RunContext().clear()
-
-
-# Used in type hints comments only (until we drop python2 support)
-del Any, Text

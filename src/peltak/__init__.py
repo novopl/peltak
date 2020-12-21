@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-# Copyright 2017-2018 Mateusz Klos
+# Copyright 2017-2020 Mateusz Klos
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,8 +13,8 @@
 # limitations under the License.
 #
 """ peltak package. """
-from __future__ import absolute_import, unicode_literals
 from os.path import abspath, dirname
+
 
 __version__ = '0.26.7'
 PKG_DIR = abspath(dirname(__file__))

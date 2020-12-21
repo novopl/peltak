@@ -1,26 +1,22 @@
 #!/bin/bash
 set -e
 
-{% if opts.cov == 'all' %}
-  {% set cov_path = 'src/peltak' %}
-  {% set cov_html_path = conf.build_dir + '/coverage' %}
-{% elif opts.cov == 'core' %}
-  {% set cov_path = 'src/peltak/core' %}
-  {% set cov_html_path = conf.build_dir + '/coverage/core' %}
-{% elif opts.cov == 'scripts' %}
-  {% set cov_path = 'src/peltak/extra/scripts' %}
-  {% set cov_html_path = conf.build_dir + '/coverage/extra/scripts' %}
-{% elif opts.cov == 'extra' %}
-  {% set cov_path = 'src/peltak/extra' %}
-  {% set cov_html_path = conf.build_dir + '/coverage/extra' %}
-{% else %}
-  {# Need to set those as otherwise the script template compilation will fail #}
-  {% set cov_path = '' %}
-  {% set cov_html_path = '' %}
+{# --cov        source dir                  out dir #}
+{% set cov_config = {
+  'all':      ('src/peltak',                '.build/coverage'),
+  'core':     ('src/peltak/core',           '.build/coverage/core'),
+  'extra':    ('src/peltak/extra',          '.build/coverage/extra'),
+  'scripts':  ('src/peltak/extra/scripts',  '.build/coverage/extra/scripts'),
+}.get(opts.cov, ('', ''))
+%}
 
+{% if not cov_config[0] and not cov_config[1] %}
   {{ "<31>Invalid <35>--cov <31>option value: <33>{}" | cprint(opts.cov) }}
   exit 1
-{% endif %}
+{%  endif %}
+
+{% set cov_path = cov_config[0] %}
+{% set cov_html_path = cov_config[1] %}
 
 pytest \
     -c ops/tools/pytest.ini \
@@ -28,8 +24,7 @@ pytest \
     --cov={{ cov_path }} \
     --cov-report=term \
     --cov-report=html:{{ cov_html_path }} \
-    {{ ctx.verbose | count_flag('v') }} \
-    {{ '-p no:sugar' if opts.no_sugar else '' }} \
+    {{ ctx.verbose | count_flag('v') }} {{ '\n-p no:sugar' if opts.no_sugar else '' }} \
     test/unit
 
 {% set cov_path = proj_path(cov_html_path, 'index.html') %}

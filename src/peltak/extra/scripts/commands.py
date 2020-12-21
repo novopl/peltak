@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 ##############
 ``peltak run``
@@ -87,9 +86,6 @@ Example
           pycodestyle --config ops/tools/pep8.ini {{files}}; \\
           pylint --rc-file ops/tools/pylint.ini {{files}};
 """
-from __future__ import absolute_import
-
-# local imports
 from peltak.commands import root_cli
 from peltak.core import hooks
 from peltak.core import conf
@@ -98,7 +94,6 @@ from .types import Script
 
 @root_cli.group('run')
 def run_cli():
-    # type: () -> None
     """ Run custom scripts """
     pass  # nocov
 

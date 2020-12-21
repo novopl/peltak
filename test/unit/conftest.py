@@ -1,14 +1,8 @@
-# -*- coding: utf-8 -*-
 """ pytest setup """
-from __future__ import absolute_import, unicode_literals
-
-# stdlib imports
 from os.path import dirname, join, relpath
 
-# 3rd party imports
 import pytest
 
-# local imports
 from peltak import testing
 
 

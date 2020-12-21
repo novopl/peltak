@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-# Copyright 2017-2018 Mateusz Klos
+# Copyright 2017-2020 Mateusz Klos
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,5 +19,4 @@ Those commands replace the usage of ``./manage.py`` (thus it's removed). Those
 correspond 1 to 1 to their ``./manage.py`` counterparts. Those commands mainly
 exists so that manage.py can be deleted (less top-level files in project dir).
 """
-from __future__ import absolute_import
 from .cli import django_cli

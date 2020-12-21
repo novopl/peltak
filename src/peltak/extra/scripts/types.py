@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-# Copyright 2017-2018 Mateusz Klos
+# Copyright 2017-2020 Mateusz Klos
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,13 +14,10 @@
 #
 """ Types and classes used by ``peltak.extra.scripts``. """
 
-# stdlib imports
 from typing import Any, Callable, Dict, List, Optional, Type, cast
 
-# 3rd party imports
 import attr
 
-# local imports
 from six import string_types
 from peltak.commands import click, pretend_option, verbose_option
 from peltak.core import types
@@ -43,8 +39,7 @@ class ScriptOption(object):
     type = attr.ib(type=Type, default=str)
 
     @classmethod
-    def from_config(cls, option_conf):
-        # type: (YamlConf) -> ScriptOption
+    def from_config(cls, option_conf: YamlConf) -> 'ScriptOption':
         """ Load script option from configuration in pelconf.yaml """
         fields = attr.fields(cls)
         name = option_conf.get('name')
@@ -100,8 +95,7 @@ class Script(object):
     files = attr.ib(type=Optional[types.FilesCollection], default=None)
 
     @classmethod
-    def from_config(cls, name, script_conf):
-        # type: (str, YamlConf) -> Script
+    def from_config(cls, name: str, script_conf: YamlConf) -> 'Script':
         """ Load script from pelfconf.yaml """
         fields = attr.fields(cls)
         options = script_conf.get('options',
@@ -137,8 +131,7 @@ class Script(object):
             files=files,
         )
 
-    def register(self, cli_group):
-        # type: (click.Group) -> None
+    def register(self, cli_group: click.Group):
         """ Register the script with click. """
         @verbose_option
         @pretend_option
@@ -155,8 +148,7 @@ class Script(object):
 
         cli_group.command(self.name)(script_command)
 
-    def _add_option(self, cmd_fn, option):
-        # type: (AnyFn, ScriptOption) -> AnyFn
+    def _add_option(self, cmd_fn: AnyFn, option: ScriptOption) -> AnyFn:
         return click.option(
             *option.name,
             is_flag=option.is_flag,

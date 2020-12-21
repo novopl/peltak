@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-# Copyright 2017-2018 Mateusz Klos
+# Copyright 2017-2020 Mateusz Klos
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,15 +13,12 @@
 # limitations under the License.
 #
 """ Implementation. """
-from __future__ import absolute_import, unicode_literals
 
-# stdlib imports
 import re
 import textwrap
 from collections import OrderedDict
-from typing import Any, Dict, List, Optional, Pattern
+from typing import Dict, List, Pattern
 
-# local imports
 from peltak.core import conf
 from peltak.core import git
 from peltak.core import shell
@@ -32,9 +28,23 @@ from .types import ChangelogItems, ChangelogTag
 
 
 @util.mark_experimental
-def changelog():
-    # type: () -> str
-    """ Print change log since last release. """
+def changelog() -> str:
+    """ Print change log since last release.
+
+    TODO: Add the ability to omit sections of changelog in the output. This way
+        We can use changelog command to automatically generate changelog for
+        public releases without any references to the ticket board but still
+        have the ability to associate tickets with releases. For example we can
+        add a (jira) tag that would be used to pass the JIRA ticket URL and then
+        in the official changelog we just omit the jira section. We can still
+        use the jira section in developer tooling like PRs and internal
+        progress tracking.
+    TODO: Add ability to specify the starting point for the changelog command.
+        Ideally the user could specify the base branch and get the changelog
+        only for his branch. This would make it very easy to use tags in the
+        commit messages in your branch and then use peltak changelog to generate
+        a PR description.
+    """
     # Skip 'v' prefix
     versions = [x for x in git.tags() if versioning.is_valid(x[1:])]
 
@@ -54,15 +64,17 @@ def changelog():
         ))
     ]
 
-    results = OrderedDict((tag.header, []) for tag in tags)    # type: ChangelogItems
+    results: ChangelogItems = OrderedDict((tag.header, []) for tag in tags)
 
     for commit in commits:
         commit_items = extract_changelog_items(commit.desc, tags)
         for header, items in commit_items.items():
             results[header] += items
 
+    version = versioning.current()
     lines = [
-        '<35>v{}<0>'.format(versioning.current()),
+        '<35>v{}<0>'.format(version),
+        '<32>{}<0>'.format('=' * (len(version) + 1)),
         '',
     ]
     for header, items in results.items():
@@ -82,8 +94,7 @@ def changelog():
     return '\n'.join(lines)
 
 
-def extract_changelog_items(text, tags):
-    # type: (str, List[ChangelogTag]) -> Dict[str, List[str]]
+def extract_changelog_items(text: str, tags: List[ChangelogTag]) -> Dict[str, List[str]]:
     """ Extract all tagged items from text.
 
     Args:
@@ -101,7 +112,7 @@ def extract_changelog_items(text, tags):
     """
 
     patterns = {tag.header: tag_re(tag.tag) for tag in tags}
-    items = {tag.header: [] for tag in tags}    # type: ChangelogItems
+    items: ChangelogItems = {tag.header: [] for tag in tags}
     curr_tag = None
     curr_text = ''
 
@@ -132,8 +143,7 @@ def extract_changelog_items(text, tags):
     return items
 
 
-def tag_re(tag):
-    # type: (str) -> Pattern
+def tag_re(tag: str) -> Pattern:
     """ Return a regular expression to match tagged lines.
 
     Args:
@@ -152,7 +162,3 @@ def tag_re(tag):
         # r'\(feature\) (?P<text>.*?\n\n)',
         r'(- |\* |\s+)?\({tag}\) (?P<text>.*)'.format(tag=tag),
     )
-
-
-# Used in type hint comments only (until we drop python2 support)
-del Any, Dict, List, Optional, Pattern, ChangelogItems

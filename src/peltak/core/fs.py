@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-# Copyright 2017-2018 Mateusz Klos
+# Copyright 2017-2020 Mateusz Klos
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,28 +16,22 @@
 .. module:: peltak.core.fs
     :synopsis: File system related helpers.
 """
-from __future__ import absolute_import, unicode_literals
-
-# stdlib imports
 import fnmatch
 import itertools
 import os
 import re
 from os.path import isdir, join, normpath
-from typing import Iterator, List, Optional, Text, Union
+from typing import Iterator, List, Optional, Union
 
-# 3rd party imports
 from six import string_types
 
-# local imports
 from . import conf
 from . import log
 from . import types
 from . import context
 
 
-def wrap_paths(paths):
-    # type: (List[str]) -> str
+def wrap_paths(paths: List[str]) -> str:
     """ Put quotes around all paths and join them with space in-between. """
     if isinstance(paths, string_types):
         raise ValueError(
@@ -48,22 +41,25 @@ def wrap_paths(paths):
     return ' '.join('"' + path + '"' for path in paths)
 
 
-def filtered_walk(path, include=None, exclude=None):
-    # type: (str, Optional[List[str]], Optional[List[str]]) -> Iterator[str]
+def filtered_walk(
+    path: str,
+    include: Optional[List[str]] = None,
+    exclude: Optional[List[str]] = None
+) -> Iterator[str]:
     """ Walk recursively starting at *path* excluding files matching *exclude*
 
     Args:
-        path (str):
+        path:
             A starting path. This has to be an existing directory.
-        include (list[str]):
+        include:
             A white list of glob patterns. If given, only files that match those
             globs will be yielded (filtered by exclude).
-        exclude (list[str]):
+        exclude:
             A list of glob string patterns to test against. If the file/path
             matches any of those patters, it will be filtered out.
 
     Returns:
-        Iterator[str]: A generator yielding all the files that do not match any
+        A generator yielding all the files that do not match any
         pattern in ``exclude``.
     """
     exclude = exclude or []
@@ -90,8 +86,7 @@ def filtered_walk(path, include=None, exclude=None):
                 yield p
 
 
-def match_globs(path, patterns):
-    # type: (str, List[str]) -> bool
+def match_globs(path: str, patterns: List[str]) -> bool:
     """ Test whether the given *path* matches any patterns in *patterns*
 
     Args:
@@ -116,13 +111,12 @@ def match_globs(path, patterns):
                 return True
 
         elif fnmatch.fnmatch(path, pattern):
-                return True
+            return True
 
     return False
 
 
-def search_globs(path, patterns):
-    # type: (str, List[str]) -> bool
+def search_globs(path: str, patterns: List[str]) -> bool:
     """ Test whether the given *path* contains any patterns in *patterns*
 
     Args:
@@ -157,8 +151,7 @@ def search_globs(path, patterns):
     return False
 
 
-def write_file(path, content, mode='w'):
-    # type: (Text, Union[Text,bytes], Text) -> None
+def write_file(path: str, content: Union[str, bytes], mode: str = 'w') -> None:
     """ --pretend aware file writing.
 
     You can always write files manually but you should always handle the
@@ -181,8 +174,7 @@ def write_file(path, content, mode='w'):
             fp.write(content)
 
 
-def collect_files(files):
-    # type: (types.FilesCollection) -> List[str]
+def collect_files(files: types.FilesCollection) -> List[str]:
     """ Collect files using the given configuration. """
     paths = [conf.proj_path(p) for p in files.paths]
 
@@ -194,7 +186,7 @@ def collect_files(files):
         log.info("blacklist: <33>\n{}".format('\n'.join(files.blacklist())))
 
     if files.only_staged and files.include and not files.whitelist():
-        # include will be empty if none of the staged filed match include
+        # include will be empty if none of the staged files match include
         # and thus the final fs walk will pick up everything. We want
         # to preserve the include patterns defined in `pelconf.yaml`
         # so nothing is picked if none of the staged files match.
@@ -204,7 +196,3 @@ def collect_files(files):
         filtered_walk(path, files.whitelist(), files.blacklist())
         for path in paths
     ))
-
-
-# Used in type hint comments only (until we drop python2 support)
-del Iterator, List, Optional, Text, Union, types

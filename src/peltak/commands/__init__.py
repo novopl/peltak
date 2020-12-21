@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-# Copyright 2017-2018 Mateusz Klos
+# Copyright 2017-2020 Mateusz Klos
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,15 +18,10 @@ All commands (and only commands) should be defined inside this package. This
 should be as thin layer as possible. Ideally just processing CLI params and
 displaying results.
 """
-from __future__ import absolute_import
-
-# stdlib imports
 from typing import Any, Callable, Union
 
-# 3rd party imports
 import click
 
-# local imports
 import peltak
 
 
@@ -36,8 +30,7 @@ AnyFn = Callable[..., Any]
 
 @click.group()
 @click.version_option(version=peltak.__version__, message='%(version)s')
-def root_cli():
-    # type: () -> None
+def root_cli() -> None:
     """
 
     To get help for a specific command:
@@ -56,8 +49,7 @@ def root_cli():
     pass
 
 
-def pretend_option(fn):
-    # type: (AnyFn) -> AnyFn
+def pretend_option(fn: AnyFn) -> AnyFn:
     """ Decorator to add a --pretend option to any click command.
 
     The value won't be passed down to the command, but rather handled in the
@@ -75,8 +67,11 @@ def pretend_option(fn):
     This value will be accessible from anywhere in the code.
     """
 
-    def set_pretend(ctx, param, value):     # pylint: disable=missing-docstring
-        # type: (click.Context, Union[click.Option, click.Parameter], Any) -> Any
+    def set_pretend(     # pylint: disable=missing-docstring
+        ctx: click.Context,
+        param: Union[click.Option, click.Parameter],
+        value: Any
+    ) -> Any:
         from peltak.core import context
         from peltak.core import shell
 
@@ -114,10 +109,11 @@ def _pretend_msg():
         msg = msg.decode('utf-8')
 
     try:
-        # We do empty format() here so that it forces unicode errors here
+        # We do empty format() so that it forces unicode errors to happen here
         # and not when it's used/printed.
         return '{}'.format(util.remove_indent(msg))
-    except:
+    except Exception:
+        # Pretty printing the frame is not supported - fallback to raw ASCII.
         return util.remove_indent('''
         +-----------------------------------------------------------------+
         |                     Running in pretend mode.                    |
@@ -147,8 +143,11 @@ def verbose_option(fn):
     This value will be accessible from anywhere in the code.
     """
 
-    def set_verbose(ctx, param, value):     # pylint: disable=missing-docstring
-        # type: (click.Context, Union[click.Option, click.Parameter], Any) -> Any
+    def set_verbose(    # pylint: disable=missing-docstring
+        ctx: click.Context,
+        param: Union[click.Option, click.Parameter],
+        value: Any
+    ) -> Any:
         from peltak.core import context
         context.set('verbose', value or 0)
 

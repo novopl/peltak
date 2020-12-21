@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-# Copyright 2017-2018 Mateusz Klos
+# Copyright 2017-2020 Mateusz Klos
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,13 +13,8 @@
 # limitations under the License.
 #
 """ Types and classes used by `peltak.extra.changelog`. """
-from __future__ import absolute_import, unicode_literals
-
-# stdlib imports
 from typing import Any, Dict, List
 
-
-# 3rd party imports
 import attr
 
 
@@ -41,7 +35,3 @@ class ChangelogTag(object):
     """
     header = attr.ib(type=str)
     tag = attr.ib(type=str)
-
-
-# Used only in type hint comments
-del Any, Dict, List
