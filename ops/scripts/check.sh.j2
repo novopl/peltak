@@ -3,13 +3,13 @@ set -e
 
 {% if files %}
   {{ 'mypy' | header }}
-  pipenv run mypy --ignore-missing-imports {{ files | wrap_paths }}
+  mypy --ignore-missing-imports {{ files | wrap_paths }}
 
   {{ 'pep8' | header }}
-  pipenv run pycodestyle --config ops/tools/pep8.ini {{ files | wrap_paths }};
+  pycodestyle --config ops/tools/pep8.ini {{ files | wrap_paths }};
 
   {{ 'pylint' | header }}
-  pipenv run pylint --rcfile ops/tools/pylint.ini {{ files | wrap_paths }}
+  pylint --rcfile ops/tools/pylint.ini {{ files | wrap_paths }}
 
   {{ 'done' | header }}
 {% else %}

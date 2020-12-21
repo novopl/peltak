@@ -13,7 +13,7 @@
 # limitations under the License.
 #
 """ Simple command line form/wizard implementation. """
-from typing import Any, Callable, Dict, Tuple
+from typing import Any, Callable, Dict, Optional, Tuple
 
 import click
 from six import with_metaclass
@@ -48,11 +48,16 @@ class Field(object):
     """
     _idx = 0
 
-    def __init__(self, prompt, type, help, default=None):
-        # type: (str, Callable, str, Any) -> None
+    def __init__(
+        self,
+        prompt: str,
+        type: Callable,
+        help: str,
+        default: Optional[Any] = None
+    ):
         self._idx += 1
 
-        self.id = None
+        self.id: Optional[str] = None
         self.form = None
 
         self.prompt = prompt
@@ -60,7 +65,7 @@ class Field(object):
         self.help = help
         self.default = default
 
-    def bind(self, field_id):
+    def bind(self, field_id: str):
         """ Bind this field to the given ID.
 
         The field ID is usually the name of the field attribute as defined in
@@ -71,8 +76,7 @@ class Field(object):
         return self
 
     @property
-    def pretty_prompt(self):
-        # type: () -> str
+    def pretty_prompt(self) -> str:
         """ Return a colorized prompt ready to be displayed to the user. """
         return shell.fmt('<1>{}<0>'.format(self.prompt))
 
@@ -83,8 +87,7 @@ class FormMeta(type):
     It will bind all the fields in the form and make them available as
     ``cls.fields`` attribute for easy access.
     """
-    def __init__(cls, name, bases, attrs):
-        # type: (str, Tuple[type], Dict[str, Any]) -> None
+    def __init__(cls, name: str, bases: Tuple[type], attrs: Dict[str, Any]):
         super(FormMeta, cls).__init__(name, bases, attrs)
 
         cls.fields = sorted(
@@ -101,12 +104,11 @@ class Form(with_metaclass(FormMeta)):
     ask the user for more details in order to continue.
     """
     def __init__(self):
-        # type: () -> None
-        self.values = {}
+        self.values: Dict[str, Any] = {}
 
-    def run(self, quick=False):
-        # type: (bool) -> Form
-        for field in self.fields:
+    def run(self, quick: bool = False) -> 'Form':
+        # .fields is injected by the metaclass
+        for field in self.fields:   # type: ignore
             self.values[field.id] = self.get_value(field, quick)
 
         return self
@@ -114,8 +116,7 @@ class Form(with_metaclass(FormMeta)):
     def __getitem__(self, item):
         return self.values[item]
 
-    def get_value(self, field, quick):
-        # type: (Field, bool) -> Any
+    def get_value(self, field: Field, quick: bool) -> Any:
         """ Ask user the question represented by this instance.
 
         Args:
@@ -149,7 +150,3 @@ class Form(with_metaclass(FormMeta)):
                 return field.type(answer)
             except ValueError:
                 shell.cprint("<31>Unsupported value")
-
-
-# Used in docstrings only until we drop python2 support
-del Any, Dict, Tuple

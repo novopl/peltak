@@ -12,9 +12,6 @@ jobs:
       - run:
           name: Setup peltak
           command: |
-            export PIPENV_VENV_IN_PROJECT=1
-            export PIPENV_IGNORE_VIRTUALENVS=1
-
             echo '== which pip ============================================='
             which pip
             echo '== which python =========================================='
@@ -23,8 +20,8 @@ jobs:
             python --version
             echo '== whoami ================================================'
             whoami
-            echo '== pipenv sync -d ========================================'
-            pipenv sync -d
+            echo '== poetry install ========================================'
+            poetry install
             echo '=========================================================='
 
       - save_cache:
@@ -36,24 +33,16 @@ jobs:
 
       - run:
           name: Checks
-          command: |
-            export PIPENV_VENV_IN_PROJECT=1
-            export PIPENV_IGNORE_VIRTUALENVS=1
-
-            pipenv run peltak check
+          command: poetry run peltak check
 
       - run:
           name: Test
-          command: |
-            export PIPENV_VENV_IN_PROJECT=1
-            pipenv run peltak test
+          command: poetry run peltak test
 
       - run:
           name: Build Documentation
           command: |
-            export PIPENV_VENV_IN_PROJECT=1
-
-            pipenv run peltak docs --recreate --run-doctests
+            poetry run peltak docs --recreate --run-doctests
             mv docs/html docs/peltak-docs
             cd docs && zip -r ../.build/peltak-docs.zip peltak-docs
 
@@ -79,8 +68,8 @@ jobs:
           command: |
             export PIPENV_VENV_IN_PROJECT=1
 
-            echo '== pipenv install -d ====================================='
-            pipenv install -d
+            echo '== poetry install ====================================='
+            poetry install
             echo '=========================================================='
 
       - run:
@@ -88,15 +77,15 @@ jobs:
           command: |
             export PIPENV_VENV_IN_PROJECT=1
 
-            pipenv run peltak pypi configure
-            pipenv run peltak pypi upload pypi
+            poetry run peltak pypi configure
+            poetry run peltak pypi upload pypi
             rm ~/.pypirc
 
       - run:
           name: Create release tag
           command: |
-            pipenv run peltak release tag -m "$(pipenv run peltak changelog)"
-            git push origin v$(pipenv run peltak version --porcelain)
+            poetry run peltak release tag -m "$(potery run peltak changelog)"
+            git push origin v$(poetry run peltak version --porcelain)
 
   docs:
     docker:
@@ -109,20 +98,15 @@ jobs:
       - run:
           name: Setup
           command: |
-            export PIPENV_VENV_IN_PROJECT=1
-
-            echo '== peltak sync -d ========================================'
-            time pipenv sync -d
+            echo '== poetry install ========================================'
+            time poetry install
             echo '== peltak --help ========================================='
-            pipenv run peltak --help
+            poetry run peltak --help
             echo '=========================================================='
 
       - run:
           name: Build docs
-          command: |
-            export PIPENV_VENV_IN_PROJECT=1
-
-            pipenv run peltak docs
+          command: poetry run peltak docs
 
       - run:
           name: Deploy gh-pages
