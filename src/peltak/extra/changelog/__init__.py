@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-# Copyright 2017-2018 Mateusz Klos
+# Copyright 2017-2020 Mateusz Klos
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -92,5 +91,4 @@ an example (this is the default configuration):
           tag: 'fix'
 
 """
-from __future__ import absolute_import, unicode_literals
 from .commands import changelog_cli

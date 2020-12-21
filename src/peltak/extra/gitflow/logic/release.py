@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-# Copyright 2017-2018 Mateusz Klos
+# Copyright 2017-2020 Mateusz Klos
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,13 +13,9 @@
 # limitations under the License.
 #
 """ git flow hotfix commands implementation. """
-from __future__ import absolute_import, unicode_literals
-
-# stdlib imports
 import os
 import sys
 
-# local imports
 from peltak.core import conf
 from peltak.core import context
 from peltak.core import git
@@ -32,8 +27,7 @@ from peltak.extra.changelog.logic import changelog
 from . import common
 
 
-def start(component, exact):
-    # type: (str, str) -> None
+def start(component: str, exact: str):
     """ Create a new release branch.
 
     Args:
@@ -54,7 +48,7 @@ def start(component, exact):
         out = shell.run('git status --porcelain', capture=True).stdout
         lines = out.split(os.linesep)
         has_changes = any(
-            not l.startswith('??') for l in lines if l.strip()
+            not line.startswith('??') for line in lines if line.strip()
         )
 
     if has_changes:
@@ -83,8 +77,7 @@ def start(component, exact):
         hooks.register.call('post-release-start', branch, old_ver, new_ver)
 
 
-def finish(fast_forward):
-    # type: (bool) -> None
+def finish(fast_forward: bool):
     """ Merge current release into develop and master and tag it. """
     pretend = context.get('pretend', False)
 
@@ -126,7 +119,6 @@ def finish(fast_forward):
 
 
 def merged():
-    # type: () -> None
     """ Cleanup the release branch after it was remotely merged to master. """
     develop = conf.get('git.devel_branch', 'develop')
     master = conf.get('git.master_branch', 'master')
@@ -153,8 +145,7 @@ def merged():
     hooks.register.call('post-release-merged', branch)
 
 
-def tag(message):
-    # type: (str) -> None
+def tag(message: str):
     """ Tag the current commit with the current version. """
     release_ver = versioning.current()
     message = message or 'v{} release'.format(release_ver)

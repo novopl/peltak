@@ -1,0 +1,58 @@
+[tool.poetry]
+name = "peltak"
+version = "0.26.7"
+description = "A command line tool to help manage a project"
+readme = "README.rst"
+repository = "http://github.com/novopl/peltak"
+homepage = "http://novopl.github.com/peltak"
+documentation = "http://novopl.github.com/peltak"
+authors = ["Mateusz Klos <novopl@gmail.com>"]
+license = "Apache 2.0"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Topic :: Utilities",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python",
+    "License :: OSI Approved :: MIT License",
+]
+packages = [
+    { include = "peltak", from = "src" },
+    { include = "cliform", from = "src" },
+    { include = "peltak_appengine", from = "src" },
+    { include = "peltak_django", from = "src" },
+]
+include = ["LICENSE", "AUTHORS", "README.rst"]
+exclude = ["docs/**"]
+
+[tool.poetry.scripts]
+peltak = 'peltak.main:root_cli'
+
+[tool.poetry.dependencies]
+python = "^3.6"
+click = "~=7.0"
+PyYAML = ">=5.1.2"
+six = ">=1.11"
+attrs = ">=18.2"
+jinja2 = ">=2.10.3"
+pygments = ">=2.3.1"
+
+[tool.poetry.dev-dependencies]
+coverage = "~=5.3"
+factory-boy = "~=2.11"
+more-itertools = "<=5.0.0"
+mypy = {version = "==0.790",markers = "python_version >= '3.5'"}
+psutil = "~=5.7.3"
+pycodestyle = "~=2.6.0"
+pylint = "~=2.6.0"
+pytest = "~=6.1.2"
+pytest-cov = "~=2.10.1"
+pytest-sugar = "~=0.9.4"
+Sphinx = ">=3.3.1"
+sphinx-refdoc = "~=0.3.0"
+sphinx-rtd-theme = "~=0.2"
+sphinxcontrib-plantuml = "~=0.17.1"
+requests = "~=2.25.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

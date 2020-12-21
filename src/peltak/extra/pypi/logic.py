@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-# Copyright 2017-2018 Mateusz Klos
+# Copyright 2017-2020 Mateusz Klos
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,13 +13,10 @@
 # limitations under the License.
 #
 """ pypi related commands implementation. """
-from __future__ import absolute_import, unicode_literals
-
-# stdlib imports
 import sys
 from os.path import join
+from typing import Optional
 
-# local imports
 from peltak.core import conf
 from peltak.core import fs
 from peltak.core import log
@@ -28,8 +24,7 @@ from peltak.core import shell
 from peltak.core import util
 
 
-def upload(target):
-    # type: (str) -> None
+def upload(target: str):
     """ Upload the release to a pypi server.
 
     TODO: Make sure the git directory is clean before allowing a release.
@@ -44,8 +39,7 @@ def upload(target):
         shell.run('python setup.py sdist upload -r "{}"'.format(target))
 
 
-def gen_pypirc(username=None, password=None):
-    # type: (str, str) -> None
+def gen_pypirc(username: Optional[str] = None, password: Optional[str] = None):
     """ Generate ~/.pypirc with the given credentials.
 
     Useful for CI builds. Can also get credentials through env variables

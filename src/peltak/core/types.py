@@ -1,14 +1,8 @@
-# -*- coding: utf-8 -*-
 """ Types and classes used across **peltak** codebase. """
-from __future__ import absolute_import, unicode_literals
-
-# stdlib imports
 from typing import Any, Callable, Dict, List
 
-# 3rd party imports
 import attr
 
-# local imports
 from six import string_types
 
 
@@ -39,8 +33,7 @@ class FilesCollection(object):
     use_gitignore = attr.ib(type=bool, default=True)
 
     @classmethod
-    def from_config(cls, files_conf):
-        # type: (YamlConf) -> FilesCollection
+    def from_config(cls, files_conf: YamlConf) -> 'FilesCollection':
         """ Load from config dict """
         paths = files_conf.get('paths')
         fields = attr.fields(cls)
@@ -68,8 +61,7 @@ class FilesCollection(object):
                                          fields.use_gitignore.default),
         )
 
-    def whitelist(self):
-        # type: () -> List[str]
+    def whitelist(self) -> List[str]:
         """ Return a full whitelist for use with `fs.filtered_walk()` """
         from peltak.core import fs      # avoid circular dependency.
         from peltak.core import git
@@ -86,8 +78,7 @@ class FilesCollection(object):
 
         return include
 
-    def blacklist(self):
-        # type: () -> List[str]
+    def blacklist(self) -> List[str]:
         """ Return a full blacklist for use with `fs.filtered_walk()` """
         from peltak.core import git
 

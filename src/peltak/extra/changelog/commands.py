@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-# Copyright 2017-2018 Mateusz Klos
+# Copyright 2017-2020 Mateusz Klos
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,15 +19,13 @@
 
 CLI definition.
 """
-from __future__ import absolute_import
 
 from peltak.commands import root_cli, click
 
 
 @root_cli.group('changelog', invoke_without_command=True)
 @click.pass_context
-def changelog_cli(ctx):
-    # type: (click.Context) -> None
+def changelog_cli(ctx: click.Context) -> None:
     """ Generate changelog from commit messages. """
     if ctx.invoked_subcommand:
         return

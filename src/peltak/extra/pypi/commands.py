@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-# Copyright 2017-2018 Mateusz Klos
+# Copyright 2017-2020 Mateusz Klos
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,13 +13,11 @@
 # limitations under the License.
 #
 """ Helper commands for dealing with pypi. """
-from __future__ import absolute_import
 from peltak.commands import click, root_cli, pretend_option
 
 
 @root_cli.group('pypi')
 def pypi_cli():
-    # type: () -> None
     """ pypi related commands """
     pass
 
@@ -28,8 +25,7 @@ def pypi_cli():
 @pypi_cli.command('upload')
 @click.argument('target', required=False, default='pypi')
 @pretend_option
-def upload(target):
-    # type: (str) -> None
+def upload(target: str):
     """ Upload to a given pypi target.
 
     Examples::
@@ -55,8 +51,7 @@ def upload(target):
     help="PyPi password. Defaults to PYPI_PASS env variable."
 )
 @pretend_option
-def configure(username, password):
-    # type: (str, str) -> None
+def configure(username: str, password: str):
     """
     Generate .pypirc config with the given credentials.
 

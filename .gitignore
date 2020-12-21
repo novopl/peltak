@@ -25,6 +25,7 @@ requirements.txt
 docs/html
 docs/doctest
 docs/dev/ref
+dist
 
 # Data files
 *.db

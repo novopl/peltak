@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-# Copyright 2017-2018 Mateusz Klos
+# Copyright 2017-2020 Mateusz Klos
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,12 +13,8 @@
 # limitations under the License.
 #
 """ git flow hotfix commands implementation. """
-from __future__ import absolute_import, unicode_literals
-
-# stdlib imports
 import sys
 
-# local imports
 from peltak.core import conf
 from peltak.core import context
 from peltak.core import git
@@ -28,8 +23,7 @@ from peltak.core import log
 from . import common
 
 
-def start(name):
-    # type: (str) -> None
+def start(name: str):
     """ Start working on a new hotfix.
 
     This will create a new branch off master called hotfix/<name>.
@@ -48,8 +42,7 @@ def start(name):
     hooks.register.call('post-hotfix-start', name)
 
 
-def rename(name):
-    # type: (str) -> None
+def rename(name: str):
     """ Give the currently developed feature a new name.
 
     Args:
@@ -62,7 +55,6 @@ def rename(name):
 
 
 def update():
-    # type: () -> None
     """ Update the hotfix with updates committed to master.
 
     This will merge current develop into the current branch.
@@ -77,8 +69,7 @@ def update():
     common.git_merge(branch.name, master)
 
 
-def finish(fast_forward):
-    # type: (bool) -> None
+def finish(fast_forward: bool):
     """ Merge current feature into develop. """
     pretend = context.get('pretend', False)
 
@@ -117,7 +108,6 @@ def finish(fast_forward):
 
 
 def merged():
-    # type: () -> None
     """ Cleanup a remotely merged branch. """
     develop = conf.get('git.devel_branch', 'develop')
     master = conf.get('git.master_branch', 'master')

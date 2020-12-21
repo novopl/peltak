@@ -1,19 +1,14 @@
-# -*- coding: utf-8 -*-
 """
 .. module:: peltak.core.pelconf
     :synopsis: `pelconf.yaml` handling.
 """
-from __future__ import absolute_import, unicode_literals
-
-# stdlib imports
 import os
 import os.path
 import sys
 from contextlib import contextmanager
 from types import ModuleType
-from typing import Any, Dict, Iterator, List, Optional, Text, Union
+from typing import Any, Dict, Iterator, Optional, Union
 
-# local imports
 from . import hooks
 from . import log
 from . import util
@@ -26,7 +21,7 @@ class Pelconf(util.Singleton):
     """ Represents the `pelconf.yaml` file. """
     def __init__(self):
         if not self._singleton_initialized:
-            self.values = {}    # type: Dict[str, Any]
+            self.values: Dict[str, Any] = {}
             self.proj_root_path = None
 
     def from_file(self, path):
@@ -67,8 +62,7 @@ class Pelconf(util.Singleton):
 
         hooks.register.call('post-conf-load')
 
-    def get(self, name, *default):
-        # type: (str, *Any) -> Any
+    def get(self, name: str, *default: Any) -> Any:
         """ Get config value with the given name and optional default.
 
         Args:
@@ -100,8 +94,7 @@ class Pelconf(util.Singleton):
 
         return curr
 
-    def get_path(self, name, *default):
-        # type: (str, Any) -> Any
+    def get_path(self, name: str, *default: Any) -> Any:
         """ Get config value as path relative to the project directory.
 
         This allows easily defining the project configuration within the fabfile
@@ -130,13 +123,11 @@ class Pelconf(util.Singleton):
 
         return self.proj_path(value)
 
-    def get_env(self, name, *default):
-        # type: (str, Any) -> Union[str, Any]
+    def get_env(self, name: str, *default: Any) -> Union[str, Any]:
         """ Get the value of an ENV variable. """
         return os.environ.get(name, *default)
 
-    def proj_path(self, *path_parts):
-        # type: (*str) -> str
+    def proj_path(self, *path_parts: str) -> str:
         """ Return absolute path to the repo dir (root project directory).
 
         Args:
@@ -157,8 +148,7 @@ class Pelconf(util.Singleton):
         return os.path.normpath(os.path.join(*parts))
 
     @contextmanager
-    def within_proj_dir(self, path='.'):
-        # type: (str) -> Iterator[None]
+    def within_proj_dir(self, path: str = '.') -> Iterator[None]:
         """ Return an absolute path to the given project relative path.
 
         :param path:
@@ -177,8 +167,7 @@ class Pelconf(util.Singleton):
 
 
 @util.cached_result()
-def _find_proj_root():
-    # type: () -> Optional[str]
+def _find_proj_root() -> Optional[str]:
     """ Find the project path by going up the file tree.
 
     This will look in the current directory and upwards for the pelconf file
@@ -196,11 +185,6 @@ def _find_proj_root():
     return None
 
 
-def _import(cmd):
-    # type: (str) -> ModuleType
+def _import(cmd: str) -> ModuleType:
     """ Exists only so we can patch it in tests."""
     return __import__(cmd)   # nocov
-
-
-# Used in type hint comments only (until we drop python2 support)
-del Any, Dict, Iterator, List, Optional, Union, Text, ModuleType

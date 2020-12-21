@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-# Copyright 2017-2018 Mateusz Klos
+# Copyright 2017-2020 Mateusz Klos
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,15 +13,10 @@
 # limitations under the License.
 #
 """ Git commands implementation. """
-from __future__ import absolute_import, unicode_literals
-
-# stdlib imports
 import os
 
-# 3rd party imports
 import click
 
-# local imports
 from peltak.core import conf
 from peltak.core import context
 from peltak.core import fs
@@ -32,8 +26,7 @@ from peltak.core import shell
 from peltak.core import util
 
 
-def add_hooks(pre_commit, pre_push):
-    # type: (str, str) -> None
+def add_hooks(pre_commit: str, pre_push: str):
     """ Add git hooks for commit and push to run linting and tests. """
 
     # Detect virtualenv the hooks should use
@@ -91,7 +84,6 @@ def add_hooks(pre_commit, pre_push):
 
 
 def push():
-    # type: () -> None
     """ Push the current branch to origin.
 
     This is an equivalent of ``git push -u origin <branch>``. Mainly useful for

@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-# Copyright 2017-2018 Mateusz Klos
+# Copyright 2017-2020 Mateusz Klos
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,19 +16,14 @@
 .. module:: peltak.core.shell
     :synopsis: Shell related helpers.
 """
-from __future__ import absolute_import, unicode_literals
-
-# stdlib imports
 import os
 import re
 import subprocess
 import sys
 from typing import Any, Dict
 
-# 3rd party imports
 import attr
 
-# local imports
 from . import context
 
 
@@ -67,8 +61,7 @@ class ExecResult(object):
 is_tty = sys.stdout.isatty()
 
 
-def decolorize(text):
-    # type: (str) -> str
+def decolorize(text: str) -> str:
     """ Remove all opcodes from the text.
 
     Args:
@@ -82,8 +75,7 @@ def decolorize(text):
     return re.sub(r'<(\d{1,2})>', '', text)
 
 
-def fmt(msg, *args, **kw):
-    # type: (str, *Any, **Any) -> str
+def fmt(msg: str, *args: Any, **kw: Any) -> str:
     """ Generate shell color opcodes from a pretty coloring syntax. """
     global is_tty
 
@@ -94,8 +86,7 @@ def fmt(msg, *args, **kw):
     return re.sub(r'<(\d{1,2})>', opcode_subst, msg)
 
 
-def cprint(msg, *args, **kw):
-    # type: (str, *Any, **Any) -> None
+def cprint(msg: str, *args: Any, **kw: Any):
     """ Print colored message to stdout. """
     if len(args) or len(kw):
         msg = msg.format(*args, **kw)
@@ -103,13 +94,12 @@ def cprint(msg, *args, **kw):
     print(fmt('{}<0>'.format(msg)))
 
 
-def run(cmd,
-        capture=False,
-        shell=True,
-        env=None,
-        exit_on_error=None,
-        never_pretend=False):
-    # type: (str, bool, bool, EnvDict, bool, bool) -> ExecResult
+def run(cmd: str,
+        capture: bool = False,
+        shell: bool = True,
+        env: EnvDict = None,
+        exit_on_error: bool = None,
+        never_pretend: bool = False):
     """ Run a shell command.
 
     Args:
@@ -150,10 +140,10 @@ def run(cmd,
     if context.get('verbose', 0) > 2:
         cprint('<90>{}', cmd)
 
-    options = {
+    options: Dict[str, Any] = {
         'bufsize': 1,       # line buffered
         'shell': shell
-    }   # type: Dict[str, Any]
+    }
 
     if exit_on_error is None:
         exit_on_error = not capture
@@ -200,8 +190,7 @@ def run(cmd,
         raise
 
 
-def highlight(code, fmt):
-    # type: (str, str) -> str
+def highlight(code: str, fmt: str) -> str:
     """ Highlight a given code snippet for printing in the terminal.
 
     Assumes 256 color terminal.
@@ -231,7 +220,3 @@ def highlight(code, fmt):
         raise ValueError("Unsupported code format: {}".format(fmt))
 
     return pygments.highlight(code, lexer_cls(), Terminal256Formatter())
-
-
-# Used in docstrings only until we drop python2 support
-del Any, Dict

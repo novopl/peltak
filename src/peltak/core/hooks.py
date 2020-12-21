@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-# Copyright 2017-2018 Mateusz Klos
+# Copyright 2017-2020 Mateusz Klos
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -50,10 +49,6 @@ Registering a handler for any hook is also very simple:
         print("pre_test_command called with ({}, {})".format(pi, msg))
 
 """
-from __future__ import absolute_import, unicode_literals
-
-# stdlib imports
-from types import FunctionType
 from typing import Any, Callable
 
 
@@ -66,8 +61,7 @@ class HooksRegister(object):
     def __init__(self):
         self.hooks = {}
 
-    def remove(self, name, fn):
-        # type: (str, AnyFunc) -> None
+    def remove(self, name: str, fn: AnyFunc):
         """ Remove a handler for a given hook.
 
         After this call, the *fn* function won't be called when the hook is
@@ -82,8 +76,7 @@ class HooksRegister(object):
         handlers = self.hooks.get(name, [])
         handlers.remove(fn)
 
-    def call(self, name, *args, **kw):
-        # type: (str, *Any, **Any) -> None
+    def call(self, name: str, *args: Any, **kw: Any):
         """ Call all hooks registered for the given name.
 
         This will pass all arguments except for the name directly to the hook.
@@ -93,7 +86,7 @@ class HooksRegister(object):
         Args:
             name:
                 Then name of the hook.
-            *args, \**kw:
+            *args, **kw:
                 Arguments and keyword arguments that should be passed to the
                 hook handlers.
         """
@@ -104,8 +97,7 @@ class HooksRegister(object):
         for handler_fn in handlers:
             handler_fn(*args, **kw)
 
-    def __call__(self, name):
-        # type: (str) -> Decorator
+    def __call__(self, name: str) -> Decorator:
         """ Return a decorator that will register the wrapped function under name.
 
         Args:
@@ -115,14 +107,12 @@ class HooksRegister(object):
         if not name:
             raise ValueError("name cannot be empty")
 
-        def decorator(fn):      # pylint: disable=missing-docstring
-            # type: (AnyFunc) -> AnyFunc
+        def decorator(fn: AnyFunc) -> AnyFunc:  # pylint: disable=missing-docstring
             self._register_handler(name, fn)
             return fn
         return decorator
 
-    def _register_handler(self, name, fn):
-        # type: (str, AnyFunc) -> None
+    def _register_handler(self, name: str, fn: AnyFunc) -> None:
         handlers = self.hooks.setdefault(name, [])
 
         if fn in handlers:
@@ -132,7 +122,3 @@ class HooksRegister(object):
 
 
 register = HooksRegister()
-
-
-# Used only in type hint comments.
-del Any, Callable, FunctionType, Decorator      # type: ignore

@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-# Copyright 2017-2018 Mateusz Klos
+# Copyright 2017-2020 Mateusz Klos
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,15 +13,12 @@
 # limitations under the License.
 #
 """ Implementation. """
-from __future__ import absolute_import, unicode_literals
 
-# stdlib imports
 import re
 import textwrap
 from collections import OrderedDict
-from typing import Any, Dict, List, Optional, Pattern
+from typing import Dict, List, Pattern
 
-# local imports
 from peltak.core import conf
 from peltak.core import git
 from peltak.core import shell
@@ -32,8 +28,7 @@ from .types import ChangelogItems, ChangelogTag
 
 
 @util.mark_experimental
-def changelog():
-    # type: () -> str
+def changelog() -> str:
     """ Print change log since last release.
 
     TODO: Add the ability to omit sections of changelog in the output. This way
@@ -69,7 +64,7 @@ def changelog():
         ))
     ]
 
-    results = OrderedDict((tag.header, []) for tag in tags)    # type: ChangelogItems
+    results: ChangelogItems = OrderedDict((tag.header, []) for tag in tags)
 
     for commit in commits:
         commit_items = extract_changelog_items(commit.desc, tags)
@@ -99,8 +94,7 @@ def changelog():
     return '\n'.join(lines)
 
 
-def extract_changelog_items(text, tags):
-    # type: (str, List[ChangelogTag]) -> Dict[str, List[str]]
+def extract_changelog_items(text: str, tags: List[ChangelogTag]) -> Dict[str, List[str]]:
     """ Extract all tagged items from text.
 
     Args:
@@ -118,7 +112,7 @@ def extract_changelog_items(text, tags):
     """
 
     patterns = {tag.header: tag_re(tag.tag) for tag in tags}
-    items = {tag.header: [] for tag in tags}    # type: ChangelogItems
+    items: ChangelogItems = {tag.header: [] for tag in tags}
     curr_tag = None
     curr_text = ''
 
@@ -149,8 +143,7 @@ def extract_changelog_items(text, tags):
     return items
 
 
-def tag_re(tag):
-    # type: (str) -> Pattern
+def tag_re(tag: str) -> Pattern:
     """ Return a regular expression to match tagged lines.
 
     Args:
@@ -169,7 +162,3 @@ def tag_re(tag):
         # r'\(feature\) (?P<text>.*?\n\n)',
         r'(- |\* |\s+)?\({tag}\) (?P<text>.*)'.format(tag=tag),
     )
-
-
-# Used in type hint comments only (until we drop python2 support)
-del Any, Dict, List, Optional, Pattern, ChangelogItems

@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-# Copyright 2017-2018 Mateusz Klos
+# Copyright 2017-2020 Mateusz Klos
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,12 +13,8 @@
 # limitations under the License.
 #
 """ Root level CLI commands. """
-from __future__ import absolute_import
-
-# stdlib imports
 from typing import Any, List
 
-# local imports
 from . import root_cli, click, pretend_option, verbose_option
 
 
@@ -31,8 +26,7 @@ from . import root_cli, click, pretend_option, verbose_option
     help='Comma separated list of paths to exclude from deletion'
 )
 @pretend_option
-def clean(exclude):
-    # type: (List[str]) -> None
+def clean(exclude: List[str]) -> None:
     """ Remove temporary files like python cache, swap files, etc.
 
     You can configure the list of patterns with clean_patterns config variable.
@@ -81,8 +75,7 @@ def clean(exclude):
 )
 @pretend_option
 @verbose_option
-def init(**args):
-    # type: (**Any) -> None
+def init(**args: Any) -> None:
     """ Create new peltak config file in the current directory.
 
     If ``pelconf.py`` already exists the user will be prompted to confirm
@@ -95,7 +88,3 @@ def init(**args):
     """
     from peltak.logic import root
     root.init(**args)
-
-
-# Used in docstrings only until we drop python2 support
-del Any, List

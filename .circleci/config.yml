@@ -7,14 +7,13 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: deps-rev1-{{ checksum "Pipfile.lock" }}
+          key: deps-{{ checksum ".circleci/config.yml" }}-{{ checksum "poetry.lock" }}
 
       - run:
           name: Setup peltak
           command: |
-            export PIPENV_VENV_IN_PROJECT=1
-            export PIPENV_IGNORE_VIRTUALENVS=1
-
+            echo '== pwd ==================================================='
+            pwd
             echo '== which pip ============================================='
             which pip
             echo '== which python =========================================='
@@ -23,50 +22,33 @@ jobs:
             python --version
             echo '== whoami ================================================'
             whoami
-            echo '== pipenv lock -d --requirements ========================='
-            pipenv lock -d --requirements | tee requirements.txt
-            echo '== pipenv sync -d ========================================'
-            pipenv sync -d
+            echo '== poetry install ========================================'
+            poetry config virtualenvs.in-project true
+            poetry show -v
+            poetry install --no-ansi
             echo '=========================================================='
 
+      - run:
+          name: Checks
+          command: poetry run peltak check
+
+      - run:
+          name: Test
+          command: poetry run peltak test
+
       - save_cache:
-          key: deps-rev1-{{ checksum "Pipfile.lock" }}
+          key: deps-{{ checksum ".circleci/config.yml" }}-{{ checksum "poetry.lock" }}
           paths:
             - /usr/local/bin
             - /usr/local/lib/python3.6/site-packages
             - .venv
-
-      - run:
-          name: Checks
-          command: |
-            export PIPENV_VENV_IN_PROJECT=1
-            export PIPENV_IGNORE_VIRTUALENVS=1
-
-            pipenv run peltak check
-
-      - restore_cache:
-          name: Restore tox cache
-          key: tox-rev1-{{ checksum "requirements.txt" }}
-
-      - run:
-          name: Test
-          command: |
-            export PIPENV_VENV_IN_PROJECT=1
-
-            pipenv run tox
-
-      - save_cache:
-          name: Save tox cache
-          key: tox-rev1-{{ checksum "requirements.txt" }}
-          paths:
-            - .tox
+            - .mypy_cache
+            - .pytest_cache
 
       - run:
           name: Build Documentation
           command: |
-            export PIPENV_VENV_IN_PROJECT=1
-
-            pipenv run peltak docs --recreate --run-doctests
+            poetry run peltak docs --recreate --run-doctests
             mv docs/html docs/peltak-docs
             cd docs && zip -r ../.build/peltak-docs.zip peltak-docs
 
@@ -85,31 +67,24 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: deps-rev1-{{ checksum "Pipfile.lock" }}
+          key: deps-{{ checksum ".circleci/config.yml" }}-{{ checksum "poetry.lock" }}
 
       - run:
           name: Setup peltak
-          command: |
-            export PIPENV_VENV_IN_PROJECT=1
-
-            echo '== pipenv install -d ====================================='
-            pipenv install -d
-            echo '=========================================================='
+          command: poetry install
 
       - run:
           name: Upload to pypi
           command: |
-            export PIPENV_VENV_IN_PROJECT=1
-
-            pipenv run peltak pypi configure
-            pipenv run peltak pypi upload pypi
+            poetry run peltak pypi configure
+            poetry run peltak pypi upload pypi
             rm ~/.pypirc
 
       - run:
           name: Create release tag
           command: |
-            pipenv run peltak release tag -m "$(pipenv run peltak changelog)"
-            git push origin v$(pipenv run peltak version --porcelain)
+            poetry run peltak release tag -m "$(potery run peltak changelog)"
+            git push origin v$(poetry run peltak version --porcelain)
 
   docs:
     docker:
@@ -117,25 +92,20 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: deps-rev1-{{ checksum "setup.py" }}
+          key: deps-{{ checksum ".circleci/config.yml" }}-{{ checksum "poetry.lock" }}
 
       - run:
           name: Setup
           command: |
-            export PIPENV_VENV_IN_PROJECT=1
-
-            echo '== peltak sync -d ========================================'
-            time pipenv sync -d
+            echo '== poetry install ========================================'
+            time poetry install
             echo '== peltak --help ========================================='
-            pipenv run peltak --help
+            poetry run peltak --help
             echo '=========================================================='
 
       - run:
           name: Build docs
-          command: |
-            export PIPENV_VENV_IN_PROJECT=1
-
-            pipenv run peltak docs
+          command: poetry run peltak docs
 
       - run:
           name: Deploy gh-pages

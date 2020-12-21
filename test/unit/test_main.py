@@ -1,9 +1,5 @@
-# -*- coding: utf-8 -*-
 # pylint: disable=missing-docstring
-from __future__ import absolute_import, unicode_literals
-
-# 3rd party imports
-from mock import Mock, patch
+from unittest.mock import Mock, patch
 
 
 @patch('peltak.core.pelconf.Pelconf.init')

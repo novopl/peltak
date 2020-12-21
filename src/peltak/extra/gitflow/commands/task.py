@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-# Copyright 2017-2018 Mateusz Klos
+# Copyright 2017-2020 Mateusz Klos
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -24,7 +23,6 @@ from peltak.commands import root_cli, click, pretend_option
 
 @root_cli.group('task', invoke_without_command=True)
 def task_cli():
-    # type: () -> None
     """ Start a new git-flow task.
 
     Tasks can only be based on feature branches.
@@ -35,8 +33,7 @@ def task_cli():
 @task_cli.command('start')
 @click.argument('name', required=False)
 @pretend_option
-def start(name):
-    # type: (str) -> None
+def start(name: str):
     """ Start a new git-flow feature.  """
     from peltak.extra.gitflow import logic
 
@@ -49,8 +46,7 @@ def start(name):
 @task_cli.command('rename')
 @click.argument('name', required=False)
 @pretend_option
-def rename(name):
-    # type: (str) -> None
+def rename(name: str):
     """ Give the currently developed feature a new name. """
     from peltak.extra.gitflow import logic
 
@@ -63,7 +59,6 @@ def rename(name):
 @task_cli.command('update')
 @pretend_option
 def update():
-    # type: () -> None
     """ Update the feature with updates committed to develop. """
     from peltak.extra.gitflow import logic
     logic.task.update()
@@ -77,8 +72,7 @@ def update():
     help="Try to perform a fast-forward merge. If possible this will not "
          "create a merge commit on the target branch."
 )
-def finish(fast_forward):
-    # type: (bool) -> None
+def finish(fast_forward: bool):
     """ Merge current feature into develop. """
     from peltak.extra.gitflow import logic
     logic.task.finish(fast_forward)
@@ -87,7 +81,6 @@ def finish(fast_forward):
 @task_cli.command('merged')
 @pretend_option
 def merged():
-    # type: () -> None
     """ Cleanup a remotely merged branch. """
     from peltak.extra.gitflow import logic
     logic.task.merged()
