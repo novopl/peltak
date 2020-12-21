@@ -1,8 +1,7 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
@@ -12,27 +11,29 @@
   
 
   
+  <link rel="stylesheet" href="../../../_static/css/overrides.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+
+  
   
   
   
 
   
-  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="../../../_static/css/overrides.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
 </head>
@@ -48,7 +49,7 @@
           
 
           
-            <a href="../../../index.html" class="icon icon-home"> peltak
+            <a href="../../../index.html" class="icon icon-home" alt="Documentation Home"> peltak
           
 
           
@@ -75,6 +76,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -91,6 +93,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -129,7 +132,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
         
           <li><a href="../../index.html">Module code</a> &raquo;</li>
         
@@ -149,8 +152,7 @@
            <div itemprop="articleBody">
             
   <h1>Source code for peltak.core.util</h1><div class="highlight"><pre>
-<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
-<span class="c1"># Copyright 2017-2018 Mateusz Klos</span>
+<span></span><span class="c1"># Copyright 2017-2020 Mateusz Klos</span>
 <span class="c1">#</span>
 <span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
 <span class="c1"># you may not use this file except in compliance with the License.</span>
@@ -168,14 +170,11 @@
 <span class="sd">.. module:: peltak.core.util</span>
 <span class="sd">    :synopsis: Various helpers that do not depend on anything else in the project.</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">absolute_import</span><span class="p">,</span> <span class="n">unicode_literals</span>
-
-<span class="c1"># stdlib imports</span>
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
-<span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">wraps</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="p">(</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">Any</span><span class="p">,</span>
     <span class="n">Callable</span><span class="p">,</span>
     <span class="n">Dict</span><span class="p">,</span>
@@ -188,12 +187,11 @@
     <span class="n">Union</span>
 <span class="p">)</span>
 
-<span class="c1"># 3rd party imports</span>
 <span class="kn">import</span> <span class="nn">yaml</span>
 <span class="k">try</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">yaml</span> <span class="k">import</span> <span class="n">CLoader</span> <span class="k">as</span> <span class="n">Loader</span><span class="p">,</span> <span class="n">CDumper</span> <span class="k">as</span> <span class="n">Dumper</span>
+    <span class="kn">from</span> <span class="nn">yaml</span> <span class="kn">import</span> <span class="n">CLoader</span> <span class="k">as</span> <span class="n">Loader</span><span class="p">,</span> <span class="n">CDumper</span> <span class="k">as</span> <span class="n">Dumper</span>
 <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">yaml</span> <span class="k">import</span> <span class="n">Loader</span><span class="p">,</span> <span class="n">Dumper</span>     <span class="c1"># type: ignore</span>
+    <span class="kn">from</span> <span class="nn">yaml</span> <span class="kn">import</span> <span class="n">Loader</span><span class="p">,</span> <span class="n">Dumper</span>     <span class="c1"># type: ignore</span>
 
 
 <span class="n">TextOrStream</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">Text</span><span class="p">,</span> <span class="n">TextIO</span><span class="p">]</span>
@@ -227,18 +225,17 @@
 <span class="sd">            Elapsed time in milliseconds, rounded to 3 decimal places for easy</span>
 <span class="sd">            display.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">t0</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span>
 
-    <span class="k">def</span> <span class="nf">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_val</span><span class="p">,</span> <span class="n">exc_tb</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_val</span><span class="p">,</span> <span class="n">exc_tb</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">elapsed</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">t0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">elapsed_s</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">elapsed</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">elapsed_ms</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">elapsed</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="mark_experimental"><a class="viewcode-back" href="../../../dev/core/util.html#peltak.core.util.mark_experimental">[docs]</a><span class="k">def</span> <span class="nf">mark_experimental</span><span class="p">(</span><span class="n">fn</span><span class="p">):</span>
-    <span class="c1"># type: (AnyFunction) -&gt; AnyFunction</span>
+<div class="viewcode-block" id="mark_experimental"><a class="viewcode-back" href="../../../dev/core/util.html#peltak.core.util.mark_experimental">[docs]</a><span class="k">def</span> <span class="nf">mark_experimental</span><span class="p">(</span><span class="n">fn</span><span class="p">:</span> <span class="n">AnyFunction</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AnyFunction</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot; Mark function as experimental.</span>
 
 <span class="sd">    Args:</span>
@@ -247,7 +244,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="nd">@wraps</span><span class="p">(</span><span class="n">fn</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>   <span class="c1"># pylint: disable=missing-docstring</span>
-        <span class="kn">from</span> <span class="nn">peltak.core</span> <span class="k">import</span> <span class="n">shell</span>
+        <span class="kn">from</span> <span class="nn">peltak.core</span> <span class="kn">import</span> <span class="n">shell</span>
 
         <span class="k">if</span> <span class="n">shell</span><span class="o">.</span><span class="n">is_tty</span><span class="p">:</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;This command is has experimental status. The &quot;</span>
@@ -258,8 +255,7 @@
     <span class="k">return</span> <span class="n">wrapper</span></div>
 
 
-<div class="viewcode-block" id="mark_deprecated"><a class="viewcode-back" href="../../../dev/core/util.html#peltak.core.util.mark_deprecated">[docs]</a><span class="k">def</span> <span class="nf">mark_deprecated</span><span class="p">(</span><span class="n">replaced_by</span><span class="p">):</span>
-    <span class="c1"># type: (Text) -&gt; Decorator</span>
+<div class="viewcode-block" id="mark_deprecated"><a class="viewcode-back" href="../../../dev/core/util.html#peltak.core.util.mark_deprecated">[docs]</a><span class="k">def</span> <span class="nf">mark_deprecated</span><span class="p">(</span><span class="n">replaced_by</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Decorator</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot; Mark command as deprecated.</span>
 
 <span class="sd">    Args:</span>
@@ -269,7 +265,7 @@
     <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="n">fn</span><span class="p">):</span>   <span class="c1"># pylint: disable=missing-docstring</span>
         <span class="nd">@wraps</span><span class="p">(</span><span class="n">fn</span><span class="p">)</span>
         <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>   <span class="c1"># pylint: disable=missing-docstring</span>
-            <span class="kn">from</span> <span class="nn">peltak.core</span> <span class="k">import</span> <span class="n">shell</span>
+            <span class="kn">from</span> <span class="nn">peltak.core</span> <span class="kn">import</span> <span class="n">shell</span>
 
             <span class="k">if</span> <span class="n">shell</span><span class="o">.</span><span class="n">is_tty</span><span class="p">:</span>
                 <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;This command is has been deprecated. Please use &quot;</span>
@@ -310,11 +306,10 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">CACHE_VAR</span> <span class="o">=</span> <span class="s1">&#39;__cached_result&#39;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">pass</span>
 
-    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fn</span><span class="p">):</span>
-        <span class="c1"># type: (AnyFunction) -&gt; AnyFunction</span>
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fn</span><span class="p">:</span> <span class="n">AnyFunction</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AnyFunction</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot; Apply the decorator to the given function.</span>
 
 <span class="sd">        Args:</span>
@@ -334,8 +329,7 @@
         <span class="k">return</span> <span class="n">wrapper</span>
 
 <div class="viewcode-block" id="cached_result.clear"><a class="viewcode-back" href="../../../dev/core/util.html#peltak.core.util.cached_result.clear">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">clear</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">fn</span><span class="p">):</span>
-        <span class="c1"># type: (AnyFunction) -&gt; None</span>
+    <span class="k">def</span> <span class="nf">clear</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">fn</span><span class="p">:</span> <span class="n">AnyFunction</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Clear result cache on the given function.</span>
 
 <span class="sd">        If the function has no cached result, this call will do nothing.</span>
@@ -348,8 +342,7 @@
             <span class="nb">delattr</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="n">CACHE_VAR</span><span class="p">)</span></div></div>
 
 
-<div class="viewcode-block" id="in_batches"><a class="viewcode-back" href="../../../dev/core/util.html#peltak.core.util.in_batches">[docs]</a><span class="k">def</span> <span class="nf">in_batches</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">):</span>
-    <span class="c1"># type: (Iterable[Any], int) -&gt; Iterator[List[Any]]</span>
+<div class="viewcode-block" id="in_batches"><a class="viewcode-back" href="../../../dev/core/util.html#peltak.core.util.in_batches">[docs]</a><span class="k">def</span> <span class="nf">in_batches</span><span class="p">(</span><span class="n">iterable</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span> <span class="n">batch_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]]:</span>
     <span class="sd">&quot;&quot;&quot; Split the given iterable into batches.</span>
 
 <span class="sd">    Args:</span>
@@ -382,8 +375,7 @@
         <span class="k">yield</span> <span class="n">items</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="nb">min</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">size</span><span class="p">)]</span></div>
 
 
-<div class="viewcode-block" id="yaml_load"><a class="viewcode-back" href="../../../dev/core/util.html#peltak.core.util.yaml_load">[docs]</a><span class="k">def</span> <span class="nf">yaml_load</span><span class="p">(</span><span class="n">str_or_fp</span><span class="p">):</span>
-    <span class="c1"># type: (TextOrStream) -&gt; YamlData</span>
+<div class="viewcode-block" id="yaml_load"><a class="viewcode-back" href="../../../dev/core/util.html#peltak.core.util.yaml_load">[docs]</a><span class="k">def</span> <span class="nf">yaml_load</span><span class="p">(</span><span class="n">str_or_fp</span><span class="p">:</span> <span class="n">TextOrStream</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">YamlData</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot; Load data from YAML string or file-like object.</span>
 
 <span class="sd">    Args:</span>
@@ -395,8 +387,7 @@
     <span class="k">return</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">str_or_fp</span><span class="p">,</span> <span class="n">Loader</span><span class="o">=</span><span class="n">Loader</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="yaml_dump"><a class="viewcode-back" href="../../../dev/core/util.html#peltak.core.util.yaml_dump">[docs]</a><span class="k">def</span> <span class="nf">yaml_dump</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="c1"># type: (YamlData, Optional[Any]) -&gt; Text</span>
+<div class="viewcode-block" id="yaml_dump"><a class="viewcode-back" href="../../../dev/core/util.html#peltak.core.util.yaml_dump">[docs]</a><span class="k">def</span> <span class="nf">yaml_dump</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">YamlData</span><span class="p">,</span> <span class="n">stream</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Text</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot; Dump data to a YAML string/file.</span>
 
 <span class="sd">    Args:</span>
@@ -417,8 +408,7 @@
     <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="remove_indent"><a class="viewcode-back" href="../../../dev/core/util.html#peltak.core.util.remove_indent">[docs]</a><span class="k">def</span> <span class="nf">remove_indent</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
-    <span class="c1"># type: (Text) -&gt; Text</span>
+<div class="viewcode-block" id="remove_indent"><a class="viewcode-back" href="../../../dev/core/util.html#peltak.core.util.remove_indent">[docs]</a><span class="k">def</span> <span class="nf">remove_indent</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot; Remove indentation from the text.</span>
 
 <span class="sd">    All indentation will be removed no matter if it&#39;s consistent across the</span>
@@ -439,9 +429,9 @@
 <span class="sd">    Inheriting from this class will make your class a singleton. It should have</span>
 <span class="sd">    an initializer that takes no arguments.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">instances</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># type: Dict[str, Any]</span>
+    <span class="n">instances</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
 
-    <span class="k">def</span> <span class="nf">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
         <span class="c1"># Could upgrade this to thread local storage</span>
         <span class="n">instance</span> <span class="o">=</span> <span class="n">Singleton</span><span class="o">.</span><span class="n">instances</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -453,10 +443,6 @@
             <span class="n">Singleton</span><span class="o">.</span><span class="n">instances</span><span class="p">[</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="p">]</span> <span class="o">=</span> <span class="n">instance</span>
 
         <span class="k">return</span> <span class="n">instance</span></div>
-
-
-<span class="c1"># Used in type hint comments only (until we drop python2 support)</span>
-<span class="k">del</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Text</span><span class="p">,</span> <span class="n">TextIO</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">Optional</span>
 </pre></div>
 
            </div>
@@ -469,11 +455,19 @@
 
   <div role="contentinfo">
     <p>
+        
         &copy; Copyright 2016-2018, Mateusz &#39;novo&#39; Klos
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -484,7 +478,6 @@
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

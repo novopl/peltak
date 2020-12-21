@@ -1,8 +1,7 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
@@ -12,27 +11,29 @@
   
 
   
+  <link rel="stylesheet" href="../../../_static/css/overrides.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+
+  
   
   
   
 
   
-  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="../../../_static/css/overrides.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
 </head>
@@ -48,7 +49,7 @@
           
 
           
-            <a href="../../../index.html" class="icon icon-home"> peltak
+            <a href="../../../index.html" class="icon icon-home" alt="Documentation Home"> peltak
           
 
           
@@ -75,6 +76,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -91,6 +93,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -129,7 +132,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
         
           <li><a href="../../index.html">Module code</a> &raquo;</li>
         
@@ -149,8 +152,7 @@
            <div itemprop="articleBody">
             
   <h1>Source code for peltak.core.context</h1><div class="highlight"><pre>
-<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
-<span class="sd">&quot;&quot;&quot; Runtime context implementation.</span>
+<span></span><span class="sd">&quot;&quot;&quot; Runtime context implementation.</span>
 
 <span class="sd">.. module:: peltak.core.context</span>
 <span class="sd">    :synopsis: Runtime context for peltak commands.</span>
@@ -162,13 +164,9 @@
 <span class="sd">Works like `peltak.core.pelconf` but the configuration can be dynamically modified</span>
 <span class="sd">in runtime.</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">absolute_import</span><span class="p">,</span> <span class="n">unicode_literals</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
 
-<span class="c1"># stdlib imports</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Text</span>
-
-<span class="c1"># local imports</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">util</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">util</span>
 
 
 <div class="viewcode-block" id="ContextError"><a class="viewcode-back" href="../../../dev/core/context.html#peltak.core.context.ContextError">[docs]</a><span class="k">class</span> <span class="nc">ContextError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
@@ -178,7 +176,7 @@
 
 <div class="viewcode-block" id="InvalidPath"><a class="viewcode-back" href="../../../dev/core/context.html#peltak.core.context.InvalidPath">[docs]</a><span class="k">class</span> <span class="nc">InvalidPath</span><span class="p">(</span><span class="n">ContextError</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Invalid variable path. &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">InvalidPath</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> is not a dict&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
             <span class="s1">&#39;.&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
         <span class="p">))</span></div>
@@ -192,18 +190,16 @@
 <span class="sd">    line and can span many commands or APIs.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># __init__ can be called multiple times since this class is a singleton</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_singleton_initialized</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="p">{}</span>
 
-<div class="viewcode-block" id="RunContext.clear"><a class="viewcode-back" href="../../../dev/core/context.html#peltak.core.context.RunContext.clear">[docs]</a>    <span class="k">def</span> <span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># type: () -&gt; None</span>
+<div class="viewcode-block" id="RunContext.clear"><a class="viewcode-back" href="../../../dev/core/context.html#peltak.core.context.RunContext.clear">[docs]</a>    <span class="k">def</span> <span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot; Clear all existing values. &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="p">{}</span></div>
 
-<div class="viewcode-block" id="RunContext.get"><a class="viewcode-back" href="../../../dev/core/context.html#peltak.core.context.RunContext.get">[docs]</a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">default</span><span class="p">):</span>
-        <span class="c1"># type: (str, Any) -&gt; Any</span>
+<div class="viewcode-block" id="RunContext.get"><a class="viewcode-back" href="../../../dev/core/context.html#peltak.core.context.RunContext.get">[docs]</a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">default</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot; Get context value with the given name and optional default.</span>
 
 <span class="sd">        Args:</span>
@@ -237,7 +233,7 @@
 
         <span class="k">return</span> <span class="n">curr</span></div>
 
-<div class="viewcode-block" id="RunContext.set"><a class="viewcode-back" href="../../../dev/core/context.html#peltak.core.context.RunContext.set">[docs]</a>    <span class="k">def</span> <span class="nf">set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="RunContext.set"><a class="viewcode-back" href="../../../dev/core/context.html#peltak.core.context.RunContext.set">[docs]</a>    <span class="k">def</span> <span class="nf">set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot; Set context value.</span>
 
 <span class="sd">        Args:</span>
@@ -261,8 +257,7 @@
             <span class="k">raise</span> <span class="n">InvalidPath</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parts</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span></div></div>
 
 
-<div class="viewcode-block" id="get"><a class="viewcode-back" href="../../../dev/core/context.html#peltak.core.context.get">[docs]</a><span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">default</span><span class="p">):</span>
-    <span class="c1"># type: (Text, *Any) -&gt; Any</span>
+<div class="viewcode-block" id="get"><a class="viewcode-back" href="../../../dev/core/context.html#peltak.core.context.get">[docs]</a><span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">default</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot; Get context value with the given name and optional default.</span>
 
 <span class="sd">    Args:</span>
@@ -284,8 +279,7 @@
     <span class="k">return</span> <span class="n">RunContext</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">default</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="set"><a class="viewcode-back" href="../../../dev/core/context.html#peltak.core.context.set">[docs]</a><span class="k">def</span> <span class="nf">set</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>   <span class="c1"># pylint: disable=redefined-builtin</span>
-    <span class="c1"># type: (Text, Any) -&gt; None</span>
+<div class="viewcode-block" id="set"><a class="viewcode-back" href="../../../dev/core/context.html#peltak.core.context.set">[docs]</a><span class="k">def</span> <span class="nf">set</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>   <span class="c1"># pylint: disable=redefined-builtin</span>
     <span class="sd">&quot;&quot;&quot; Set context value.</span>
 
 <span class="sd">    Args:</span>
@@ -297,14 +291,9 @@
     <span class="n">RunContext</span><span class="p">()</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="clear"><a class="viewcode-back" href="../../../dev/core/context.html#peltak.core.context.clear">[docs]</a><span class="k">def</span> <span class="nf">clear</span><span class="p">():</span>
-    <span class="c1"># type: () -&gt; None</span>
+<div class="viewcode-block" id="clear"><a class="viewcode-back" href="../../../dev/core/context.html#peltak.core.context.clear">[docs]</a><span class="k">def</span> <span class="nf">clear</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot; Clear all existing values. &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">RunContext</span><span class="p">()</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span></div>
-
-
-<span class="c1"># Used in type hints comments only (until we drop python2 support)</span>
-<span class="k">del</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Text</span>
 </pre></div>
 
            </div>
@@ -317,11 +306,19 @@
 
   <div role="contentinfo">
     <p>
+        
         &copy; Copyright 2016-2018, Mateusz &#39;novo&#39; Klos
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -332,7 +329,6 @@
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

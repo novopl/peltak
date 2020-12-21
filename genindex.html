@@ -1,9 +1,7 @@
 
 
-
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
@@ -13,27 +11,29 @@
   
 
   
+  <link rel="stylesheet" href="_static/css/overrides.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
   
   
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/overrides.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="#" />
     <link rel="search" title="Search" href="search.html" /> 
 </head>
@@ -49,7 +49,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> peltak
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> peltak
           
 
           
@@ -76,6 +76,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -92,6 +93,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -130,7 +132,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>Index</li>
     
@@ -192,12 +194,14 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="dev/core/git.html#peltak.core.git.BranchDetails">BranchDetails (class in peltak.core.git)</a>
 </li>
-      <li><a href="dev/core/git.html#peltak.core.git.CommitDetails.branches">branches (peltak.core.git.CommitDetails attribute)</a>
+      <li><a href="dev/core/git.html#peltak.core.git.branches">branches() (in module peltak.core.git)</a>
+
+      <ul>
+        <li><a href="dev/core/git.html#peltak.core.git.CommitDetails.branches">(peltak.core.git.CommitDetails property)</a>
 </li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="dev/core/git.html#peltak.core.git.branches">branches() (in module peltak.core.git)</a>
-</li>
       <li><a href="dev/core/versioning.html#peltak.core.versioning.bump">bump() (in module peltak.core.versioning)</a>
 </li>
   </ul></td>
@@ -274,7 +278,7 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="dev/core/git.html#peltak.core.git.Author.email">email (peltak.core.git.Author attribute)</a>
+      <li><a href="dev/core/git.html#peltak.core.git.Author.email">email() (peltak.core.git.Author property)</a>
 </li>
       <li><a href="reference/script_templates.html#peltak.core.templates.Engine">Engine (class in peltak.core.templates)</a>
 </li>
@@ -354,6 +358,8 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="dev/core/log.html#peltak.core.log.info">info() (in module peltak.core.log)</a>
 </li>
+      <li><a href="dev/core/pelconf.html#peltak.core.pelconf.Pelconf.init">init() (peltak.core.pelconf.Pelconf class method)</a>
+</li>
       <li><a href="dev/core/context.html#peltak.core.context.InvalidPath">InvalidPath</a>
 </li>
       <li><a href="dev/core/versioning.html#peltak.core.versioning.is_valid">is_valid() (in module peltak.core.versioning)</a>
@@ -374,29 +380,56 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="dev/core/util.html#peltak.core.util.mark_deprecated">mark_deprecated() (in module peltak.core.util)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="dev/core/util.html#peltak.core.util.mark_experimental">mark_experimental() (in module peltak.core.util)</a>
 </li>
       <li><a href="dev/core/fs.html#peltak.core.fs.match_globs">match_globs() (in module peltak.core.fs)</a>
 </li>
+      <li>
+    module
+
+      <ul>
+        <li><a href="dev/core/context.html#module-0">peltak.core.context</a>, <a href="dev/core/context.html#module-peltak.core.context">[1]</a>
+</li>
+        <li><a href="dev/core/fs.html#module-0">peltak.core.fs</a>, <a href="dev/core/fs.html#module-peltak.core.fs">[1]</a>
+</li>
+        <li><a href="dev/core/git.html#module-0">peltak.core.git</a>, <a href="dev/core/git.html#module-peltak.core.git">[1]</a>
+</li>
+        <li><a href="dev/core/hooks.html#module-0">peltak.core.hooks</a>, <a href="dev/core/hooks.html#module-peltak.core.hooks">[1]</a>
+</li>
+        <li><a href="dev/core/log.html#module-0">peltak.core.log</a>, <a href="dev/core/log.html#module-peltak.core.log">[1]</a>
+</li>
+        <li><a href="dev/core/pelconf.html#module-0">peltak.core.pelconf</a>, <a href="dev/core/pelconf.html#module-peltak.core.pelconf">[1]</a>
+</li>
+        <li><a href="dev/core/shell.html#module-0">peltak.core.shell</a>, <a href="dev/core/shell.html#module-peltak.core.shell">[1]</a>
+</li>
+        <li><a href="reference/script_templates.html#module-peltak.core.templates">peltak.core.templates</a>
+</li>
+        <li><a href="reference/script_filters.html#module-0">peltak.core.templates.filters</a>, <a href="reference/script_filters.html#module-peltak.core.templates.filters">[1]</a>
+</li>
+        <li><a href="dev/core/util.html#module-0">peltak.core.util</a>, <a href="dev/core/util.html#module-peltak.core.util">[1]</a>
+</li>
+        <li><a href="dev/core/versioning.html#module-0">peltak.core.versioning</a>, <a href="dev/core/versioning.html#module-peltak.core.versioning">[1]</a>
+</li>
+        <li><a href="guides/changelog.html#module-peltak.extra.changelog">peltak.extra.changelog</a>
+</li>
+        <li><a href="guides/scripts.html#module-peltak.extra.scripts">peltak.extra.scripts</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
 <h2 id="N">N</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="dev/core/git.html#peltak.core.git.Author.name">name (peltak.core.git.Author attribute)</a>
-
-      <ul>
-        <li><a href="dev/core/git.html#peltak.core.git.BranchDetails.name">(peltak.core.git.BranchDetails attribute)</a>
+      <li><a href="dev/core/git.html#peltak.core.git.BranchDetails.name">name (peltak.core.git.BranchDetails attribute)</a>
 </li>
-      </ul></li>
+      <li><a href="dev/core/git.html#peltak.core.git.Author.name">name() (peltak.core.git.Author property)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="dev/core/versioning.html#peltak.core.versioning.NodeVersionStorage">NodeVersionStorage (class in peltak.core.versioning)</a>
 </li>
-      <li><a href="dev/core/git.html#peltak.core.git.CommitDetails.number">number (peltak.core.git.CommitDetails attribute)</a>
+      <li><a href="dev/core/git.html#peltak.core.git.CommitDetails.number">number() (peltak.core.git.CommitDetails property)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -404,7 +437,7 @@
 <h2 id="P">P</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="dev/core/git.html#peltak.core.git.CommitDetails.parents">parents (peltak.core.git.CommitDetails attribute)</a>
+      <li><a href="dev/core/git.html#peltak.core.git.CommitDetails.parents">parents() (peltak.core.git.CommitDetails property)</a>
 </li>
       <li><a href="dev/core/git.html#peltak.core.git.CommitDetails.parents_sha1">parents_sha1 (peltak.core.git.CommitDetails attribute)</a>
 </li>
@@ -412,34 +445,99 @@
 </li>
       <li><a href="dev/core/pelconf.html#peltak.core.pelconf.Pelconf">Pelconf (class in peltak.core.pelconf)</a>
 </li>
-      <li><a href="dev/core/context.html#module-peltak.core.context">peltak.core.context (module)</a>, <a href="dev/core/context.html#module-peltak.core.context">[1]</a>
+      <li>
+    peltak.core.context
+
+      <ul>
+        <li><a href="dev/core/context.html#module-0">module</a>, <a href="dev/core/context.html#module-peltak.core.context">[1]</a>
 </li>
-      <li><a href="dev/core/fs.html#module-peltak.core.fs">peltak.core.fs (module)</a>, <a href="dev/core/fs.html#module-peltak.core.fs">[1]</a>
+      </ul></li>
+      <li>
+    peltak.core.fs
+
+      <ul>
+        <li><a href="dev/core/fs.html#module-0">module</a>, <a href="dev/core/fs.html#module-peltak.core.fs">[1]</a>
 </li>
-      <li><a href="dev/core/git.html#module-peltak.core.git">peltak.core.git (module)</a>, <a href="dev/core/git.html#module-peltak.core.git">[1]</a>
+      </ul></li>
+      <li>
+    peltak.core.git
+
+      <ul>
+        <li><a href="dev/core/git.html#module-0">module</a>, <a href="dev/core/git.html#module-peltak.core.git">[1]</a>
 </li>
-      <li><a href="dev/core/hooks.html#module-peltak.core.hooks">peltak.core.hooks (module)</a>, <a href="dev/core/hooks.html#module-peltak.core.hooks">[1]</a>
+      </ul></li>
+      <li>
+    peltak.core.hooks
+
+      <ul>
+        <li><a href="dev/core/hooks.html#module-0">module</a>, <a href="dev/core/hooks.html#module-peltak.core.hooks">[1]</a>
 </li>
-      <li><a href="dev/core/log.html#module-peltak.core.log">peltak.core.log (module)</a>, <a href="dev/core/log.html#module-peltak.core.log">[1]</a>
+      </ul></li>
+      <li>
+    peltak.core.log
+
+      <ul>
+        <li><a href="dev/core/log.html#module-0">module</a>, <a href="dev/core/log.html#module-peltak.core.log">[1]</a>
 </li>
-      <li><a href="dev/core/pelconf.html#module-peltak.core.pelconf">peltak.core.pelconf (module)</a>, <a href="dev/core/pelconf.html#module-peltak.core.pelconf">[1]</a>
+      </ul></li>
+      <li>
+    peltak.core.pelconf
+
+      <ul>
+        <li><a href="dev/core/pelconf.html#module-0">module</a>, <a href="dev/core/pelconf.html#module-peltak.core.pelconf">[1]</a>
 </li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="dev/core/shell.html#module-peltak.core.shell">peltak.core.shell (module)</a>, <a href="dev/core/shell.html#module-peltak.core.shell">[1]</a>
+      <li>
+    peltak.core.shell
+
+      <ul>
+        <li><a href="dev/core/shell.html#module-0">module</a>, <a href="dev/core/shell.html#module-peltak.core.shell">[1]</a>
 </li>
-      <li><a href="reference/script_templates.html#module-peltak.core.templates">peltak.core.templates (module)</a>
+      </ul></li>
+      <li>
+    peltak.core.templates
+
+      <ul>
+        <li><a href="reference/script_templates.html#module-peltak.core.templates">module</a>
 </li>
-      <li><a href="reference/script_filters.html#module-peltak.core.templates.filters">peltak.core.templates.filters (module)</a>, <a href="reference/script_filters.html#module-peltak.core.templates.filters">[1]</a>
+      </ul></li>
+      <li>
+    peltak.core.templates.filters
+
+      <ul>
+        <li><a href="reference/script_filters.html#module-0">module</a>, <a href="reference/script_filters.html#module-peltak.core.templates.filters">[1]</a>
 </li>
-      <li><a href="dev/core/util.html#module-peltak.core.util">peltak.core.util (module)</a>, <a href="dev/core/util.html#module-peltak.core.util">[1]</a>
+      </ul></li>
+      <li>
+    peltak.core.util
+
+      <ul>
+        <li><a href="dev/core/util.html#module-0">module</a>, <a href="dev/core/util.html#module-peltak.core.util">[1]</a>
 </li>
-      <li><a href="dev/core/versioning.html#module-peltak.core.versioning">peltak.core.versioning (module)</a>, <a href="dev/core/versioning.html#module-peltak.core.versioning">[1]</a>
+      </ul></li>
+      <li>
+    peltak.core.versioning
+
+      <ul>
+        <li><a href="dev/core/versioning.html#module-0">module</a>, <a href="dev/core/versioning.html#module-peltak.core.versioning">[1]</a>
 </li>
-      <li><a href="guides/changelog.html#module-peltak.extra.changelog">peltak.extra.changelog (module)</a>
+      </ul></li>
+      <li>
+    peltak.extra.changelog
+
+      <ul>
+        <li><a href="guides/changelog.html#module-peltak.extra.changelog">module</a>
 </li>
-      <li><a href="guides/scripts.html#module-peltak.extra.scripts">peltak.extra.scripts (module)</a>
+      </ul></li>
+      <li>
+    peltak.extra.scripts
+
+      <ul>
+        <li><a href="guides/scripts.html#module-peltak.extra.scripts">module</a>
 </li>
+      </ul></li>
       <li><a href="dev/core/pelconf.html#peltak.core.pelconf.Pelconf.proj_path">proj_path() (peltak.core.pelconf.Pelconf method)</a>
 </li>
       <li><a href="dev/core/git.html#peltak.core.git.protected_branches">protected_branches() (in module peltak.core.git)</a>
@@ -615,11 +713,19 @@
 
   <div role="contentinfo">
     <p>
+        
         &copy; Copyright 2016-2018, Mateusz &#39;novo&#39; Klos
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -630,7 +736,6 @@
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

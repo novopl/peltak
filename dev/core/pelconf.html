@@ -1,8 +1,7 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
@@ -12,27 +11,29 @@
   
 
   
+  <link rel="stylesheet" href="../../_static/css/overrides.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+
+  
   
   
   
 
   
-  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="../../_static/css/overrides.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="peltak.core.shell" href="shell.html" />
@@ -50,7 +51,7 @@
           
 
           
-            <a href="../../index.html" class="icon icon-home"> peltak
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> peltak
           
 
           
@@ -77,6 +78,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -110,6 +112,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -148,7 +151,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../../index.html">Docs</a> &raquo;</li>
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
         
           <li><a href="../_index.html">Dev Docs</a> &raquo;</li>
         
@@ -175,120 +178,115 @@
             
   <div class="section" id="module-peltak.core.pelconf">
 <span id="peltak-core-pelconf"></span><h1><code class="docutils literal notranslate"><span class="pre">peltak.core.pelconf</span></code><a class="headerlink" href="#module-peltak.core.pelconf" title="Permalink to this headline">¶</a></h1>
-<span class="target" id="module-peltak.core.pelconf"></span><dl class="class">
+<span class="target" id="module-0"></span><dl class="py class">
 <dt id="peltak.core.pelconf.Pelconf">
-<em class="property">class </em><code class="descclassname">peltak.core.pelconf.</code><code class="descname">Pelconf</code><a class="reference internal" href="../../_modules/peltak/core/pelconf.html#Pelconf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.pelconf.Pelconf" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">peltak.core.pelconf.</code><code class="sig-name descname">Pelconf</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kw</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/pelconf.html#Pelconf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.pelconf.Pelconf" title="Permalink to this definition">¶</a></dt>
 <dd><p>Represents the <a class="reference internal" href="../../reference/pelconf.html#pelconf-yaml"><span class="std std-ref">pelconf.yaml</span></a> file.</p>
-<dl class="method">
+<dl class="py method">
 <dt id="peltak.core.pelconf.Pelconf.from_file">
-<code class="descname">from_file</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/pelconf.html#Pelconf.from_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.pelconf.Pelconf.from_file" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">from_file</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/pelconf.html#Pelconf.from_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.pelconf.Pelconf.from_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load config values from a YAML file.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="peltak.core.pelconf.Pelconf.get">
-<code class="descname">get</code><span class="sig-paren">(</span><em>name</em>, <em>*default</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/pelconf.html#Pelconf.get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.pelconf.Pelconf.get" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="o">*</span><span class="n">default</span><span class="p">:</span> <span class="n">Any</span></em><span class="sig-paren">)</span> &#x2192; Any<a class="reference internal" href="../../_modules/peltak/core/pelconf.html#Pelconf.get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.pelconf.Pelconf.get" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get config value with the given name and optional default.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The name of the config value.</li>
-<li><strong>*default</strong> (<em>Any</em>) – If given and the key doesn’t not exist, this will be returned
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The name of the config value.</p></li>
+<li><p><strong>*default</strong> (<em>Any</em>) – If given and the key doesn’t not exist, this will be returned
 instead. If it’s not given and the config value does not exist,
-AttributeError will be raised</li>
+AttributeError will be raised</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The requested config value. This is one of the global values defined
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The requested config value. This is one of the global values defined
 in this file. If the value does not exist it will return <em>default</em> if
-give or raise <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#AttributeError" title="(in Python v3.8)"><code class="xref any docutils literal notranslate"><span class="pre">AttributeError</span></code></a>.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#AttributeError" title="(in Python v3.8)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">AttributeError</span></code></a> – If the value does not exist and <em>default</em> was not given.</p>
-</td>
-</tr>
-</tbody>
-</table>
+give or raise <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#AttributeError" title="(in Python v3.9)"><code class="xref any docutils literal notranslate"><span class="pre">AttributeError</span></code></a>.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#AttributeError" title="(in Python v3.9)"><strong>AttributeError</strong></a> – If the value does not exist and <em>default</em> was not given.</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="peltak.core.pelconf.Pelconf.get_env">
-<code class="descname">get_env</code><span class="sig-paren">(</span><em>name</em>, <em>*default</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/pelconf.html#Pelconf.get_env"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.pelconf.Pelconf.get_env" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_env</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="o">*</span><span class="n">default</span><span class="p">:</span> <span class="n">Any</span></em><span class="sig-paren">)</span> &#x2192; Union<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">, </span>Any<span class="p">]</span><a class="reference internal" href="../../_modules/peltak/core/pelconf.html#Pelconf.get_env"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.pelconf.Pelconf.get_env" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the value of an ENV variable.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="peltak.core.pelconf.Pelconf.get_path">
-<code class="descname">get_path</code><span class="sig-paren">(</span><em>name</em>, <em>*default</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/pelconf.html#Pelconf.get_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.pelconf.Pelconf.get_path" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_path</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="o">*</span><span class="n">default</span><span class="p">:</span> <span class="n">Any</span></em><span class="sig-paren">)</span> &#x2192; Any<a class="reference internal" href="../../_modules/peltak/core/pelconf.html#Pelconf.get_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.pelconf.Pelconf.get_path" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get config value as path relative to the project directory.</p>
 <p>This allows easily defining the project configuration within the fabfile
 as always relative to that fabfile.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The name of the config value containing the path.</li>
-<li><strong>*default</strong> (<em>Any</em>) – If given and the key doesn’t not exist, this will be returned
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The name of the config value containing the path.</p></li>
+<li><p><strong>*default</strong> (<em>Any</em>) – If given and the key doesn’t not exist, this will be returned
 instead. If it’s not given and the config value does not exist,
-AttributeError will be raised</li>
+AttributeError will be raised</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The requested config value. This is one of the global values defined
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The requested config value. This is one of the global values defined
 in this file. If the value does not exist it will return <em>default</em> if
-give or raise <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#AttributeError" title="(in Python v3.8)"><code class="xref any docutils literal notranslate"><span class="pre">AttributeError</span></code></a>.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#AttributeError" title="(in Python v3.8)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">AttributeError</span></code></a> – If the value does not exist and <em>default</em> was not given.</p>
-</td>
-</tr>
-</tbody>
-</table>
+give or raise <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#AttributeError" title="(in Python v3.9)"><code class="xref any docutils literal notranslate"><span class="pre">AttributeError</span></code></a>.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#AttributeError" title="(in Python v3.9)"><strong>AttributeError</strong></a> – If the value does not exist and <em>default</em> was not given.</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
+<dt id="peltak.core.pelconf.Pelconf.init">
+<em class="property">classmethod </em><code class="sig-name descname">init</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/pelconf.html#Pelconf.init"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.pelconf.Pelconf.init" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load pelconf and all commands specified in it.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt id="peltak.core.pelconf.Pelconf.proj_path">
-<code class="descname">proj_path</code><span class="sig-paren">(</span><em>*path_parts</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/pelconf.html#Pelconf.proj_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.pelconf.Pelconf.proj_path" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">proj_path</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">path_parts</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><a class="reference internal" href="../../_modules/peltak/core/pelconf.html#Pelconf.proj_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.pelconf.Pelconf.proj_path" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return absolute path to the repo dir (root project directory).</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The path relative to the project root (pelconf.yaml).</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The given path converted to an absolute path.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>*path_parts</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The path relative to the project root (pelconf.yaml).</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The given path converted to an absolute path.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="peltak.core.pelconf.Pelconf.reset">
-<code class="descname">reset</code><span class="sig-paren">(</span><em>config</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/pelconf.html#Pelconf.reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.pelconf.Pelconf.reset" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">reset</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">config</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/pelconf.html#Pelconf.reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.pelconf.Pelconf.reset" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reset config to the given values.</p>
 <p>This will completely overwrite the current configuration.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="peltak.core.pelconf.Pelconf.within_proj_dir">
-<code class="descname">within_proj_dir</code><span class="sig-paren">(</span><em>path='.'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/pelconf.html#Pelconf.within_proj_dir"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.pelconf.Pelconf.within_proj_dir" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">within_proj_dir</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span> <span class="o">=</span> <span class="default_value">'.'</span></em><span class="sig-paren">)</span> &#x2192; Iterator<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)">None</a><span class="p">]</span><a class="reference internal" href="../../_modules/peltak/core/pelconf.html#Pelconf.within_proj_dir"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.pelconf.Pelconf.within_proj_dir" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return an absolute path to the given project relative path.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>path</strong> – Project relative path that will be converted to the system wide absolute
-path.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Absolute path.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>path</strong> – Project relative path that will be converted to the system wide absolute
+path.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Absolute path.</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -315,11 +313,19 @@ path.</td>
 
   <div role="contentinfo">
     <p>
+        
         &copy; Copyright 2016-2018, Mateusz &#39;novo&#39; Klos
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -330,7 +336,6 @@ path.</td>
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

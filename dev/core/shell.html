@@ -1,8 +1,7 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
@@ -12,27 +11,29 @@
   
 
   
+  <link rel="stylesheet" href="../../_static/css/overrides.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+
+  
   
   
   
 
   
-  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="../../_static/css/overrides.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="peltak.core.util" href="util.html" />
@@ -50,7 +51,7 @@
           
 
           
-            <a href="../../index.html" class="icon icon-home"> peltak
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> peltak
           
 
           
@@ -77,6 +78,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -110,6 +112,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -148,7 +151,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../../index.html">Docs</a> &raquo;</li>
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
         
           <li><a href="../_index.html">Dev Docs</a> &raquo;</li>
         
@@ -175,168 +178,145 @@
             
   <div class="section" id="module-peltak.core.shell">
 <span id="peltak-core-shell"></span><h1><code class="docutils literal notranslate"><span class="pre">peltak.core.shell</span></code><a class="headerlink" href="#module-peltak.core.shell" title="Permalink to this headline">¶</a></h1>
-<span class="target" id="module-peltak.core.shell"></span><dl class="class">
+<span class="target" id="module-0"></span><dl class="py class">
 <dt id="peltak.core.shell.ExecResult">
-<em class="property">class </em><code class="descclassname">peltak.core.shell.</code><code class="descname">ExecResult</code><span class="sig-paren">(</span><em>command: str</em>, <em>return_code: int</em>, <em>stdout: str</em>, <em>stderr: str</em>, <em>succeeded: bool</em>, <em>failed: bool</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/shell.html#ExecResult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.shell.ExecResult" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">peltak.core.shell.</code><code class="sig-name descname">ExecResult</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">command</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">return_code</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a></span></em>, <em class="sig-param"><span class="n">stdout</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">stderr</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">succeeded</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></span></em>, <em class="sig-param"><span class="n">failed</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/shell.html#ExecResult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.shell.ExecResult" title="Permalink to this definition">¶</a></dt>
 <dd><p>Encapsulates a <a class="reference internal" href="#peltak.core.shell.run" title="peltak.core.shell.run"><code class="xref any py py-func docutils literal notranslate"><span class="pre">shell.run</span></code></a> result.</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="peltak.core.shell.ExecResult.command">
-<code class="descname">command</code><a class="headerlink" href="#peltak.core.shell.ExecResult.command" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">command</code><a class="headerlink" href="#peltak.core.shell.ExecResult.command" title="Permalink to this definition">¶</a></dt>
 <dd><p>The command that was executed.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="peltak.core.shell.ExecResult.return_code">
-<code class="descname">return_code</code><a class="headerlink" href="#peltak.core.shell.ExecResult.return_code" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">return_code</code><a class="headerlink" href="#peltak.core.shell.ExecResult.return_code" title="Permalink to this definition">¶</a></dt>
 <dd><p>The command exit code.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a></p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="peltak.core.shell.ExecResult.stdout">
-<code class="descname">stdout</code><a class="headerlink" href="#peltak.core.shell.ExecResult.stdout" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">stdout</code><a class="headerlink" href="#peltak.core.shell.ExecResult.stdout" title="Permalink to this definition">¶</a></dt>
 <dd><p>The command standard output content after the execution.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="peltak.core.shell.ExecResult.stderr">
-<code class="descname">stderr</code><a class="headerlink" href="#peltak.core.shell.ExecResult.stderr" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">stderr</code><a class="headerlink" href="#peltak.core.shell.ExecResult.stderr" title="Permalink to this definition">¶</a></dt>
 <dd><p>The command standard error content after the execution.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="peltak.core.shell.ExecResult.succeeded">
-<code class="descname">succeeded</code><a class="headerlink" href="#peltak.core.shell.ExecResult.succeeded" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">succeeded</code><a class="headerlink" href="#peltak.core.shell.ExecResult.succeeded" title="Permalink to this definition">¶</a></dt>
 <dd><p><strong>True</strong> if command was successful (return_code was 0 or the one
 that was expected).</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="peltak.core.shell.ExecResult.failed">
-<code class="descname">failed</code><a class="headerlink" href="#peltak.core.shell.ExecResult.failed" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">failed</code><a class="headerlink" href="#peltak.core.shell.ExecResult.failed" title="Permalink to this definition">¶</a></dt>
 <dd><p><strong>True</strong> if command failed.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="peltak.core.shell.cprint">
-<code class="descclassname">peltak.core.shell.</code><code class="descname">cprint</code><span class="sig-paren">(</span><em>msg</em>, <em>*args</em>, <em>**kw</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/shell.html#cprint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.shell.cprint" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">peltak.core.shell.</code><code class="sig-name descname">cprint</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">msg</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kw</span><span class="p">:</span> <span class="n">Any</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/shell.html#cprint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.shell.cprint" title="Permalink to this definition">¶</a></dt>
 <dd><p>Print colored message to stdout.</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="peltak.core.shell.decolorize">
-<code class="descclassname">peltak.core.shell.</code><code class="descname">decolorize</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/shell.html#decolorize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.shell.decolorize" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">peltak.core.shell.</code><code class="sig-name descname">decolorize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><a class="reference internal" href="../../_modules/peltak/core/shell.html#decolorize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.shell.decolorize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Remove all opcodes from the text.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – Source text that includes color opcodes as used in <a class="reference internal" href="#peltak.core.shell.fmt" title="peltak.core.shell.fmt"><code class="xref any py py-func docutils literal notranslate"><span class="pre">shell.fmt</span></code></a>
-function.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The same text but with all opcodes removed.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Source text that includes color opcodes as used in <a class="reference internal" href="#peltak.core.shell.fmt" title="peltak.core.shell.fmt"><code class="xref any py py-func docutils literal notranslate"><span class="pre">shell.fmt</span></code></a>
+function.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The same text but with all opcodes removed.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="peltak.core.shell.fmt">
-<code class="descclassname">peltak.core.shell.</code><code class="descname">fmt</code><span class="sig-paren">(</span><em>msg</em>, <em>*args</em>, <em>**kw</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/shell.html#fmt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.shell.fmt" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">peltak.core.shell.</code><code class="sig-name descname">fmt</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">msg</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kw</span><span class="p">:</span> <span class="n">Any</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><a class="reference internal" href="../../_modules/peltak/core/shell.html#fmt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.shell.fmt" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generate shell color opcodes from a pretty coloring syntax.</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="peltak.core.shell.highlight">
-<code class="descclassname">peltak.core.shell.</code><code class="descname">highlight</code><span class="sig-paren">(</span><em>code</em>, <em>fmt</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/shell.html#highlight"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.shell.highlight" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">peltak.core.shell.</code><code class="sig-name descname">highlight</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">code</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">fmt</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><a class="reference internal" href="../../_modules/peltak/core/shell.html#highlight"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.shell.highlight" title="Permalink to this definition">¶</a></dt>
 <dd><p>Highlight a given code snippet for printing in the terminal.</p>
 <p>Assumes 256 color terminal.</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="peltak.core.shell.run">
-<code class="descclassname">peltak.core.shell.</code><code class="descname">run</code><span class="sig-paren">(</span><em>cmd</em>, <em>capture=False</em>, <em>shell=True</em>, <em>env=None</em>, <em>exit_on_error=None</em>, <em>never_pretend=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/shell.html#run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.shell.run" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">peltak.core.shell.</code><code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cmd</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">capture</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">shell</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">env</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">exit_on_error</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">never_pretend</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/shell.html#run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.shell.run" title="Permalink to this definition">¶</a></dt>
 <dd><p>Run a shell command.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>cmd</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The shell command to execute.</li>
-<li><strong>shell</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – Same as in <a class="reference external" href="https://docs.python.org/3/library/subprocess.html#subprocess.Popen" title="(in Python v3.8)"><code class="xref any docutils literal notranslate"><span class="pre">subprocess.Popen</span></code></a>.</li>
-<li><strong>capture</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – If set to True, it will capture the standard input/error instead of
-just piping it to the caller stdout/stderr.</li>
-<li><strong>env</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a><em>]</em>) – The subprocess environment variables.</li>
-<li><strong>exit_on_error</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – If set to <strong>True</strong>, on failure it will call <a class="reference external" href="https://docs.python.org/3/library/sys.html#sys.exit" title="(in Python v3.8)"><code class="xref any docutils literal notranslate"><span class="pre">sys.exit</span></code></a> with the
-return code for the executed command.</li>
-<li><strong>never_pretend</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – If set to <strong>True</strong> the command will always be executed, even if
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cmd</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The shell command to execute.</p></li>
+<li><p><strong>shell</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – Same as in <a class="reference external" href="https://docs.python.org/3/library/subprocess.html#subprocess.Popen" title="(in Python v3.9)"><code class="xref any docutils literal notranslate"><span class="pre">subprocess.Popen</span></code></a>.</p></li>
+<li><p><strong>capture</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – If set to True, it will capture the standard input/error instead of
+just piping it to the caller stdout/stderr.</p></li>
+<li><p><strong>env</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>]</em>) – The subprocess environment variables.</p></li>
+<li><p><strong>exit_on_error</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – If set to <strong>True</strong>, on failure it will call <a class="reference external" href="https://docs.python.org/3/library/sys.html#sys.exit" title="(in Python v3.9)"><code class="xref any docutils literal notranslate"><span class="pre">sys.exit</span></code></a> with the
+return code for the executed command.</p></li>
+<li><p><strong>never_pretend</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – If set to <strong>True</strong> the command will always be executed, even if
 context.get(‘pretend’) is set to True. If set to <strong>False</strong> or not
 given, if the <code class="docutils literal notranslate"><span class="pre">pretend</span></code> context value is <strong>True</strong>, this function
 will only print the command it would execute and then return
-a fake result.</li>
+a fake result.</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The execution result containing the return code and output
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The execution result containing the return code and output
 (if capture was set to <em>True</em>).</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#peltak.core.shell.ExecResult" title="peltak.core.shell.ExecResult">ExecResult</a></p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#peltak.core.shell.ExecResult" title="peltak.core.shell.ExecResult">ExecResult</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
@@ -361,11 +341,19 @@ a fake result.</li>
 
   <div role="contentinfo">
     <p>
+        
         &copy; Copyright 2016-2018, Mateusz &#39;novo&#39; Klos
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -376,7 +364,6 @@ a fake result.</li>
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

@@ -1,8 +1,7 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
@@ -12,27 +11,29 @@
   
 
   
+  <link rel="stylesheet" href="../_static/css/overrides.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+
+  
   
   
   
 
   
-  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="../_static/css/overrides.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Create peltak scripts" href="scripts.html" />
@@ -50,7 +51,7 @@
           
 
           
-            <a href="../index.html" class="icon icon-home"> peltak
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> peltak
           
 
           
@@ -77,6 +78,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -110,6 +112,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -148,7 +151,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../index.html">Docs</a> &raquo;</li>
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
           <li><a href="_index.html">Guides</a> &raquo;</li>
         
@@ -301,32 +304,30 @@ those the gitflow commands will be enabled for you already.</p>
 <p>There are 3 main command groups: <strong>feature</strong>, <strong>release</strong> and <strong>hotfix</strong>.
 Each of them has a set of commands to manage the given branch (be it <em>feature</em>,
 <em>hotfix</em> or <em>release</em>). The commands are:</p>
-<dl class="docutils">
-<dt><code class="docutils literal notranslate"><span class="pre">start</span></code></dt>
-<dd>Will create the branch. The <em>feature/</em> and <em>release/</em> branches must always
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">start</span></code></dt><dd><p>Will create the branch. The <em>feature/</em> and <em>release/</em> branches must always
 be created from the develop branch and the <em>hotfix/</em> branches from the
 <em>master</em> branch. When creating the <em>feature</em> and <em>hotfix</em> branch it will
 ask you the feature name and create a branch in format
 <code class="docutils literal notranslate"><span class="pre">feature/&lt;feature_name_in_lowercase_underscore&gt;</span></code>. The release branch will
-always be <code class="docutils literal notranslate"><span class="pre">release/&lt;released_ver&gt;</span></code>.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">merged</span></code></dt>
-<dd><p class="first">This command will cleanup after the given branch is merged remotely (eg on
+always be <code class="docutils literal notranslate"><span class="pre">release/&lt;released_ver&gt;</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">merged</span></code></dt><dd><p>This command will cleanup after the given branch is merged remotely (eg on
 github). This will:</p>
-<ol class="last arabic simple">
-<li>Checkout the target branch</li>
-<li>Pull the merged changes,</li>
-<li>delete the merged branch locally</li>
-<li>run <code class="xref any docutils literal notranslate"><span class="pre">git</span> <span class="pre">fetch</span> <span class="pre">--prune</span></code> to remove the references to the merged remote
-branch.</li>
+<ol class="arabic simple">
+<li><p>Checkout the target branch</p></li>
+<li><p>Pull the merged changes,</p></li>
+<li><p>delete the merged branch locally</p></li>
+<li><p>run <code class="xref any docutils literal notranslate"><span class="pre">git</span> <span class="pre">fetch</span> <span class="pre">--prune</span></code> to remove the references to the merged remote
+branch.</p></li>
 </ol>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">finish</span></code></dt>
-<dd><p class="first">This will merge the branch locally and cleanup:</p>
-<ol class="last arabic simple">
-<li>Checkout the target branch</li>
-<li>Merge the branch we want to merge (be it <strong>feature</strong>, <strong>hotfix</strong> or
-<strong>release</strong>.</li>
-<li>Delete the merged branch</li>
+<dt><code class="docutils literal notranslate"><span class="pre">finish</span></code></dt><dd><p>This will merge the branch locally and cleanup:</p>
+<ol class="arabic simple">
+<li><p>Checkout the target branch</p></li>
+<li><p>Merge the branch we want to merge (be it <strong>feature</strong>, <strong>hotfix</strong> or
+<strong>release</strong>.</p></li>
+<li><p>Delete the merged branch</p></li>
 </ol>
 </dd>
 </dl>
@@ -360,11 +361,19 @@ branch.</li>
 
   <div role="contentinfo">
     <p>
+        
         &copy; Copyright 2016-2018, Mateusz &#39;novo&#39; Klos
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -375,7 +384,6 @@ branch.</li>
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

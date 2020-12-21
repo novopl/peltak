@@ -1,8 +1,7 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
@@ -12,27 +11,29 @@
   
 
   
+  <link rel="stylesheet" href="../../../../_static/css/overrides.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+
+  
   
   
   
 
   
-  <script type="text/javascript" src="../../../../_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../../../_static/language_data.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="../../../../_static/css/overrides.css" type="text/css" />
-  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" /> 
 </head>
@@ -48,7 +49,7 @@
           
 
           
-            <a href="../../../../index.html" class="icon icon-home"> peltak
+            <a href="../../../../index.html" class="icon icon-home" alt="Documentation Home"> peltak
           
 
           
@@ -75,6 +76,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -91,6 +93,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -129,7 +132,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../../../../index.html">Docs</a> &raquo;</li>
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
         
           <li><a href="../../../index.html">Module code</a> &raquo;</li>
         
@@ -149,9 +152,7 @@
            <div itemprop="articleBody">
             
   <h1>Source code for peltak.core.templates.engine</h1><div class="highlight"><pre>
-<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
-<span class="c1"># -*- coding: utf-8 -*-</span>
-<span class="c1"># Copyright 2017-2018 Mateusz Klos</span>
+<span></span><span class="c1"># Copyright 2017-2020 Mateusz Klos</span>
 <span class="c1">#</span>
 <span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
 <span class="c1"># you may not use this file except in compliance with the License.</span>
@@ -166,17 +167,12 @@
 <span class="c1"># limitations under the License.</span>
 <span class="c1">#</span>
 <span class="sd">&quot;&quot;&quot; Engine wraps the jinja2 environment and exposes it to the rest of the code. &quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">absolute_import</span><span class="p">,</span> <span class="n">unicode_literals</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span>
 
-<span class="c1"># stdlib imports</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span>
-
-<span class="c1"># 3rd party imports</span>
 <span class="kn">import</span> <span class="nn">jinja2</span>
 
-<span class="c1"># local imports</span>
-<span class="kn">from</span> <span class="nn">peltak.core</span> <span class="k">import</span> <span class="n">util</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">filters</span>
+<span class="kn">from</span> <span class="nn">peltak.core</span> <span class="kn">import</span> <span class="n">util</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">filters</span>
 
 
 <div class="viewcode-block" id="Engine"><a class="viewcode-back" href="../../../../reference/script_templates.html#peltak.core.templates.Engine">[docs]</a><span class="k">class</span> <span class="nc">Engine</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">Singleton</span><span class="p">):</span>
@@ -200,13 +196,12 @@
 <span class="sd">    True</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_singleton_initialized</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">env</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_env</span><span class="p">()</span>
             <span class="k">pass</span>
 
-<div class="viewcode-block" id="Engine.render"><a class="viewcode-back" href="../../../../reference/script_templates.html#peltak.core.templates.Engine.render">[docs]</a>    <span class="k">def</span> <span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">template_str</span><span class="p">,</span> <span class="n">template_ctx</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="c1"># type: (str, Dict[str, Any]) -&gt; str</span>
+<div class="viewcode-block" id="Engine.render"><a class="viewcode-back" href="../../../../reference/script_templates.html#peltak.core.templates.Engine.render">[docs]</a>    <span class="k">def</span> <span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">template_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">template_ctx</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot; Render a script template using the given context.</span>
 
 <span class="sd">        Examples:</span>
@@ -219,8 +214,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="n">template_str</span><span class="p">)</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">template_ctx</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Engine.render_file"><a class="viewcode-back" href="../../../../reference/script_templates.html#peltak.core.templates.Engine.render_file">[docs]</a>    <span class="k">def</span> <span class="nf">render_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">template_file</span><span class="p">,</span> <span class="n">template_ctx</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="c1"># type: (str, Dict[str, Any]) -&gt; str</span>
+<div class="viewcode-block" id="Engine.render_file"><a class="viewcode-back" href="../../../../reference/script_templates.html#peltak.core.templates.Engine.render_file">[docs]</a>    <span class="k">def</span> <span class="nf">render_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">template_file</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">template_ctx</span><span class="p">:</span>  <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Render a template file from src/peltak/templates directory.</span>
 
 <span class="sd">        All built-in peltak templates should go to the ``src/peltak/templates``</span>
@@ -267,8 +261,7 @@
         <span class="n">template</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">get_template</span><span class="p">(</span><span class="n">template_file</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">template</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">template_ctx</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">_make_env</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># type: () -&gt; jinja2.Environment</span>
+    <span class="k">def</span> <span class="nf">_make_env</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jinja2</span><span class="o">.</span><span class="n">Environment</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot; Initialize jinja2 env. &quot;&quot;&quot;</span>
         <span class="n">env</span> <span class="o">=</span> <span class="n">jinja2</span><span class="o">.</span><span class="n">Environment</span><span class="p">(</span>
             <span class="n">loader</span><span class="o">=</span><span class="n">jinja2</span><span class="o">.</span><span class="n">PackageLoader</span><span class="p">(</span><span class="s1">&#39;peltak&#39;</span><span class="p">,</span> <span class="s1">&#39;templates&#39;</span><span class="p">),</span>
@@ -282,10 +275,6 @@
         <span class="n">env</span><span class="o">.</span><span class="n">filters</span><span class="p">[</span><span class="s1">&#39;wrap_paths&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">filters</span><span class="o">.</span><span class="n">wrap_paths</span>
 
         <span class="k">return</span> <span class="n">env</span></div>
-
-
-<span class="c1"># Used only in type hint comments.</span>
-<span class="k">del</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span>
 </pre></div>
 
            </div>
@@ -298,11 +287,19 @@
 
   <div role="contentinfo">
     <p>
+        
         &copy; Copyright 2016-2018, Mateusz &#39;novo&#39; Klos
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -313,7 +310,6 @@
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

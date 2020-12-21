@@ -1,8 +1,7 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
@@ -12,27 +11,29 @@
   
 
   
+  <link rel="stylesheet" href="../_static/css/overrides.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+
+  
   
   
   
 
   
-  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="../_static/css/overrides.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Custom peltak commands" href="create_custom_commands.html" />
@@ -50,7 +51,7 @@
           
 
           
-            <a href="../index.html" class="icon icon-home"> peltak
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> peltak
           
 
           
@@ -77,6 +78,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -96,7 +98,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#multiline-and-multi-statement-commands">Multiline and multi statement commands</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#templating-capabilities-of-scripts">Templating capabilities of scripts</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#injecting-config-values-from-pelconf-yaml-into-your-script">Injecting config values from <code class="docutils literal notranslate"><span class="pre">pelconf.yaml</span></code> into your script</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#injecting-config-values-from-pelconf-yaml-into-your-script">Injecting config values from <code class="xref any docutils literal notranslate"><span class="pre">pelconf.yaml</span></code> into your script</a></li>
 </ul>
 </li>
 </ul>
@@ -113,6 +115,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -151,7 +154,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../index.html">Docs</a> &raquo;</li>
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
           <li><a href="_index.html">Guides</a> &raquo;</li>
         
@@ -261,8 +264,8 @@ and some helper filters to generate the actual command.</p>
 <p>If you want to more details about templating in scripts, you can read
 <a class="reference internal" href="../reference/script_templates.html"><span class="doc">Script template reference</span></a>.</p>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Scripts templating is very simple. It should be used only for simple
+<p class="admonition-title">Note</p>
+<p>Scripts templating is very simple. It should be used only for simple
 value substitution with optional processing. If need flow control for a
 script you probably should look at implementing a custom peltak command for
 the project as this will give you the full power of python and is also a
@@ -319,11 +322,19 @@ that use it.</p>
 
   <div role="contentinfo">
     <p>
+        
         &copy; Copyright 2016-2018, Mateusz &#39;novo&#39; Klos
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -334,7 +345,6 @@ that use it.</p>
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

@@ -1,8 +1,7 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
@@ -12,27 +11,29 @@
   
 
   
+  <link rel="stylesheet" href="../../../../_static/css/overrides.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+
+  
   
   
   
 
   
-  <script type="text/javascript" src="../../../../_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../../../_static/language_data.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="../../../../_static/css/overrides.css" type="text/css" />
-  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" /> 
 </head>
@@ -48,7 +49,7 @@
           
 
           
-            <a href="../../../../index.html" class="icon icon-home"> peltak
+            <a href="../../../../index.html" class="icon icon-home" alt="Documentation Home"> peltak
           
 
           
@@ -75,6 +76,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -91,6 +93,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -129,7 +132,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../../../../index.html">Docs</a> &raquo;</li>
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
         
           <li><a href="../../../index.html">Module code</a> &raquo;</li>
         
@@ -149,8 +152,7 @@
            <div itemprop="articleBody">
             
   <h1>Source code for peltak.core.templates.filters</h1><div class="highlight"><pre>
-<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">.. module:: peltak.core.templates.filters</span>
 <span class="sd">    :synopsis: Built-in script template filters</span>
 
@@ -176,21 +178,15 @@
 <span class="sd">    https://jinja.palletsprojects.com/en/2.10.x/templates/#list-of-builtin-filters</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">absolute_import</span><span class="p">,</span> <span class="n">unicode_literals</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span>
 
-<span class="c1"># stdlib imports</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Any</span>
+<span class="kn">from</span> <span class="nn">six</span> <span class="kn">import</span> <span class="n">string_types</span>
 
-<span class="c1"># 3rd party imports</span>
-<span class="kn">from</span> <span class="nn">six</span> <span class="k">import</span> <span class="n">string_types</span>
-
-<span class="c1"># local imports</span>
-<span class="kn">from</span> <span class="nn">peltak.core</span> <span class="k">import</span> <span class="n">fs</span>
-<span class="kn">from</span> <span class="nn">peltak.core</span> <span class="k">import</span> <span class="n">shell</span>
+<span class="kn">from</span> <span class="nn">peltak.core</span> <span class="kn">import</span> <span class="n">fs</span>
+<span class="kn">from</span> <span class="nn">peltak.core</span> <span class="kn">import</span> <span class="n">shell</span>
 
 
-<div class="viewcode-block" id="header"><a class="viewcode-back" href="../../../../reference/script_filters.html#peltak.core.templates.filters.header">[docs]</a><span class="k">def</span> <span class="nf">header</span><span class="p">(</span><span class="n">title</span><span class="p">):</span>
-    <span class="c1"># type: (Any) -&gt; str</span>
+<div class="viewcode-block" id="header"><a class="viewcode-back" href="../../../../reference/script_filters.html#peltak.core.templates.filters.header">[docs]</a><span class="k">def</span> <span class="nf">header</span><span class="p">(</span><span class="n">title</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot; Converts a given title into a pretty header with colors.</span>
 
 <span class="sd">    **Usage:**</span>
@@ -215,8 +211,7 @@
                      <span class="n">bar</span><span class="o">=</span><span class="s1">&#39;=&#39;</span> <span class="o">*</span> <span class="n">remaining</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="count_flag"><a class="viewcode-back" href="../../../../reference/script_filters.html#peltak.core.templates.filters.count_flag">[docs]</a><span class="k">def</span> <span class="nf">count_flag</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">flag</span><span class="p">):</span>
-    <span class="c1"># type: (int, str) -&gt; str</span>
+<div class="viewcode-block" id="count_flag"><a class="viewcode-back" href="../../../../reference/script_filters.html#peltak.core.templates.filters.count_flag">[docs]</a><span class="k">def</span> <span class="nf">count_flag</span><span class="p">(</span><span class="n">count</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">flag</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot; Returns the given flag letter as a count flag.</span>
 
 <span class="sd">    **Usage:**</span>
@@ -248,7 +243,7 @@
     <span class="k">return</span> <span class="s1">&#39;-&#39;</span> <span class="o">+</span> <span class="n">flag</span> <span class="o">*</span> <span class="n">count</span> <span class="k">if</span> <span class="n">count</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span></div>
 
 
-<div class="viewcode-block" id="cprint"><a class="viewcode-back" href="../../../../reference/script_filters.html#peltak.core.templates.filters.cprint">[docs]</a><span class="k">def</span> <span class="nf">cprint</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+<div class="viewcode-block" id="cprint"><a class="viewcode-back" href="../../../../reference/script_filters.html#peltak.core.templates.filters.cprint">[docs]</a><span class="k">def</span> <span class="nf">cprint</span><span class="p">(</span><span class="n">msg</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Will convert the given message to an echo statement with color opcodes.</span>
 
 <span class="sd">    This supports the same syntax as `peltak.core.shell.fmt` (used internally here).</span>
@@ -297,7 +292,7 @@
     <span class="k">return</span> <span class="n">shell</span><span class="o">.</span><span class="n">fmt</span><span class="p">(</span><span class="s1">&#39;echo &quot;</span><span class="si">{}</span><span class="s1">&lt;0&gt;&quot;&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="wrap_paths"><a class="viewcode-back" href="../../../../reference/script_filters.html#peltak.core.templates.filters.wrap_paths">[docs]</a><span class="k">def</span> <span class="nf">wrap_paths</span><span class="p">(</span><span class="n">paths</span><span class="p">):</span>
+<div class="viewcode-block" id="wrap_paths"><a class="viewcode-back" href="../../../../reference/script_filters.html#peltak.core.templates.filters.wrap_paths">[docs]</a><span class="k">def</span> <span class="nf">wrap_paths</span><span class="p">(</span><span class="n">paths</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
     <span class="sd">&quot;&quot;&quot; Returns a string with all items wrapped in quotes and separated by space.</span>
 
 <span class="sd">    **Usage:**</span>
@@ -313,10 +308,6 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">fs</span><span class="o">.</span><span class="n">wrap_paths</span><span class="p">(</span><span class="n">paths</span><span class="p">)</span></div>
-
-
-<span class="c1"># Used only in type hint comments</span>
-<span class="k">del</span> <span class="n">Any</span>
 </pre></div>
 
            </div>
@@ -329,11 +320,19 @@
 
   <div role="contentinfo">
     <p>
+        
         &copy; Copyright 2016-2018, Mateusz &#39;novo&#39; Klos
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -344,7 +343,6 @@
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

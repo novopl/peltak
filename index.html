@@ -1,8 +1,7 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
@@ -12,27 +11,29 @@
   
 
   
+  <link rel="stylesheet" href="_static/css/overrides.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
   
   
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/overrides.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Guides" href="guides/_index.html" /> 
@@ -49,7 +50,7 @@
           
 
           
-            <a href="#" class="icon icon-home"> peltak
+            <a href="#" class="icon icon-home" alt="Documentation Home"> peltak
           
 
           
@@ -76,6 +77,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -92,6 +94,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -130,7 +133,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="#">Docs</a> &raquo;</li>
+      <li><a href="#" class="icon icon-home"></a> &raquo;</li>
         
       <li>peltak - Simplify your day-to-day dev tasks</li>
     
@@ -197,21 +200,21 @@ command line app.</p>
 between the developer and different 3rd party tools. The requirements we set
 for ourselves are:</p>
 <ul class="simple">
-<li><strong>Simple by default</strong>. The app should be useful for small projects where
+<li><p><strong>Simple by default</strong>. The app should be useful for small projects where
 things are simple. You do not need to have a big, complex project for
 <strong>peltak</strong> to provide you with value. This means that the basic setup has
-to be as simple as possible.</li>
-<li><strong>Extensible</strong>. It has to be easy to extend and still be useful when the
+to be as simple as possible.</p></li>
+<li><p><strong>Extensible</strong>. It has to be easy to extend and still be useful when the
 project grows. This is the biggest drawback of shell scripts - with time
 they are either too simple to handle all cases or get so complex that
-maintaining them becomes hell for anyone but the orignal author.</li>
-<li><strong>Full auto-completion.</strong> Once you get used to a tool, auto-completion
-becomes a second nature and can speed up your workflow considerably.</li>
-<li><strong>Easy command discovery and self help</strong>.  This means the user can see what
+maintaining them becomes hell for anyone but the orignal author.</p></li>
+<li><p><strong>Full auto-completion.</strong> Once you get used to a tool, auto-completion
+becomes a second nature and can speed up your workflow considerably.</p></li>
+<li><p><strong>Easy command discovery and self help</strong>.  This means the user can see what
 commands he can execute without having access to any manuals or guides. The
 way we achieve that is through implementing the <code class="docutils literal notranslate"><span class="pre">--help</span></code> flag on every
 command and sub command in peltak. This way you can always append <code class="docutils literal notranslate"><span class="pre">--help</span></code>
-to your invocation and see what’s available.</li>
+to your invocation and see what’s available.</p></li>
 </ul>
 </div>
 <div class="section" id="simple-by-default">
@@ -306,11 +309,19 @@ on every project you work on.</p>
 
   <div role="contentinfo">
     <p>
+        
         &copy; Copyright 2016-2018, Mateusz &#39;novo&#39; Klos
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -321,7 +332,6 @@ on every project you work on.</p>
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

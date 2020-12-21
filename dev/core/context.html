@@ -1,8 +1,7 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
@@ -12,27 +11,29 @@
   
 
   
+  <link rel="stylesheet" href="../../_static/css/overrides.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+
+  
   
   
   
 
   
-  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="../../_static/css/overrides.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="peltak.core.fs" href="fs.html" />
@@ -50,7 +51,7 @@
           
 
           
-            <a href="../../index.html" class="icon icon-home"> peltak
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> peltak
           
 
           
@@ -77,6 +78,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -110,6 +112,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -148,7 +151,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../../index.html">Docs</a> &raquo;</li>
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
         
           <li><a href="../_index.html">Dev Docs</a> &raquo;</li>
         
@@ -176,133 +179,117 @@
   <div class="section" id="module-peltak.core.context">
 <span id="peltak-core-context"></span><h1><code class="docutils literal notranslate"><span class="pre">peltak.core.context</span></code><a class="headerlink" href="#module-peltak.core.context" title="Permalink to this headline">¶</a></h1>
 <p>Runtime context implementation.</p>
-<span class="target" id="module-peltak.core.context"></span><p>Runtime context is a unified place to store dynamic global configuration. The
+<span class="target" id="module-0"></span><p>Runtime context is a unified place to store dynamic global configuration. The
 verbosity and <code class="docutils literal notranslate"><span class="pre">pretend</span></code> is a good example of that.</p>
-<p>Works like <a class="reference internal" href="pelconf.html#module-peltak.core.pelconf" title="peltak.core.pelconf: `pelconf.yaml` handling."><code class="xref any py py-mod docutils literal notranslate"><span class="pre">peltak.core.pelconf</span></code></a> but the configuration can be dynamically modified
+<p>Works like <a class="reference internal" href="pelconf.html#module-0" title="peltak.core.pelconf: `pelconf.yaml` handling."><code class="xref any py py-mod docutils literal notranslate"><span class="pre">peltak.core.pelconf</span></code></a> but the configuration can be dynamically modified
 in runtime.</p>
-<dl class="exception">
+<dl class="py exception">
 <dt id="peltak.core.context.ContextError">
-<em class="property">exception </em><code class="descclassname">peltak.core.context.</code><code class="descname">ContextError</code><a class="reference internal" href="../../_modules/peltak/core/context.html#ContextError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.context.ContextError" title="Permalink to this definition">¶</a></dt>
+<em class="property">exception </em><code class="sig-prename descclassname">peltak.core.context.</code><code class="sig-name descname">ContextError</code><a class="reference internal" href="../../_modules/peltak/core/context.html#ContextError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.context.ContextError" title="Permalink to this definition">¶</a></dt>
 <dd><p>Base class for context related exceptions.</p>
 </dd></dl>
 
-<dl class="exception">
+<dl class="py exception">
 <dt id="peltak.core.context.InvalidPath">
-<em class="property">exception </em><code class="descclassname">peltak.core.context.</code><code class="descname">InvalidPath</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/context.html#InvalidPath"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.context.InvalidPath" title="Permalink to this definition">¶</a></dt>
+<em class="property">exception </em><code class="sig-prename descclassname">peltak.core.context.</code><code class="sig-name descname">InvalidPath</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/context.html#InvalidPath"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.context.InvalidPath" title="Permalink to this definition">¶</a></dt>
 <dd><p>Invalid variable path.</p>
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="peltak.core.context.RunContext">
-<em class="property">class </em><code class="descclassname">peltak.core.context.</code><code class="descname">RunContext</code><a class="reference internal" href="../../_modules/peltak/core/context.html#RunContext"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.context.RunContext" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">peltak.core.context.</code><code class="sig-name descname">RunContext</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kw</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/context.html#RunContext"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.context.RunContext" title="Permalink to this definition">¶</a></dt>
 <dd><p>Runtime context.</p>
 <p>This class is the equivalent of conf but for values that can be modified
 in runtime. This is for all the settings that can be set on the command
 line and can span many commands or APIs.</p>
-<dl class="method">
+<dl class="py method">
 <dt id="peltak.core.context.RunContext.clear">
-<code class="descname">clear</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/context.html#RunContext.clear"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.context.RunContext.clear" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">clear</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)">None</a><a class="reference internal" href="../../_modules/peltak/core/context.html#RunContext.clear"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.context.RunContext.clear" title="Permalink to this definition">¶</a></dt>
 <dd><p>Clear all existing values.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="peltak.core.context.RunContext.get">
-<code class="descname">get</code><span class="sig-paren">(</span><em>name</em>, <em>*default</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/context.html#RunContext.get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.context.RunContext.get" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="o">*</span><span class="n">default</span><span class="p">:</span> <span class="n">Any</span></em><span class="sig-paren">)</span> &#x2192; Any<a class="reference internal" href="../../_modules/peltak/core/context.html#RunContext.get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.context.RunContext.get" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get context value with the given name and optional default.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The name of the context value.</li>
-<li><strong>*default</strong> (<em>Any</em>) – If given and the key doesn’t not exist, this will be returned
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The name of the context value.</p></li>
+<li><p><strong>*default</strong> (<em>Any</em>) – If given and the key doesn’t not exist, this will be returned
 instead. If it’s not given and the context value does not exist,
-<a class="reference external" href="https://docs.python.org/3/library/exceptions.html#AttributeError" title="(in Python v3.8)"><code class="xref any docutils literal notranslate"><span class="pre">AttributeError</span></code></a> will be raised</li>
+<a class="reference external" href="https://docs.python.org/3/library/exceptions.html#AttributeError" title="(in Python v3.9)"><code class="xref any docutils literal notranslate"><span class="pre">AttributeError</span></code></a> will be raised</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The requested context value.  If the value does not exist it will
-return <em>default</em> if give or raise <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#AttributeError" title="(in Python v3.8)"><code class="xref any docutils literal notranslate"><span class="pre">AttributeError</span></code></a>.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#AttributeError" title="(in Python v3.8)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">AttributeError</span></code></a> – If the value does not exist and <em>default</em> was not
-given.</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The requested context value.  If the value does not exist it will
+return <em>default</em> if give or raise <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#AttributeError" title="(in Python v3.9)"><code class="xref any docutils literal notranslate"><span class="pre">AttributeError</span></code></a>.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#AttributeError" title="(in Python v3.9)"><strong>AttributeError</strong></a> – If the value does not exist and <em>default</em> was not
+    given.</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="peltak.core.context.RunContext.set">
-<code class="descname">set</code><span class="sig-paren">(</span><em>name</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/context.html#RunContext.set"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.context.RunContext.set" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">set</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">value</span><span class="p">:</span> <span class="n">Any</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)">None</a><a class="reference internal" href="../../_modules/peltak/core/context.html#RunContext.set"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.context.RunContext.set" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set context value.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The name of the context value to change.</li>
-<li><strong>value</strong> (<em>Any</em>) – The new value for the selected context value</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The name of the context value to change.</p></li>
+<li><p><strong>value</strong> (<em>Any</em>) – The new value for the selected context value</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="peltak.core.context.clear">
-<code class="descclassname">peltak.core.context.</code><code class="descname">clear</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/context.html#clear"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.context.clear" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">peltak.core.context.</code><code class="sig-name descname">clear</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)">None</a><a class="reference internal" href="../../_modules/peltak/core/context.html#clear"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.context.clear" title="Permalink to this definition">¶</a></dt>
 <dd><p>Clear all existing values.</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="peltak.core.context.get">
-<code class="descclassname">peltak.core.context.</code><code class="descname">get</code><span class="sig-paren">(</span><em>name</em>, <em>*default</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/context.html#get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.context.get" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">peltak.core.context.</code><code class="sig-name descname">get</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="o">*</span><span class="n">default</span><span class="p">:</span> <span class="n">Any</span></em><span class="sig-paren">)</span> &#x2192; Any<a class="reference internal" href="../../_modules/peltak/core/context.html#get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.context.get" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get context value with the given name and optional default.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The name of the context value.</li>
-<li><strong>*default</strong> (<em>Any</em>) – If given and the key doesn’t not exist, this will be returned
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The name of the context value.</p></li>
+<li><p><strong>*default</strong> (<em>Any</em>) – If given and the key doesn’t not exist, this will be returned
 instead. If it’s not given and the context value does not exist,
-<a class="reference external" href="https://docs.python.org/3/library/exceptions.html#AttributeError" title="(in Python v3.8)"><code class="xref any docutils literal notranslate"><span class="pre">AttributeError</span></code></a> will be raised</li>
+<a class="reference external" href="https://docs.python.org/3/library/exceptions.html#AttributeError" title="(in Python v3.9)"><code class="xref any docutils literal notranslate"><span class="pre">AttributeError</span></code></a> will be raised</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The requested context value.  If the value does not exist it will
-return <em>default</em> if give or raise <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#AttributeError" title="(in Python v3.8)"><code class="xref any docutils literal notranslate"><span class="pre">AttributeError</span></code></a>.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#AttributeError" title="(in Python v3.8)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">AttributeError</span></code></a> – If the value does not exist and <em>default</em> was not
-given.</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The requested context value.  If the value does not exist it will
+return <em>default</em> if give or raise <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#AttributeError" title="(in Python v3.9)"><code class="xref any docutils literal notranslate"><span class="pre">AttributeError</span></code></a>.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#AttributeError" title="(in Python v3.9)"><strong>AttributeError</strong></a> – If the value does not exist and <em>default</em> was not
+    given.</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="peltak.core.context.set">
-<code class="descclassname">peltak.core.context.</code><code class="descname">set</code><span class="sig-paren">(</span><em>name</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/context.html#set"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.context.set" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">peltak.core.context.</code><code class="sig-name descname">set</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">value</span><span class="p">:</span> <span class="n">Any</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)">None</a><a class="reference internal" href="../../_modules/peltak/core/context.html#set"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.context.set" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set context value.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The name of the context value to change.</li>
-<li><strong>value</strong> (<em>Any</em>) – The new value for the selected context value</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The name of the context value to change.</p></li>
+<li><p><strong>value</strong> (<em>Any</em>) – The new value for the selected context value</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
@@ -327,11 +314,19 @@ given.</p>
 
   <div role="contentinfo">
     <p>
+        
         &copy; Copyright 2016-2018, Mateusz &#39;novo&#39; Klos
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -342,7 +337,6 @@ given.</p>
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

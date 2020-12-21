@@ -1,8 +1,7 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
@@ -12,27 +11,29 @@
   
 
   
+  <link rel="stylesheet" href="../../_static/css/overrides.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+
+  
   
   
   
 
   
-  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="../../_static/css/overrides.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="peltak.core.hooks" href="hooks.html" />
@@ -50,7 +51,7 @@
           
 
           
-            <a href="../../index.html" class="icon icon-home"> peltak
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> peltak
           
 
           
@@ -77,6 +78,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -110,6 +112,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -148,7 +151,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../../index.html">Docs</a> &raquo;</li>
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
         
           <li><a href="../_index.html">Dev Docs</a> &raquo;</li>
         
@@ -175,505 +178,445 @@
             
   <div class="section" id="module-peltak.core.git">
 <span id="peltak-core-git"></span><h1><code class="docutils literal notranslate"><span class="pre">peltak.core.git</span></code><a class="headerlink" href="#module-peltak.core.git" title="Permalink to this headline">¶</a></h1>
-<span class="target" id="module-peltak.core.git"></span><dl class="class">
+<span class="target" id="module-0"></span><dl class="py class">
 <dt id="peltak.core.git.Author">
-<em class="property">class </em><code class="descclassname">peltak.core.git.</code><code class="descname">Author</code><span class="sig-paren">(</span><em>name</em>, <em>email</em><span class="sig-paren">)</span><a class="headerlink" href="#peltak.core.git.Author" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="attribute">
+<em class="property">class </em><code class="sig-prename descclassname">peltak.core.git.</code><code class="sig-name descname">Author</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="n">email</span></em><span class="sig-paren">)</span><a class="headerlink" href="#peltak.core.git.Author" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
 <dt id="peltak.core.git.Author.email">
-<code class="descname">email</code><a class="headerlink" href="#peltak.core.git.Author.email" title="Permalink to this definition">¶</a></dt>
+<em class="property">property </em><code class="sig-name descname">email</code><a class="headerlink" href="#peltak.core.git.Author.email" title="Permalink to this definition">¶</a></dt>
 <dd><p>Alias for field number 1</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py method">
 <dt id="peltak.core.git.Author.name">
-<code class="descname">name</code><a class="headerlink" href="#peltak.core.git.Author.name" title="Permalink to this definition">¶</a></dt>
+<em class="property">property </em><code class="sig-name descname">name</code><a class="headerlink" href="#peltak.core.git.Author.name" title="Permalink to this definition">¶</a></dt>
 <dd><p>Alias for field number 0</p>
 </dd></dl>
 
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="peltak.core.git.BranchDetails">
-<em class="property">class </em><code class="descclassname">peltak.core.git.</code><code class="descname">BranchDetails</code><span class="sig-paren">(</span><em>name: str</em>, <em>type: Optional[str] = None</em>, <em>title: str = None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/git.html#BranchDetails"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.git.BranchDetails" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">peltak.core.git.</code><code class="sig-name descname">BranchDetails</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">type</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">title</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/git.html#BranchDetails"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.git.BranchDetails" title="Permalink to this definition">¶</a></dt>
 <dd><p>Branch name parsed into type and title.</p>
 <p>Helpful for things like implementing git flow etc.</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="peltak.core.git.BranchDetails.name">
-<code class="descname">name</code><a class="headerlink" href="#peltak.core.git.BranchDetails.name" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">name</code><a class="headerlink" href="#peltak.core.git.BranchDetails.name" title="Permalink to this definition">¶</a></dt>
 <dd><p>The full name of the branch as returned by git.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="peltak.core.git.BranchDetails.type">
-<code class="descname">type</code><a class="headerlink" href="#peltak.core.git.BranchDetails.type" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">type</code><a class="headerlink" href="#peltak.core.git.BranchDetails.type" title="Permalink to this definition">¶</a></dt>
 <dd><p>The type of the branch. This assumes the <code class="docutils literal notranslate"><span class="pre">type/title</span></code> branch
 naming format and will be the text before <code class="docutils literal notranslate"><span class="pre">/</span></code> in the branch name.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="peltak.core.git.BranchDetails.title">
-<code class="descname">title</code><a class="headerlink" href="#peltak.core.git.BranchDetails.title" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">title</code><a class="headerlink" href="#peltak.core.git.BranchDetails.title" title="Permalink to this definition">¶</a></dt>
 <dd><p>The title of the branch. This assumes the <code class="docutils literal notranslate"><span class="pre">type/title</span></code> branch
 naming format and will be the text after <code class="docutils literal notranslate"><span class="pre">/</span></code> in the branch name.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="classmethod">
+<dl class="py method">
 <dt id="peltak.core.git.BranchDetails.parse">
-<em class="property">classmethod </em><code class="descname">parse</code><span class="sig-paren">(</span><em>branch_name</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/git.html#BranchDetails.parse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.git.BranchDetails.parse" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="sig-name descname">parse</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">branch_name</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#peltak.core.git.BranchDetails" title="peltak.core.git.BranchDetails">peltak.core.git.BranchDetails</a><a class="reference internal" href="../../_modules/peltak/core/git.html#BranchDetails.parse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.git.BranchDetails.parse" title="Permalink to this definition">¶</a></dt>
 <dd><p>Parse branch name into BranchDetails instance.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>branch_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The name of the branch to parse.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The parsed branch name - easy to use.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#peltak.core.git.BranchDetails" title="peltak.core.git.BranchDetails">BranchDetails</a></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>branch_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The name of the branch to parse.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The parsed branch name - easy to use.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#peltak.core.git.BranchDetails" title="peltak.core.git.BranchDetails">BranchDetails</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="peltak.core.git.CommitDetails">
-<em class="property">class </em><code class="descclassname">peltak.core.git.</code><code class="descname">CommitDetails</code><span class="sig-paren">(</span><em>sha1</em>, <em>author</em>, <em>title</em>, <em>desc</em>, <em>parents_sha1</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/git.html#CommitDetails"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.git.CommitDetails" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">peltak.core.git.</code><code class="sig-name descname">CommitDetails</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sha1</span></em>, <em class="sig-param"><span class="n">author</span></em>, <em class="sig-param"><span class="n">title</span></em>, <em class="sig-param"><span class="n">desc</span></em>, <em class="sig-param"><span class="n">parents_sha1</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/git.html#CommitDetails"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.git.CommitDetails" title="Permalink to this definition">¶</a></dt>
 <dd><p>Allows querying git commits for details.</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="peltak.core.git.CommitDetails.id">
-<code class="descname">id</code><a class="headerlink" href="#peltak.core.git.CommitDetails.id" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">id</code><a class="headerlink" href="#peltak.core.git.CommitDetails.id" title="Permalink to this definition">¶</a></dt>
 <dd><p>The commit ID (first 7 characters taken from <a class="reference internal" href="#peltak.core.git.CommitDetails.sha1" title="peltak.core.git.CommitDetails.sha1"><code class="xref any py py-attr docutils literal notranslate"><span class="pre">sha1</span></code></a>).</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="peltak.core.git.CommitDetails.sha1">
-<code class="descname">sha1</code><a class="headerlink" href="#peltak.core.git.CommitDetails.sha1" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">sha1</code><a class="headerlink" href="#peltak.core.git.CommitDetails.sha1" title="Permalink to this definition">¶</a></dt>
 <dd><p>Full SHA1 of the commit.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="peltak.core.git.CommitDetails.author">
-<code class="descname">author</code><a class="headerlink" href="#peltak.core.git.CommitDetails.author" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">author</code><a class="headerlink" href="#peltak.core.git.CommitDetails.author" title="Permalink to this definition">¶</a></dt>
 <dd><p>The commit author.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference internal" href="#peltak.core.git.Author" title="peltak.core.git.Author">Author</a></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#peltak.core.git.Author" title="peltak.core.git.Author">Author</a></p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="peltak.core.git.CommitDetails.title">
-<code class="descname">title</code><a class="headerlink" href="#peltak.core.git.CommitDetails.title" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">title</code><a class="headerlink" href="#peltak.core.git.CommitDetails.title" title="Permalink to this definition">¶</a></dt>
 <dd><p>The title of the commit. This is the first line of the commit
 message and should usually be shorter than 50 characters.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="peltak.core.git.CommitDetails.desc">
-<code class="descname">desc</code><a class="headerlink" href="#peltak.core.git.CommitDetails.desc" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">desc</code><a class="headerlink" href="#peltak.core.git.CommitDetails.desc" title="Permalink to this definition">¶</a></dt>
 <dd><p>The commit description. This is the portion following the title.
 Will be an empty string if the commit contains only the title.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="peltak.core.git.CommitDetails.parents_sha1">
-<code class="descname">parents_sha1</code><a class="headerlink" href="#peltak.core.git.CommitDetails.parents_sha1" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">parents_sha1</code><a class="headerlink" href="#peltak.core.git.CommitDetails.parents_sha1" title="Permalink to this definition">¶</a></dt>
 <dd><p>List of SHA1s of parents of this commit.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">List[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a>]</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>List[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a>]</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py method">
 <dt id="peltak.core.git.CommitDetails.branches">
-<code class="descname">branches</code><a class="headerlink" href="#peltak.core.git.CommitDetails.branches" title="Permalink to this definition">¶</a></dt>
+<em class="property">property </em><code class="sig-name descname">branches</code><a class="headerlink" href="#peltak.core.git.CommitDetails.branches" title="Permalink to this definition">¶</a></dt>
 <dd><p>List of all branches this commit is a part of.</p>
 </dd></dl>
 
-<dl class="classmethod">
+<dl class="py method">
 <dt id="peltak.core.git.CommitDetails.get">
-<em class="property">classmethod </em><code class="descname">get</code><span class="sig-paren">(</span><em>sha1=''</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/git.html#CommitDetails.get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.git.CommitDetails.get" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="sig-name descname">get</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sha1</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span> <span class="o">=</span> <span class="default_value">''</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#peltak.core.git.CommitDetails" title="peltak.core.git.CommitDetails">peltak.core.git.CommitDetails</a><a class="reference internal" href="../../_modules/peltak/core/git.html#CommitDetails.get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.git.CommitDetails.get" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return details about a given commit.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>sha1</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The sha1 of the commit to query. If not given, it will return
-the details for the latest commit.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Commit details. You can use the instance of the
-class to query git tree further.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#peltak.core.git.CommitDetails" title="peltak.core.git.CommitDetails">CommitDetails</a></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>sha1</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The sha1 of the commit to query. If not given, it will return
+the details for the latest commit.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Commit details. You can use the instance of the
+class to query git tree further.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#peltak.core.git.CommitDetails" title="peltak.core.git.CommitDetails">CommitDetails</a></p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py method">
 <dt id="peltak.core.git.CommitDetails.number">
-<code class="descname">number</code><a class="headerlink" href="#peltak.core.git.CommitDetails.number" title="Permalink to this definition">¶</a></dt>
+<em class="property">property </em><code class="sig-name descname">number</code><a class="headerlink" href="#peltak.core.git.CommitDetails.number" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return this commits number.</p>
 <p>This is the same as the total number of commits in history up until
 this commit.</p>
 <p>This value can be useful in some CI scenarios as it allows to track
 progress on any given branch (although there can be two commits with the
 same number existing on different branches).</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The commit number/index.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The commit number/index.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a></p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py method">
 <dt id="peltak.core.git.CommitDetails.parents">
-<code class="descname">parents</code><a class="headerlink" href="#peltak.core.git.CommitDetails.parents" title="Permalink to this definition">¶</a></dt>
+<em class="property">property </em><code class="sig-name descname">parents</code><a class="headerlink" href="#peltak.core.git.CommitDetails.parents" title="Permalink to this definition">¶</a></dt>
 <dd><p>Parents of the this commit.</p>
 </dd></dl>
 
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="peltak.core.git.branches">
-<code class="descclassname">peltak.core.git.</code><code class="descname">branches</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/git.html#branches"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.git.branches" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">peltak.core.git.</code><code class="sig-name descname">branches</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">]</span><a class="reference internal" href="../../_modules/peltak/core/git.html#branches"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.git.branches" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a list of branches in the current repo.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A list of branches in the current repo.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a>]</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A list of branches in the current repo.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)">list</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a>]</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="peltak.core.git.commit_author">
-<code class="descclassname">peltak.core.git.</code><code class="descname">commit_author</code><span class="sig-paren">(</span><em>sha1=''</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/git.html#commit_author"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.git.commit_author" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">peltak.core.git.</code><code class="sig-name descname">commit_author</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sha1</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span> <span class="o">=</span> <span class="default_value">''</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#peltak.core.git.Author" title="peltak.core.git.Author">peltak.core.git.Author</a><a class="reference internal" href="../../_modules/peltak/core/git.html#commit_author"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.git.commit_author" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the author of the given commit.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>sha1</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The sha1 of the commit to query. If not given, it will return the
-sha1 for the current commit.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A named tuple <code class="docutils literal notranslate"><span class="pre">(name,</span> <span class="pre">email)</span></code> with the commit author details.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#peltak.core.git.Author" title="peltak.core.git.Author">Author</a></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>sha1</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The sha1 of the commit to query. If not given, it will return the
+sha1 for the current commit.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A named tuple <code class="docutils literal notranslate"><span class="pre">(name,</span> <span class="pre">email)</span></code> with the commit author details.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#peltak.core.git.Author" title="peltak.core.git.Author">Author</a></p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="peltak.core.git.commit_branches">
-<code class="descclassname">peltak.core.git.</code><code class="descname">commit_branches</code><span class="sig-paren">(</span><em>sha1</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/git.html#commit_branches"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.git.commit_branches" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">peltak.core.git.</code><code class="sig-name descname">commit_branches</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sha1</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">]</span><a class="reference internal" href="../../_modules/peltak/core/git.html#commit_branches"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.git.commit_branches" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the name of the branches that this commit belongs to.</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="peltak.core.git.commit_details">
-<code class="descclassname">peltak.core.git.</code><code class="descname">commit_details</code><span class="sig-paren">(</span><em>sha1=''</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/git.html#commit_details"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.git.commit_details" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">peltak.core.git.</code><code class="sig-name descname">commit_details</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sha1</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span> <span class="o">=</span> <span class="default_value">''</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#peltak.core.git.CommitDetails" title="peltak.core.git.CommitDetails">peltak.core.git.CommitDetails</a><a class="reference internal" href="../../_modules/peltak/core/git.html#commit_details"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.git.commit_details" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return details about a given commit.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>sha1</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The sha1 of the commit to query. If not given, it will return the
-details for the latest commit.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A named tuple <code class="docutils literal notranslate"><span class="pre">(name,</span> <span class="pre">email)</span></code> with the commit author
-details.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#peltak.core.git.CommitDetails" title="peltak.core.git.CommitDetails">CommitDetails</a></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>sha1</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The sha1 of the commit to query. If not given, it will return the
+details for the latest commit.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A named tuple <code class="docutils literal notranslate"><span class="pre">(name,</span> <span class="pre">email)</span></code> with the commit author
+details.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#peltak.core.git.CommitDetails" title="peltak.core.git.CommitDetails">CommitDetails</a></p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="peltak.core.git.config">
-<code class="descclassname">peltak.core.git.</code><code class="descname">config</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/git.html#config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.git.config" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">peltak.core.git.</code><code class="sig-name descname">config</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">, </span>Any<span class="p">]</span><a class="reference internal" href="../../_modules/peltak/core/git.html#config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.git.config" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the current git configuration.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The current git config taken from <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">config</span> <span class="pre">--list</span></code>.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)">dict</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a>, Any]</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The current git config taken from <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">config</span> <span class="pre">--list</span></code>.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)">dict</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a>, Any]</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="peltak.core.git.current_branch">
-<code class="descclassname">peltak.core.git.</code><code class="descname">current_branch</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/git.html#current_branch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.git.current_branch" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">peltak.core.git.</code><code class="sig-name descname">current_branch</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#peltak.core.git.BranchDetails" title="peltak.core.git.BranchDetails">peltak.core.git.BranchDetails</a><a class="reference internal" href="../../_modules/peltak/core/git.html#current_branch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.git.current_branch" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the BranchDetails for the current branch.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The details of the current branch.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#peltak.core.git.BranchDetails" title="peltak.core.git.BranchDetails">BranchDetails</a></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The details of the current branch.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#peltak.core.git.BranchDetails" title="peltak.core.git.BranchDetails">BranchDetails</a></p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="peltak.core.git.guess_base_branch">
-<code class="descclassname">peltak.core.git.</code><code class="descname">guess_base_branch</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/git.html#guess_base_branch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.git.guess_base_branch" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">peltak.core.git.</code><code class="sig-name descname">guess_base_branch</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">]</span><a class="reference internal" href="../../_modules/peltak/core/git.html#guess_base_branch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.git.guess_base_branch" title="Permalink to this definition">¶</a></dt>
 <dd><p>Try to guess the base branch for the current branch.</p>
 <p>Do not trust this guess. git makes it pretty much impossible to guess
 the base branch reliably so this function implements few heuristics that
 will work on most common use cases but anything a bit crazy will probably
 trip this function.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The name of the base branch for the current branch if
-guessable or <strong>None</strong> if can’t guess.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">Optional[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a>]</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The name of the base branch for the current branch if
+guessable or <strong>None</strong> if can’t guess.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Optional[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a>]</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="peltak.core.git.ignore">
-<code class="descclassname">peltak.core.git.</code><code class="descname">ignore</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/git.html#ignore"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.git.ignore" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">peltak.core.git.</code><code class="sig-name descname">ignore</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">]</span><a class="reference internal" href="../../_modules/peltak/core/git.html#ignore"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.git.ignore" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a list of patterns in the project .gitignore</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">List of patterns set to be ignored by git.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a>]</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>List of patterns set to be ignored by git.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)">list</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a>]</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="peltak.core.git.latest_commit">
-<code class="descclassname">peltak.core.git.</code><code class="descname">latest_commit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/git.html#latest_commit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.git.latest_commit" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">peltak.core.git.</code><code class="sig-name descname">latest_commit</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#peltak.core.git.CommitDetails" title="peltak.core.git.CommitDetails">peltak.core.git.CommitDetails</a><a class="reference internal" href="../../_modules/peltak/core/git.html#latest_commit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.git.latest_commit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return details for the latest commit.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The <a class="reference internal" href="#peltak.core.git.CommitDetails" title="peltak.core.git.CommitDetails"><code class="xref any py py-class docutils literal notranslate"><span class="pre">CommitDetails</span></code></a> instance for the latest commit on the
-current branch.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#peltak.core.git.CommitDetails" title="peltak.core.git.CommitDetails">CommitDetails</a></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The <a class="reference internal" href="#peltak.core.git.CommitDetails" title="peltak.core.git.CommitDetails"><code class="xref any py py-class docutils literal notranslate"><span class="pre">CommitDetails</span></code></a> instance for the latest commit on the
+current branch.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#peltak.core.git.CommitDetails" title="peltak.core.git.CommitDetails">CommitDetails</a></p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="peltak.core.git.protected_branches">
-<code class="descclassname">peltak.core.git.</code><code class="descname">protected_branches</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/git.html#protected_branches"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.git.protected_branches" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">peltak.core.git.</code><code class="sig-name descname">protected_branches</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">]</span><a class="reference internal" href="../../_modules/peltak/core/git.html#protected_branches"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.git.protected_branches" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return branches protected by deletion.</p>
 <p>By default those are master and devel branches as configured in pelconf.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Names of important branches that should not be deleted.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a>]</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Names of important branches that should not be deleted.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)">list</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a>]</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="peltak.core.git.staged">
-<code class="descclassname">peltak.core.git.</code><code class="descname">staged</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/git.html#staged"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.git.staged" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">peltak.core.git.</code><code class="sig-name descname">staged</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">]</span><a class="reference internal" href="../../_modules/peltak/core/git.html#staged"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.git.staged" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a list of project files staged for commit.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The list of project files staged for commit.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a>]</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The list of project files staged for commit.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)">list</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a>]</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="peltak.core.git.tag">
-<code class="descclassname">peltak.core.git.</code><code class="descname">tag</code><span class="sig-paren">(</span><em>name</em>, <em>message</em>, <em>author=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/git.html#tag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.git.tag" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">peltak.core.git.</code><code class="sig-name descname">tag</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">message</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">author</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference internal" href="#peltak.core.git.Author" title="peltak.core.git.Author">peltak.core.git.Author</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/git.html#tag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.git.tag" title="Permalink to this definition">¶</a></dt>
 <dd><p>Tag the current commit.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The tag name.</li>
-<li><strong>message</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The tag message. Same as <code class="docutils literal notranslate"><span class="pre">-m</span></code> parameter in <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">tag</span></code>.</li>
-<li><strong>author</strong> (<a class="reference internal" href="#peltak.core.git.Author" title="peltak.core.git.Author"><em>Author</em></a>) – The commit author. Will default to the author of the commit.</li>
-<li><strong>pretend</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – If set to <strong>True</strong> it will print the full <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">tag</span></code> command
-instead of actually executing it.</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The tag name.</p></li>
+<li><p><strong>message</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The tag message. Same as <code class="docutils literal notranslate"><span class="pre">-m</span></code> parameter in <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">tag</span></code>.</p></li>
+<li><p><strong>author</strong> (<a class="reference internal" href="#peltak.core.git.Author" title="peltak.core.git.Author"><em>Author</em></a>) – The commit author. Will default to the author of the commit.</p></li>
+<li><p><strong>pretend</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – If set to <strong>True</strong> it will print the full <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">tag</span></code> command
+instead of actually executing it.</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="peltak.core.git.tags">
-<code class="descclassname">peltak.core.git.</code><code class="descname">tags</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/git.html#tags"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.git.tags" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">peltak.core.git.</code><code class="sig-name descname">tags</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">]</span><a class="reference internal" href="../../_modules/peltak/core/git.html#tags"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.git.tags" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns all tags in the repo.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">List of all tags in the repo, sorted as versions.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a>]</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>List of all tags in the repo, sorted as versions.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)">list</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a>]</p>
+</dd>
+</dl>
 <p>All tags returned by this function will be parsed as if the contained
 versions (using <code class="docutils literal notranslate"><span class="pre">v:refname</span></code> sorting).</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="peltak.core.git.unstaged">
-<code class="descclassname">peltak.core.git.</code><code class="descname">unstaged</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/git.html#unstaged"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.git.unstaged" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">peltak.core.git.</code><code class="sig-name descname">unstaged</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">]</span><a class="reference internal" href="../../_modules/peltak/core/git.html#unstaged"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.git.unstaged" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a list of unstaged files in the project repository.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The list of files not tracked by project git repo.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a>]</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The list of files not tracked by project git repo.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)">list</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a>]</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="peltak.core.git.untracked">
-<code class="descclassname">peltak.core.git.</code><code class="descname">untracked</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/git.html#untracked"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.git.untracked" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">peltak.core.git.</code><code class="sig-name descname">untracked</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">]</span><a class="reference internal" href="../../_modules/peltak/core/git.html#untracked"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.git.untracked" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a list of untracked files in the project repository.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The list of files not tracked by project git repo.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a>]</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The list of files not tracked by project git repo.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)">list</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a>]</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="peltak.core.git.verify_branch">
-<code class="descclassname">peltak.core.git.</code><code class="descname">verify_branch</code><span class="sig-paren">(</span><em>branch_name</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/git.html#verify_branch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.git.verify_branch" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">peltak.core.git.</code><code class="sig-name descname">verify_branch</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">branch_name</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a><a class="reference internal" href="../../_modules/peltak/core/git.html#verify_branch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.git.verify_branch" title="Permalink to this definition">¶</a></dt>
 <dd><p>Verify if the given branch exists.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>branch_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The name of the branch to check.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>True</strong> if a branch with name <em>branch_name</em> exits, <strong>False</strong>
-otherwise.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>branch_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The name of the branch to check.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>True</strong> if a branch with name <em>branch_name</em> exits, <strong>False</strong>
+otherwise.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
@@ -698,11 +641,19 @@ otherwise.</td>
 
   <div role="contentinfo">
     <p>
+        
         &copy; Copyright 2016-2018, Mateusz &#39;novo&#39; Klos
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -713,7 +664,6 @@ otherwise.</td>
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

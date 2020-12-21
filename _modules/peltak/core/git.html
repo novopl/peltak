@@ -1,8 +1,7 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
@@ -12,27 +11,29 @@
   
 
   
+  <link rel="stylesheet" href="../../../_static/css/overrides.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+
+  
   
   
   
 
   
-  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="../../../_static/css/overrides.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
 </head>
@@ -48,7 +49,7 @@
           
 
           
-            <a href="../../../index.html" class="icon icon-home"> peltak
+            <a href="../../../index.html" class="icon icon-home" alt="Documentation Home"> peltak
           
 
           
@@ -75,6 +76,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -91,6 +93,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -129,7 +132,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
         
           <li><a href="../../index.html">Module code</a> &raquo;</li>
         
@@ -149,8 +152,7 @@
            <div itemprop="articleBody">
             
   <h1>Source code for peltak.core.git</h1><div class="highlight"><pre>
-<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
-<span class="c1"># Copyright 2017-2018 Mateusz Klos</span>
+<span></span><span class="c1"># Copyright 2017-2020 Mateusz Klos</span>
 <span class="c1">#</span>
 <span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
 <span class="c1"># you may not use this file except in compliance with the License.</span>
@@ -168,21 +170,16 @@
 <span class="sd">.. module:: peltak.core.git</span>
 <span class="sd">    :synopsis: Git helpers.</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">absolute_import</span><span class="p">,</span> <span class="n">unicode_literals</span>
-
-<span class="c1"># stdlib imports</span>
 <span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">namedtuple</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
 
-<span class="c1"># 3rd party imports</span>
 <span class="kn">import</span> <span class="nn">attr</span>
-<span class="kn">from</span> <span class="nn">six</span> <span class="k">import</span> <span class="n">string_types</span>
+<span class="kn">from</span> <span class="nn">six</span> <span class="kn">import</span> <span class="n">string_types</span>
 
-<span class="c1"># local imports</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">conf</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">shell</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">util</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">conf</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">shell</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">util</span>
 
 
 <span class="n">Author</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s1">&#39;Author&#39;</span><span class="p">,</span> <span class="s1">&#39;name email&#39;</span><span class="p">)</span>
@@ -209,8 +206,7 @@
     <span class="n">title</span> <span class="o">=</span> <span class="n">attr</span><span class="o">.</span><span class="n">ib</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 
 <div class="viewcode-block" id="BranchDetails.parse"><a class="viewcode-back" href="../../../dev/core/git.html#peltak.core.git.BranchDetails.parse">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">branch_name</span><span class="p">):</span>
-        <span class="c1"># type: (str) -&gt; BranchDetails</span>
+    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">branch_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;BranchDetails&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot; Parse branch name into BranchDetails instance.</span>
 
 <span class="sd">        Args:</span>
@@ -246,7 +242,7 @@
 <span class="sd">        parents_sha1 (List[str]):</span>
 <span class="sd">            List of SHA1s of parents of this commit.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sha1</span><span class="p">,</span> <span class="n">author</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">desc</span><span class="p">,</span> <span class="n">parents_sha1</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sha1</span><span class="p">,</span> <span class="n">author</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">desc</span><span class="p">,</span> <span class="n">parents_sha1</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">sha1</span><span class="p">[:</span><span class="mi">7</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sha1</span> <span class="o">=</span> <span class="n">sha1</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">author</span> <span class="o">=</span> <span class="n">author</span>
@@ -257,8 +253,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_parents</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">branches</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># type: () -&gt; List[str]</span>
+    <span class="k">def</span> <span class="nf">branches</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot; List of all branches this commit is a part of. &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_branches</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">cmd</span> <span class="o">=</span> <span class="s1">&#39;git branch --contains </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sha1</span><span class="p">)</span>
@@ -272,8 +267,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_branches</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">parents</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># type: () -&gt; List[CommitDetails]</span>
+    <span class="k">def</span> <span class="nf">parents</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;CommitDetails&#39;</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot; Parents of the this commit. &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parents</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_parents</span> <span class="o">=</span> <span class="p">[</span><span class="n">CommitDetails</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parents_sha1</span><span class="p">]</span>
@@ -281,8 +275,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parents</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">number</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># type: () -&gt; int</span>
+    <span class="k">def</span> <span class="nf">number</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot; Return this commits number.</span>
 
 <span class="sd">        This is the same as the total number of commits in history up until</span>
@@ -300,8 +293,7 @@
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">splitlines</span><span class="p">())</span>
 
 <div class="viewcode-block" id="CommitDetails.get"><a class="viewcode-back" href="../../../dev/core/git.html#peltak.core.git.CommitDetails.get">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">sha1</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
-        <span class="c1"># type: (str) -&gt; CommitDetails</span>
+    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">sha1</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;CommitDetails&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot; Return details about a given commit.</span>
 
 <span class="sd">        Args:</span>
@@ -335,8 +327,7 @@
 
 
 <div class="viewcode-block" id="current_branch"><a class="viewcode-back" href="../../../dev/core/git.html#peltak.core.git.current_branch">[docs]</a><span class="nd">@util</span><span class="o">.</span><span class="n">cached_result</span><span class="p">()</span>
-<span class="k">def</span> <span class="nf">current_branch</span><span class="p">():</span>
-    <span class="c1"># type: () -&gt; BranchDetails</span>
+<span class="k">def</span> <span class="nf">current_branch</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">BranchDetails</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot; Return the BranchDetails for the current branch.</span>
 
 <span class="sd">    Return:</span>
@@ -353,8 +344,7 @@
 
 
 <div class="viewcode-block" id="latest_commit"><a class="viewcode-back" href="../../../dev/core/git.html#peltak.core.git.latest_commit">[docs]</a><span class="nd">@util</span><span class="o">.</span><span class="n">cached_result</span><span class="p">()</span>
-<span class="k">def</span> <span class="nf">latest_commit</span><span class="p">():</span>
-    <span class="c1"># type: () -&gt; CommitDetails</span>
+<span class="k">def</span> <span class="nf">latest_commit</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">CommitDetails</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot; Return details for the latest commit.</span>
 
 <span class="sd">    Returns:</span>
@@ -364,8 +354,7 @@
     <span class="k">return</span> <span class="n">CommitDetails</span><span class="o">.</span><span class="n">get</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="commit_details"><a class="viewcode-back" href="../../../dev/core/git.html#peltak.core.git.commit_details">[docs]</a><span class="k">def</span> <span class="nf">commit_details</span><span class="p">(</span><span class="n">sha1</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
-    <span class="c1"># type: (str) -&gt; CommitDetails</span>
+<div class="viewcode-block" id="commit_details"><a class="viewcode-back" href="../../../dev/core/git.html#peltak.core.git.commit_details">[docs]</a><span class="k">def</span> <span class="nf">commit_details</span><span class="p">(</span><span class="n">sha1</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CommitDetails</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot; Return details about a given commit.</span>
 
 <span class="sd">    Args:</span>
@@ -380,8 +369,7 @@
     <span class="k">return</span> <span class="n">CommitDetails</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">sha1</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="commit_branches"><a class="viewcode-back" href="../../../dev/core/git.html#peltak.core.git.commit_branches">[docs]</a><span class="k">def</span> <span class="nf">commit_branches</span><span class="p">(</span><span class="n">sha1</span><span class="p">):</span>
-    <span class="c1"># type: (str) -&gt; List[str]</span>
+<div class="viewcode-block" id="commit_branches"><a class="viewcode-back" href="../../../dev/core/git.html#peltak.core.git.commit_branches">[docs]</a><span class="k">def</span> <span class="nf">commit_branches</span><span class="p">(</span><span class="n">sha1</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot; Get the name of the branches that this commit belongs to. &quot;&quot;&quot;</span>
     <span class="n">cmd</span> <span class="o">=</span> <span class="s1">&#39;git branch --contains </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sha1</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">shell</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
@@ -392,8 +380,7 @@
 
 
 <div class="viewcode-block" id="guess_base_branch"><a class="viewcode-back" href="../../../dev/core/git.html#peltak.core.git.guess_base_branch">[docs]</a><span class="nd">@util</span><span class="o">.</span><span class="n">cached_result</span><span class="p">()</span>
-<span class="k">def</span> <span class="nf">guess_base_branch</span><span class="p">():</span>
-    <span class="c1"># type: () -&gt; Optional[str]</span>
+<span class="k">def</span> <span class="nf">guess_base_branch</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot; Try to guess the base branch for the current branch.</span>
 
 <span class="sd">    Do not trust this guess. git makes it pretty much impossible to guess</span>
@@ -449,8 +436,7 @@
 
 
 <div class="viewcode-block" id="commit_author"><a class="viewcode-back" href="../../../dev/core/git.html#peltak.core.git.commit_author">[docs]</a><span class="nd">@util</span><span class="o">.</span><span class="n">mark_deprecated</span><span class="p">(</span><span class="s1">&#39;CommitDetails.get().author&#39;</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">commit_author</span><span class="p">(</span><span class="n">sha1</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
-    <span class="c1"># type: (str) -&gt; Author</span>
+<span class="k">def</span> <span class="nf">commit_author</span><span class="p">(</span><span class="n">sha1</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Author</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot; Return the author of the given commit.</span>
 
 <span class="sd">    Args:</span>
@@ -472,8 +458,7 @@
 
 
 <div class="viewcode-block" id="untracked"><a class="viewcode-back" href="../../../dev/core/git.html#peltak.core.git.untracked">[docs]</a><span class="nd">@util</span><span class="o">.</span><span class="n">cached_result</span><span class="p">()</span>
-<span class="k">def</span> <span class="nf">untracked</span><span class="p">():</span>
-    <span class="c1"># type: () -&gt; List[str]</span>
+<span class="k">def</span> <span class="nf">untracked</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot; Return a list of untracked files in the project repository.</span>
 
 <span class="sd">    Returns:</span>
@@ -495,8 +480,7 @@
 
 
 <div class="viewcode-block" id="unstaged"><a class="viewcode-back" href="../../../dev/core/git.html#peltak.core.git.unstaged">[docs]</a><span class="nd">@util</span><span class="o">.</span><span class="n">cached_result</span><span class="p">()</span>
-<span class="k">def</span> <span class="nf">unstaged</span><span class="p">():</span>
-    <span class="c1"># type: () -&gt; List[str]</span>
+<span class="k">def</span> <span class="nf">unstaged</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot; Return a list of unstaged files in the project repository.</span>
 
 <span class="sd">    Returns:</span>
@@ -518,8 +502,7 @@
 
 
 <div class="viewcode-block" id="staged"><a class="viewcode-back" href="../../../dev/core/git.html#peltak.core.git.staged">[docs]</a><span class="nd">@util</span><span class="o">.</span><span class="n">cached_result</span><span class="p">()</span>
-<span class="k">def</span> <span class="nf">staged</span><span class="p">():</span>
-    <span class="c1"># type: () -&gt; List[str]</span>
+<span class="k">def</span> <span class="nf">staged</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot; Return a list of project files staged for commit.</span>
 
 <span class="sd">    Returns:</span>
@@ -541,8 +524,7 @@
 
 
 <div class="viewcode-block" id="ignore"><a class="viewcode-back" href="../../../dev/core/git.html#peltak.core.git.ignore">[docs]</a><span class="nd">@util</span><span class="o">.</span><span class="n">cached_result</span><span class="p">()</span>
-<span class="k">def</span> <span class="nf">ignore</span><span class="p">():</span>
-    <span class="c1"># type: () -&gt; List[str]</span>
+<span class="k">def</span> <span class="nf">ignore</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot; Return a list of patterns in the project .gitignore</span>
 
 <span class="sd">    Returns:</span>
@@ -565,21 +547,20 @@
         <span class="n">config</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;core.excludesfile&#39;</span><span class="p">)</span>
     <span class="p">]</span>
 
-    <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>     <span class="c1"># type: List[str]</span>
+    <span class="n">result</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">ignore_file</span> <span class="ow">in</span> <span class="n">ignore_files</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">ignore_file</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">ignore_file</span><span class="p">)):</span>
             <span class="k">continue</span>
 
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">ignore_file</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
-            <span class="n">parsed</span> <span class="o">=</span> <span class="p">(</span><span class="n">parse_line</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">fp</span><span class="o">.</span><span class="n">readlines</span><span class="p">())</span>
+            <span class="n">parsed</span> <span class="o">=</span> <span class="p">(</span><span class="n">parse_line</span><span class="p">(</span><span class="n">line</span><span class="p">)</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">fp</span><span class="o">.</span><span class="n">readlines</span><span class="p">())</span>
             <span class="n">result</span> <span class="o">+=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">parsed</span> <span class="k">if</span> <span class="n">x</span><span class="p">]</span>
 
     <span class="k">return</span> <span class="n">result</span></div>
 
 
 <div class="viewcode-block" id="branches"><a class="viewcode-back" href="../../../dev/core/git.html#peltak.core.git.branches">[docs]</a><span class="nd">@util</span><span class="o">.</span><span class="n">cached_result</span><span class="p">()</span>
-<span class="k">def</span> <span class="nf">branches</span><span class="p">():</span>
-    <span class="c1"># type: () -&gt; List[str]</span>
+<span class="k">def</span> <span class="nf">branches</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot; Return a list of branches in the current repo.</span>
 
 <span class="sd">    Returns:</span>
@@ -593,8 +574,7 @@
     <span class="k">return</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;* </span><span class="se">\t\n</span><span class="s1">&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">out</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()]</span></div>
 
 
-<div class="viewcode-block" id="tag"><a class="viewcode-back" href="../../../dev/core/git.html#peltak.core.git.tag">[docs]</a><span class="k">def</span> <span class="nf">tag</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">author</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="c1"># type: (str, str, Optional[Author]) -&gt; None</span>
+<div class="viewcode-block" id="tag"><a class="viewcode-back" href="../../../dev/core/git.html#peltak.core.git.tag">[docs]</a><span class="k">def</span> <span class="nf">tag</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">author</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Author</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Tag the current commit.</span>
 
 <span class="sd">    Args:</span>
@@ -620,8 +600,7 @@
 
 
 <div class="viewcode-block" id="config"><a class="viewcode-back" href="../../../dev/core/git.html#peltak.core.git.config">[docs]</a><span class="nd">@util</span><span class="o">.</span><span class="n">cached_result</span><span class="p">()</span>
-<span class="k">def</span> <span class="nf">config</span><span class="p">():</span>
-    <span class="c1"># type: () -&gt; Dict[str, Any]</span>
+<span class="k">def</span> <span class="nf">config</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot; Return the current git configuration.</span>
 
 <span class="sd">    Returns:</span>
@@ -642,8 +621,7 @@
 
 
 <div class="viewcode-block" id="tags"><a class="viewcode-back" href="../../../dev/core/git.html#peltak.core.git.tags">[docs]</a><span class="nd">@util</span><span class="o">.</span><span class="n">cached_result</span><span class="p">()</span>
-<span class="k">def</span> <span class="nf">tags</span><span class="p">():</span>
-    <span class="c1"># type: () -&gt; List[str]</span>
+<span class="k">def</span> <span class="nf">tags</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot; Returns all tags in the repo.</span>
 
 <span class="sd">    Returns:</span>
@@ -659,8 +637,7 @@
     <span class="p">)</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="verify_branch"><a class="viewcode-back" href="../../../dev/core/git.html#peltak.core.git.verify_branch">[docs]</a><span class="k">def</span> <span class="nf">verify_branch</span><span class="p">(</span><span class="n">branch_name</span><span class="p">):</span>
-    <span class="c1"># type: (str) -&gt; bool</span>
+<div class="viewcode-block" id="verify_branch"><a class="viewcode-back" href="../../../dev/core/git.html#peltak.core.git.verify_branch">[docs]</a><span class="k">def</span> <span class="nf">verify_branch</span><span class="p">(</span><span class="n">branch_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot; Verify if the given branch exists.</span>
 
 <span class="sd">    Args:</span>
@@ -682,8 +659,7 @@
 
 
 <div class="viewcode-block" id="protected_branches"><a class="viewcode-back" href="../../../dev/core/git.html#peltak.core.git.protected_branches">[docs]</a><span class="nd">@util</span><span class="o">.</span><span class="n">cached_result</span><span class="p">()</span>
-<span class="k">def</span> <span class="nf">protected_branches</span><span class="p">():</span>
-    <span class="c1"># type: () -&gt; List[str]</span>
+<span class="k">def</span> <span class="nf">protected_branches</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot; Return branches protected by deletion.</span>
 
 <span class="sd">    By default those are master and devel branches as configured in pelconf.</span>
@@ -694,10 +670,6 @@
     <span class="n">master</span> <span class="o">=</span> <span class="n">conf</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;git.master_branch&#39;</span><span class="p">,</span> <span class="s1">&#39;master&#39;</span><span class="p">)</span>
     <span class="n">develop</span> <span class="o">=</span> <span class="n">conf</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;git.devel_branch&#39;</span><span class="p">,</span> <span class="s1">&#39;develop&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">conf</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;git.protected_branches&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">master</span><span class="p">,</span> <span class="n">develop</span><span class="p">))</span></div>
-
-
-<span class="c1"># Used in docstrings only until we drop python2 support</span>
-<span class="k">del</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
 </pre></div>
 
            </div>
@@ -710,11 +682,19 @@
 
   <div role="contentinfo">
     <p>
+        
         &copy; Copyright 2016-2018, Mateusz &#39;novo&#39; Klos
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -725,7 +705,6 @@
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {
