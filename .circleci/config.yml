@@ -7,11 +7,13 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: deps-rev1-{{ checksum "Pipfile.lock" }}
+          key: deps-{{ checksum ".circleci/config.yml" }}-{{ checksum "poetry.lock" }}
 
       - run:
           name: Setup peltak
           command: |
+            echo '== pwd ==================================================='
+            pwd
             echo '== which pip ============================================='
             which pip
             echo '== which python =========================================='
@@ -21,15 +23,10 @@ jobs:
             echo '== whoami ================================================'
             whoami
             echo '== poetry install ========================================'
-            poetry install
+            poetry config virtualenvs.in-project true
+            poetry show -v
+            poetry install --no-ansi
             echo '=========================================================='
-
-      - save_cache:
-          key: deps-rev1-{{ checksum "Pipfile.lock" }}
-          paths:
-            - /usr/local/bin
-            - /usr/local/lib/python3.6/site-packages
-            - .venv
 
       - run:
           name: Checks
@@ -38,6 +35,15 @@ jobs:
       - run:
           name: Test
           command: poetry run peltak test
+
+      - save_cache:
+          key: deps-{{ checksum ".circleci/config.yml" }}-{{ checksum "poetry.lock" }}
+          paths:
+            - /usr/local/bin
+            - /usr/local/lib/python3.6/site-packages
+            - .venv
+            - .mypy_cache
+            - .pytest_cache
 
       - run:
           name: Build Documentation
@@ -61,22 +67,15 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: deps-rev1-{{ checksum "Pipfile.lock" }}
+          key: deps-{{ checksum ".circleci/config.yml" }}-{{ checksum "poetry.lock" }}
 
       - run:
           name: Setup peltak
-          command: |
-            export PIPENV_VENV_IN_PROJECT=1
-
-            echo '== poetry install ====================================='
-            poetry install
-            echo '=========================================================='
+          command: poetry install
 
       - run:
           name: Upload to pypi
           command: |
-            export PIPENV_VENV_IN_PROJECT=1
-
             poetry run peltak pypi configure
             poetry run peltak pypi upload pypi
             rm ~/.pypirc
@@ -93,7 +92,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: deps-rev1-{{ checksum "setup.py" }}
+          key: deps-{{ checksum ".circleci/config.yml" }}-{{ checksum "poetry.lock" }}
 
       - run:
           name: Setup
