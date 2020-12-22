@@ -6,7 +6,7 @@ from peltak.core import conf
 
 @patch('os.chdir')
 @patch('os.getcwd')
-def test_works_as_expected(p_getcwd, p_chdir):       # Better one test than none
+def test_works_as_expected(p_getcwd, p_chdir, app_conf):       # Better one test than none
     fake_cwd = 'fake_dir'
     path = '.'
 

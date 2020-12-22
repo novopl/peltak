@@ -15,8 +15,10 @@
 """ Application entry point. """
 # pylint: disable=unused-import
 
-from peltak.core.pelconf import Pelconf
+# Make sure config is loaded
 from peltak.commands import root_cli
+from peltak.core import conf
+from peltak.core import context
 
 # Scripts should be available by default
 import peltak.extra.scripts     # pylint: disable=unused-import
@@ -26,7 +28,10 @@ __all__ = [
 ]
 
 
-Pelconf.init()
+# Accessing the config for the first time will load it.
+# This is crucial for the completion to work well. We need to load the config
+# here so we have autocompletion for all commands defined in the config.
+conf.init()
 
 
 from peltak.commands.root import clean   # noqa

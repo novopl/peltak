@@ -21,7 +21,7 @@ FAKE_GIT_STATUS = '\n'.join([
 
 
 @testing.patch_run(stdout=FAKE_GIT_STATUS)
-def test_returns_staged_files_properly():
+def test_returns_staged_files_properly(app_conf):
     assert frozenset(git.staged()) == frozenset([
         'deleted.txt',
         'staged_1.txt',

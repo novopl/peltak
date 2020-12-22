@@ -1,6 +1,7 @@
 # pylint: disable=missing-docstring
 from unittest.mock import Mock, patch
 
+from peltak import testing
 from peltak.core import conf
 from peltak.core import context
 from peltak.core import fs
@@ -8,8 +9,8 @@ from peltak.core import types
 
 
 @patch('peltak.core.fs.filtered_walk')
-def test_calls_filtered_walk_with_paths_configured(p_filtered_walk):
-    # type: (Mock) -> None
+@testing.patch_pelconf()
+def test_calls_filtered_walk_with_paths_configured(p_filtered_walk: Mock):
     files = types.FilesCollection.from_config({
         'paths': ['path1', 'path2'],
     })
@@ -29,6 +30,7 @@ def test_calls_filtered_walk_with_paths_configured(p_filtered_walk):
 
 @patch('peltak.core.fs.filtered_walk', Mock(return_value=[]))
 @patch('peltak.core.shell.cprint')
+@testing.patch_pelconf()
 def test_prints_debug_info_if_verbose_lvl_ge_3(p_cprint):
     # type: (Mock) -> None
     files = types.FilesCollection.from_config({
@@ -58,6 +60,7 @@ def test_prints_debug_info_if_verbose_lvl_ge_3(p_cprint):
 
 
 @patch('peltak.core.git.staged', Mock(return_value=['file1.txt', 'file2.yml']))
+@testing.patch_pelconf()
 def test_return_empty_list_if_none_of_the_whitelisted_files_are_staged():
     """
     GIVEN files collection has a non-empty whitelist and only_staged == True

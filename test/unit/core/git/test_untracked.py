@@ -20,7 +20,7 @@ FAKE_GIT_STATUS = '\n'.join([
 
 
 @testing.patch_run(stdout=FAKE_GIT_STATUS)
-def test_returns_untracked_files_properly():
+def test_returns_untracked_files_properly(app_conf):
     assert frozenset(git.untracked()) == frozenset([
         'untracked_1.txt',
         'untracked_2.txt',

@@ -33,6 +33,7 @@ from typing import (
     Union
 )
 
+import tomlkit
 import yaml
 try:
     from yaml import CLoader as Loader, CDumper as Dumper
@@ -252,6 +253,27 @@ def yaml_dump(data: YamlData, stream: Optional[Any] = None) -> Text:
         Dumper=Dumper,
         default_flow_style=False
     )
+
+
+def toml_load(path_or_fp: TextOrStream) -> YamlData:
+    """ Load TOML configuration into a dict. """
+    if isinstance(path_or_fp, str):
+        with open(path_or_fp) as fp:
+            return tomlkit.parse(fp.read())
+    else:
+        return tomlkit.parse(path_or_fp.read())
+
+
+def toml_dump(data: YamlData, path_or_fp: Optional[TextOrStream] = None):
+    """ Save a plain dict as a TOML file. """
+    if path_or_fp is None:
+        return tomlkit.dumps(data)
+    elif isinstance(path_or_fp, str):
+        with open(path_or_fp, 'w') as fp:
+            fp.write(tomlkit.dumps(data))
+
+    else:
+        path_or_fp.write(tomlkit.dumps(data))
 
 
 def remove_indent(text: str) -> str:

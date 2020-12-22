@@ -1,5 +1,5 @@
 """ pytest setup """
-from os.path import dirname, join, relpath
+from os.path import dirname, join
 
 import pytest
 
@@ -7,22 +7,6 @@ from peltak import testing
 
 
 DATA_DIR = join(dirname(dirname(__file__)), 'data')
-
-
-def pytest_itemcollected(item):
-    """ Prettier test names. """
-    name = item.originalname or item.name
-    if name.startswith('test_'):
-        name = name[5:]
-
-    name = name.replace('_', ' ').strip()
-    name = name[0].upper() + name[1:]
-
-    rel_path = relpath(item.fspath.strpath, dirname(item.fspath.dirname))
-    item._nodeid = '{location:50} {name}'.format(
-        name=name,
-        location='{}:{}'.format(rel_path, item.location[1]),
-    )
 
 
 @pytest.fixture()
@@ -36,3 +20,7 @@ def test_data():
         one of the test data directories.
     """
     return testing.TestDataProvider(DATA_DIR)
+
+
+# Import all fixtures
+from peltak.testing.fixtures import *   # noqa pylint: disable=wildcard-import unused-import unused-wildcard-import
