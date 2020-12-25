@@ -17,7 +17,7 @@ def test_correctly_replaces_version(p_write_file):
     # type: (Mock) -> None
 
     with patch_open():
-        storage = versioning.NodeVersionStorage('package.json')
+        storage = versioning.NodeVersionFile('package.json')
         storage.write('1.0.1')
 
         p_write_file.assert_called_with(

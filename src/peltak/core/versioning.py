@@ -20,10 +20,11 @@ import json
 import re
 from collections import OrderedDict
 from os.path import exists
-from typing import Optional, Tuple
+from typing import List, Optional, Tuple
 
 from . import conf
 from . import fs
+from . import util
 
 
 RE_PY_VERSION = re.compile(
@@ -59,12 +60,16 @@ def is_valid(version_str: str) -> bool:
 def current() -> str:
     """ Return the project's current version.
 
+    The project is read from the first file on the 'version.files' list. We
+    always use the first file on the list as the source of truth, but any
+    changes will be written to all files specified on the list.
+
     Returns:
         str: The current project version in MAJOR.MINOR.PATCH format. PATCH
         might be omitted if it's 0, so 1.0.0 becomes 1.0 and 0.1.0 becomes 0.1.
     """
-    storage = get_version_storage()
-    return storage.read() or ''
+    main_version_file = get_version_files()[0]
+    return main_version_file.read() or ''
 
 
 def write(version: str) -> None:
@@ -72,8 +77,8 @@ def write(version: str) -> None:
     if not is_valid(version):
         raise ValueError("Invalid version: '{}'".format(version))
 
-    storage = get_version_storage()
-    storage.write(version)
+    for version_file in get_version_files():
+        version_file.write(version)
 
 
 def bump(component: str = 'patch', exact: Optional[str] = None) -> Tuple[str, str]:
@@ -126,7 +131,9 @@ def _bump_version(version: str, component: str = 'patch') -> str:
 
     m = RE_VERSION.match(version)
     if m is None:
-        raise ValueError("Version must be in MAJOR.MINOR[.PATCH] format")
+        raise ValueError(
+            f"Version must be in MAJOR.MINOR[.PATCH] format, got: '{version}'"
+        )
 
     major = m.group('major')
     minor = m.group('minor') or '0'
@@ -150,7 +157,7 @@ def _bump_version(version: str, component: str = 'patch') -> str:
     return new_ver
 
 
-class VersionStorage(object):
+class VersionFile(object):
     """ Base class for version storage.
 
     A version storage is a way to store the project version. Different projects
@@ -161,15 +168,12 @@ class VersionStorage(object):
     probably keep the version in ``package.json``. All of the above strategies
     can be (and are) implemented through subclassing this class.
 
-    @see `PyVersionStorage`, `RawVersionStorage`, `NodeVersionStorage`
+    @see `PyVersionFile`, `RawVersionFile`, `NodeVersionFile`
     """
-    def __init__(self, version_file: str) -> None:
-        self.version_file = version_file
-
-        if not exists(version_file):
-            raise ValueError("Version file '{}' does not exist.".format(
-                version_file
-            ))
+    def __init__(self, path: str) -> None:
+        self.path = path
+        if not exists(path):
+            raise ValueError("Version file '{}' does not exist.".format(path))
 
     def read(self) -> Optional[str]:
         """ Read the current project version.
@@ -198,7 +202,7 @@ class VersionStorage(object):
         ))
 
 
-class PyVersionStorage(VersionStorage):
+class PyVersionFile(VersionFile):
     """ Store project version in one of the py module/package files. """
     def read(self) -> Optional[str]:
         """ Read the project version from .py file.
@@ -206,7 +210,7 @@ class PyVersionStorage(VersionStorage):
         This will regex search in the file for a
         ``__version__ = VERSION_STRING`` and read the version string.
         """
-        with open(self.version_file) as fp:
+        with open(self.path) as fp:
             content = fp.read()
             m = RE_PY_VERSION.search(content)
             if not m:
@@ -221,15 +225,15 @@ class PyVersionStorage(VersionStorage):
         ``__version__ = VERSION_STRING`` and substitute the version string
         for the new version.
         """
-        with open(self.version_file) as fp:
+        with open(self.path) as fp:
             content = fp.read()
 
         ver_statement = "__version__ = '{}'".format(version)
         new_content = RE_PY_VERSION.sub(ver_statement, content)
-        fs.write_file(self.version_file, new_content)
+        fs.write_file(self.path, new_content)
 
 
-class RawVersionStorage(VersionStorage):
+class RawVersionFile(VersionFile):
     """ Store project version as a simple value in a text file. """
     def read(self) -> Optional[str]:
         """ Read the project version from .py file.
@@ -237,7 +241,7 @@ class RawVersionStorage(VersionStorage):
         This will regex search in the file for a
         ``__version__ = VERSION_STRING`` and read the version string.
         """
-        with open(self.version_file) as fp:
+        with open(self.path) as fp:
             version = fp.read().strip()
 
             if is_valid(version):
@@ -246,35 +250,65 @@ class RawVersionStorage(VersionStorage):
             return None
 
     def write(self, version: str):
-        fs.write_file(self.version_file, version)
+        fs.write_file(self.path, version)
 
 
-class NodeVersionStorage(VersionStorage):
+class NodeVersionFile(VersionFile):
     """ Store project version in package.json. """
     def read(self) -> Optional[str]:
-        with open(self.version_file) as fp:
+        with open(self.path) as fp:
             config = json.load(fp)
             return config.get('version')
 
     def write(self, version: str):
-        with open(self.version_file, 'r') as fp:
+        with open(self.path, 'r') as fp:
             config = json.load(fp, object_pairs_hook=OrderedDict)
 
         config['version'] = version
 
-        fs.write_file(self.version_file, json.dumps(config, indent=2) + '\n')
+        fs.write_file(self.path, json.dumps(config, indent=2) + '\n')
 
 
-def get_version_storage() -> VersionStorage:
+class PyprojectTomlVersionFile(VersionFile):
+    """ Store project version in package.json. """
+    def read(self) -> Optional[str]:
+        config = util.toml_load(self.path)
+        tool_cfg = config.get('tool', {})
+        poetry_cfg = tool_cfg.get('poetry')
+        return poetry_cfg.get('version')
+        # poetry_cfg = tool_cfg.get('poetry')
+        # return config.get('tool', {}).get('poetry', {}).get('version')
+
+    def write(self, version: str):
+        config = util.toml_load(self.path)
+        config['tool']['poetry']['version'] = version
+
+        fs.write_file(self.path, util.toml_dump(config))
+
+
+def get_version_files() -> List[VersionFile]:
+    version_files = conf.get('version.files', [])
+
+    if not version_files:
+        single = conf.get('version.file', None)
+        version_files = [single if single else 'VERSION']
+
+    return [load_version_file(p) for p in version_files]
+
+
+def load_version_file(path: str) -> VersionFile:
     """ Get version storage for the given version file.
 
     The storage engine used depends on the extension of the *version.file* conf
     variable.
     """
-    version_file = conf.get_path('version.file', 'VERSION')
-    if version_file.endswith('.py'):
-        return PyVersionStorage(version_file)
-    elif version_file.endswith('package.json'):
-        return NodeVersionStorage(version_file)
+    abs_path = conf.proj_path(path)
+
+    if abs_path.endswith('.py'):
+        return PyVersionFile(abs_path)
+    elif abs_path.endswith('package.json'):
+        return NodeVersionFile(abs_path)
+    elif abs_path.endswith('pyproject.toml'):
+        return PyprojectTomlVersionFile(abs_path)
     else:
-        return RawVersionStorage(version_file)
+        return RawVersionFile(abs_path)

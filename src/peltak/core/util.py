@@ -42,7 +42,8 @@ except ImportError:
 
 
 TextOrStream = Union[Text, TextIO]
-YamlData = Union[Dict[Text, Any], List[Any]]
+PlainDict = Dict[str, Any]
+YamlData = Union[PlainDict, List[Any]]
 AnyFunction = Callable[..., Any]
 Decorator = Callable[[AnyFunction], AnyFunction]
 
@@ -255,7 +256,7 @@ def yaml_dump(data: YamlData, stream: Optional[Any] = None) -> Text:
     )
 
 
-def toml_load(path_or_fp: TextOrStream) -> YamlData:
+def toml_load(path_or_fp: TextOrStream) -> PlainDict:
     """ Load TOML configuration into a dict. """
     if isinstance(path_or_fp, str):
         with open(path_or_fp) as fp:
@@ -264,7 +265,7 @@ def toml_load(path_or_fp: TextOrStream) -> YamlData:
         return tomlkit.parse(path_or_fp.read())
 
 
-def toml_dump(data: YamlData, path_or_fp: Optional[TextOrStream] = None):
+def toml_dump(data: PlainDict, path_or_fp: Optional[TextOrStream] = None):
     """ Save a plain dict as a TOML file. """
     if path_or_fp is None:
         return tomlkit.dumps(data)

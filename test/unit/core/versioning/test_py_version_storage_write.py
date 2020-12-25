@@ -36,7 +36,7 @@ def test_correctly_replaces_version(p_write_file, version_def, expected):
     ])
 
     with patch_open(read_data=file_data):
-        storage = versioning.PyVersionStorage('fake.py')
+        storage = versioning.PyVersionFile('fake.py')
         storage.write('1.0.1')
 
         p_write_file.assert_called_once_with(

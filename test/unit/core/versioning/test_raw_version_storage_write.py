@@ -17,7 +17,7 @@ def test_correctly_replaces_version(p_write_file):
     # type: (Mock) -> None
 
     with patch_open():
-        storage = versioning.RawVersionStorage('VERSION')
+        storage = versioning.RawVersionFile('VERSION')
         storage.write('1.0.1')
 
         p_write_file.assert_called_once_with(

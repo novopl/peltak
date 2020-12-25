@@ -15,8 +15,8 @@ from peltak.core import versioning
 @patch('peltak.core.versioning.exists', Mock(return_value=True))
 def test_finds_correctly_defined_version(version_def, expected):
     with patch('peltak.core.versioning.open', mock_open(read_data=version_def)):
-        storage = versioning.RawVersionStorage('package.js')
-        version = storage.read()
+        version_file = versioning.RawVersionFile('package.js')
+        version = version_file.read()
 
         assert version == expected
 
@@ -24,6 +24,6 @@ def test_finds_correctly_defined_version(version_def, expected):
 @patch('peltak.core.versioning.exists', Mock(return_value=True))
 @patch('peltak.core.versioning.open', mock_open(read_data='invalid'))
 def test_returns_None_if_cant_find_the_version():
-    storage = versioning.RawVersionStorage('package.js')
+    version_file = versioning.RawVersionFile('package.js')
 
-    assert storage.read() is None
+    assert version_file.read() is None

@@ -73,7 +73,10 @@ commands = [
 ]
 
 [tool.peltak.version]
-file = "src/peltak/__init__.py"
+files = [
+    "pyproject.toml",
+    "src/peltak/__init__.py",
+]
 
 [tool.peltak.clean]
 exclude = [ ".venv" ]

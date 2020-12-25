@@ -1,5 +1,5 @@
 """ Types and classes used across **peltak** codebase. """
-from typing import Any, Callable, Dict, List
+from typing import Any, Callable, Dict, List, Union
 
 import attr
 
@@ -9,6 +9,9 @@ from six import string_types
 AnyFn = Callable[..., Any]
 YamlConf = Dict[str, Any]
 CliOptions = Dict[str, Any]
+PlainDict = Dict[str, Any]
+JsonDict = Union[PlainDict, List[Any]]
+Decorator = Callable[[AnyFn], AnyFn]
 
 
 @attr.s
