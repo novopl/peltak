@@ -2,7 +2,7 @@
 set -e
 
 {% set test_paths = {
-  'all': ['test', 'src/peltak'],
+  'all': ['test'],
   'unit': ['test/unit'],
   'e2e': ['test/e2e'],
   'doctest': ['src/peltak'],
@@ -30,7 +30,7 @@ pytest \
     -c ops/tools/pytest.ini \
     --cov={{ cov_path }} \
     --cov-report=term \
-    {% if opts.kind in ('all', 'doctest') %} \
+    {% if opts.kind in ('doctest') %} \
     --doctest-modules \
     --doctest-report ndiff \
     {% endif %} \
