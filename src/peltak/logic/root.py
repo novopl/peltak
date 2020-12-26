@@ -45,9 +45,20 @@ def clean(exclude: List[str]):
         '*.swp',
     ])
 
+    if context.get('verbose'):
+        log.info('Clean patterns:')
+        for pattern in clean_patterns:
+            log.info(f'  <90>{pattern}')
+
+        log.info('Exclude:')
+        for pattern in exclude:
+            log.info(f'  <90>{pattern}')
+
     num_files = 0
     with util.timed_block() as t:
         files = fs.filtered_walk(conf.proj_path(), clean_patterns, exclude)
+        log.info('')
+        log.info('Deleting:')
         for path in files:
             try:
                 num_files += 1
