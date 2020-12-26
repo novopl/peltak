@@ -14,7 +14,7 @@ from peltak.extra.scripts.logic import run_script
 @patch('peltak.extra.scripts.logic.exec_script_command')
 def test_works(p_exec_script_command: Mock, app_conf: conf.Config):
     p_exec_script_command.return_value = 0
-    options = {}    # type: Dict[str, Any]
+    options: Dict[str, Any] = {}
     script = Script.from_config('test', {
         'command': 'fake-cmd'
     })
@@ -32,7 +32,7 @@ def test_exits_with_script_return_code_if_its_non_zero(
     app_conf: conf.Config,
 ):
     p_exec_script_command.return_value = -99
-    options = {}    # type: Dict[str, Any]
+    options: Dict[str, Any] = {}
     script = Script.from_config('test', {
         'command': 'fake-cmd'
     })
@@ -53,7 +53,7 @@ def test_prints_return_code_if_verbose_lvl_ge_3(
 ):
     RunContext().set('verbose', 1)
     p_exec_script_command.return_value = -99
-    options = {}    # type: Dict[str, Any]
+    options: Dict[str, Any] = {}
     script = Script.from_config('test', {
         'command': 'fake-cmd'
     })
@@ -78,7 +78,7 @@ def test_prints_template_context_if_verbose_lvl_ge_3(
 ):
     RunContext().set('verbose', 3)
     p_exec_script_command.return_value = -99
-    options = {}    # type: Dict[str, Any]
+    options: Dict[str, Any] = {}
     script = Script.from_config('test', {
         'command': 'fake-cmd'
     })
@@ -98,7 +98,7 @@ def test_raises_ValueError_if_command_or_command_files_is_missing(app_conf: conf
      WHEN I run the script
      THEN it raises ValueError.
     """
-    options = {}    # type: Dict[str, Any]
+    options: Dict[str, Any] = {}
     script = Script(
         name='test',
         command='',
@@ -123,7 +123,7 @@ def test_uses_command_file_if_given(
      WHEN I run the script
      THEN It will always use it no matter if 'command' is also defined or not
     """
-    options = {}    # type: Dict[str, Any]
+    options: Dict[str, Any] = {}
     script = Script(
         name='test',
         command=command,
@@ -132,7 +132,3 @@ def test_uses_command_file_if_given(
 
     run_script(script, options)
     p_open.assert_called_once_with(conf.proj_path('fake/file'))
-
-
-# Used only in type hint comments
-del Any, Dict

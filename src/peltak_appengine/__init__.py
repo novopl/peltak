@@ -32,4 +32,4 @@ Configuration
             app_id: 'my-appspot-project-id'
 
 """
-from .cli import appengine_cli
+from .cli import appengine_cli  # noqa: F401

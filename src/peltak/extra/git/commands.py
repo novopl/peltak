@@ -43,7 +43,7 @@ def git_cli():
     '--pre-push',
     type=str,
     prompt='Pre push tool',
-    help = (
+    help=(
         'Command that will be ran before every push. If it fails, the push '
         'will fail.'
     )

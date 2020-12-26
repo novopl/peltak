@@ -91,4 +91,4 @@ an example (this is the default configuration):
           tag: 'fix'
 
 """
-from .commands import changelog_cli
+from .commands import changelog_cli  # noqa: F401

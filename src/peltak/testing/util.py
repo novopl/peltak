@@ -21,7 +21,7 @@ class TestDataProvider(object):
         self.proj_dir = join(temp_dir, basename(path))
         proj_src = join(self.data_dir, path)
 
-        shutil.copytree(proj_src,  self.proj_dir)
+        shutil.copytree(proj_src, self.proj_dir)
         os.chdir(self.proj_dir)
 
         try:

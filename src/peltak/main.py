@@ -13,15 +13,14 @@
 # limitations under the License.
 #
 """ Application entry point. """
-# pylint: disable=unused-import
 
 # Make sure config is loaded
 from peltak.commands import root_cli
 from peltak.core import conf
-from peltak.core import context
+from peltak.core import context  # noqa: F401 pylint: disable=unused-import
 
 # Scripts should be available by default
-import peltak.extra.scripts     # pylint: disable=unused-import
+import peltak.extra.scripts     # noqa: F401 pylint: disable=unused-import
 
 __all__ = [
     'root_cli'
@@ -34,4 +33,4 @@ __all__ = [
 conf.init()
 
 
-from peltak.commands.root import clean   # noqa
+from peltak.commands.root import clean   # noqa: F401, E402 pylint: disable=unused-import

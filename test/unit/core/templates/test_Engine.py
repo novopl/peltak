@@ -12,8 +12,7 @@ def test_is_singleton():
 
 
 @patch.object(templates.Engine, '_make_env')
-def test_calls_make_env_when_created_for_the_first_time(p_make_env):
-    # type: (Mock) -> None
+def test_calls_make_env_when_created_for_the_first_time(p_make_env: Mock):
     # Make sure we don't have any lingering instance from other tests.
     util.Singleton.instances = {}
 
@@ -32,8 +31,7 @@ def test_calls_make_env_when_created_for_the_first_time(p_make_env):
     'cprint',
     'wrap_paths',
 ])
-def test_has_all_filters(filter_name):
-    # type: (str) -> None
+def test_has_all_filters(filter_name: str):
     # Make sure we don't have any lingering instance from other tests.
     assert filter_name in templates.Engine().env.filters
 
@@ -41,7 +39,3 @@ def test_has_all_filters(filter_name):
 def test_uses_double_curly_brace_for_expressions():
     assert templates.Engine().env.variable_start_string == '{{'
     assert templates.Engine().env.variable_end_string == '}}'
-
-
-# Used only in type hint comments
-del Mock

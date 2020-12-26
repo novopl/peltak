@@ -18,6 +18,12 @@ This is kept inside the peltak package as it ca be used by 3rd party packages
 extending the app.
 """
 # pkg interface
-from .mocks import mock_result
-from .patches import *      # pylint: disable=wildcard-import, unused-wildcard-input
-from .util import TestDataProvider
+from .mocks import mock_result  # noqa: F401
+from .patches import (  # noqa: F401
+    patch_is_tty,
+    patch_proj_root,
+    patch_pelconf,
+    patch_run,
+    patch_open
+)
+from .util import TestDataProvider  # noqa: F401

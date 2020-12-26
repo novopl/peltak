@@ -32,6 +32,6 @@ Default configuration
         master_branch: 'master'
 
 """
-from .commands.feature import feature_cli
-from .commands.hotfix import hotfix_cli
-from .commands.release import release_cli
+from .commands.feature import feature_cli  # noqa: F401
+from .commands.hotfix import hotfix_cli  # noqa: F401
+from .commands.release import release_cli  # noqa: F401

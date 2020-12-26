@@ -50,7 +50,7 @@ def deploy(app_id, version, promote, quiet):
     """
     gae_app = GaeApp.for_branch(git.current_branch().name)
 
-    if gae_app is None and None in (app_id,  version):
+    if gae_app is None and None in (app_id, version):
         msg = (
             "Can't find an AppEngine app setup for branch <35>{}<32> and"
             "--project and --version were not given."
@@ -144,8 +144,7 @@ class GaeApp(object):
     deployables = attr.ib(type=list, default=['.'])
 
     @classmethod
-    def for_branch(cls, branch_name):
-        # type: (str) -> Optional[GaeApp]
+    def for_branch(cls, branch_name: str) -> Optional['GaeApp']:
         """ Return app configuration for the given branch.
 
         This will look for the configuration in the ``appengine.projects``

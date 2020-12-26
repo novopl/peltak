@@ -20,4 +20,4 @@
 
 Helper commands for dealing with pypi.
 """
-from .commands import pypi_cli
+from .commands import pypi_cli  # noqa: F401

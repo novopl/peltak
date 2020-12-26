@@ -60,7 +60,7 @@ class Engine(util.Singleton):
         """
         return self.env.from_string(template_str).render(template_ctx)
 
-    def render_file(self, template_file: str, template_ctx:  Dict[str, Any] = None):
+    def render_file(self, template_file: str, template_ctx: Dict[str, Any] = None):
         """ Render a template file from src/peltak/templates directory.
 
         All built-in peltak templates should go to the ``src/peltak/templates``

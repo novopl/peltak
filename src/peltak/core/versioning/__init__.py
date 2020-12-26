@@ -21,7 +21,7 @@ from typing import List, Optional, Tuple
 
 from peltak.core import conf
 
-from .version_file import (
+from .version_file import (     # noqa: F401
     is_valid,
     load_version_file,
     NodeVersionFile,
