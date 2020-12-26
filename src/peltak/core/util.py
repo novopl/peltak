@@ -19,6 +19,7 @@
 import re
 import time
 import warnings
+from pprint import pformat
 from functools import wraps
 from typing import (
     Any,
@@ -312,3 +313,97 @@ class Singleton(object):
             Singleton.instances[cls.__name__] = instance
 
         return instance
+
+
+def get_from_dict(dct: Dict, path: str, *default: Any) -> Any:
+    """ Get value from dictionary using a dotted path.
+
+    This allows you to get a value from deep within a dictionary without having
+    to manually check at each level if the key exists and handling the default
+    properly. This function will work the same as dict.get() but allows you to
+    specify a path in dotted notation, eg: 'main.sub.value'. Depending on whether
+    you passed a default value it will either return it or raise KeyError
+    if any of the keys or value itself is missing.
+
+    Args:
+        name (str):
+            The name of the config value.
+        *default (Any):
+            If given and the key doesn't not exist, this will be returned
+            instead. If it's not given and the config value does not exist,
+            KeyError will be raised.
+
+    Returns:
+        The requested config value. This is one of the global values defined
+        in this file. If the value does not exist it will return *default* if
+        give or raise `AttributeError`.
+
+    Raises:
+        KeyError: If the value does not exist and *default* was not given.
+
+    Examples:
+        >>> d = {
+        ...     'main': {
+        ...         'value': 123,
+        ...     }
+        ... }
+        ...
+        >>> get_from_dict(d, 'main.value')
+        123
+        >>> get_from_dict(d, 'missing', 321)
+        321
+        >>> get_from_dict(d, 'missing')
+        KeyError()
+    """
+    curr = dct
+    for part in path.split('.'):
+        if part in curr:
+            curr = curr[part]
+        elif default:
+            return default[0]
+        else:
+            raise KeyError(f"'{path}' not found in dict: {pformat(dct)}")
+
+    return curr
+
+
+def set_in_dict(dct: Dict, path: str, value: Any) -> None:
+    """ Set value in a dictionary using a dotted path.
+
+    This is the opposite to `get_from_dict()` function, but sets the value under
+    the given path instead.
+
+
+    Args:
+        name (str):
+            The name of the context value to change.
+        value (Any):
+            The new value for the selected context value
+
+    Raises:
+        KeyError: If the value does not exist and *default* was not given.
+
+    Examples:
+        >>> d = {
+        ...     'main': {
+        ...         'value': 123,
+        ...     }
+        ... }
+        ...
+        >>> set_in_dict(d, 'main.value', 321)
+        {'main': {'value': 321}}
+
+    """
+    curr = dct
+    parts = path.split('.')
+
+    for i, part in enumerate(parts[:-1]):
+        try:
+            curr = curr.setdefault(part, {})
+        except AttributeError:
+            raise KeyError('.'.join(parts[:i + 1]))
+
+    try:
+        curr[parts[-1]] = value
+    except TypeError:
+        raise KeyError('.'.join(parts[:-1]))

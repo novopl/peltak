@@ -69,7 +69,7 @@ class VersionFile(object):
     def __init__(self, path: str) -> None:
         self.path = path
         if not exists(path):
-            raise ValueError("Version file '{}' does not exist.".format(path))
+            raise ValueError(f"Version file '{path}' does not exist.")
 
     def read(self) -> Optional[str]:
         """ Read the current project version.
@@ -80,9 +80,7 @@ class VersionFile(object):
             NotImplementedError:
                 If the subclass does nto implement the read() method.
         """
-        raise NotImplementedError("{} must implement .read()".format(
-            self.__class__.__name__
-        ))
+        raise NotImplementedError(f"{self.__class__.__name__} must implement .read()")
 
     def write(self, version: str):
         """ Save the given version as the current project version.
@@ -93,9 +91,7 @@ class VersionFile(object):
             NotImplementedError:
                 If the subclass does nto implement the write() method.
         """
-        raise NotImplementedError("{} must implement .write()".format(
-            self.__class__.__name__
-        ))
+        raise NotImplementedError(f"{self.__class__.__name__} must implement .write()")
 
 
 class PyVersionFile(VersionFile):
@@ -169,11 +165,7 @@ class PyprojectVersionFile(VersionFile):
     """ Store project version in package.json. """
     def read(self) -> Optional[str]:
         config = util.toml_load(self.path)
-        tool_cfg = config.get('tool', {})
-        poetry_cfg = tool_cfg.get('poetry')
-        return poetry_cfg.get('version')
-        # poetry_cfg = tool_cfg.get('poetry')
-        # return config.get('tool', {}).get('poetry', {}).get('version')
+        return util.get_from_dict(config, 'tool.poetry.version', None)
 
     def write(self, version: str):
         config = util.toml_load(self.path)
@@ -182,6 +174,7 @@ class PyprojectVersionFile(VersionFile):
         fs.write_file(self.path, util.toml_dump(config))
 
 
+# path test -> VersionFile implementation
 VERSION_FILE_TYPES = [
     (lambda p: p.endswith('.py'), PyVersionFile),
     (lambda p: p.endswith('package.json'), NodeVersionFile),

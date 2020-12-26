@@ -135,18 +135,10 @@ class Config:
         Raises:
             AttributeError: If the value does not exist and *default* was not given.
         """
-        curr = self.values
-        for part in name.split('.'):
-            if part in curr:
-                curr = curr[part]
-            elif default:
-                return default[0]
-            else:
-                raise AttributeError("Config value '{}' does not exist".format(
-                    name
-                ))
-
-        return curr
+        try:
+            return util.get_from_dict(self.values, name, *default)
+        except KeyError:
+            raise AttributeError(f"Config value '{name}' does not exist")
 
     def get_path(self, name: str, *default: Any) -> Any:
         """ Get config value as path relative to the project directory.
