@@ -145,6 +145,7 @@ def get_version_files() -> List[VersionFile]:
     version_files = conf.get('version.files', [])
 
     if not version_files:
+        # TODO: 'version.file' is deprecated, use 'version.files' instead.
         single = conf.get('version.file', None)
         version_files = [single if single else 'VERSION']
 

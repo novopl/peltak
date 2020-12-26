@@ -62,8 +62,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.peltak]
 pelconf_version = "0"
-src_dir = "src"
-src_path = "src/peltak"
+python_paths = ["src"]
 build_dir = ".build"
 commands = [
   "peltak.extra.changelog",

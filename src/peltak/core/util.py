@@ -409,3 +409,14 @@ def set_in_dict(dct: Dict, path: str, value: Any) -> None:
         curr[parts[-1]] = value
     except TypeError:
         raise KeyError('.'.join(parts[:-1]))
+
+
+def dict_has(dct: Dict, path: str) -> bool:
+    curr = dct
+    for part in path.split('.'):
+        if part in curr:
+            curr = curr[part]
+        else:
+            return False
+
+    return True

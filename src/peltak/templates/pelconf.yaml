@@ -12,7 +12,7 @@ commands:
 
 # This directory will be added to sys.path when the config is loaded.
 # Useful if do not keep the source code in th root directory.
-src_dir: "{{ '.' if blank else src_dir }}"
+python_paths: [{{ '.' if blank else "'" + src_dir + "'" }}]
 {% if version_file %}version:
   file: "{{version_file}}"
 {% endif %}

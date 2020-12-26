@@ -76,7 +76,7 @@ class InitForm(cliform.Form):
     """ Everything needed to generate initial pelconf.yaml. """
     src_dir = cliform.Field(
         'Source directory',
-        default='src',
+        default='.',
         type=str,
         help=('The root directory for all your sources. This is what you '
               'would treat as PYTHONPATH')
@@ -105,11 +105,10 @@ def init(quick: bool, blank: bool, force: bool):
         form = InitForm().run(quick=quick)
         ctx.update(form.values)
 
-    confg_content = templates.Engine().render_file('pelconf.yaml', ctx)
+    config_content = templates.Engine().render_file('pelconf.yaml', ctx)
 
     log.info('Writing <35>{}'.format(config_file))
-    fs.write_file(config_file, confg_content)
+    fs.write_file(config_file, config_content)
 
     if context.get('verbose') > 0:
-        for line in shell.highlight(confg_content, 'yaml').splitlines():
-            log.info('  {}', line)
+        print(f"{'- ' * 40}\n{shell.highlight(config_content, 'yaml')}{'- ' * 40}")

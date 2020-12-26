@@ -116,6 +116,9 @@ class Config:
         """
         self.values = config
 
+    def has(self, name: str) -> bool:
+        return util.dict_has(self.values, name)
+
     def get(self, name: str, *default: Any) -> Any:
         """ Get config value with the given name and optional default.
 
@@ -214,11 +217,14 @@ def _load_config(path: str) -> Config:
     values = _load_from_file(path) if path else {}
     cfg = Config(values=values, path=path)
 
-    # Add src_dir to sys.paths if it's set. This is only done with YAML
-    # configs, py configs have to do this manually.
-    src_dir = cfg.get_path('src_dir', None)
-    if src_dir is not None:
-        sys.path.insert(0, src_dir)
+    # Prepend python_paths to sys.path. Using a clever slice notation to prepend
+    # in one go.
+    python_paths = [cfg.proj_path(p) for p in cfg.get('python_paths', [])]
+    sys.path[0:0] = [p for p in python_paths if p not in sys.path]
+
+    # TODO: src_dir is deprecated, use 'python_paths' config value instead.
+    if cfg.has('src_dir'):
+        sys.path.insert(0, cfg.get_path('src_dir'))
 
     for cmd in cfg.get('commands', []):
         try:
@@ -244,7 +250,6 @@ def _load_from_yaml_file(path):
     with open(path) as fp:
         values = util.yaml_load(fp) or {}
         return values
-        # return Config(values)
 
 
 def _load_from_toml_file(path):
@@ -252,7 +257,6 @@ def _load_from_toml_file(path):
     config = util.toml_load(path)
     values = config.get('tool', {}).get('peltak', {})
     return values
-    # return Config(values)
 
 
 # @util.cached_result()

@@ -98,7 +98,7 @@ class Engine(util.Singleton):
             <BLANKLINE>
             # This directory will be added to sys.path when the config is loaded.
             # Useful if do not keep the source code in th root directory.
-            src_dir: "src"
+            python_paths: ['src']
             <BLANKLINE>
             <BLANKLINE>
             <BLANKLINE>
