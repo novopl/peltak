@@ -353,7 +353,8 @@ def get_from_dict(dct: Dict, path: str, *default: Any) -> Any:
         >>> get_from_dict(d, 'missing', 321)
         321
         >>> get_from_dict(d, 'missing')
-        KeyError()
+        Traceback (most recent call last):
+        KeyError:
     """
     curr = dct
     for part in path.split('.'):
@@ -391,6 +392,7 @@ def set_in_dict(dct: Dict, path: str, value: Any) -> None:
         ... }
         ...
         >>> set_in_dict(d, 'main.value', 321)
+        >>> d
         {'main': {'value': 321}}
 
     """

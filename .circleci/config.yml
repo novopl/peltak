@@ -48,7 +48,7 @@ jobs:
       - run:
           name: Build Documentation
           command: |
-            poetry run peltak docs --recreate --run-doctests
+            poetry run peltak docs --recreate
             mv docs/html docs/peltak-docs
             cd docs && zip -r ../.build/peltak-docs.zip peltak-docs
 

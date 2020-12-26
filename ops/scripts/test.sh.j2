@@ -18,14 +18,22 @@ set -e
 {% set cov_path = cov_config[0] %}
 {% set cov_html_path = cov_config[1] %}
 
+{{ "Running tests" | header }}
 pytest \
     -c ops/tools/pytest.ini \
-    --cov-config=ops/tools/coverage.ini \
     --cov={{ cov_path }} \
     --cov-report=term \
     --cov-report=html:{{ cov_html_path }} \
     {{ ctx.verbose | count_flag('v') }} {{ '\n-p no:sugar' if opts.no_sugar else '' }} \
-    test/unit
+    test/unit \
+    src/peltak
+
+{{ "Running doctests" | header }}
+pytest \
+    -c ops/tools/pytest.ini \
+    --doctest-modules \
+    --doctest-report ndiff \
+    src/peltak
 
 {% set cov_path = proj_path(cov_html_path, 'index.html') %}
 {{ '<32>HTML report: <34>file://{}' | cprint(cov_path) }}
