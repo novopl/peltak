@@ -26,4 +26,4 @@ from .patches import (  # noqa: F401
     patch_run,
     patch_open
 )
-from .util import TestDataProvider  # noqa: F401
+from .util import DataLoader  # noqa: F401

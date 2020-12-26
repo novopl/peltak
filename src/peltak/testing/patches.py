@@ -6,9 +6,8 @@ from functools import wraps
 from typing import Any, Optional
 from unittest.mock import Mock, mock_open, patch
 
-from peltak.core.shell import ExecResult
-
 from peltak.core import conf, shell
+from peltak.core.shell import ExecResult
 
 
 def patch_is_tty(value):
