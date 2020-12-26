@@ -12,19 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-"""
-.. module:: peltak.core.versioning
-    :synopsis: Functionality related to project versioning.
-"""
 import json
 import re
 from collections import OrderedDict
 from os.path import exists
-from typing import List, Optional, Tuple
+from typing import Optional
 
-from . import conf
-from . import fs
-from . import util
+from peltak.core import fs, util
 
 
 RE_PY_VERSION = re.compile(
@@ -32,9 +26,7 @@ RE_PY_VERSION = re.compile(
     r'(?P<version>\d+(\.\d+(\.\d+)?)?)'
     r'["\']'
 )
-
-
-# MAJOR.MINOR[.PATCH[-BUILD]]
+# major.minor[.patch[-build]]
 RE_VERSION = re.compile(
     r'^'
     r'(?P<major>\d+)'
@@ -42,6 +34,10 @@ RE_VERSION = re.compile(
     r'(\.(?P<patch>\d+))?)?'
     r'$'
 )
+
+
+class InvalidVersionFile(RuntimeError):
+    pass
 
 
 def is_valid(version_str: str) -> bool:
@@ -55,106 +51,6 @@ def is_valid(version_str: str) -> bool:
         bool: **True** if the given string is a version.
     """
     return bool(version_str and RE_VERSION.match(version_str))
-
-
-def current() -> str:
-    """ Return the project's current version.
-
-    The project is read from the first file on the 'version.files' list. We
-    always use the first file on the list as the source of truth, but any
-    changes will be written to all files specified on the list.
-
-    Returns:
-        str: The current project version in MAJOR.MINOR.PATCH format. PATCH
-        might be omitted if it's 0, so 1.0.0 becomes 1.0 and 0.1.0 becomes 0.1.
-    """
-    main_version_file = get_version_files()[0]
-    return main_version_file.read() or ''
-
-
-def write(version: str) -> None:
-    """ Write the given version to the VERSION_FILE """
-    if not is_valid(version):
-        raise ValueError("Invalid version: '{}'".format(version))
-
-    for version_file in get_version_files():
-        version_file.write(version)
-
-
-def bump(component: str = 'patch', exact: Optional[str] = None) -> Tuple[str, str]:
-    """ Bump the given version component.
-
-    Args:
-        component (str):
-            What part of the version should be bumped. Can be one of:
-
-            - major
-            - minor
-            - patch
-
-        exact (str):
-            The exact version that should be set instead of bumping the current
-            one.
-
-    Returns:
-        tuple(str, str): A tuple of old and bumped version.
-    """
-    old_ver = current()
-
-    if exact is None:
-        new_ver = _bump_version(old_ver, component)
-    else:
-        new_ver = exact
-
-    write(new_ver)
-    return old_ver, new_ver
-
-
-def _bump_version(version: str, component: str = 'patch') -> str:
-    """ Bump the given version component.
-
-    Args:
-        version (str):
-            The current version. The format is: MAJOR.MINOR[.PATCH].
-        component (str):
-            What part of the version should be bumped. Can be one of:
-
-            - major
-            - minor
-            - patch
-
-    Returns:
-        str: Bumped version as a string.
-    """
-    if component not in ('major', 'minor', 'patch'):
-        raise ValueError("Invalid version component: {}".format(component))
-
-    m = RE_VERSION.match(version)
-    if m is None:
-        raise ValueError(
-            f"Version must be in MAJOR.MINOR[.PATCH] format, got: '{version}'"
-        )
-
-    major = m.group('major')
-    minor = m.group('minor') or '0'
-    patch = m.group('patch') or None
-
-    if component == 'major':
-        major = str(int(major) + 1)
-        minor = '0'
-        patch = '0'
-
-    elif component == 'minor':
-        minor = str(int(minor) + 1)
-        patch = '0'
-
-    else:
-        patch = patch or '0'
-        patch = str(int(patch) + 1)
-
-    new_ver = '{}.{}.{}'.format(major, minor, patch)
-
-    return new_ver
 
 
 class VersionFile(object):
@@ -269,7 +165,7 @@ class NodeVersionFile(VersionFile):
         fs.write_file(self.path, json.dumps(config, indent=2) + '\n')
 
 
-class PyprojectTomlVersionFile(VersionFile):
+class PyprojectVersionFile(VersionFile):
     """ Store project version in package.json. """
     def read(self) -> Optional[str]:
         config = util.toml_load(self.path)
@@ -286,29 +182,17 @@ class PyprojectTomlVersionFile(VersionFile):
         fs.write_file(self.path, util.toml_dump(config))
 
 
-def get_version_files() -> List[VersionFile]:
-    version_files = conf.get('version.files', [])
-
-    if not version_files:
-        single = conf.get('version.file', None)
-        version_files = [single if single else 'VERSION']
-
-    return [load_version_file(p) for p in version_files]
+VERSION_FILE_TYPES = [
+    (lambda p: p.endswith('.py'), PyVersionFile),
+    (lambda p: p.endswith('package.json'), NodeVersionFile),
+    (lambda p: p.endswith('pyproject.toml'), PyprojectVersionFile),
+    (lambda p: True, RawVersionFile),   # default to Raw version file.
+]
 
 
 def load_version_file(path: str) -> VersionFile:
-    """ Get version storage for the given version file.
+    for test, cls in VERSION_FILE_TYPES:
+        if test(path):
+            return cls(path)
 
-    The storage engine used depends on the extension of the *version.file* conf
-    variable.
-    """
-    abs_path = conf.proj_path(path)
-
-    if abs_path.endswith('.py'):
-        return PyVersionFile(abs_path)
-    elif abs_path.endswith('package.json'):
-        return NodeVersionFile(abs_path)
-    elif abs_path.endswith('pyproject.toml'):
-        return PyprojectTomlVersionFile(abs_path)
-    else:
-        return RawVersionFile(abs_path)
+    raise InvalidVersionFile()

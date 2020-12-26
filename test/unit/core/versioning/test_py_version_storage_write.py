@@ -8,7 +8,7 @@ from peltak.core import versioning
 
 
 def patch_open(**kw):
-    return patch('peltak.core.versioning.open', mock_open(**kw))
+    return patch('peltak.core.versioning.version_file.open', mock_open(**kw))
 
 
 @pytest.mark.parametrize('version_def,expected', [
@@ -19,11 +19,10 @@ def patch_open(**kw):
     ('__version__ = "1.0"', "__version__ = '1.0.1'"),
     ('__version__ = "1"', "__version__ = '1.0.1'"),
 ])
-@testing.patch_pelconf({'version_file': 'fake.yaml'})
-@patch('peltak.core.versioning.exists', Mock(return_value=True))
+@testing.patch_pelconf()
+@patch('peltak.core.versioning.version_file.exists', Mock(return_value=True))
 @patch('peltak.core.fs.write_file')
-def test_correctly_replaces_version(p_write_file, version_def, expected):
-    # type: (Mock, str, str) -> None
+def test_correctly_replaces_version(p_write_file: Mock, version_def: str, expected: str):
     file_data = '\n'.join([
         "# -*- coding: utf-8 -*-",
         version_def,

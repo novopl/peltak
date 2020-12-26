@@ -19,9 +19,5 @@ extending the app.
 """
 # pkg interface
 from .mocks import mock_result
-from .patches import patch_is_tty
-from .patches import patch_open
-from .patches import patch_proj_root
-from .patches import patch_pelconf
-from .patches import patch_run
+from .patches import *      # pylint: disable=wildcard-import, unused-wildcard-input
 from .util import TestDataProvider
