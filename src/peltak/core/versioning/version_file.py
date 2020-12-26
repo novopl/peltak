@@ -161,7 +161,7 @@ class NodeVersionFile(VersionFile):
         fs.write_file(self.path, json.dumps(config, indent=2) + '\n')
 
 
-class PyprojectVersionFile(VersionFile):
+class PoetryVersionFile(VersionFile):
     """ Store project version in package.json. """
     def read(self) -> Optional[str]:
         config = util.toml_load(self.path)
@@ -178,7 +178,7 @@ class PyprojectVersionFile(VersionFile):
 VERSION_FILE_TYPES = [
     (lambda p: p.endswith('.py'), PyVersionFile),
     (lambda p: p.endswith('package.json'), NodeVersionFile),
-    (lambda p: p.endswith('pyproject.toml'), PyprojectVersionFile),
+    (lambda p: p.endswith('pyproject.toml'), PoetryVersionFile),
     (lambda p: True, RawVersionFile),   # default to Raw version file.
 ]
 

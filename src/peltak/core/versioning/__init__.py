@@ -26,7 +26,7 @@ from .version_file import (     # noqa: F401
     load_version_file,
     NodeVersionFile,
     PyVersionFile,
-    PyprojectVersionFile,
+    PoetryVersionFile,
     RawVersionFile,
     VersionFile,
 )
