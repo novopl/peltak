@@ -92,3 +92,13 @@ def push():
     """
     branch = git.current_branch().name
     shell.run('git push -u origin {}'.format(branch))
+
+
+def delete_remote():
+    """ Delete the current branch on origin.
+
+    This is an equivalent of ``git push origin :<branch>``. Easy way to quickly
+    delete the remote branch without having to type in the branch name.
+    """
+    branch = git.current_branch().name
+    shell.run('git push -u origin {}'.format(branch))

@@ -57,6 +57,7 @@ def add_hooks(pre_commit: str, pre_push: str):
     Example::
 
         $ peltak git add-hooks
+
     """
     from . import impl
 
@@ -70,9 +71,27 @@ def push():
 
     Example::
 
+        $ peltak git push --pretend
         $ peltak git push
 
     """
     from . import impl
+    impl.push()
 
+
+@git_cli.command('delete-remote')
+@pretend_option
+def delete_remote():
+    """ Delete the current branch on remote origin.
+
+    This is an equivalent of ``git push origin :<branch>``. Easy way to quickly
+    delete the remote branch without having to type in the branch name.
+
+    Example::
+
+        $ peltak git delete-remote --pretend
+        $ peltak git delete-remote
+
+    """
+    from . import impl
     impl.push()
