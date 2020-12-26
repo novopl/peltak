@@ -1,6 +1,13 @@
 #!/bin/bash
 set -e
 
+{% set test_paths = {
+  'all': ['test', 'src/peltak'],
+  'unit': ['test/unit'],
+  'e2e': ['test/e2e'],
+  'doctest': ['src/peltak'],
+}.get(opts.kind, ['.']) %}
+
 {# --cov        source dir                  out dir #}
 {% set cov_config = {
   'all':      ('src/peltak',                '.build/coverage'),
@@ -23,17 +30,14 @@ pytest \
     -c ops/tools/pytest.ini \
     --cov={{ cov_path }} \
     --cov-report=term \
-    --cov-report=html:{{ cov_html_path }} \
-    {{ ctx.verbose | count_flag('v') }} {{ '\n-p no:sugar' if opts.no_sugar else '' }} \
-    test/unit \
-    src/peltak
-
-{{ "Running doctests" | header }}
-pytest \
-    -c ops/tools/pytest.ini \
+    {% if opts.kind in ('all', 'doctest') %} \
     --doctest-modules \
     --doctest-report ndiff \
-    src/peltak
+    {% endif %} \
+    --cov-report=html:{{ cov_html_path }} \
+    {{ ctx.verbose | count_flag('v') }} \
+    {{ '\n-p no:sugar' if opts.no_sugar else '' }} \
+    {{ test_paths | wrap_paths }}
 
 {% set cov_path = proj_path(cov_html_path, 'index.html') %}
 {{ '<32>HTML report: <34>file://{}' | cprint(cov_path) }}

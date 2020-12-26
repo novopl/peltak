@@ -110,6 +110,15 @@ command_file = "ops/scripts/test.sh.j2"
     all/core/scripts/extra. Defaults to 'all'.
     """
 
+    [[tool.peltak.scripts.test.options]]
+    name = [ "-k", "--kind" ]
+    type = "str"
+    default = "all"
+    about = """
+    What kind of tests should be ran (all/unit/e2e/doctest). If not given, then all
+    tests will run.
+    """
+
 [tool.peltak.scripts.docs]
 root_cli = true
 about = "Generate sphinx documentation"
