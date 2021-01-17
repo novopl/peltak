@@ -17,7 +17,7 @@ FAKE_GIT_IGNORE = '\n'.join([
     'pattern2',
     'pattern3',
 ])))
-def test_returns_all_patterns():
+def test_returns_all_patterns(app_conf):
     util.cached_result.clear(git.ignore)
     assert frozenset(git.ignore()) == frozenset((
         'pattern1',
@@ -32,7 +32,7 @@ def test_returns_all_patterns():
     ' pattern2   \t',
     '\tpattern3',
 ])))
-def test_strips_whitespace():
+def test_strips_whitespace(app_conf):
     util.cached_result.clear(git.ignore)
     assert frozenset(git.ignore()) == frozenset((
         'pattern1',
@@ -50,7 +50,7 @@ def test_strips_whitespace():
     '\tpattern3',
     ''
 ])))
-def test_skips_empty_lines():
+def test_skips_empty_lines(app_conf):
     util.cached_result.clear(git.ignore)
     assert frozenset(git.ignore()) == frozenset((
         'pattern1',
@@ -68,7 +68,7 @@ def test_skips_empty_lines():
     b'\tpattern3',
     b''
 ])))
-def test_works_if_parse_data_is_bytes():
+def test_works_if_parse_data_is_bytes(app_conf):
     util.cached_result.clear(git.ignore)
     assert frozenset(git.ignore()) == frozenset((
         'pattern1',

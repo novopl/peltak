@@ -48,7 +48,7 @@ jobs:
       - run:
           name: Build Documentation
           command: |
-            poetry run peltak docs --recreate --run-doctests
+            poetry run peltak docs --recreate
             mv docs/html docs/peltak-docs
             cd docs && zip -r ../.build/peltak-docs.zip peltak-docs
 
@@ -71,7 +71,7 @@ jobs:
 
       - run:
           name: Setup peltak
-          command: poetry install
+          command: poetry install -n --no-ansi
 
       - run:
           name: Upload to pypi

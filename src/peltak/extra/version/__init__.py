@@ -19,4 +19,4 @@
 
 Commands for managing the managed project version.
 """
-from .commands import version_cli
+from .commands import version_cli  # noqa: F401

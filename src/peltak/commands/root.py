@@ -26,6 +26,7 @@ from . import root_cli, click, pretend_option, verbose_option
     help='Comma separated list of paths to exclude from deletion'
 )
 @pretend_option
+@verbose_option
 def clean(exclude: List[str]) -> None:
     """ Remove temporary files like python cache, swap files, etc.
 

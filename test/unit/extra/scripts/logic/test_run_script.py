@@ -12,10 +12,9 @@ from peltak.extra.scripts.logic import run_script
 
 
 @patch('peltak.extra.scripts.logic.exec_script_command')
-def test_works(p_exec_script_command):
-    # type: (Mock) -> None
+def test_works(p_exec_script_command: Mock, app_conf: conf.Config):
     p_exec_script_command.return_value = 0
-    options = {}    # type: Dict[str, Any]
+    options: Dict[str, Any] = {}
     script = Script.from_config('test', {
         'command': 'fake-cmd'
     })
@@ -27,11 +26,13 @@ def test_works(p_exec_script_command):
 
 @patch('sys.exit')
 @patch('peltak.extra.scripts.logic.exec_script_command')
-def test_exits_with_script_return_code_if_its_non_zero(p_exec_script_command,
-                                                       p_exit):
-    # type: (Mock, Mock) -> None
+def test_exits_with_script_return_code_if_its_non_zero(
+    p_exec_script_command: Mock,
+    p_exit: Mock,
+    app_conf: conf.Config,
+):
     p_exec_script_command.return_value = -99
-    options = {}    # type: Dict[str, Any]
+    options: Dict[str, Any] = {}
     script = Script.from_config('test', {
         'command': 'fake-cmd'
     })
@@ -45,12 +46,14 @@ def test_exits_with_script_return_code_if_its_non_zero(p_exec_script_command,
 @patch('sys.exit', Mock())
 @patch('peltak.core.shell.cprint')
 @patch('peltak.extra.scripts.logic.exec_script_command')
-def test_prints_return_code_if_verbose_lvl_ge_3(p_exec_script_command,
-                                                p_cprint):
-    # type: (Mock, Mock) -> None
+def test_prints_return_code_if_verbose_lvl_ge_3(
+    p_exec_script_command: Mock,
+    p_cprint: Mock,
+    app_conf: conf.Config,
+):
     RunContext().set('verbose', 1)
     p_exec_script_command.return_value = -99
-    options = {}    # type: Dict[str, Any]
+    options: Dict[str, Any] = {}
     script = Script.from_config('test', {
         'command': 'fake-cmd'
     })
@@ -68,12 +71,14 @@ def test_prints_return_code_if_verbose_lvl_ge_3(p_exec_script_command,
 @patch('sys.exit', Mock())
 @patch('peltak.core.shell.cprint')
 @patch('peltak.extra.scripts.logic.exec_script_command')
-def test_prints_template_context_if_verbose_lvl_ge_3(p_exec_script_command,
-                                                     p_cprint):
-    # type: (Mock, Mock) -> None
+def test_prints_template_context_if_verbose_lvl_ge_3(
+    p_exec_script_command: Mock,
+    p_cprint: Mock,
+    app_conf: conf.Config,
+):
     RunContext().set('verbose', 3)
     p_exec_script_command.return_value = -99
-    options = {}    # type: Dict[str, Any]
+    options: Dict[str, Any] = {}
     script = Script.from_config('test', {
         'command': 'fake-cmd'
     })
@@ -87,14 +92,13 @@ def test_prints_template_context_if_verbose_lvl_ge_3(p_exec_script_command,
 
 
 @patch('peltak.extra.scripts.logic.exec_script_command', Mock(return_value=0))
-def test_raises_ValueError_if_command_or_command_files_is_missing():
-    # type: () -> None
+def test_raises_ValueError_if_command_or_command_files_is_missing(app_conf: conf.Config):
     """
     GIVEN A script with neither command nor command_file defined
      WHEN I run the script
      THEN it raises ValueError.
     """
-    options = {}    # type: Dict[str, Any]
+    options: Dict[str, Any] = {}
     script = Script(
         name='test',
         command='',
@@ -111,14 +115,15 @@ def test_raises_ValueError_if_command_or_command_files_is_missing():
 ])
 @patch('peltak.extra.scripts.logic.exec_script_command', Mock(return_value=0))
 @testing.patch_open('peltak.extra.scripts.logic', read_data='fake command file')
-def test_uses_command_file_if_given(p_open, command, command_file):
-    # type: (Mock, str, str) -> None
+def test_uses_command_file_if_given(
+    p_open: Mock, command: str, command_file: str, app_conf: conf.Config
+):
     """
     GIVEN A command_file is defined for the script
      WHEN I run the script
      THEN It will always use it no matter if 'command' is also defined or not
     """
-    options = {}    # type: Dict[str, Any]
+    options: Dict[str, Any] = {}
     script = Script(
         name='test',
         command=command,
@@ -127,7 +132,3 @@ def test_uses_command_file_if_given(p_open, command, command_file):
 
     run_script(script, options)
     p_open.assert_called_once_with(conf.proj_path('fake/file'))
-
-
-# Used only in type hint comments
-del Any, Dict

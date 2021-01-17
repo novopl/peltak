@@ -64,20 +64,12 @@ class RunContext(util.Singleton):
             AttributeError: If the value does not exist and *default* was not
                 given.
         """
-
-        curr = self.values
-        for part in name.split('.'):
-            if part in curr:
-                curr = curr[part]
-            elif default:
-                return default[0]
-            else:
-                fmt = "Context value '{}' does not exist:\n{}"
-                raise AttributeError(fmt.format(
-                    name, util.yaml_dump(self.values)
-                ))
-
-        return curr
+        try:
+            return util.get_from_dict(self.values, name, *default)
+        except KeyError:
+            raise AttributeError(
+                f"Context value '{name}' does not exist:\n{util.yaml_dump(self.values)}"
+            )
 
     def set(self, name: str, value: Any) -> None:
         """ Set context value.
@@ -88,19 +80,10 @@ class RunContext(util.Singleton):
             value (Any):
                 The new value for the selected context value
         """
-        curr = self.values
-        parts = name.split('.')
-
-        for i, part in enumerate(parts[:-1]):
-            try:
-                curr = curr.setdefault(part, {})
-            except AttributeError:
-                raise InvalidPath('.'.join(parts[:i + 1]))
-
         try:
-            curr[parts[-1]] = value
-        except TypeError:
-            raise InvalidPath('.'.join(parts[:-1]))
+            util.set_in_dict(self.values, name, value)
+        except KeyError:
+            raise InvalidPath(name)
 
 
 def get(name: str, *default: Any) -> Any:

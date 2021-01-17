@@ -18,10 +18,12 @@ This is kept inside the peltak package as it ca be used by 3rd party packages
 extending the app.
 """
 # pkg interface
-from .mocks import mock_result
-from .patches import patch_is_tty
-from .patches import patch_open
-from .patches import patch_proj_root
-from .patches import patch_pelconf
-from .patches import patch_run
-from .util import TestDataProvider
+from .mocks import mock_result  # noqa: F401
+from .patches import (  # noqa: F401
+    patch_is_tty,
+    patch_proj_root,
+    patch_pelconf,
+    patch_run,
+    patch_open
+)
+from .util import DataLoader  # noqa: F401

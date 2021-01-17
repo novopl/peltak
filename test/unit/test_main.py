@@ -2,14 +2,8 @@
 from unittest.mock import Mock, patch
 
 
-@patch('peltak.core.pelconf.Pelconf.init')
-def test_loads_config_when_module_is_imported(p_pelconf_init):
-    # type: (Mock) -> None
+@patch('peltak.core.conf.init')
+def test_loads_config_when_module_is_imported(p_conf_init: Mock):
+    import peltak.main  # noqa: F401 pylint: disable=unused-import,unused-variable
 
-    import peltak.main  # pylint: disable=unused-import,unused-variable
-
-    p_pelconf_init.assert_called_once()
-
-
-# Used only in type hint comments
-del Mock
+    p_conf_init.assert_called_once()

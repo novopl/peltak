@@ -4,27 +4,23 @@ pelconf_version: '1'
 
 # You can add custom project commands or 3rd party packages here.
 commands:
-  - peltak.extra.scripts {% if not blank %}
+  - peltak.extra.scripts{% if not blank %}
   - peltak.extra.git
   - peltak.extra.gitflow
-  {% if version_file %}
-  - peltak.extra.version
-  {% endif %}
-{% endif %}
+{% if version_file %}  - peltak.extra.version{% endif %}{% endif %}
 
 
 # This directory will be added to sys.path when the config is loaded.
 # Useful if do not keep the source code in th root directory.
-src_dir: "{{ '.' if blank else src_dir }}"
-{% if version_file %}
-version:
+python_paths: [{{ '.' if blank else "'" + src_dir + "'" }}]
+{% if version_file %}version:
   file: "{{version_file}}"
 {% endif %}
 
 
-{% if not blank %} # Scripts to help you manage your project.
+{% if not blank %}# Scripts to help you manage your project.
 scripts:
   test:
-    about: Test command
+    about: Test your code
     command: |
-      echo "Change me, I'm just a test command" {% endif %}
+      echo "Change me, I'm just a test command"{% endif %}

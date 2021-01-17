@@ -60,8 +60,8 @@ def pretend_option(fn: AnyFn) -> AnyFn:
         >>> from peltak.core import context
         >>>
         >>> @root_cli.command('my-command')
-        >>> @pretend_option
-        >>> def my_command():
+        ... @pretend_option
+        ... def my_command():
         ...     pretend = context.get('pretend', False)
 
     This value will be accessible from anywhere in the code.

@@ -6,7 +6,7 @@ from contextlib import contextmanager
 from os.path import basename, join
 
 
-class TestDataProvider(object):
+class DataLoader(object):
     """ Provides a temporary copy of the selected test project. """
 
     def __init__(self, data_dir):
@@ -15,17 +15,17 @@ class TestDataProvider(object):
 
     @contextmanager
     def __call__(self, path):
-        temp_dir = tempfile.mkdtemp(prefix='peltak_tests_')
+        work_dir = os.getcwd()
 
-        cwd = os.getcwd()
+        temp_dir = tempfile.mkdtemp(prefix='peltak_tests_')
         self.proj_dir = join(temp_dir, basename(path))
         proj_src = join(self.data_dir, path)
 
-        shutil.copytree(proj_src,  self.proj_dir)
+        shutil.copytree(proj_src, self.proj_dir)
         os.chdir(self.proj_dir)
 
         try:
             yield self
         finally:
-            os.chdir(cwd)
+            os.chdir(work_dir)
             shutil.rmtree(temp_dir)

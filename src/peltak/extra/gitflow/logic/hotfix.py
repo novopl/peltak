@@ -62,7 +62,7 @@ def update():
     branch = git.current_branch(refresh=True)
     master = conf.get('git.master_branch', 'master')
 
-    common.assert_branch_type('feature')
+    common.assert_branch_type('hotfix')
     common.git_checkout(master)
     common.git_pull(master)
     common.git_checkout(branch.name)

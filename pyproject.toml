@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "peltak"
-version = "0.26.7"
+version = "0.27.0"
 description = "A command line tool to help manage a project"
 readme = "README.rst"
 repository = "http://github.com/novopl/peltak"
@@ -35,6 +35,7 @@ six = ">=1.11"
 attrs = ">=18.2"
 jinja2 = ">=2.10.3"
 pygments = ">=2.3.1"
+tomlkit = "^0.7.0"
 
 [tool.poetry.dev-dependencies]
 coverage = "~=5.3"
@@ -52,7 +53,94 @@ sphinx-refdoc = "~=0.3.0"
 sphinx-rtd-theme = "~=0.2"
 sphinxcontrib-plantuml = "~=0.17.1"
 requests = "~=2.25.0"
+flake8 = "^3.8.4"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+
+[tool.peltak]
+pelconf_version = "0"
+python_paths = ["src"]
+build_dir = ".build"
+commands = [
+  "peltak.extra.changelog",
+  "peltak.extra.git",
+  "peltak.extra.gitflow",
+  "peltak.extra.pypi",
+  "peltak.extra.version"
+]
+
+[tool.peltak.version]
+files = [
+    "pyproject.toml",
+    "src/peltak/__init__.py",
+]
+
+[tool.peltak.clean]
+exclude = [ ".venv" ]
+
+[tool.peltak.scripts.check]
+root_cli = true
+about = "Run all checks (types, pep8, code style)"
+command_file = "ops/scripts/check.sh.j2"
+
+    [tool.peltak.scripts.check.files]
+    paths = [ "src/peltak", "test/unit" ]
+    include = "*.py"
+    use_gitignore = true
+
+[tool.peltak.scripts.test]
+root_cli = true
+about = "Run unit tests"
+command_file = "ops/scripts/test.sh.j2"
+
+    [[tool.peltak.scripts.test.options]]
+    name = [ "--no-sugar" ]
+    about = "Disable pytest-sugar. Might be useful for CI runs."
+    is_flag = true
+
+    [[tool.peltak.scripts.test.options]]
+    name = [ "--cov" ]
+    type = "str"
+    default = "all"
+    about = """
+    What type of coverage should we define. Allowed values are:
+    all/core/scripts/extra. Defaults to 'all'.
+    """
+
+    [[tool.peltak.scripts.test.options]]
+    name = [ "-k", "--kind" ]
+    type = "str"
+    default = "all"
+    about = """
+    What kind of tests should be ran (all/unit/e2e/doctest). If not given, then all
+    tests will run.
+    """
+
+[tool.peltak.scripts.docs]
+root_cli = true
+about = "Generate sphinx documentation"
+command_file = "ops/scripts/docs.sh.j2"
+
+    [[tool.peltak.scripts.docs.options]]
+    name = [ "--recreate" ]
+    about = "Delete build and out directories before running."
+    is_flag = true
+
+    [[tool.peltak.scripts.docs.options]]
+    name = [ "--run-doctests" ]
+    about = "Also run all doctests."
+    is_flag = true
+
+[tool.peltak.scripts.check-commit]
+about = "Perform all checks on files staged for commit"
+command_file = "ops/scripts/check.sh.j2"
+
+    [tool.peltak.scripts.check-commit.files]
+    paths = [ "src/peltak", "test/unit" ]
+    only_staged = true
+    include = "*.py"
+    use_gitignore = true
+

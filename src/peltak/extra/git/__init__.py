@@ -19,4 +19,4 @@
 
 git helpers.
 """
-from .commands import git_cli
+from .commands import git_cli  # noqa: F401

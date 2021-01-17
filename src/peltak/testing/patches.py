@@ -3,12 +3,11 @@
 Easier to track them down, when you need one.
 """
 from functools import wraps
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 from unittest.mock import Mock, mock_open, patch
 
+from peltak.core import conf, shell
 from peltak.core.shell import ExecResult
-
-from peltak.core import shell
 
 
 def patch_is_tty(value):
@@ -29,35 +28,33 @@ def patch_is_tty(value):
 
 
 def patch_proj_root(path):
-    """ Overwrite the project root path in Pelconf singleton. """
+    """ Overwrite the project root path in conf.Config singleton. """
     from peltak.core import conf
 
     def decorator(fn):  # pylint: disable=missing-docstring
         @wraps(fn)
         def wrapper(*args, **kw):  # pylint: disable=missing-docstring
-            current_proj_root = conf.proj_root_path
-            conf.proj_root_path = path
+            curr_root = conf.g_conf.root_dir
+            conf.root_dir = path
 
             result = fn(*args, **kw)
 
-            conf.proj_root_path = current_proj_root
+            conf.root_dir = curr_root
             return result
 
         return wrapper
     return decorator
 
 
-def patch_pelconf(config: Dict[str, Any]) -> Any:
-    """ Patch the peltak configuration.
-
-    This will patch all content retrieved through `peltak.core.conf.get()` and
-    `conf.get_path()`.
-
-    Args:
-        config (dict[str, Any]):
-            The dictionary with the peltak configuration.
-    """
-    return patch('peltak.core.conf.values', config)
+def patch_pelconf(
+    values: Optional[conf.ConfigDict] = None,
+    *,
+    path: str = '/fake/proj/pelconf.yaml',
+):
+    return patch('peltak.core.conf.g_conf', conf.Config(
+        values=values,
+        path=path,
+    ))
 
 
 def patch_run(

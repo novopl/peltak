@@ -39,7 +39,7 @@ def start(component: str, exact: str):
             argument. This allows to re-release a version if something went
             wrong with the release upload.
     """
-    version_file = conf.get_path('version.file', 'VERSION')
+    version_files = versioning.get_version_files()
 
     develop = conf.get('git.devel_branch', 'develop')
     common.assert_on_branch(develop)
@@ -69,8 +69,8 @@ def start(component: str, exact: str):
         common.git_checkout(branch, create=True)
 
         log.info("Creating commit for the release")
-        shell.run('git add {ver_file} && git commit -m "{msg}"'.format(
-            ver_file=version_file,
+        shell.run('git add {files} && git commit -m "{msg}"'.format(
+            files=' '.join(f'"{v.path}"' for v in version_files),
             msg="Releasing v{}".format(new_ver)
         ))
 
