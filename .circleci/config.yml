@@ -36,10 +36,6 @@ jobs:
           name: Test
           command: poetry run peltak test
 
-      - run:
-          name: Run doctests
-          command: poetry run peltak test -k doctest
-
       - save_cache:
           key: deps-{{ checksum ".circleci/config.yml" }}-{{ checksum "poetry.lock" }}
           paths:
@@ -75,7 +71,7 @@ jobs:
 
       - run:
           name: Setup peltak
-          command: poetry install
+          command: poetry install -n --no-ansi
 
       - run:
           name: Upload to pypi
