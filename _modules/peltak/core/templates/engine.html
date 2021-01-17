@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>peltak.core.templates.engine &mdash; peltak 0.26.8 documentation</title>
+  <title>peltak.core.templates.engine &mdash; peltak 0.27.0 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.26.8
+                0.27.0
               </div>
             
           
@@ -214,7 +214,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="n">template_str</span><span class="p">)</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">template_ctx</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Engine.render_file"><a class="viewcode-back" href="../../../../reference/script_templates.html#peltak.core.templates.Engine.render_file">[docs]</a>    <span class="k">def</span> <span class="nf">render_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">template_file</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">template_ctx</span><span class="p">:</span>  <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Engine.render_file"><a class="viewcode-back" href="../../../../reference/script_templates.html#peltak.core.templates.Engine.render_file">[docs]</a>    <span class="k">def</span> <span class="nf">render_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">template_file</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">template_ctx</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Render a template file from src/peltak/templates directory.</span>
 
 <span class="sd">        All built-in peltak templates should go to the ``src/peltak/templates``</span>
@@ -236,26 +236,32 @@
 <span class="sd">            \b</span>
 <span class="sd">            &gt;&gt;&gt; from peltak.core.templates import Engine</span>
 <span class="sd">            &gt;&gt;&gt;</span>
-<span class="sd">            &gt;&gt;&gt; Engine().render_file(&quot;pelconf.yaml&quot;, {&#39;src_dir&#39;: &#39;src&#39;})</span>
+<span class="sd">            &gt;&gt;&gt; output = Engine().render_file(&quot;pelconf.yaml&quot;, {&#39;src_dir&#39;: &#39;src&#39;})</span>
+<span class="sd">            &gt;&gt;&gt; print(output)</span>
 <span class="sd">            # peltak configuration file</span>
 <span class="sd">            # Visit https://novopl.github.io/peltak for more information</span>
 <span class="sd">            pelconf_version: &#39;1&#39;</span>
+<span class="sd">            &lt;BLANKLINE&gt;</span>
 <span class="sd">            # You can add custom project commands or 3rd party packages here.</span>
 <span class="sd">            commands:</span>
+<span class="sd">              - peltak.extra.scripts</span>
 <span class="sd">              - peltak.extra.git</span>
 <span class="sd">              - peltak.extra.gitflow</span>
-<span class="sd">              - peltak.extra.scripts</span>
-
+<span class="sd">            &lt;BLANKLINE&gt;</span>
+<span class="sd">            &lt;BLANKLINE&gt;</span>
+<span class="sd">            &lt;BLANKLINE&gt;</span>
 <span class="sd">            # This directory will be added to sys.path when the config is loaded.</span>
 <span class="sd">            # Useful if do not keep the source code in th root directory.</span>
-<span class="sd">            src_dir: &quot;src&quot;</span>
-
+<span class="sd">            python_paths: [&#39;src&#39;]</span>
+<span class="sd">            &lt;BLANKLINE&gt;</span>
+<span class="sd">            &lt;BLANKLINE&gt;</span>
+<span class="sd">            &lt;BLANKLINE&gt;</span>
 <span class="sd">            # Scripts to help you manage your project.</span>
 <span class="sd">            scripts:</span>
 <span class="sd">              test:</span>
 <span class="sd">                about: Test your code</span>
 <span class="sd">                command: |</span>
-<span class="sd">                  echo &quot;Change me, to run your tests&quot;</span>
+<span class="sd">                  echo &quot;Change me, I&#39;m just a test command&quot;</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">template</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">get_template</span><span class="p">(</span><span class="n">template_file</span><span class="p">)</span>

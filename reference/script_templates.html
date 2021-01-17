@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Script template reference &mdash; peltak 0.26.8 documentation</title>
+  <title>Script template reference &mdash; peltak 0.27.0 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.26.8
+                0.27.0
               </div>
             
           
@@ -315,30 +315,38 @@ will be injected into the template during rendering.</p></li>
 <p>
 &gt;&gt;&gt; from peltak.core.templates import Engine
 &gt;&gt;&gt;
-&gt;&gt;&gt; Engine().render_file(“pelconf.yaml”, {‘src_dir’: ‘src’})
+&gt;&gt;&gt; output = Engine().render_file(“pelconf.yaml”, {‘src_dir’: ‘src’})
+&gt;&gt;&gt; print(output)
 # peltak configuration file
 # Visit <a class="reference external" href="https://novopl.github.io/peltak">https://novopl.github.io/peltak</a> for more information
 pelconf_version: ‘1’
+&lt;BLANKLINE&gt;
 # You can add custom project commands or 3rd party packages here.
 commands:</p>
 <blockquote>
 <div><ul class="simple">
+<li><p>peltak.extra.scripts</p></li>
 <li><p>peltak.extra.git</p></li>
 <li><p>peltak.extra.gitflow</p></li>
-<li><p>peltak.extra.scripts</p></li>
 </ul>
 </div></blockquote>
-<p># This directory will be added to sys.path when the config is loaded.
+<p>&lt;BLANKLINE&gt;
+&lt;BLANKLINE&gt;
+&lt;BLANKLINE&gt;
+# This directory will be added to sys.path when the config is loaded.
 # Useful if do not keep the source code in th root directory.
-src_dir: “src”</p>
-<p># Scripts to help you manage your project.
+python_paths: [‘src’]
+&lt;BLANKLINE&gt;
+&lt;BLANKLINE&gt;
+&lt;BLANKLINE&gt;
+# Scripts to help you manage your project.
 scripts:</p>
 <blockquote>
 <div><dl>
 <dt>test:</dt><dd><p>about: Test your code
 command: |</p>
 <blockquote>
-<div><p>echo “Change me, to run your tests”</p>
+<div><p>echo “Change me, I’m just a test command”</p>
 </div></blockquote>
 </dd>
 </dl>

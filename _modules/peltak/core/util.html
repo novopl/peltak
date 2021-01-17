@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>peltak.core.util &mdash; peltak 0.26.8 documentation</title>
+  <title>peltak.core.util &mdash; peltak 0.27.0 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.26.8
+                0.27.0
               </div>
             
           
@@ -173,6 +173,7 @@
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pformat</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">Any</span><span class="p">,</span>
@@ -187,6 +188,7 @@
     <span class="n">Union</span>
 <span class="p">)</span>
 
+<span class="kn">import</span> <span class="nn">tomlkit</span>
 <span class="kn">import</span> <span class="nn">yaml</span>
 <span class="k">try</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">yaml</span> <span class="kn">import</span> <span class="n">CLoader</span> <span class="k">as</span> <span class="n">Loader</span><span class="p">,</span> <span class="n">CDumper</span> <span class="k">as</span> <span class="n">Dumper</span>
@@ -195,7 +197,8 @@
 
 
 <span class="n">TextOrStream</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">Text</span><span class="p">,</span> <span class="n">TextIO</span><span class="p">]</span>
-<span class="n">YamlData</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="n">Text</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]]</span>
+<span class="n">PlainDict</span> <span class="o">=</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>
+<span class="n">YamlData</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">PlainDict</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]]</span>
 <span class="n">AnyFunction</span> <span class="o">=</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>
 <span class="n">Decorator</span> <span class="o">=</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">AnyFunction</span><span class="p">],</span> <span class="n">AnyFunction</span><span class="p">]</span>
 
@@ -408,6 +411,27 @@
     <span class="p">)</span></div>
 
 
+<div class="viewcode-block" id="toml_load"><a class="viewcode-back" href="../../../dev/core/util.html#peltak.core.util.toml_load">[docs]</a><span class="k">def</span> <span class="nf">toml_load</span><span class="p">(</span><span class="n">path_or_fp</span><span class="p">:</span> <span class="n">TextOrStream</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PlainDict</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot; Load TOML configuration into a dict. &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">path_or_fp</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path_or_fp</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">tomlkit</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">fp</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">tomlkit</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">path_or_fp</span><span class="o">.</span><span class="n">read</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="toml_dump"><a class="viewcode-back" href="../../../dev/core/util.html#peltak.core.util.toml_dump">[docs]</a><span class="k">def</span> <span class="nf">toml_dump</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">PlainDict</span><span class="p">,</span> <span class="n">path_or_fp</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TextOrStream</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Save a plain dict as a TOML file. &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">path_or_fp</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">tomlkit</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">path_or_fp</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path_or_fp</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">tomlkit</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">path_or_fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">tomlkit</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">))</span></div>
+
+
 <div class="viewcode-block" id="remove_indent"><a class="viewcode-back" href="../../../dev/core/util.html#peltak.core.util.remove_indent">[docs]</a><span class="k">def</span> <span class="nf">remove_indent</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot; Remove indentation from the text.</span>
 
@@ -443,6 +467,113 @@
             <span class="n">Singleton</span><span class="o">.</span><span class="n">instances</span><span class="p">[</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="p">]</span> <span class="o">=</span> <span class="n">instance</span>
 
         <span class="k">return</span> <span class="n">instance</span></div>
+
+
+<div class="viewcode-block" id="get_from_dict"><a class="viewcode-back" href="../../../dev/core/util.html#peltak.core.util.get_from_dict">[docs]</a><span class="k">def</span> <span class="nf">get_from_dict</span><span class="p">(</span><span class="n">dct</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">default</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot; Get value from dictionary using a dotted path.</span>
+
+<span class="sd">    This allows you to get a value from deep within a dictionary without having</span>
+<span class="sd">    to manually check at each level if the key exists and handling the default</span>
+<span class="sd">    properly. This function will work the same as dict.get() but allows you to</span>
+<span class="sd">    specify a path in dotted notation, eg: &#39;main.sub.value&#39;. Depending on whether</span>
+<span class="sd">    you passed a default value it will either return it or raise KeyError</span>
+<span class="sd">    if any of the keys or value itself is missing.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        name (str):</span>
+<span class="sd">            The name of the config value.</span>
+<span class="sd">        *default (Any):</span>
+<span class="sd">            If given and the key doesn&#39;t not exist, this will be returned</span>
+<span class="sd">            instead. If it&#39;s not given and the config value does not exist,</span>
+<span class="sd">            KeyError will be raised.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The requested config value. This is one of the global values defined</span>
+<span class="sd">        in this file. If the value does not exist it will return *default* if</span>
+<span class="sd">        give or raise `AttributeError`.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        KeyError: If the value does not exist and *default* was not given.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; d = {</span>
+<span class="sd">        ...     &#39;main&#39;: {</span>
+<span class="sd">        ...         &#39;value&#39;: 123,</span>
+<span class="sd">        ...     }</span>
+<span class="sd">        ... }</span>
+<span class="sd">        ...</span>
+<span class="sd">        &gt;&gt;&gt; get_from_dict(d, &#39;main.value&#39;)</span>
+<span class="sd">        123</span>
+<span class="sd">        &gt;&gt;&gt; get_from_dict(d, &#39;missing&#39;, 321)</span>
+<span class="sd">        321</span>
+<span class="sd">        &gt;&gt;&gt; get_from_dict(d, &#39;missing&#39;)</span>
+<span class="sd">        Traceback (most recent call last):</span>
+<span class="sd">        KeyError:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">curr</span> <span class="o">=</span> <span class="n">dct</span>
+    <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">curr</span><span class="p">:</span>
+            <span class="n">curr</span> <span class="o">=</span> <span class="n">curr</span><span class="p">[</span><span class="n">part</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">default</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">default</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&#39; not found in dict: </span><span class="si">{</span><span class="n">pformat</span><span class="p">(</span><span class="n">dct</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">curr</span></div>
+
+
+<div class="viewcode-block" id="set_in_dict"><a class="viewcode-back" href="../../../dev/core/util.html#peltak.core.util.set_in_dict">[docs]</a><span class="k">def</span> <span class="nf">set_in_dict</span><span class="p">(</span><span class="n">dct</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot; Set value in a dictionary using a dotted path.</span>
+
+<span class="sd">    This is the opposite to `get_from_dict()` function, but sets the value under</span>
+<span class="sd">    the given path instead.</span>
+
+
+<span class="sd">    Args:</span>
+<span class="sd">        name (str):</span>
+<span class="sd">            The name of the context value to change.</span>
+<span class="sd">        value (Any):</span>
+<span class="sd">            The new value for the selected context value</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        KeyError: If the value does not exist and *default* was not given.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; d = {</span>
+<span class="sd">        ...     &#39;main&#39;: {</span>
+<span class="sd">        ...         &#39;value&#39;: 123,</span>
+<span class="sd">        ...     }</span>
+<span class="sd">        ... }</span>
+<span class="sd">        ...</span>
+<span class="sd">        &gt;&gt;&gt; set_in_dict(d, &#39;main.value&#39;, 321)</span>
+<span class="sd">        &gt;&gt;&gt; d</span>
+<span class="sd">        {&#39;main&#39;: {&#39;value&#39;: 321}}</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">curr</span> <span class="o">=</span> <span class="n">dct</span>
+    <span class="n">parts</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">part</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">parts</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">curr</span> <span class="o">=</span> <span class="n">curr</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">part</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parts</span><span class="p">[:</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]))</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">curr</span><span class="p">[</span><span class="n">parts</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parts</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span></div>
+
+
+<span class="k">def</span> <span class="nf">dict_has</span><span class="p">(</span><span class="n">dct</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="n">curr</span> <span class="o">=</span> <span class="n">dct</span>
+    <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">curr</span><span class="p">:</span>
+            <span class="n">curr</span> <span class="o">=</span> <span class="n">curr</span><span class="p">[</span><span class="n">part</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">return</span> <span class="kc">True</span>
 </pre></div>
 
            </div>

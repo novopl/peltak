@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>peltak.core.util &mdash; peltak 0.26.8 documentation</title>
+  <title>peltak.core.util &mdash; peltak 0.27.0 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.26.8
+                0.27.0
               </div>
             
           
@@ -228,6 +228,52 @@ shell commands).</p>
 </dd></dl>
 
 <dl class="py function">
+<dt id="peltak.core.util.get_from_dict">
+<code class="sig-prename descclassname">peltak.core.util.</code><code class="sig-name descname">get_from_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dct</span><span class="p">:</span> <span class="n">Dict</span></em>, <em class="sig-param"><span class="n">path</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="o">*</span><span class="n">default</span><span class="p">:</span> <span class="n">Any</span></em><span class="sig-paren">)</span> &#x2192; Any<a class="reference internal" href="../../_modules/peltak/core/util.html#get_from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.util.get_from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get value from dictionary using a dotted path.</p>
+<p>This allows you to get a value from deep within a dictionary without having
+to manually check at each level if the key exists and handling the default
+properly. This function will work the same as dict.get() but allows you to
+specify a path in dotted notation, eg: ‘main.sub.value’. Depending on whether
+you passed a default value it will either return it or raise KeyError
+if any of the keys or value itself is missing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The name of the config value.</p></li>
+<li><p><strong>*default</strong> (<em>Any</em>) – If given and the key doesn’t not exist, this will be returned
+instead. If it’s not given and the config value does not exist,
+KeyError will be raised.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The requested config value. This is one of the global values defined
+in this file. If the value does not exist it will return <em>default</em> if
+give or raise <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#AttributeError" title="(in Python v3.9)"><code class="xref any docutils literal notranslate"><span class="pre">AttributeError</span></code></a>.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.9)"><strong>KeyError</strong></a> – If the value does not exist and <em>default</em> was not given.</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="p">{</span>
+<span class="gp">... </span>    <span class="s1">&#39;main&#39;</span><span class="p">:</span> <span class="p">{</span>
+<span class="gp">... </span>        <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="mi">123</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="p">}</span>
+<span class="gp">... </span><span class="p">}</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">get_from_dict</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="s1">&#39;main.value&#39;</span><span class="p">)</span>
+<span class="go">123</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">get_from_dict</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="s1">&#39;missing&#39;</span><span class="p">,</span> <span class="mi">321</span><span class="p">)</span>
+<span class="go">321</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">get_from_dict</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="s1">&#39;missing&#39;</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="gr">KeyError</span>:
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
 <dt id="peltak.core.util.in_batches">
 <code class="sig-prename descclassname">peltak.core.util.</code><code class="sig-name descname">in_batches</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">iterable</span><span class="p">:</span> <span class="n">Iterable<span class="p">[</span>Any<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">batch_size</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a></span></em><span class="sig-paren">)</span> &#x2192; Iterator<span class="p">[</span>List<span class="p">[</span>Any<span class="p">]</span><span class="p">]</span><a class="reference internal" href="../../_modules/peltak/core/util.html#in_batches"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.util.in_batches" title="Permalink to this definition">¶</a></dt>
 <dd><p>Split the given iterable into batches.</p>
@@ -304,6 +350,37 @@ the number of elements cannot be equally divided.</p></li>
 </dl>
 </dd></dl>
 
+<dl class="py function">
+<dt id="peltak.core.util.set_in_dict">
+<code class="sig-prename descclassname">peltak.core.util.</code><code class="sig-name descname">set_in_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dct</span><span class="p">:</span> <span class="n">Dict</span></em>, <em class="sig-param"><span class="n">path</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">value</span><span class="p">:</span> <span class="n">Any</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)">None</a><a class="reference internal" href="../../_modules/peltak/core/util.html#set_in_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.util.set_in_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set value in a dictionary using a dotted path.</p>
+<p>This is the opposite to <a class="reference internal" href="#peltak.core.util.get_from_dict" title="peltak.core.util.get_from_dict"><code class="xref any py py-func docutils literal notranslate"><span class="pre">get_from_dict()</span></code></a> function, but sets the value under
+the given path instead.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The name of the context value to change.</p></li>
+<li><p><strong>value</strong> (<em>Any</em>) – The new value for the selected context value</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.9)"><strong>KeyError</strong></a> – If the value does not exist and <em>default</em> was not given.</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="p">{</span>
+<span class="gp">... </span>    <span class="s1">&#39;main&#39;</span><span class="p">:</span> <span class="p">{</span>
+<span class="gp">... </span>        <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="mi">123</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="p">}</span>
+<span class="gp">... </span><span class="p">}</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">set_in_dict</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="s1">&#39;main.value&#39;</span><span class="p">,</span> <span class="mi">321</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span>
+<span class="go">{&#39;main&#39;: {&#39;value&#39;: 321}}</span>
+</pre></div>
+</div>
+</dd></dl>
+
 <dl class="py class">
 <dt id="peltak.core.util.timed_block">
 <em class="property">class </em><code class="sig-prename descclassname">peltak.core.util.</code><code class="sig-name descname">timed_block</code><a class="reference internal" href="../../_modules/peltak/core/util.html#timed_block"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.util.timed_block" title="Permalink to this definition">¶</a></dt>
@@ -365,6 +442,18 @@ display.</p>
 </dl>
 </dd></dl>
 
+</dd></dl>
+
+<dl class="py function">
+<dt id="peltak.core.util.toml_dump">
+<code class="sig-prename descclassname">peltak.core.util.</code><code class="sig-name descname">toml_dump</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">, </span>Any<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">path_or_fp</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">, </span>TextIO<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/util.html#toml_dump"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.util.toml_dump" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save a plain dict as a TOML file.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="peltak.core.util.toml_load">
+<code class="sig-prename descclassname">peltak.core.util.</code><code class="sig-name descname">toml_load</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path_or_fp</span><span class="p">:</span> <span class="n">Union<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">, </span>TextIO<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; Dict<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">, </span>Any<span class="p">]</span><a class="reference internal" href="../../_modules/peltak/core/util.html#toml_load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.util.toml_load" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load TOML configuration into a dict.</p>
 </dd></dl>
 
 <dl class="py function">
