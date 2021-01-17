@@ -52,7 +52,11 @@ def current() -> str:
         str: The current project version in MAJOR.MINOR.PATCH format. PATCH
         might be omitted if it's 0, so 1.0.0 becomes 1.0 and 0.1.0 becomes 0.1.
     """
-    main_version_file = get_version_files()[0]
+    version_files = get_version_files()
+    if not version_files:
+        raise ValueError("No version file configured")
+
+    main_version_file = version_files[0]
     return main_version_file.read() or ''
 
 
@@ -61,7 +65,11 @@ def write(version: str) -> None:
     if not is_valid(version):
         raise ValueError("Invalid version: '{}'".format(version))
 
-    for version_file in get_version_files():
+    version_files = get_version_files()
+    if not version_files:
+        raise ValueError("No version file configured")
+
+    for version_file in version_files:
         version_file.write(version)
 
 
@@ -147,6 +155,6 @@ def get_version_files() -> List[VersionFile]:
     if not version_files:
         # TODO: 'version.file' is deprecated, use 'version.files' instead.
         single = conf.get('version.file', None)
-        version_files = [single if single else 'VERSION']
+        version_files = [single] if single else []
 
     return [load_version_file(p) for p in version_files]
