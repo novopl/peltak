@@ -33,6 +33,7 @@ DEFAULT_TAGS = (
     {"tag": "fix", "header": "Fixes"},
 )
 DEFAULT_TAG_FORMAT = '({tag})'
+DEFAULT_CONTINUATION_TAG = '_more'
 
 
 @util.mark_experimental
@@ -51,20 +52,23 @@ def _get_all_changelog_items(
     start_rev: Optional[str],
     end_rev: Optional[str]
 ) -> ChangelogItems:
-    hashes = _get_commits_in_range(start_rev, end_rev)
-    commits = [git.CommitDetails.get(h) for h in hashes]
+    commits = _get_commits_in_range(start_rev, end_rev)
     tags = [ChangelogTag(**x) for x in conf.get("changelog.tags", DEFAULT_TAGS)]
     results: ChangelogItems = OrderedDict((tag.header, []) for tag in tags)
 
     for commit in commits:
-        commit_items = extract_changelog_items(commit.desc, tags)
+        full_message = f"{commit.title}\n\n{commit.desc}"
+        commit_items = extract_changelog_items(full_message, tags)
         for header, items in commit_items.items():
             results[header] += items
 
     return results
 
 
-def _get_commits_in_range(start_rev: Optional[str], end_rev: Optional[str]) -> List[str]:
+def _get_commits_in_range(
+    start_rev: Optional[str],
+    end_rev: Optional[str]
+) -> List[git.CommitDetails]:
     if not start_rev:
         versions = [x for x in git.tags() if versioning.is_valid(x[1:])]
         start_rev = versions[-1] if versions else ''
@@ -78,7 +82,8 @@ def _get_commits_in_range(start_rev: Optional[str], end_rev: Optional[str]) -> L
     elif end_rev:
         cmd += f" {end_rev}"
 
-    return shell.run(cmd, capture=True).stdout.strip().splitlines()
+    hashes = shell.run(cmd, capture=True).stdout.strip().splitlines()
+    return [git.CommitDetails.get(h) for h in hashes]
 
 
 def _render_changelog(title: Optional[str], changelog_items: ChangelogItems) -> str:
@@ -104,8 +109,16 @@ def _render_changelog(title: Optional[str], changelog_items: ChangelogItems) -> 
                 "",
             ]
             for item_text in items:
-                item_lines = textwrap.wrap(item_text, 77)
-                lines += ["- {}".format('\n  '.join(item_lines))]
+                # Newlines are only inserted via continuation tags, all other
+                # newlines are removed during changelog items extraction.
+                blocks = item_text.splitlines()
+                item_content = '\n'.join(
+                    '\n'.join(textwrap.wrap(b, width=77)) for b in blocks
+                )
+                item_content = textwrap.indent(item_content, prefix='  ')
+                item_lines = item_content.splitlines()
+                lines.append(f"- {item_lines[0].lstrip()}")
+                lines += item_lines[1:]
 
             lines += [""]
 
@@ -129,34 +142,53 @@ def extract_changelog_items(text: str, tags: List[ChangelogTag]) -> Dict[str, Li
     through `pelconf.yaml`.
     """
     tag_format = conf.get("changelog.tag_format", DEFAULT_TAG_FORMAT)
+    continuation_tag = conf.get("changelog.continuation_tag", DEFAULT_CONTINUATION_TAG)
     patterns = {
         tag.header: tag_re(tag_format.format(tag=tag.tag))
         for tag in tags
     }
+    more_pttrn = tag_re(tag_format.format(tag=continuation_tag))
     items: ChangelogItems = {tag.header: [] for tag in tags}
     curr_tag = None
     curr_text = ''
+    last_tag = None
 
     for line in text.splitlines():
         if not line.strip():
             if curr_tag is not None:
                 items[curr_tag].append(curr_text)
                 curr_text = ''
+            last_tag = curr_tag
             curr_tag = None
 
-        for tag in tags:
-            m = patterns[tag.header].match(line)
-            if m:
-                if curr_tag is not None:
-                    items[curr_tag].append(curr_text)
-                    curr_text = ''
+        more_match = more_pttrn.match(line)
 
-                curr_tag = tag.header
-                line = m.group('text')
-                break
+        if more_match and last_tag:
+            # If it's a continuation tag, then just add it's text to the last
+            # used tag. This only works if there was a previous tag.
+            curr_tag = last_tag
+            curr_text = items[last_tag][-1]
+            items[last_tag] = items[last_tag][:-1]
+            line = more_match.group('text')
+        else:
+            for tag in tags:
+                m = patterns[tag.header].match(line)
+                if m:
+                    if curr_tag is not None:
+                        # If we're already in a tag definition and we encountered
+                        # a beginning of a new tag, just finish by adding new
+                        # item to the current tag item list.
+                        items[curr_tag].append(curr_text)
+                        curr_text = ''
+                    curr_tag = tag.header
+                    line = m.group('text')
+                    break
 
         if curr_tag is not None:
-            curr_text = '{} {}'.format(curr_text.strip(), line.strip()).strip()
+            if more_match:
+                curr_text = '{}\n{}'.format(curr_text, line.strip()).strip()
+            else:
+                curr_text = '{} {}'.format(curr_text.strip(), line.strip()).strip()
 
     if curr_tag is not None:
         items[curr_tag].append(curr_text)

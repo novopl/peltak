@@ -119,3 +119,19 @@ def test_ignores_non_tagged_text():
 
     assert len(items['Features']) == 1
     assert items['Features'][0] == 'This is my feature'
+
+
+@testing.patch_pelconf({})
+def test_support_continuation_tags():
+    desc = '\n'.join([
+        '(feature) This is my item',
+        '',
+        '(_more) and it has a continuation tag.',
+    ])
+
+    items = logic.extract_changelog_items(desc, tags=[
+        ChangelogTag(header='Features', tag='feature'),
+    ])
+
+    assert len(items['Features']) == 1
+    assert items['Features'][0] == 'This is my item\nand it has a continuation tag.'
