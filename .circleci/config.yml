@@ -113,8 +113,8 @@ jobs:
             git checkout gh-pages
             cp -r docs/html/* ./
             git add .
-            git config user.email ${GIT_EMAIL}
-            git config user.name ${GIT_USER}
+            git config user.email "${GIT_EMAIL}"
+            git config user.name "${GIT_USER}"
             git commit -nm "Docs build #${CIRCLECI_BUILD_NUM}"
             git push --no-verify origin gh-pages
 

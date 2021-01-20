@@ -3,6 +3,7 @@ import pytest
 
 from peltak.extra.changelog import logic
 from peltak.extra.changelog.types import ChangelogTag
+from peltak import testing
 
 
 @pytest.mark.parametrize('header,tag', [
@@ -10,6 +11,7 @@ from peltak.extra.changelog.types import ChangelogTag
     ('Changes', 'change'),
     ('Fixes', 'fix'),
 ])
+@testing.patch_pelconf({})
 def test_detects_each_tag(header, tag):
     desc = '\n'.join([
         '({tag}) This is my item'.format(tag=tag),
@@ -31,6 +33,7 @@ def test_detects_each_tag(header, tag):
     ('Changes', 'change'),
     ('Fixes', 'fix'),
 ])
+@testing.patch_pelconf({})
 def test_supports_dense_descriptions(header, tag):
     desc = '\n'.join([
         '({tag}) This is my item'.format(tag=tag),
@@ -54,6 +57,7 @@ def test_supports_dense_descriptions(header, tag):
     ('Changes', 'change'),
     ('Fixes', 'fix'),
 ])
+@testing.patch_pelconf({})
 def test_supports_loose_descriptions(header, tag):
     desc = '\n'.join([
         '',
@@ -74,6 +78,7 @@ def test_supports_loose_descriptions(header, tag):
     assert items[header][1] == 'This is my second item'
 
 
+@testing.patch_pelconf({})
 def test_supports_all_tags_used_together():
     desc = '\n'.join([
         '(fix) This is my fix',
@@ -99,6 +104,7 @@ def test_supports_all_tags_used_together():
     assert items['Fixes'][0] == 'This is my fix and it has multiple lines'
 
 
+@testing.patch_pelconf({})
 def test_ignores_non_tagged_text():
     desc = '\n'.join([
         'This is some text that should be gnored',

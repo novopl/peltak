@@ -32,6 +32,7 @@ DEFAULT_TAGS = (
     {"tag": "change", "header": "Changes"},
     {"tag": "fix", "header": "Fixes"},
 )
+DEFAULT_TAG_FORMAT = '({tag})'
 
 
 @util.mark_experimental
@@ -81,7 +82,6 @@ def _get_commits_in_range(start_rev: Optional[str], end_rev: Optional[str]) -> L
 
 
 def _render_changelog(title: Optional[str], changelog_items: ChangelogItems) -> str:
-
     if title is None:
         # title is None if title parameter wasn't pass. To show empty title
         # you can use --title ''
@@ -128,8 +128,11 @@ def extract_changelog_items(text: str, tags: List[ChangelogTag]) -> Dict[str, Li
     The tagged items are usually features/changes/fixes but it can be configured
     through `pelconf.yaml`.
     """
-
-    patterns = {tag.header: tag_re(tag.tag) for tag in tags}
+    tag_format = conf.get("changelog.tag_format", DEFAULT_TAG_FORMAT)
+    patterns = {
+        tag.header: tag_re(tag_format.format(tag=tag.tag))
+        for tag in tags
+    }
     items: ChangelogItems = {tag.header: [] for tag in tags}
     curr_tag = None
     curr_text = ''
@@ -178,5 +181,5 @@ def tag_re(tag: str) -> Pattern:
     """
     return re.compile(
         # r'\(feature\) (?P<text>.*?\n\n)',
-        r'(- |\* |\s+)?\({tag}\) (?P<text>.*)'.format(tag=tag),
+        r'(- |\* |\s+)?{tag} (?P<text>.*)'.format(tag=re.escape(tag)),
     )
