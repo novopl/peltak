@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "peltak"
-version = "0.27.0"
+version = "0.27.1"
 description = "A command line tool to help manage a project"
 readme = "README.rst"
 repository = "http://github.com/novopl/peltak"
