@@ -76,17 +76,34 @@ jobs:
       - run:
           name: Upload to pypi
           command: |
-            poetry run peltak pypi configure
-            poetry run peltak pypi upload pypi
-            rm ~/.pypirc
+            poetry publish -n --build --username="$PYPI_USER" --password="$PYPI_PASS"
+
+      - run:
+          name: Generate release notes
+          command: |
+            poetry run peltak changelog > ./RELEASE_NOTES
+            poetry run peltak version --porcelain > ./RELEASE_VERSION
 
       - run:
           name: Create release tag
           command: |
-            poetry run peltak release tag -m "$(potery run peltak changelog)"
-            git push origin v$(poetry run peltak version --porcelain)
+            poetry run peltak release tag -m "$(cat ./RELEASE_NOTES)"
+            git push origin v$(cat ./RELEASE_VERSION)
 
-  docs:
+      - run:
+          name: Create GitHub release
+          command: |
+            poetry build
+            gh release create \
+              --repo "novopl/peltak" \
+              --title "v$(cat ./RELEASE_VERSION)" \
+              --notes "$(cat ./RELEASE_NOTES)" \
+              "v$(cat ./RELEASE_VERSION)" \
+              dist/mappr-$(cat ./RELEASE_VERSION)-py3-none-any.whl \
+              dist/mappr-$(cat ./RELEASE_VERSION).tar.gz
+
+
+  gh-pages:
     docker:
       - image: novopl/python36
     steps:
@@ -132,7 +149,7 @@ workflows:
           filters:
             branches:
               only: master
-      - docs:
+      - gh-pages:
           requires:
             - build
           filters:
