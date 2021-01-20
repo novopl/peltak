@@ -99,8 +99,8 @@ jobs:
               --title "v$(cat ./RELEASE_VERSION)" \
               --notes "$(cat ./RELEASE_NOTES)" \
               "v$(cat ./RELEASE_VERSION)" \
-              dist/mappr-$(cat ./RELEASE_VERSION)-py3-none-any.whl \
-              dist/mappr-$(cat ./RELEASE_VERSION).tar.gz
+              dist/peltak-$(cat ./RELEASE_VERSION)-py3-none-any.whl \
+              dist/peltak-$(cat ./RELEASE_VERSION).tar.gz
 
 
   gh-pages:
