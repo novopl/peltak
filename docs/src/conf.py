@@ -1,11 +1,8 @@
 # -*- coding: utf-8 -*-
 import os
 import sys
-import sphinx_rtd_theme
-
-
 project = u"peltak"
-copyright = u"2016-2018, Mateusz 'novo' Klos"
+copyright = u"2016-2021, Mateusz 'novo' Klos"
 author = u"Mateusz 'novo' Klos"
 
 
@@ -27,6 +24,7 @@ extensions = [
     'sphinx.ext.napoleon',
     'sphinx.ext.viewcode',
     'sphinxcontrib.plantuml',
+    'sphinx_autodoc_typehints',
 ]
 plantuml = 'java -jar {}'.format(repo_path('docs/bin/plantuml/plantuml.1.2019.9.jar'))
 plantuml_output_format = 'svg'
@@ -53,11 +51,37 @@ todo_include_todos = False
 intersphinx_mapping = {'https://docs.python.org/': None}
 
 default_role = 'any'
-pygments_style = 'monokai'
-html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
-html_theme = "sphinx_rtd_theme"
+# pygments_style = 'monokai'
 html_static_path = [repo_path('docs/_static')]
-html_style='css/overrides.css'
+html_theme = "sphinx_material"
+html_theme_options = {
+    # Set the name of the project to appear in the navigation.
+    'nav_title': 'peltak',
+    # Set you GA account ID to enable tracking
+    'google_analytics_account': 'UA-187740680-2',
+    # Specify a base_url used to generate sitemap.xml. If not
+    # specified, then no sitemap will be built.
+    'base_url': 'https://novopl.github.io/peltak',
+    # Set the color and the accent color
+    'color_primary': 'light-green',
+    'color_accent': 'amber',
+    # Set the repo location to get a badge with stats
+    'repo_url': 'https://github.com/novopl/peltak',
+    'repo_name': 'peltak',
+    'logo_icon': '&#x267E',
+    # Visible levels of the global TOC; -1 means unlimited
+    'globaltoc_depth': 2,
+    # If False, expand all TOC entries
+    'globaltoc_collapse': False,
+    # If True, show hidden TOC entries
+    'globaltoc_includehidden': True,
+}
+html_sidebars = {
+    "**": ["logo-text.html", "globaltoc.html", "localtoc.html", "searchbox.html"]
+}
+
+
+
 htmlhelp_basename = 'peltak'
 
 latex_elements = {}
