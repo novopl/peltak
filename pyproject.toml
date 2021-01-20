@@ -82,6 +82,23 @@ files = [
 [tool.peltak.clean]
 exclude = [ ".venv" ]
 
+[tool.peltak.changelog]
+    [[tool.peltak.changelog.tags]]
+    tag = 'feature'
+    header = 'Features'
+
+    [[tool.peltak.changelog.tags]]
+    tag = 'fix'
+    header = 'Fixes'
+
+    [[tool.peltak.changelog.tags]]
+    tag = 'change'
+    header = 'Changes'
+
+    [[tool.peltak.changelog.tags]]
+    tag = 'dev'
+    header = 'Dev tasks'
+
 [tool.peltak.scripts.check]
 root_cli = true
 about = "Run all checks (types, pep8, code style)"
