@@ -145,3 +145,12 @@ command_file = "ops/scripts/check.sh.j2"
     include = "*.py"
     use_gitignore = true
 
+[tool.peltak.scripts.pr-release]
+root_cli = true
+about = "Create PR for the current release branch"
+command = """
+gh pr create \
+    --repo novopl/peltak \
+    --title "Release: v$(peltak version --porcelain)" \
+    --body "$(peltak changelog)"
+"""
