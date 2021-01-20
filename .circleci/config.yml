@@ -3,7 +3,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: novopl/python36:ci-alpine
+      - image: novopl/python36
     steps:
       - checkout
       - restore_cache:
@@ -63,7 +63,7 @@ jobs:
 
   release:
     docker:
-      - image: novopl/python36:ci-alpine
+      - image: novopl/python36
     steps:
       - checkout
       - restore_cache:
@@ -88,7 +88,7 @@ jobs:
 
   docs:
     docker:
-      - image: novopl/python36:ci-alpine
+      - image: novopl/python36
     steps:
       - checkout
       - restore_cache:
@@ -113,8 +113,8 @@ jobs:
             git checkout gh-pages
             cp -r docs/html/* ./
             git add .
-            git config user.email ${GIT_EMAIL}
-            git config user.name ${GIT_USER}
+            git config user.email "${GIT_EMAIL}"
+            git config user.name "${GIT_USER}"
             git commit -nm "Docs build #${CIRCLECI_BUILD_NUM}"
             git push --no-verify origin gh-pages
 

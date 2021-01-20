@@ -17,7 +17,7 @@
 import re
 import textwrap
 from collections import OrderedDict
-from typing import Dict, List, Pattern
+from typing import Dict, List, Optional, Pattern
 
 from peltak.core import conf
 from peltak.core import git
@@ -27,69 +27,100 @@ from peltak.core import versioning
 from .types import ChangelogItems, ChangelogTag
 
 
+DEFAULT_TAGS = (
+    {"tag": "feature", "header": "Features"},
+    {"tag": "change", "header": "Changes"},
+    {"tag": "fix", "header": "Fixes"},
+)
+DEFAULT_TAG_FORMAT = '({tag})'
+DEFAULT_CONTINUATION_TAG = '_more'
+
+
 @util.mark_experimental
-def changelog() -> str:
-    """ Print change log since last release.
-
-    TODO: Add the ability to omit sections of changelog in the output. This way
-        We can use changelog command to automatically generate changelog for
-        public releases without any references to the ticket board but still
-        have the ability to associate tickets with releases. For example we can
-        add a (jira) tag that would be used to pass the JIRA ticket URL and then
-        in the official changelog we just omit the jira section. We can still
-        use the jira section in developer tooling like PRs and internal
-        progress tracking.
-    TODO: Add ability to specify the starting point for the changelog command.
-        Ideally the user could specify the base branch and get the changelog
-        only for his branch. This would make it very easy to use tags in the
-        commit messages in your branch and then use peltak changelog to generate
-        a PR description.
-    """
+def changelog(
+    start_rev: Optional[str] = None,
+    end_rev: Optional[str] = None,
+    title: Optional[str] = None,
+) -> str:
+    """ Print changelog for given git revision range. """
     # Skip 'v' prefix
-    versions = [x for x in git.tags() if versioning.is_valid(x[1:])]
+    changelog_items = _get_all_changelog_items(start_rev, end_rev)
+    return _render_changelog(title, changelog_items)
 
-    cmd = 'git log --format=%H'
-    if versions:
-        cmd += ' {}..HEAD'.format(versions[-1])
 
-    hashes = shell.run(cmd, capture=True).stdout.strip().splitlines()
-    commits = [git.CommitDetails.get(h) for h in hashes]
-
-    tags = [
-        ChangelogTag(**x) for x in
-        conf.get('changelog.tags', (
-            {'header': 'Features', 'tag': 'feature'},
-            {'header': 'Changes', 'tag': 'change'},
-            {'header': 'Fixes', 'tag': 'fix'},
-        ))
-    ]
-
+def _get_all_changelog_items(
+    start_rev: Optional[str],
+    end_rev: Optional[str]
+) -> ChangelogItems:
+    commits = _get_commits_in_range(start_rev, end_rev)
+    tags = [ChangelogTag(**x) for x in conf.get("changelog.tags", DEFAULT_TAGS)]
     results: ChangelogItems = OrderedDict((tag.header, []) for tag in tags)
 
     for commit in commits:
-        commit_items = extract_changelog_items(commit.desc, tags)
+        full_message = f"{commit.title}\n\n{commit.desc}"
+        commit_items = extract_changelog_items(full_message, tags)
         for header, items in commit_items.items():
             results[header] += items
 
-    version = versioning.current()
-    lines = [
-        '<35>v{}<0>'.format(version),
-        '<32>{}<0>'.format('=' * (len(version) + 1)),
-        '',
-    ]
-    for header, items in results.items():
+    return results
+
+
+def _get_commits_in_range(
+    start_rev: Optional[str],
+    end_rev: Optional[str]
+) -> List[git.CommitDetails]:
+    if not start_rev:
+        versions = [x for x in git.tags() if versioning.is_valid(x[1:])]
+        start_rev = versions[-1] if versions else ''
+
+    if not end_rev:
+        end_rev = 'HEAD'
+
+    cmd = 'git log --format=%H'
+    if start_rev and end_rev:
+        cmd += f" {start_rev}..{end_rev}"
+    elif end_rev:
+        cmd += f" {end_rev}"
+
+    hashes = shell.run(cmd, capture=True).stdout.strip().splitlines()
+    return [git.CommitDetails.get(h) for h in hashes]
+
+
+def _render_changelog(title: Optional[str], changelog_items: ChangelogItems) -> str:
+    if title is None:
+        # title is None if title parameter wasn't pass. To show empty title
+        # you can use --title ''
+        title = f"v{versioning.current()}"
+
+    lines = []
+    if title:
+        lines += [
+            f"<35>{title}<0>",
+            f"<32>{'=' * (len(title) + 1)}<0>",
+            "",
+        ]
+
+    for header, items in changelog_items.items():
         if items:
             lines += [
-                '',
-                '<32>{}<0>'.format(header),
-                '<32>{}<0>'.format('-' * len(header)),
-                '',
+                "",
+                f"<32>{header}<0>",
+                f"<32>{'-' * len(header)}<0>",
+                "",
             ]
             for item_text in items:
-                item_lines = textwrap.wrap(item_text, 77)
-                lines += ['- {}'.format('\n  '.join(item_lines))]
+                # Newlines are only inserted via continuation tags, all other
+                # newlines are removed during changelog items extraction.
+                blocks = item_text.splitlines()
+                item_content = '\n'.join(
+                    '\n'.join(textwrap.wrap(b, width=77)) for b in blocks
+                )
+                item_content = textwrap.indent(item_content, prefix='  ')
+                item_lines = item_content.splitlines()
+                lines.append(f"- {item_lines[0].lstrip()}")
+                lines += item_lines[1:]
 
-            lines += ['']
+            lines += [""]
 
     return '\n'.join(lines)
 
@@ -110,32 +141,54 @@ def extract_changelog_items(text: str, tags: List[ChangelogTag]) -> Dict[str, Li
     The tagged items are usually features/changes/fixes but it can be configured
     through `pelconf.yaml`.
     """
-
-    patterns = {tag.header: tag_re(tag.tag) for tag in tags}
+    tag_format = conf.get("changelog.tag_format", DEFAULT_TAG_FORMAT)
+    continuation_tag = conf.get("changelog.continuation_tag", DEFAULT_CONTINUATION_TAG)
+    patterns = {
+        tag.header: tag_re(tag_format.format(tag=tag.tag))
+        for tag in tags
+    }
+    more_pttrn = tag_re(tag_format.format(tag=continuation_tag))
     items: ChangelogItems = {tag.header: [] for tag in tags}
     curr_tag = None
     curr_text = ''
+    last_tag = None
 
     for line in text.splitlines():
         if not line.strip():
             if curr_tag is not None:
                 items[curr_tag].append(curr_text)
                 curr_text = ''
+            last_tag = curr_tag
             curr_tag = None
 
-        for tag in tags:
-            m = patterns[tag.header].match(line)
-            if m:
-                if curr_tag is not None:
-                    items[curr_tag].append(curr_text)
-                    curr_text = ''
+        more_match = more_pttrn.match(line)
 
-                curr_tag = tag.header
-                line = m.group('text')
-                break
+        if more_match and last_tag:
+            # If it's a continuation tag, then just add it's text to the last
+            # used tag. This only works if there was a previous tag.
+            curr_tag = last_tag
+            curr_text = items[last_tag][-1]
+            items[last_tag] = items[last_tag][:-1]
+            line = more_match.group('text')
+        else:
+            for tag in tags:
+                m = patterns[tag.header].match(line)
+                if m:
+                    if curr_tag is not None:
+                        # If we're already in a tag definition and we encountered
+                        # a beginning of a new tag, just finish by adding new
+                        # item to the current tag item list.
+                        items[curr_tag].append(curr_text)
+                        curr_text = ''
+                    curr_tag = tag.header
+                    line = m.group('text')
+                    break
 
         if curr_tag is not None:
-            curr_text = '{} {}'.format(curr_text.strip(), line.strip()).strip()
+            if more_match:
+                curr_text = '{}\n{}'.format(curr_text, line.strip()).strip()
+            else:
+                curr_text = '{} {}'.format(curr_text.strip(), line.strip()).strip()
 
     if curr_tag is not None:
         items[curr_tag].append(curr_text)
@@ -160,5 +213,5 @@ def tag_re(tag: str) -> Pattern:
     """
     return re.compile(
         # r'\(feature\) (?P<text>.*?\n\n)',
-        r'(- |\* |\s+)?\({tag}\) (?P<text>.*)'.format(tag=tag),
+        r'(- |\* |\s+)?{tag} (?P<text>.*)'.format(tag=re.escape(tag)),
     )
