@@ -17,7 +17,7 @@
 import re
 import textwrap
 from collections import OrderedDict
-from typing import Dict, List, Pattern
+from typing import Dict, List, Optional, Pattern
 
 from peltak.core import conf
 from peltak.core import git
@@ -35,33 +35,23 @@ DEFAULT_TAGS = (
 
 
 @util.mark_experimental
-def changelog() -> str:
-    """ Print change log since last release.
-
-    TODO: Add the ability to omit sections of changelog in the output. This way
-        We can use changelog command to automatically generate changelog for
-        public releases without any references to the ticket board but still
-        have the ability to associate tickets with releases. For example we can
-        add a (jira) tag that would be used to pass the JIRA ticket URL and then
-        in the official changelog we just omit the jira section. We can still
-        use the jira section in developer tooling like PRs and internal
-        progress tracking.
-    TODO: Add ability to specify the starting point for the changelog command.
-        Ideally the user could specify the base branch and get the changelog
-        only for his branch. This would make it very easy to use tags in the
-        commit messages in your branch and then use peltak changelog to generate
-        a PR description.
-    """
+def changelog(
+    start_rev: Optional[str] = None,
+    end_rev: Optional[str] = None,
+    title: Optional[str] = None,
+) -> str:
+    """ Print changelog for given git revision range. """
     # Skip 'v' prefix
-    versions = [x for x in git.tags() if versioning.is_valid(x[1:])]
+    changelog_items = _get_all_changelog_items(start_rev, end_rev)
+    return _render_changelog(title, changelog_items)
 
-    cmd = "git log --format=%H"
-    if versions:
-        cmd += f" {versions[-1]}..HEAD"
 
-    hashes = shell.run(cmd, capture=True).stdout.strip().splitlines()
+def _get_all_changelog_items(
+    start_rev: Optional[str],
+    end_rev: Optional[str]
+) -> ChangelogItems:
+    hashes = _get_commits_in_range(start_rev, end_rev)
     commits = [git.CommitDetails.get(h) for h in hashes]
-
     tags = [ChangelogTag(**x) for x in conf.get("changelog.tags", DEFAULT_TAGS)]
     results: ChangelogItems = OrderedDict((tag.header, []) for tag in tags)
 
@@ -70,13 +60,42 @@ def changelog() -> str:
         for header, items in commit_items.items():
             results[header] += items
 
-    version = versioning.current()
-    lines = [
-        f"<35>v{version}<0>",
-        f"<32>{'=' * (len(version) + 1)}<0>",
-        "",
-    ]
-    for header, items in results.items():
+    return results
+
+
+def _get_commits_in_range(start_rev: Optional[str], end_rev: Optional[str]) -> List[str]:
+    if not start_rev:
+        versions = [x for x in git.tags() if versioning.is_valid(x[1:])]
+        start_rev = versions[-1] if versions else ''
+
+    if not end_rev:
+        end_rev = 'HEAD'
+
+    cmd = 'git log --format=%H'
+    if start_rev and end_rev:
+        cmd += f" {start_rev}..{end_rev}"
+    elif end_rev:
+        cmd += f" {end_rev}"
+
+    return shell.run(cmd, capture=True).stdout.strip().splitlines()
+
+
+def _render_changelog(title: Optional[str], changelog_items: ChangelogItems) -> str:
+
+    if title is None:
+        # title is None if title parameter wasn't pass. To show empty title
+        # you can use --title ''
+        title = f"v{versioning.current()}"
+
+    lines = []
+    if title:
+        lines += [
+            f"<35>{title}<0>",
+            f"<32>{'=' * (len(title) + 1)}<0>",
+            "",
+        ]
+
+    for header, items in changelog_items.items():
         if items:
             lines += [
                 "",

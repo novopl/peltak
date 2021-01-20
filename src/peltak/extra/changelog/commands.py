@@ -23,13 +23,43 @@ CLI definition.
 from peltak.commands import root_cli, click
 
 
-@root_cli.group('changelog', invoke_without_command=True)
+@root_cli.group(
+    'changelog',
+    invoke_without_command=True,
+    help=(
+        "Generate changelog from commit messages.\n"
+        "\n"
+        "This will go over all commits between the given git revisions and"
+        "extract all changelog data from them. If called without arguments "
+        "it will show all changelog entries since the last version tag."
+    )
+)
+@click.option(
+    '-s', '--start-rev',
+    help="Starting revision. Defaults to last version tag found"
+)
+@click.option(
+    '-e', '--end-rev',
+    help='End revision, defaults to HEAD',
+)
+@click.option(
+    '-t', '--title',
+    default=None,
+    help=(
+        'Changelog title.\n'
+        '\n'
+        'Will use the current project version if not given. Use empty string '
+        'to remove the title completely, ie `peltak changelog --title ""`'
+    ),
+)
 @click.pass_context
-def changelog_cli(ctx: click.Context) -> None:
+def changelog_cli(ctx: click.Context, start_rev: str, end_rev: str, title: str) -> None:
     """ Generate changelog from commit messages. """
     if ctx.invoked_subcommand:
         return
 
     from peltak.core import shell
     from . import logic
-    shell.cprint(logic.changelog())
+
+    changelog = logic.changelog(start_rev=start_rev, end_rev=end_rev, title=title)
+    shell.cprint(changelog)
