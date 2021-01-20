@@ -27,6 +27,13 @@ from peltak.core import versioning
 from .types import ChangelogItems, ChangelogTag
 
 
+DEFAULT_TAGS = (
+    {"tag": "feature", "header": "Features"},
+    {"tag": "change", "header": "Changes"},
+    {"tag": "fix", "header": "Fixes"},
+)
+
+
 @util.mark_experimental
 def changelog() -> str:
     """ Print change log since last release.
@@ -48,22 +55,14 @@ def changelog() -> str:
     # Skip 'v' prefix
     versions = [x for x in git.tags() if versioning.is_valid(x[1:])]
 
-    cmd = 'git log --format=%H'
+    cmd = "git log --format=%H"
     if versions:
-        cmd += ' {}..HEAD'.format(versions[-1])
+        cmd += f" {versions[-1]}..HEAD"
 
     hashes = shell.run(cmd, capture=True).stdout.strip().splitlines()
     commits = [git.CommitDetails.get(h) for h in hashes]
 
-    tags = [
-        ChangelogTag(**x) for x in
-        conf.get('changelog.tags', (
-            {'header': 'Features', 'tag': 'feature'},
-            {'header': 'Changes', 'tag': 'change'},
-            {'header': 'Fixes', 'tag': 'fix'},
-        ))
-    ]
-
+    tags = [ChangelogTag(**x) for x in conf.get("changelog.tags", DEFAULT_TAGS)]
     results: ChangelogItems = OrderedDict((tag.header, []) for tag in tags)
 
     for commit in commits:
@@ -73,23 +72,23 @@ def changelog() -> str:
 
     version = versioning.current()
     lines = [
-        '<35>v{}<0>'.format(version),
-        '<32>{}<0>'.format('=' * (len(version) + 1)),
-        '',
+        f"<35>v{version}<0>",
+        f"<32>{'=' * (len(version) + 1)}<0>",
+        "",
     ]
     for header, items in results.items():
         if items:
             lines += [
-                '',
-                '<32>{}<0>'.format(header),
-                '<32>{}<0>'.format('-' * len(header)),
-                '',
+                "",
+                f"<32>{header}<0>",
+                f"<32>{'-' * len(header)}<0>",
+                "",
             ]
             for item_text in items:
                 item_lines = textwrap.wrap(item_text, 77)
-                lines += ['- {}'.format('\n  '.join(item_lines))]
+                lines += ["- {}".format('\n  '.join(item_lines))]
 
-            lines += ['']
+            lines += [""]
 
     return '\n'.join(lines)
 
