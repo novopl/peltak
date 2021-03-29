@@ -22,7 +22,6 @@ from typing import Dict, List, Optional, Pattern
 from peltak.core import conf
 from peltak.core import git
 from peltak.core import shell
-from peltak.core import util
 from peltak.core import versioning
 from .types import ChangelogItems, ChangelogTag
 
@@ -36,7 +35,6 @@ DEFAULT_TAG_FORMAT = '({tag})'
 DEFAULT_CONTINUATION_TAG = '_more'
 
 
-@util.mark_experimental
 def changelog(
     start_rev: Optional[str] = None,
     end_rev: Optional[str] = None,
