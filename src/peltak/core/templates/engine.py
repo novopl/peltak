@@ -119,6 +119,8 @@ class Engine(util.Singleton):
             loader=jinja2.PackageLoader('peltak', 'templates'),
             variable_start_string='{{',
             variable_end_string='}}',
+            trim_blocks=True,
+            lstrip_blocks=True,
         )
 
         env.filters['header'] = filters.header
