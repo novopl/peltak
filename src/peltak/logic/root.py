@@ -43,6 +43,9 @@ def clean(exclude: List[str]):
         '*__pycache__*',
         '*.py[cod]',
         '*.swp',
+        "*.mypy_cache",
+        "*.pytest_cache",
+        "*.build",
     ])
 
     if context.get('verbose'):
