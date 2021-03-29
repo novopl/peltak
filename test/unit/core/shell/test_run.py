@@ -32,7 +32,7 @@ def patch_popen(stdout=None, stderr=None, retcode=0, inject=False):
 def test_line_buffered_by_default(p_popen):
     shell.run('hello')
 
-    p_popen.assert_called_once_with('hello', bufsize=1, shell=True)
+    p_popen.assert_called_once_with('hello', shell=True)
 
 
 @patch_popen(retcode=1)
@@ -79,7 +79,6 @@ def test_inherits_existing_env_when_env_is_given(p_popen):
         'hello',
         env={'fake1': 'env', 'fake2': 'arg'},
         shell=True,
-        bufsize=1
     )
 
 
@@ -92,7 +91,6 @@ def test_setting_capture_to_True_will_pipe_stdout_and_stderr(p_popen):
         shell=True,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
-        bufsize=1
     )
 
 
@@ -105,5 +103,4 @@ def test_will_not_crash_if_communicated_returns_strings(p_popen):
         shell=True,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
-        bufsize=1
     )

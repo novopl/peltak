@@ -141,7 +141,6 @@ def run(cmd: str,
         cprint('<90>{}', cmd)
 
     options: Dict[str, Any] = {
-        'bufsize': 1,       # line buffered
         'shell': shell
     }
 
