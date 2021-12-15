@@ -65,7 +65,7 @@ def filtered_walk(
     exclude = exclude or []
 
     if not isdir(path):
-        raise ValueError("Cannot walk files, only directories")
+        raise ValueError("Cannot walk files, only directories: {}".format(path))
 
     files = os.listdir(path)
     for name in files:
