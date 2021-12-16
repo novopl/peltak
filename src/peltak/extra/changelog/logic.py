@@ -115,7 +115,7 @@ def _render_changelog(title: Optional[str], changelog_items: ChangelogItems) -> 
                 )
                 item_content = textwrap.indent(item_content, prefix='  ')
                 item_lines = item_content.splitlines()
-                lines.append(f"- {item_lines[0].lstrip()}")
+                lines.append(f"- <1>{item_lines[0].lstrip()}<0>")
                 lines += item_lines[1:]
 
             lines += [""]
