@@ -15,11 +15,8 @@
 """ git flow hotfix commands implementation. """
 import sys
 
-from peltak.core import conf
-from peltak.core import context
-from peltak.core import git
-from peltak.core import hooks
-from peltak.core import log
+from peltak.core import conf, context, git, hooks, log
+
 from . import common
 
 

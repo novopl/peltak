@@ -5,8 +5,8 @@ import pytest
 
 from peltak.core import versioning
 from peltak.core.versioning.version_file import (
-    PyVersionFile,
     NodeVersionFile,
+    PyVersionFile,
     RawVersionFile,
 )
 

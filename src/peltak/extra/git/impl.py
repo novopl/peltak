@@ -17,13 +17,7 @@ import os
 
 import click
 
-from peltak.core import conf
-from peltak.core import context
-from peltak.core import fs
-from peltak.core import git
-from peltak.core import log
-from peltak.core import shell
-from peltak.core import util
+from peltak.core import conf, context, fs, git, log, shell, util
 
 
 def add_hooks(pre_commit: str, pre_push: str):

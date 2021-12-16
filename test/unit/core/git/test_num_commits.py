@@ -1,8 +1,8 @@
 # pylint: disable=missing-docstring
 import pytest
 
-from peltak.core import git
 from peltak import testing
+from peltak.core import git
 
 
 @pytest.mark.skip(

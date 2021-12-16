@@ -21,15 +21,16 @@ from typing import List, Optional, Tuple
 
 from peltak.core import conf
 
-from .version_file import (     # noqa: F401
-    is_valid,
-    load_version_file,
+from .version_file import (  # noqa: F401
     NodeVersionFile,
-    PyVersionFile,
     PoetryVersionFile,
+    PyVersionFile,
     RawVersionFile,
     VersionFile,
+    is_valid,
+    load_version_file,
 )
+
 
 # MAJOR.MINOR[.PATCH[-BUILD]]
 RE_VERSION = re.compile(

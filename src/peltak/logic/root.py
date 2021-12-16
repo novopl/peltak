@@ -19,15 +19,9 @@ from shutil import rmtree
 from typing import List
 
 import click
-import cliform
 
-from peltak.core import conf
-from peltak.core import context
-from peltak.core import fs
-from peltak.core import log
-from peltak.core import shell
-from peltak.core import util
-from peltak.core import templates
+import cliform
+from peltak.core import conf, context, fs, log, shell, templates, util
 
 
 def clean(exclude: List[str]):

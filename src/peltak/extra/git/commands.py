@@ -19,7 +19,7 @@
 
 git helpers.
 """
-from peltak.commands import click, root_cli, pretend_option
+from peltak.commands import click, pretend_option, root_cli
 
 
 @root_cli.group('git')

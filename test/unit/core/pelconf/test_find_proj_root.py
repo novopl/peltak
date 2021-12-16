@@ -2,8 +2,8 @@
 # TODO: Add tests based on real files. Mocking all the scanning through
 #  directory sucks. Better to just create a few project directories as
 #  test data and execute operations on them.
-from os.path import join
 from functools import wraps
+from os.path import join
 from unittest.mock import Mock, patch
 
 from peltak.core import conf

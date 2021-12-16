@@ -18,7 +18,7 @@
 ###############
 git flow task commands.
 """
-from peltak.commands import root_cli, click, pretend_option
+from peltak.commands import click, pretend_option, root_cli
 
 
 @root_cli.group('task', invoke_without_command=True)

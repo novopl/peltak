@@ -13,7 +13,7 @@
 # limitations under the License.
 #
 """ peltak git-flow commands implementation. """
-from . import feature   # noqa: F401
-from . import hotfix    # noqa: F401
-from . import release   # noqa: F401
-from . import task      # noqa: F401
+from . import feature  # noqa: F401
+from . import hotfix  # noqa: F401
+from . import release  # noqa: F401
+from . import task  # noqa: F401

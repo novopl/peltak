@@ -15,15 +15,11 @@
 """ Helper function to ease implementation of all git flow commands. """
 import re
 import sys
-from typing import Optional, Iterable
+from typing import Iterable, Optional
 
 import click
 
-from peltak.core import conf
-from peltak.core import context
-from peltak.core import git
-from peltak.core import log
-from peltak.core import shell
+from peltak.core import conf, context, git, log, shell
 
 
 RE_INVALID_CHARS = re.compile(r'[\-\[\]\s(),.]+')

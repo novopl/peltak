@@ -28,8 +28,7 @@ from typing import Any, List
 
 from six import string_types
 
-from peltak.core import fs
-from peltak.core import shell
+from peltak.core import fs, shell
 
 
 def header(title: Any) -> str:

@@ -19,10 +19,8 @@ import textwrap
 from collections import OrderedDict
 from typing import Dict, List, Optional, Pattern
 
-from peltak.core import conf
-from peltak.core import git
-from peltak.core import shell
-from peltak.core import versioning
+from peltak.core import conf, git, shell, versioning
+
 from .types import ChangelogItems, ChangelogTag
 
 

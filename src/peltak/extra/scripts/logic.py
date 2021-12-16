@@ -20,12 +20,9 @@ import sys
 import attr
 import yaml
 
-from peltak.core import conf
-from peltak.core import log
-from peltak.core import fs
-from peltak.core import shell
+from peltak.core import conf, fs, log, shell, templates
 from peltak.core.context import RunContext
-from peltak.core import templates
+
 from .types import CliOptions, Script
 
 

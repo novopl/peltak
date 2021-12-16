@@ -19,8 +19,8 @@
 import re
 import time
 import warnings
-from pprint import pformat
 from functools import wraps
+from pprint import pformat
 from typing import (
     Any,
     Callable,
@@ -31,15 +31,18 @@ from typing import (
     Optional,
     Text,
     TextIO,
-    Union
+    Union,
 )
 
 import tomlkit
 import yaml
+
+
 try:
-    from yaml import CLoader as Loader, CDumper as Dumper
+    from yaml import CDumper as Dumper
+    from yaml import CLoader as Loader
 except ImportError:
-    from yaml import Loader, Dumper     # type: ignore
+    from yaml import Dumper, Loader  # type: ignore
 
 
 TextOrStream = Union[Text, TextIO]

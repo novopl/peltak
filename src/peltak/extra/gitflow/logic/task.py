@@ -17,11 +17,8 @@ import sys
 
 import click
 
-from peltak.core import context
-from peltak.core import git
-from peltak.core import hooks
-from peltak.core import log
-from peltak.core import shell
+from peltak.core import context, git, hooks, log, shell
+
 from . import common
 
 

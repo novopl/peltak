@@ -23,9 +23,7 @@ from typing import Any, Dict, List, Optional
 import attr
 from six import string_types
 
-from . import conf
-from . import shell
-from . import util
+from . import conf, shell, util
 
 
 Author = namedtuple('Author', 'name email')

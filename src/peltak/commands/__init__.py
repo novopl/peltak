@@ -72,8 +72,7 @@ def pretend_option(fn: AnyFn) -> AnyFn:
         param: Union[click.Option, click.Parameter],
         value: Any
     ) -> Any:
-        from peltak.core import context
-        from peltak.core import shell
+        from peltak.core import context, shell
 
         context.set('pretend', value or False)
         if value:

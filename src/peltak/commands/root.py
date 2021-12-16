@@ -15,7 +15,7 @@
 """ Root level CLI commands. """
 from typing import Any, List
 
-from . import root_cli, click, pretend_option, verbose_option
+from . import click, pretend_option, root_cli, verbose_option
 
 
 @root_cli.command('clean')

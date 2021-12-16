@@ -20,7 +20,7 @@
 CLI definition.
 """
 
-from peltak.commands import root_cli, click
+from peltak.commands import click, root_cli
 
 
 @root_cli.group(
@@ -59,6 +59,7 @@ def changelog_cli(ctx: click.Context, start_rev: str, end_rev: str, title: str) 
         return
 
     from peltak.core import shell
+
     from . import logic
 
     changelog = logic.changelog(start_rev=start_rev, end_rev=end_rev, title=title)

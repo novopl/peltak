@@ -21,7 +21,7 @@ Commands for managing the managed project version.
 """
 from typing import Optional
 
-from peltak.commands import root_cli, click, pretend_option
+from peltak.commands import click, pretend_option, root_cli
 
 
 @root_cli.group('version', invoke_without_command=True)
@@ -58,8 +58,7 @@ def version_cli(ctx: click.Context, porcelain: bool) -> None:
     if ctx.invoked_subcommand:
         return
 
-    from peltak.core import log
-    from peltak.core import versioning
+    from peltak.core import log, versioning
 
     current = versioning.current()
 
@@ -93,8 +92,7 @@ def bump_version(component: str = 'patch', exact: Optional[str] = None):
         $ peltak version bump --exact=1.2.1     # Set project version to 1.2.1
 
     """
-    from peltak.core import log
-    from peltak.core import versioning
+    from peltak.core import log, versioning
 
     old_ver, new_ver = versioning.bump(component, exact)
 

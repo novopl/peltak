@@ -17,8 +17,8 @@
 from typing import Any, Callable, Dict, List, Optional, Type, cast
 
 import attr
-
 from six import string_types
+
 from peltak.commands import click, pretend_option, verbose_option
 from peltak.core import types
 
@@ -137,7 +137,7 @@ class Script(object):
         @pretend_option
         @click.pass_context
         def script_command(ctx, **options):  # pylint: disable=missing-docstring
-            from .logic import run_script   # nocov
+            from .logic import run_script  # nocov
             run_script(self, options)   # nocov
 
         script_command.__doc__ = self.about

@@ -16,14 +16,9 @@
 import os
 import sys
 
-from peltak.core import conf
-from peltak.core import context
-from peltak.core import git
-from peltak.core import hooks
-from peltak.core import log
-from peltak.core import shell
-from peltak.core import versioning
+from peltak.core import conf, context, git, hooks, log, shell, versioning
 from peltak.extra.changelog.logic import changelog
+
 from . import common
 
 

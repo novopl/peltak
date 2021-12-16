@@ -17,7 +17,7 @@
 ``peltak hotfix``
 #################
 """
-from peltak.commands import root_cli, click, pretend_option
+from peltak.commands import click, pretend_option, root_cli
 
 
 @root_cli.group('hotfix', invoke_without_command=True)

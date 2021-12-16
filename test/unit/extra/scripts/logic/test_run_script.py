@@ -7,8 +7,8 @@ import pytest
 from peltak import testing
 from peltak.core import conf
 from peltak.core.context import RunContext
-from peltak.extra.scripts.types import Script
 from peltak.extra.scripts.logic import run_script
+from peltak.extra.scripts.types import Script
 
 
 @patch('peltak.extra.scripts.logic.exec_script_command')

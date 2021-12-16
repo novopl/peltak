@@ -17,11 +17,7 @@ import sys
 from os.path import join
 from typing import Optional
 
-from peltak.core import conf
-from peltak.core import fs
-from peltak.core import log
-from peltak.core import shell
-from peltak.core import util
+from peltak.core import conf, fs, log, shell, util
 
 
 def upload(target: str):

@@ -4,7 +4,7 @@ from pathlib import Path
 import pytest
 
 from peltak import testing
-from peltak.testing.fixtures import *   # noqa pylint: disable=wildcard-import unused-import unused-wildcard-import
+from peltak.testing.fixtures import *  # noqa pylint: disable=wildcard-import unused-import unused-wildcard-import
 
 
 @pytest.fixture

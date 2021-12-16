@@ -87,8 +87,8 @@ Example
           pylint --rc-file ops/tools/pylint.ini {{files}};
 """
 from peltak.commands import root_cli
-from peltak.core import hooks
-from peltak.core import conf
+from peltak.core import conf, hooks
+
 from .types import Script
 
 

@@ -1,8 +1,7 @@
 # pylint: disable=missing-docstring
-from unittest.mock import patch, mock_open
+from unittest.mock import mock_open, patch
 
-from peltak.core import git
-from peltak.core import util
+from peltak.core import git, util
 
 
 FAKE_GIT_IGNORE = '\n'.join([

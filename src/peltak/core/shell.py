@@ -195,13 +195,11 @@ def highlight(code: str, fmt: str) -> str:
     Assumes 256 color terminal.
     """
     import pygments
-    from pygments.lexers.data import YamlLexer
-    from pygments.lexers.data import JsonLexer
-    from pygments.lexers.python import PythonLexer
-    from pygments.lexers.python import Python3Lexer
-    from pygments.lexers.templates import DjangoLexer
-    from pygments.lexers.shell import BashLexer
     from pygments.formatters.terminal256 import Terminal256Formatter
+    from pygments.lexers.data import JsonLexer, YamlLexer
+    from pygments.lexers.python import Python3Lexer, PythonLexer
+    from pygments.lexers.shell import BashLexer
+    from pygments.lexers.templates import DjangoLexer
 
     # Get lexer class based on format.
     lexer_cls = {
