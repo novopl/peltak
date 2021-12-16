@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "peltak-todos"
-version = "0.0.4"
+version = "0.0.5"
 description = ""
 authors = ["Mateusz Klos <novopl@gmail.com>"]
 repository = "https://github.com/novopl/peltak-todos"

@@ -21,16 +21,8 @@ version:
 changelog:
   tag_format: '{tag}:'
   tags:
-    - tag: feature
-      header: Features
-    - tag: fix
-      header: Fixes
-    - tag: change
-      header: Changes
-    - tag: dev
-      header: Dev tasks
-    - tag: refactor
-      header: Refactored
+    - tag: todos
+      header: peltak-todos
 
 
 clean:
