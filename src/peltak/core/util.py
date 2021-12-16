@@ -261,21 +261,24 @@ def toml_load(path_or_fp: TextOrStream) -> PlainDict:
     """ Load TOML configuration into a dict. """
     if isinstance(path_or_fp, str):
         with open(path_or_fp) as fp:
-            return tomlkit.parse(fp.read())
+            document = tomlkit.parse(fp.read())
+            return dict(document)
     else:
-        return tomlkit.parse(path_or_fp.read())
+        document = tomlkit.parse(path_or_fp.read())
+        return dict(document)
 
 
 def toml_dump(data: PlainDict, path_or_fp: Optional[TextOrStream] = None):
     """ Save a plain dict as a TOML file. """
+    document = tomlkit.item(data)
     if path_or_fp is None:
-        return tomlkit.dumps(data)
+        return tomlkit.dumps(document)
     elif isinstance(path_or_fp, str):
         with open(path_or_fp, 'w') as fp:
-            fp.write(tomlkit.dumps(data))
+            fp.write(tomlkit.dumps(document))
 
     else:
-        path_or_fp.write(tomlkit.dumps(data))
+        path_or_fp.write(tomlkit.dumps(document))
 
 
 def remove_indent(text: str) -> str:

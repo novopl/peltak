@@ -56,6 +56,7 @@ requests = "~=2.25.0"
 flake8 = "^3.8.4"
 sphinx-material = "^0.0.32"
 sphinx-autodoc-typehints = "^1.11.1"
+isort = "^5.10.1"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
