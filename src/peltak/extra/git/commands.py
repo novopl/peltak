@@ -94,4 +94,4 @@ def delete_remote():
 
     """
     from . import impl
-    impl.push()
+    impl.delete_remote()
