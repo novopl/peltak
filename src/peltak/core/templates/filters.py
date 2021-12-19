@@ -14,10 +14,10 @@ You can find the list of all filters built into jinja2 in `jinja2 documentation`
 Filters provided by peltak
 ==========================
 
-.. autofunction:: header
-.. autofunction:: count_flag
-.. autofunction:: cprint
-.. autofunction:: wrap_paths
+.. autofunction:: header_filter
+.. autofunction:: count_flag_filter
+.. autofunction:: cprint_filter
+.. autofunction:: wrap_paths_filter
 
 
 .. _jinja2 documentation:
@@ -31,7 +31,7 @@ from six import string_types
 from peltak.core import fs, shell
 
 
-def header(title: Any) -> str:
+def header_filter(title: Any) -> str:
     """ Converts a given title into a pretty header with colors.
 
     **Usage:**
@@ -56,7 +56,7 @@ def header(title: Any) -> str:
                      bar='=' * remaining)
 
 
-def count_flag(count: int, flag: str) -> str:
+def count_flag_filter(count: int, flag: str) -> str:
     """ Returns the given flag letter as a count flag.
 
     **Usage:**
@@ -88,7 +88,7 @@ def count_flag(count: int, flag: str) -> str:
     return '-' + flag * count if count else ''
 
 
-def cprint(msg: str, *args: Any, **kw: Any):
+def cprint_filter(msg: str, *args: Any, **kw: Any):
     """ Will convert the given message to an echo statement with color opcodes.
 
     This supports the same syntax as `peltak.core.shell.fmt` (used internally here).
@@ -137,7 +137,7 @@ def cprint(msg: str, *args: Any, **kw: Any):
     return shell.fmt('echo "{}<0>"', str(msg).format(*args, **kw))
 
 
-def wrap_paths(paths: List[str]):
+def wrap_paths_filter(paths: List[str]):
     """ Returns a string with all items wrapped in quotes and separated by space.
 
     **Usage:**

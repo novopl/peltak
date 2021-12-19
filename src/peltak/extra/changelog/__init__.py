@@ -75,7 +75,7 @@ Example
 Configuration
 =============
 
-The command can be configured through `pelconf.yaml`. You can define what tags
+The command can be configured through `pelconf.yaml`_. You can define what tags
 are searched and what is their corresponding header in the changelog. Here is
 an example (this is the default configuration):
 

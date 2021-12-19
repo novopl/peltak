@@ -7,7 +7,7 @@
 Runtime context is a unified place to store dynamic global configuration. The
 verbosity and ``pretend`` is a good example of that.
 
-Works like `peltak.core.pelconf` but the configuration can be dynamically modified
+Works like `peltak.core.conf` but the configuration can be dynamically modified
 in runtime.
 """
 from typing import Any

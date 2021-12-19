@@ -4,19 +4,19 @@ import sys
 import pytest
 
 from peltak import testing
-from peltak.core.templates.filters import cprint
+from peltak.core.templates.filters import cprint_filter
 
 
 @testing.patch_is_tty(True)
 def test_inserts_shell_opcodes_when_is_tty():
-    assert cprint('<32>hello, <35>world') == (
+    assert cprint_filter('<32>hello, <35>world') == (
         'echo "\x1b[32mhello, \x1b[35mworld\x1b[0m"'
     )
 
 
 @testing.patch_is_tty(False)
 def test_no_colors_if_is_tty_is_False():
-    assert cprint('<32>hello, <35>world') == 'echo "hello, world"'
+    assert cprint_filter('<32>hello, <35>world') == 'echo "hello, world"'
 
 
 # God knows why, pytest fails to collect those tests when running in tox on CircleCI.
@@ -32,7 +32,7 @@ if sys.version_info > (3, 0):
     ])
     @testing.patch_is_tty(False)
     def test_will_stringify_the_argument_first(arg, expected):
-        assert cprint(arg) == expected
+        assert cprint_filter(arg) == expected
 
     @pytest.mark.parametrize('msg,args,kw,expected_result', [
         ('{}, {}', ['hello', 'world'], {}, 'echo "hello, world"'),
@@ -42,4 +42,4 @@ if sys.version_info > (3, 0):
     ])
     @testing.patch_is_tty(False)
     def test_supports_formatting_directly(msg, args, kw, expected_result):
-        assert cprint(msg, *args, **kw) == expected_result
+        assert cprint_filter(msg, *args, **kw) == expected_result

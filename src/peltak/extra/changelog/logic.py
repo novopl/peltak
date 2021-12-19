@@ -135,7 +135,7 @@ def extract_changelog_items(text: str, tags: List[ChangelogTag]) -> Dict[str, Li
             text.
 
     The tagged items are usually features/changes/fixes but it can be configured
-    through `pelconf.yaml`.
+    through ``pelconf.yaml``.
     """
     tag_format = conf.get("changelog.tag_format", DEFAULT_TAG_FORMAT)
     continuation_tag = conf.get("changelog.continuation_tag", DEFAULT_CONTINUATION_TAG)

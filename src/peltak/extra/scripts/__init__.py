@@ -20,18 +20,19 @@ Create peltak scripts
 .. module: peltak.extra.scripts
     :synopsis: Custom project scripts
 
-**peltak** supports defining simple scripts directly inside `pelconf.yaml`. On
-top of just defining the command, by default the command is processed by jinja
-before it's being ran. This makes it possible to inject some dynamic values into
-the command and makes the whole scripts subsystem very flexible.
+**peltak** supports defining simple scripts directly inside
+:ref:`pelconf.yaml <peltak.core.conf>`. On top of just defining the command, by
+default the command is processed by jinja before it's being ran. This makes it
+possible to inject some dynamic values into the command and makes the whole
+scripts subsystem very flexible.
 
 
 Get a list of scripts available in the project
 ==============================================
 
-To get a list of all scripts that are defined in `pelconf.yaml` you only need
-to run the ``peltak run`` command without any arguments. Here's an example from
-the **peltak** project itself (at the time of writing)::
+To get a list of all scripts that are defined in :ref:`pelconf.yaml <peltak.core.conf>`
+you only need to run the ``peltak run`` command without any arguments.
+Here's an example from the **peltak** project itself (at the time ofwriting)::
 
     $ peltak run
     Usage: peltak run [OPTIONS] COMMAND [ARGS]...
@@ -54,10 +55,11 @@ the **peltak** project itself (at the time of writing)::
 Defining a script
 =================
 
-You can define a script inside `pelconf.yaml` in the **scripts:**. The script
-always has a name (key in the scripts config section) and a command (required
-prop). Say you want to define a ``test`` command that invokes pytest on the
-``./test`` directory, here's the corresponding `pelconf.yaml` section.
+You can define a script inside :ref:`pelconf.yaml <peltak.core.conf>` in the
+**scripts:**. The script always has a name (key in the scripts config section)
+and a command (required prop). Say you want to define a ``test`` command that
+invokes pytest on the ``./test`` directory, here's the corresponding
+:ref:`pelconf.yaml <peltak.core.conf>` section.
 
 .. code-block:: yaml
 
@@ -121,7 +123,7 @@ The scripts module was designed to parse the commands as templates and inject
 and some helper filters to generate the actual command.
 
 If you want to more details about templating in scripts, you can read
-`/reference/script_templates`.
+:ref:`peltak.core.templates`.
 
 .. note::
     Scripts templating is very simple. It should be used only for simple
@@ -131,8 +133,8 @@ If you want to more details about templating in scripts, you can read
     very simple to do.
 
 
-Injecting config values from `pelconf.yaml` into your script
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Injecting config values from :ref:`pelconf.yaml <peltak.core.conf>` into your script
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Let's modify our *checks* command to use config variables. We're repeating
 ourselves passing ``src`` to every command. You probably already have a
@@ -157,9 +159,9 @@ modified version of the *checks* command.
 
 This makes it easy to reuse certain values between scripts as all scripts can
 access config through ``{{ conf.VALUE }}`` expression. This makes managing the
-project much easier as `pelconf.yaml` can serve as a config store for all
-scripts and changing any of those values will work right away with all scripts
-that use it.
+project much easier as :ref:`pelconf.yaml <peltak.core.conf>` can serve as a
+config store for all scripts and changing any of those values will work right
+away with all scripts that use it.
 
 You can find out more in `/reference/script_filters`
 

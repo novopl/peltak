@@ -5,13 +5,14 @@
 .. toctree::
     :maxdepth: 1
 
+    conf
     context
     fs
     git
     hooks
     log
-    pelconf
     shell
+    templates
     util
     versioning
 

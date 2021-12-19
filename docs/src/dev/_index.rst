@@ -10,7 +10,9 @@ to `peltak`_.
     :maxdepth: 2
 
     contrib
+    releasing
     flows
+    notes
     core/_index
 
 

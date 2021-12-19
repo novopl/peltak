@@ -8,7 +8,7 @@ In this guide, we will walk through an example flask project and how can you use
 Configure test runner with peltak
 =================================
 
-In our `pelconf.yaml` configuration, we will define a **test** script that will
+In our ``pelconf.yaml`` configuration, we will define a **test** script that will
 run all of our unit test with some default configuration:
 
 .. code-block:: yaml
@@ -92,11 +92,11 @@ Using git-flow with peltak
 Those can be a real help if you and your team are using git-flow. The commands
 themselves have a pretty straightforward implementation as well so if you would
 like to automate a different kind of work-flow your team is using, looking at
-the `peltak.extra.gitflow` commands implementation can be a good start in
+the ``peltak.extra.gitflow`` commands implementation can be a good start in
 implementing your own commands.
 
 The git-flow commands are not enabled by default. You need to explicitly enable
-them using the ``commands:`` section in `pelconf.yaml`:
+them using the ``commands:`` section in ``pelconf.yaml``:
 
 .. code-block:: yaml
 
@@ -127,7 +127,7 @@ Each of them has a set of commands to manage the given branch (be it *feature*,
     1. Checkout the target branch
     2. Pull the merged changes,
     3. delete the merged branch locally
-    4. run `git fetch --prune` to remove the references to the merged remote
+    4. run ``git fetch --prune`` to remove the references to the merged remote
        branch.
 
 ``finish``
