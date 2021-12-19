@@ -1,4 +1,4 @@
-# Copyright 2017-2020 Mateusz Klos
+# Copyright 2017-2021 Mateusz Klos
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -92,3 +92,6 @@ an example (this is the default configuration):
 
 """
 from .commands import changelog_cli  # noqa: F401
+
+
+__version__ = '0.0.1'

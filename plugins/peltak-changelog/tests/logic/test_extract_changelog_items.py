@@ -1,9 +1,8 @@
-# pylint: disable=missing-docstring
 import pytest
-
 from peltak import testing
-from peltak.extra.changelog import logic
-from peltak.extra.changelog.types import ChangelogTag
+
+from peltak_changelog import logic
+from peltak_changelog.types import ChangelogTag
 
 
 @pytest.mark.parametrize('header,tag', [

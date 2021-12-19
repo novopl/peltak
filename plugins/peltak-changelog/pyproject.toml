@@ -1,14 +1,14 @@
 [tool.poetry]
-name = "peltak-gitflow"
+name = "peltak-changelog"
 version = "0.0.1"
 description = ""
 authors = ["Mateusz Klos <novopl@gmail.com>"]
-repository = "https://github.com/novopl/peltak-gitflow"
-homepage = "https://novopl.github.io/peltak-gitflow"
-documentation = "https://novopl.github.io/peltak-gitflow"
+repository = "https://github.com/novopl/peltak-changelog"
+homepage = "https://novopl.github.io/peltak-changelog"
+documentation = "https://novopl.github.io/peltak-changelog"
 license = "Proprietary"
 packages = [
-    { include = "peltak_gitflow", from = "src" },
+    { include = "peltak_changelog", from = "src" },
 ]
 include = ["LICENSE", "AUTHORS", "README.rst", "**/py.typed"]
 exclude = ["tests/**", "ops/**", ".venv/**"]
