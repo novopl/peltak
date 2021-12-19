@@ -1,0 +1,47 @@
+##############
+# Temp files #
+##############
+*~
+*sw[po]
+cache.sqlite
+.cache
+.pytest_cache
+.mypy_cache
+__pycache__
+*.py[cod]
+*.egg-info
+
+###################
+# Generated files #
+###################
+.venv
+/dist
+.coverage
+/coverage.xml
+.tox
+.build
+docs/html
+docs/doctest
+
+##############
+# Data files #
+##############
+*.db
+*.sqlite
+*.sqlite3
+*.ipynb
+.ipynb_checkpoints
+*.log
+*.zip
+*.tar
+*.gz
+*.bz2
+*.rar
+
+###########################
+# 3rd party configuration #
+###########################
+*.kdev4
+.ropeproject
+.idea
+.directory

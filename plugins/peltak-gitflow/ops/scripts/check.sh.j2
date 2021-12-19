@@ -1,0 +1,34 @@
+#!/bin/bash
+
+#
+# THe weird {{ files | wrap_paths }} notation means the files will be collected
+# by the script command and passed onto the 3rd party tool. This allows use
+# to use the same command implementation for 'peltak check' and
+# 'peltak run check-commit'.
+#
+set -e
+
+{% if files %}
+  {{ 'mypy' | header }}
+  mypy --config-file=ops/tools/mypy.ini {{ files | wrap_paths }}
+
+  {{ 'pycodestyle' | header }}
+  pycodestyle --config=ops/tools/pycodestyle.ini {{ files | wrap_paths }};
+
+  {{ 'flake8' | header }}
+  flake8 --config=ops/tools/flake8.ini {{ files | wrap_paths }}
+
+  {{ 'pylint' | header }}
+  pylint {{ files | wrap_paths }}
+
+  {{ 'isort' | header }}
+  time isort \
+    --settings-file=ops/tools/isort.ini \
+    {% if not opts.fix %} --check-only --diff \{% endif %} \
+    {{ files | wrap_paths }} {%if not opts.fix %} | colordiff{% endif %}
+
+  {{ 'done' | header }}
+{% else %}
+  {{ '<90>No relevant staged files - skipping lint...' | cprint }}
+{% endif %}
+

@@ -18,14 +18,13 @@ import sys
 from typing import Iterable, Optional
 
 import click
-
 from peltak.core import conf, context, git, log, shell
 
 
 RE_INVALID_CHARS = re.compile(r'[\-\[\]\s(),.]+')
 
 
-def assert_branch_type(branch_type: str):
+def assert_branch_type(branch_type: str) -> None:
     """ Print error and exit if the current branch is not of a given type.
 
     Args:
@@ -47,7 +46,7 @@ def assert_branch_type(branch_type: str):
             sys.exit(1)
 
 
-def assert_on_branch(branch_name: str):
+def assert_on_branch(branch_name: str) -> None:
     """ Print error and exit if *branch_name* is not the current branch.
 
     Args:
@@ -65,7 +64,7 @@ def assert_on_branch(branch_name: str):
             sys.exit(1)
 
 
-def git_branch_delete(branch_name: str):
+def git_branch_delete(branch_name: str) -> None:
     """ Delete the given branch.
 
     Args:
@@ -77,7 +76,7 @@ def git_branch_delete(branch_name: str):
         shell.run('git branch -d {}'.format(branch_name))
 
 
-def git_branch_rename(new_name: str):
+def git_branch_rename(new_name: str) -> None:
     """ Rename the current branch
 
     Args:
@@ -93,7 +92,7 @@ def git_branch_rename(new_name: str):
         shell.run('git branch -m {}'.format(new_name))
 
 
-def git_checkout(branch_name: str, create: bool = False):
+def git_checkout(branch_name: str, create: bool = False) -> None:
     """ Checkout or create a given branch
 
     Args:
@@ -107,7 +106,7 @@ def git_checkout(branch_name: str, create: bool = False):
     shell.run('git checkout {} {}'.format('-b' if create else '', branch_name))
 
 
-def git_pull(branch_name: str):
+def git_pull(branch_name: str) -> None:
     """ Pull from remote branch.
 
     Args:
@@ -118,7 +117,7 @@ def git_pull(branch_name: str):
     shell.run('git pull origin {}'.format(branch_name))
 
 
-def git_merge(base: str, head: str, no_ff: bool = False):
+def git_merge(base: str, head: str, no_ff: bool = False) -> None:
     """ Merge *head* into *base*.
 
     Args:
@@ -151,7 +150,7 @@ def git_merge(base: str, head: str, no_ff: bool = False):
         git_checkout(branch.name)
 
 
-def git_prune():
+def git_prune() -> None:
     """ Prune dead branches. """
     log.info("Pruning")
     shell.run('git fetch --prune origin')

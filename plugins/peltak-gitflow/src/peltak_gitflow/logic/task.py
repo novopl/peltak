@@ -16,13 +16,12 @@
 import sys
 
 import click
-
 from peltak.core import context, git, hooks, log, shell
 
 from . import common
 
 
-def start(name: str):
+def start(name: str) -> None:
     """ Start working on a new feature by branching off develop.
 
     This will create a new branch off develop called feature/<name>.
@@ -44,7 +43,7 @@ def start(name: str):
     hooks.register.call('post-task-start', name)
 
 
-def update():
+def update() -> None:
     """ Update the feature with updates committed to develop.
 
     This will merge current develop into the current branch.
@@ -59,7 +58,7 @@ def update():
     common.git_merge(branch.name, base_branch)
 
 
-def rename(name: str):
+def rename(name: str) -> None:
     """ Give the currently developed feature a new name.
 
     Args:
@@ -71,7 +70,7 @@ def rename(name: str):
     common.git_branch_rename('task/' + name.strip().replace(' ', '_'))
 
 
-def finish(fast_forward: bool):
+def finish(fast_forward: bool) -> None:
     """ Merge current feature branch into develop. """
     pretend = context.get('pretend', False)
 
@@ -108,7 +107,7 @@ def finish(fast_forward: bool):
     hooks.register.call('post-task-finish', branch, base)
 
 
-def merged():
+def merged() -> None:
     """ Cleanup a remotely merged branch. """
     base_branch = common.get_base_branch()
     branch = git.current_branch(refresh=True)

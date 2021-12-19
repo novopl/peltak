@@ -1,0 +1,81 @@
+[tool.poetry]
+name = "peltak-gitflow"
+version = "0.0.1"
+description = ""
+authors = ["Mateusz Klos <novopl@gmail.com>"]
+repository = "https://github.com/novopl/peltak-gitflow"
+homepage = "https://novopl.github.io/peltak-gitflow"
+documentation = "https://novopl.github.io/peltak-gitflow"
+license = "Proprietary"
+packages = [
+    { include = "peltak_gitflow", from = "src" },
+]
+include = ["LICENSE", "AUTHORS", "README.rst", "**/py.typed"]
+exclude = ["tests/**", "ops/**", ".venv/**"]
+
+[[tool.poetry.source]]
+name = "novocode-dev"
+url = "https://pypi.novocode.dev"
+
+[tool.poetry.dependencies]
+python = "^3.7"
+
+[tool.poetry.dev-dependencies]
+coverage = "^5.3"
+mypy = "^0.790"
+peltak = "^0.27.5"
+psutil = "^5.7.3"
+pycodestyle = "^2.6.0"
+pylint = "^2.6.0"
+pytest = "^6.1.2"
+pytest-cov = "^2.10.1"
+pytest-sugar = "^0.9.4"
+pydantic = "^1.7.3"
+sphinx-material = "^0.0.32"
+flake8 = "^3.8.4"
+Sphinx = "^3.4.3"
+sphinx-autodoc-typehints = "^1.11.1"
+codecov = "^2.1.11"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+
+##################
+#     PYTEST     #
+##################
+
+
+[tool.pytest.ini_options]
+addopts = "--durations=3"
+doctest_optionflags = "NORMALIZE_WHITESPACE IGNORE_EXCEPTION_DETAIL ELLIPSIS"
+
+[tool.coverage.run]
+branch = true
+source = ["src"]
+
+[tool.coverage.report]
+exclude_lines = ["nocov"]
+
+
+##################
+#     PYLINT     #
+##################
+
+[tool.pylint.MASTER]
+jobs = 1
+ignore = 'migrations'
+ignore-patterns = []
+
+[tool.pylint.REPORTS]
+output-format = 'colorized'
+reports = 'no'
+
+[tool.pylint.'MESSAGES CONTROL']
+disable = 'all'
+enable = [
+    # 'missing-docstring',
+    'redefined-builtin',
+    'wrong-import-order',
+]

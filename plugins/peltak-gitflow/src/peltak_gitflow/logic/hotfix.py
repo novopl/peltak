@@ -20,7 +20,7 @@ from peltak.core import conf, context, git, hooks, log
 from . import common
 
 
-def start(name: str):
+def start(name: str) -> None:
     """ Start working on a new hotfix.
 
     This will create a new branch off master called hotfix/<name>.
@@ -39,7 +39,7 @@ def start(name: str):
     hooks.register.call('post-hotfix-start', name)
 
 
-def rename(name: str):
+def rename(name: str) -> None:
     """ Give the currently developed feature a new name.
 
     Args:
@@ -51,7 +51,7 @@ def rename(name: str):
     common.git_branch_rename('hotfix/' + name.strip().replace(' ', '_'))
 
 
-def update():
+def update() -> None:
     """ Update the hotfix with updates committed to master.
 
     This will merge current develop into the current branch.
@@ -66,7 +66,7 @@ def update():
     common.git_merge(branch.name, master)
 
 
-def finish(fast_forward: bool):
+def finish(fast_forward: bool) -> None:
     """ Merge current feature into develop. """
     pretend = context.get('pretend', False)
 
@@ -104,7 +104,7 @@ def finish(fast_forward: bool):
     hooks.register.call('post-hotfix-finish', branch)
 
 
-def merged():
+def merged() -> None:
     """ Cleanup a remotely merged branch. """
     develop = conf.get('git.devel_branch', 'develop')
     master = conf.get('git.master_branch', 'master')
