@@ -12,11 +12,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-""" Commands package.
+""" CLI Commands
 
-All commands (and only commands) should be defined inside this package. This
-should be as thin layer as possible. Ideally just processing CLI params and
-displaying results.
+The commands should be split into separate py modules, one with the command
+click declaration and a separate implementation module. This is to reduce the number
+of imports required when loading the CLI for autocompletion. It doesn't change much
+for one command module, but makes a big difference when applied to all commands
+used by the given peltak configuration. This way the commands module contain only code
+used by click to generate the completion and everything else is imported when a given
+command is executed.
 """
 from typing import Any, Callable, Union
 

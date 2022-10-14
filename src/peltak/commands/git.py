@@ -59,9 +59,9 @@ def add_hooks(pre_commit: str, pre_push: str):
         $ peltak git add-hooks
 
     """
-    from . import impl
+    from . import git_impl
 
-    impl.add_hooks(pre_commit, pre_push)
+    git_impl.add_hooks(pre_commit, pre_push)
 
 
 @git_cli.command('push')
@@ -75,8 +75,8 @@ def push():
         $ peltak git push
 
     """
-    from . import impl
-    impl.push()
+    from . import git_impl
+    git_impl.push()
 
 
 @git_cli.command('delete-remote')
@@ -93,5 +93,5 @@ def delete_remote():
         $ peltak git delete-remote
 
     """
-    from . import impl
-    impl.delete_remote()
+    from . import git_impl
+    git_impl.delete_remote()

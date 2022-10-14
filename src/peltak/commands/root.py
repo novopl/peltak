@@ -53,8 +53,8 @@ def clean(exclude: List[str]) -> None:
         $ peltak clean --pretend
 
     """
-    from peltak.logic import root
-    root.clean(exclude)
+    from . import root_impl
+    root_impl.clean(exclude)
 
 
 @root_cli.command('init')
@@ -87,5 +87,5 @@ def init(**args: Any) -> None:
         $ peltak init
 
     """
-    from peltak.logic import root
-    root.init(**args)
+    from . import root_impl
+    root_impl.init(**args)
