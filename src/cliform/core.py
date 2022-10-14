@@ -13,12 +13,14 @@
 # limitations under the License.
 #
 """ Simple command line form/wizard implementation. """
+import re
+import sys
 from typing import Any, Callable, Dict, Optional, Tuple
 
 import click
-from six import with_metaclass
 
-from peltak.core import shell
+
+IS_TTY = sys.stdout.isatty()
 
 
 class Field(object):
@@ -78,7 +80,7 @@ class Field(object):
     @property
     def pretty_prompt(self) -> str:
         """ Return a colorized prompt ready to be displayed to the user. """
-        return shell.fmt('<1>{}<0>'.format(self.prompt))
+        return fmt('<1>{}<0>'.format(self.prompt))
 
 
 class FormMeta(type):
@@ -97,7 +99,7 @@ class FormMeta(type):
         )
 
 
-class Form(with_metaclass(FormMeta)):
+class Form(metaclass=FormMeta):
     """ CLI form.
 
     This class makes it easy to create a CLI forms/wizards when you need to
@@ -142,11 +144,30 @@ class Form(with_metaclass(FormMeta)):
         if quick and default is not None:
             return default
 
-        shell.cprint('<90>{}', field.help)
+        cprint('<90>{}', field.help)
 
         while True:
             try:
                 answer = click.prompt(field.pretty_prompt, default=default)
                 return field.type(answer)
             except ValueError:
-                shell.cprint("<31>Unsupported value")
+                cprint("<31>Unsupported value")
+
+
+def fmt(msg: str, *args: Any, **kw: Any) -> str:
+    """ Generate shell color opcodes from a pretty coloring syntax. """
+    global IS_TTY
+
+    if len(args) or len(kw):
+        msg = msg.format(*args, **kw)
+
+    opcode_subst = '\x1b[\\1m' if IS_TTY else ''
+    return re.sub(r'<(\d{1,2})>', opcode_subst, msg)
+
+
+def cprint(msg: str, *args: Any, **kw: Any):
+    """ Print colored message to stdout. """
+    if len(args) or len(kw):
+        msg = msg.format(*args, **kw)
+
+    print(fmt('{}<0>'.format(msg)))
