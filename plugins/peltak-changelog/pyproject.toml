@@ -13,10 +13,6 @@ packages = [
 include = ["LICENSE", "AUTHORS", "README.rst", "**/py.typed"]
 exclude = ["tests/**", "ops/**", ".venv/**"]
 
-[[tool.poetry.source]]
-name = "novocode-dev"
-url = "https://pypi.novocode.dev"
-
 [tool.poetry.dependencies]
 python = "^3.6.1"
 
