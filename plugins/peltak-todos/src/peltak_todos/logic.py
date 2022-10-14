@@ -50,6 +50,7 @@ def check_todos(
                 + git.staged()
                 + git.unstaged()
             )
+            if (repo_path / fpath).exists()
         )
 
     if untracked:

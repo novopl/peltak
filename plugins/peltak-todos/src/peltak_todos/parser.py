@@ -17,12 +17,12 @@ import re
 from datetime import datetime
 from typing import List, Tuple
 
-from peltak.core import context, shell
+from peltak.core import conf, context, shell
 
 from .types import LineRange, Todo
 
 
-COMMENT_TOKEN = '#'
+COMMENT_TOKEN = conf.get('todos.comment_token', '#')
 TODO_TOKEN = 'TODO'
 TODO_TAG_RE = f"{COMMENT_TOKEN} {TODO_TOKEN}: "
 RE_TODO = re.compile(f"(?P<prefix>.*?){TODO_TAG_RE}(?P<text>.*)")
