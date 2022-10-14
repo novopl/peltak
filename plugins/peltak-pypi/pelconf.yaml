@@ -146,9 +146,9 @@ scripts:
         about: PyPI repo password
         type: str
     command: |
-      poetry publish \
+      poetry publish --build \
       {{ ('-r ' + opts.repo) if opts.repo else '' }} \
       {{ '--dry-run' if opts.dry_run else '' }} \
       {{ '-u {}'.format(opts.username) if opts.username else '' }} \
       {{ '-p {}'.format(opts.password) if opts.password else '' }}
-      
+

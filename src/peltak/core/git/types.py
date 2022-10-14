@@ -112,6 +112,7 @@ class CommitDetails(object):
 
         return self._parents
 
+    # TODO: remove this property, only used by GAE plugin, which is dead anyway.
     @property
     def number(self) -> int:
         """ Return this commits number.

@@ -74,6 +74,7 @@ def exec_script_command(cmd: str, pretend: bool) -> int:
             # everything is the same but the way it behaves is completely
             # different. If we just use Popen directly, everything works as
             # expected  ¯\_(ツ)_/¯
+            # TODO: This possibly happens because of exit_on_error in shell.run()
             p = subprocess.Popen(cmd, shell=True)
             try:
                 p.communicate()
