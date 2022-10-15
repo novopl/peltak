@@ -29,4 +29,4 @@ a branch and then resolve them either before commiting or before finishing the P
 from .cli import todos  # noqa: F401
 
 
-__version__ = '0.0.6'
+__version__ = '0.0.7'

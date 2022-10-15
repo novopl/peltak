@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-from typing import List, Optional
+from typing import List
 
 from peltak.commands import click, root_cli, verbose_option
 
@@ -43,16 +43,15 @@ from peltak.commands import click, root_cli, verbose_option
     default=False,
     help="Return with non-zero exit code if there are any TODOs left in the code."
 )
-@click.option(
-    '-f', '--file', 'file_path',
-    type=click.Path(exists=True, dir_okay=False, file_okay=True),
-    default=None,
-    help="Check just the given file."
+@click.argument(
+    'input_path',
+    type=click.Path(exists=True, dir_okay=True, file_okay=True),
+    required=True,
 )
 @verbose_option
 def todos(
+    input_path: str,
     untracked: bool,
-    file_path: Optional[str],
     authors: List[str],
     verify_complete: bool,
 ) -> None:
@@ -61,11 +60,11 @@ def todos(
     Examples::
 
         \b
-        $ peltak todos
-        $ peltak todos --untracked
-        $ peltak todos --author novopl
-        $ peltak --verify-complete
+        $ peltak todos .
+        $ peltak todos . --untracked
+        $ peltak todos . --author novopl
+        $ peltak . --verify-complete
     """
     from . import logic
 
-    logic.check_todos(untracked, file_path, authors, verify_complete)
+    logic.check_todos(input_path, untracked, authors, verify_complete)
