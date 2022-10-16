@@ -26,9 +26,7 @@ def read_version():
 
 requirements = [
     'click~=7.0',
-    'PyYAML>=5.1.2',
-    'six>=1.11',
-    'attrs>=18.2',
+    'PyYAML>=6.0',
     'jinja2>=2.10.3'
     'pygments>=2.3.1'
 ]
