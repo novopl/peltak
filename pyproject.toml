@@ -18,8 +18,6 @@ classifiers = [
 packages = [
     { include = "peltak", from = "src" },
     { include = "cliform", from = "src" },
-    { include = "peltak_appengine", from = "src" },
-    { include = "peltak_django", from = "src" },
 ]
 include = ["LICENSE", "AUTHORS", "README.rst"]
 exclude = ["docs/**"]
