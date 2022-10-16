@@ -2,8 +2,6 @@
 import dataclasses
 from typing import Any, Callable, Dict, List, Type, Union
 
-from six import string_types
-
 
 AnyFn = Callable[..., Any]
 YamlConf = Dict[str, Any]
@@ -55,9 +53,9 @@ class FilesCollection:
             raise ValueError("You must define the paths when using script files")
 
         # A string value is the same as one element array.
-        paths = [paths] if isinstance(paths, string_types) else paths
-        include = [include] if isinstance(include, string_types) else include
-        exclude = [exclude] if isinstance(exclude, string_types) else exclude
+        paths = [paths] if isinstance(paths, str) else paths
+        include = [include] if isinstance(include, str) else include
+        exclude = [exclude] if isinstance(exclude, str) else exclude
 
         return cls(
             paths=paths,

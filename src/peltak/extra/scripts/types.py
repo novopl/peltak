@@ -16,8 +16,6 @@
 import dataclasses
 from typing import Any, Callable, Dict, List, Optional, Type, cast
 
-from six import string_types
-
 from peltak.commands import click, pretend_option, verbose_option
 from peltak.core import types
 
@@ -46,7 +44,7 @@ class ScriptOption:
         if not name:
             raise ValueError("You must define the name of the option")
 
-        if isinstance(name, string_types):
+        if isinstance(name, str):
             # Support passing name: ['--opt'] or name: '--opt'
             name = [name]
 

@@ -15,8 +15,6 @@
 import os
 from typing import Any, Dict, List, Optional
 
-from six import string_types
-
 from .. import conf, shell, util
 from .branch import latest_commit
 from .types import Author
@@ -54,7 +52,7 @@ def ignore() -> List[str]:
 
     def parse_line(line):   # pylint: disable=missing-docstring
         # Decode if necessary
-        if not isinstance(line, string_types):
+        if not isinstance(line, str):
             line = line.decode('utf-8')
 
         # Strip comment

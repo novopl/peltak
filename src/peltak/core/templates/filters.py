@@ -26,8 +26,6 @@ Filters provided by peltak
 """
 from typing import Any, List
 
-from six import string_types
-
 from peltak.core import fs, shell
 
 
@@ -76,7 +74,7 @@ def count_flag_filter(count: int, flag: str) -> str:
     if not isinstance(count, int) or count < 0:
         raise ValueError('Cannot create count flag from count={}'.format(count))
 
-    if not isinstance(flag, string_types):
+    if not isinstance(flag, str):
         raise ValueError("Flags must be strings, got: {}".format(flag))
 
     if len(flag) > 1:

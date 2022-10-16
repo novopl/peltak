@@ -23,14 +23,12 @@ import re
 from os.path import isdir, join, normpath
 from typing import Iterator, List, Optional, Union
 
-from six import string_types
-
 from . import conf, context, log, types
 
 
 def wrap_paths(paths: List[str]) -> str:
     """ Put quotes around all paths and join them with space in-between. """
-    if isinstance(paths, string_types):
+    if isinstance(paths, str):
         raise ValueError(
             "paths cannot be a string. "
             "Use array with one element instead."
