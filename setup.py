@@ -28,7 +28,7 @@ requirements = [
     'click~=7.0',
     'PyYAML>=6.0',
     'jinja2>=2.10.3'
-    'pygments>=2.3.1'
+    'pygments>=2.7.4'
 ]
 
 
