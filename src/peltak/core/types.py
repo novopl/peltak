@@ -1,7 +1,7 @@
 """ Types and classes used across **peltak** codebase. """
-from typing import Any, Callable, Dict, List, Union
+import dataclasses
+from typing import Any, Callable, Dict, List, Type, Union
 
-import attr
 from six import string_types
 
 
@@ -13,8 +13,8 @@ JsonDict = Union[PlainDict, List[Any]]
 Decorator = Callable[[AnyFn], AnyFn]
 
 
-@attr.s
-class FilesCollection(object):
+@dataclasses.dataclass
+class FilesCollection:
     """ Configure files passed to the script.
 
     This section allows you to inject a set of files into the script as the
@@ -27,23 +27,29 @@ class FilesCollection(object):
     only files staged for commit and *untracked* (``True`` by default will
     include or not files untracked by git).
     """
-    paths = attr.ib(type=List[str])
-    include = attr.ib(type=List[str], factory=list)
-    exclude = attr.ib(type=List[str], factory=list)
-    only_staged = attr.ib(type=bool, default=False)
-    untracked = attr.ib(type=bool, default=True)
-    use_gitignore = attr.ib(type=bool, default=True)
+    paths: List[str]
+    include: List[str] = dataclasses.field(default_factory=list)
+    exclude: List[str] = dataclasses.field(default_factory=list)
+    only_staged: bool = False
+    untracked: bool = True
+    use_gitignore: bool = True
 
     @classmethod
-    def from_config(cls, files_conf: YamlConf) -> 'FilesCollection':
+    def from_config(
+        cls: Type['FilesCollection'],
+        files_conf: YamlConf,
+    ) -> 'FilesCollection':
         """ Load from config dict """
         paths = files_conf.get('paths')
-        fields = attr.fields(cls)
-
-        include = files_conf.get('include',
-                                 fields.include.default.factory())  # type: ignore
-        exclude = files_conf.get('exclude',
-                                 fields.exclude.default.factory())  # type: ignore
+        fields = {f.name: f for f in dataclasses.fields(cls)}
+        include = files_conf.get(
+            'include',
+            fields['include'].default_factory()  # type: ignore
+        )
+        exclude = files_conf.get(
+            'exclude',
+            fields['exclude'].default_factory()  # type: ignore
+        )
 
         if not paths:
             raise ValueError("You must define the paths when using script files")
@@ -57,10 +63,11 @@ class FilesCollection(object):
             paths=paths,
             include=include,
             exclude=exclude,
-            only_staged=files_conf.get('only_staged', fields.only_staged.default),
-            untracked=files_conf.get('untracked', fields.untracked.default),
-            use_gitignore=files_conf.get('use_gitignore',
-                                         fields.use_gitignore.default),
+            only_staged=files_conf.get('only_staged', fields['only_staged'].default),
+            untracked=files_conf.get('untracked', fields['untracked'].default),
+            use_gitignore=files_conf.get(
+                'use_gitignore', fields['use_gitignore'].default,
+            ),
         )
 
     def whitelist(self) -> List[str]:

@@ -1,7 +1,6 @@
 # pylint: disable=missing-docstring
+import dataclasses
 from unittest.mock import Mock, patch
-
-import attr
 
 from peltak import testing
 from peltak.core import conf
@@ -23,7 +22,7 @@ def test_works():
     assert result['ctx'] == RunContext().values
     assert result['conf'] == {'pelconf': 'hello'}
     assert result['proj_path'] == conf.proj_path
-    assert result['script'] == attr.asdict(script)
+    assert result['script'] == dataclasses.asdict(script)
     assert result['opts'] == {
         'verbose': 3,
         'pretend': False,

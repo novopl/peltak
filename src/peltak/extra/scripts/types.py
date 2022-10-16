@@ -13,10 +13,9 @@
 # limitations under the License.
 #
 """ Types and classes used by ``peltak.extra.scripts``. """
-
+import dataclasses
 from typing import Any, Callable, Dict, List, Optional, Type, cast
 
-import attr
 from six import string_types
 
 from peltak.commands import click, pretend_option, verbose_option
@@ -28,20 +27,20 @@ YamlConf = Dict[str, Any]
 CliOptions = Dict[str, Any]
 
 
-@attr.s
-class ScriptOption(object):
+@dataclasses.dataclass
+class ScriptOption:
     """ Describes the scripts command line option. """
-    name = attr.ib(type=List[str])
-    default = attr.ib(type=Any, default=None)
-    about = attr.ib(type=str, default='')
-    is_flag = attr.ib(type=bool, default=False)
-    count = attr.ib(type=bool, default=False)
-    type = attr.ib(type=Type, default=str)
+    name: List[str]
+    default: Optional[Any] = None
+    about: str = ''
+    is_flag: bool = False
+    count: bool = False
+    type: Type = str
 
     @classmethod
-    def from_config(cls, option_conf: YamlConf) -> 'ScriptOption':
+    def from_config(cls: Type['ScriptOption'], option_conf: YamlConf) -> 'ScriptOption':
         """ Load script option from configuration in pelconf.yaml """
-        fields = attr.fields(cls)
+        fields = {f.name: f for f in dataclasses.fields(cls)}
         name = option_conf.get('name')
 
         if not name:
@@ -53,7 +52,7 @@ class ScriptOption(object):
 
         # Convert string type to an initializer for that type.
         if 'type' not in option_conf:
-            opt_type = fields.type.default
+            opt_type = fields['type'].default
         else:
             opt_type = {
                 'str': str,
@@ -68,16 +67,16 @@ class ScriptOption(object):
 
         return cls(
             name=name,
-            default=option_conf.get('default', fields.default.default),
-            about=option_conf.get('about', fields.about.default),
-            is_flag=option_conf.get('is_flag', fields.is_flag.default),
-            count=option_conf.get('count', fields.count.default),   # type: ignore
+            default=option_conf.get('default', fields['default'].default),
+            about=option_conf.get('about', fields['about'].default),
+            is_flag=option_conf.get('is_flag', fields['is_flag'].default),
+            count=option_conf.get('count', fields['count'].default),  # type: ignore
             type=cast(Type, opt_type),
         )
 
 
-@attr.s
-class Script(object):
+@dataclasses.dataclass
+class Script:
     """ Represents a single script defined in pelconf.yaml.
 
     The important thing is to do a little as possible during creation and only
@@ -85,25 +84,27 @@ class Script(object):
     scripts are parsed in a *post-conf-load* hook and that code impacts the
     speed of shell auto completion for peltak command.
     """
-    name = attr.ib(type=str)
-    command = attr.ib(type=str)
-    command_file = attr.ib(type=str)
-    about = attr.ib(type=str, default='')
-    root_cli = attr.ib(type=bool, default=False)
-    success_exit_codes = attr.ib(type=List[int], factory=lambda: [0])
-    options = attr.ib(type=List[ScriptOption], factory=list)
-    files = attr.ib(type=Optional[types.FilesCollection], default=None)
+    name: str
+    command: str
+    command_file: str
+    about: str = ''
+    root_cli: bool = False
+    success_exit_codes: List[int] = dataclasses.field(default_factory=lambda: [0])
+    options: List[ScriptOption] = dataclasses.field(default_factory=list)
+    files: Optional[types.FilesCollection] = None
 
     @classmethod
     def from_config(cls, name: str, script_conf: YamlConf) -> 'Script':
         """ Load script from pelfconf.yaml """
-        fields = attr.fields(cls)
-        options = script_conf.get('options',
-                                  fields.options.default.factory())  # type: ignore
+        fields = {f.name: f for f in dataclasses.fields(cls)}
+        options = script_conf.get(
+            'options',
+            fields['options'].default_factory(),  # type: ignore
+        )
         files = None
         success_exit_codes = script_conf.get(
             'success_exit_codes',
-            fields.success_exit_codes.default.factory()   # type: ignore
+            fields['success_exit_codes'].default_factory(),   # type: ignore
         )
 
         # Parse 'files' section if it's present
@@ -124,8 +125,8 @@ class Script(object):
             name=name,
             command=script_conf.get('command', ''),
             command_file=script_conf.get('command_file', ''),
-            about=script_conf.get('about', fields.about.default),
-            root_cli=script_conf.get('root_cli', fields.root_cli.default),
+            about=script_conf.get('about', fields['about'].default),
+            root_cli=script_conf.get('root_cli', fields['root_cli'].default),
             success_exit_codes=success_exit_codes,
             options=[ScriptOption.from_config(opt_conf) for opt_conf in options],
             files=files,

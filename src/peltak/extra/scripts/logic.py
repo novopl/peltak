@@ -13,11 +13,10 @@
 # limitations under the License.
 #
 """ scripts logic. """
-
+import dataclasses
 import subprocess
 import sys
 
-import attr
 import yaml
 
 from peltak.core import conf, fs, log, shell, templates
@@ -103,7 +102,7 @@ def build_template_context(script, options):
             pretend=RunContext().get('pretend'),
             **options
         ),
-        'script': attr.asdict(script),
+        'script': dataclasses.asdict(script),
         'conf': conf.as_dict(),
         'ctx': RunContext().values,
         'proj_path': conf.proj_path,

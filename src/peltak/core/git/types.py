@@ -12,10 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+import dataclasses
 from collections import namedtuple
 from typing import List, Optional
-
-import attr
 
 from .. import conf, shell
 
@@ -23,8 +22,8 @@ from .. import conf, shell
 Author = namedtuple('Author', 'name email')
 
 
-@attr.s
-class BranchDetails(object):
+@dataclasses.dataclass
+class BranchDetails:
     """ Branch name parsed into type and title.
 
     Helpful for things like implementing git flow etc.
@@ -39,9 +38,9 @@ class BranchDetails(object):
             The title of the branch. This assumes the ``type/title`` branch
             naming format and will be the text after ``/`` in the branch name.
     """
-    name = attr.ib(type=str)
-    type = attr.ib(type=Optional[str], default=None)
-    title = attr.ib(type=str, default=None)
+    name: str
+    type: Optional[str] = None
+    title: Optional[str] = None
 
     @classmethod
     def parse(cls, branch_name: str) -> 'BranchDetails':
@@ -61,7 +60,8 @@ class BranchDetails(object):
             return BranchDetails(branch_name, None, branch_name)
 
 
-class CommitDetails(object):
+@dataclasses.dataclass
+class CommitDetails:
     """ Allows querying git commits for details.
 
     Attributes:
@@ -80,15 +80,17 @@ class CommitDetails(object):
         parents_sha1 (List[str]):
             List of SHA1s of parents of this commit.
     """
-    def __init__(self, sha1, author, title, desc, parents_sha1):
-        self.id = sha1[:7]
-        self.sha1 = sha1
-        self.author = author
-        self.title = title
-        self.desc = desc
-        self.parents_sha1 = parents_sha1
-        self._branches = None
-        self._parents = None
+    sha1: str
+    author: Author
+    title: str
+    desc: str
+    parents_sha1: Optional[str]
+    _branches: List[str] = dataclasses.field(default_factory=list)
+    _parents: List['CommitDetails'] = dataclasses.field(default_factory=list)
+
+    @property
+    def id(self) -> str:
+        return self.sha1[:7]
 
     @property
     def branches(self) -> List[str]:

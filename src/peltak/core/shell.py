@@ -16,13 +16,12 @@
 .. module:: peltak.core.shell
     :synopsis: Shell related helpers.
 """
+import dataclasses
 import os
 import re
 import subprocess
 import sys
 from typing import Any, Dict
-
-import attr
 
 from . import context
 
@@ -30,8 +29,8 @@ from . import context
 EnvDict = Dict[str, str]
 
 
-@attr.s
-class ExecResult(object):
+@dataclasses.dataclass
+class ExecResult:
     """ Encapsulates a `shell.run` result.
 
     Attributes:
@@ -50,12 +49,12 @@ class ExecResult(object):
             **True** if command failed.
 
     """
-    command = attr.ib(type=str)
-    return_code = attr.ib(type=int)
-    stdout = attr.ib(type=str)
-    stderr = attr.ib(type=str)
-    succeeded = attr.ib(type=bool)
-    failed = attr.ib(type=bool)
+    command: str
+    return_code: int
+    stdout: str
+    stderr: str
+    succeeded: bool
+    failed: bool
 
 
 is_tty = sys.stdout.isatty()
