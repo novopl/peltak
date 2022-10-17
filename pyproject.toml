@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "peltak"
-version = "0.27.6"
+version = "0.28.0"
 description = "A command line tool to help manage a project"
 readme = "README.rst"
 repository = "http://github.com/novopl/peltak"
@@ -55,6 +55,7 @@ sphinx-autodoc-typehints = ">=1.11.1"
 types-PyYAML = "^6.0.12"
 types-click = "^7.1.8"
 sphinxcontrib-plantuml = "^0.24"
+
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
