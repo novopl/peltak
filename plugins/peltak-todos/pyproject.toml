@@ -19,8 +19,7 @@ name = "novocode-dev"
 url = "https://pypi.novocode.dev"
 
 [tool.poetry.dependencies]
-python = ">=3.7.2"
-peltak = ">=0.27.5"
+python = ">=3.7.2,<4.0"
 
 [tool.poetry.dev-dependencies]
 codecov = "^2.1.12"
@@ -28,6 +27,7 @@ coverage = "^6.5.0"
 flake8 = "^5.0.4"
 isort = "^5.10.1"
 mypy = "^0.982"
+peltak = ">=0.27.5"
 psutil = "^5.9.2"
 pycodestyle = "^2.9.1"
 pylint = "^2.15.4"
@@ -37,7 +37,8 @@ pytest-sugar = "^0.9.5"
 Sphinx = ">=4.3.2"
 sphinx-material = "^0.0.35"
 sphinx-autodoc-typehints = ">=1.11.1"
-sphinxcontrib-plantuml = "^0.24"
+peltak-changelog = "^0.0.1"
+peltak-gitflow = "^0.0.2"
 
 [tool.pytest.ini_options]
 addopts = "--durations=3"
