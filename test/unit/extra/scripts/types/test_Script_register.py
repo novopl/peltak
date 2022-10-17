@@ -1,7 +1,7 @@
 # pylint: disable=missing-docstring
 from unittest.mock import Mock, patch
 
-from peltak.extra.scripts.types import Script
+from peltak.core.scripts.types import Script
 
 
 def test_uses_cli_group_command_decorator():
@@ -17,7 +17,7 @@ def test_uses_cli_group_command_decorator():
     p_command_decorator.assert_called_once()
 
 
-@patch('peltak.extra.scripts.types.verbose_option')
+@patch('peltak.core.scripts.types.verbose_option')
 def test_every_script_has_verbose_option(p_verbose_option):
     script = Script.from_config('fake', {'command': 'fake'})
     script.register(Mock())
@@ -25,7 +25,7 @@ def test_every_script_has_verbose_option(p_verbose_option):
     p_verbose_option.assert_called_once()
 
 
-@patch('peltak.extra.scripts.types.pretend_option')
+@patch('peltak.core.scripts.types.pretend_option')
 def test_every_script_has_pretend_option(p_pretend_option):
     script = Script.from_config('fake', {'command': 'fake'})
     script.register(Mock())
@@ -33,7 +33,7 @@ def test_every_script_has_pretend_option(p_pretend_option):
     p_pretend_option.assert_called_once()
 
 
-@patch('peltak.extra.scripts.types.click')
+@patch('peltak.core.scripts.types.click')
 def test_creates_all_options_defined_in_the_script_config(p_click):
     script = Script.from_config('fake', {
         'command': 'fake',

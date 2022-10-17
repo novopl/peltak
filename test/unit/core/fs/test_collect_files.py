@@ -2,10 +2,7 @@
 from unittest.mock import Mock, patch
 
 from peltak import testing
-from peltak.core import conf
-from peltak.core import context
-from peltak.core import fs
-from peltak.core import types
+from peltak.core import conf, context, fs, types
 
 
 @patch('peltak.core.fs.filtered_walk')

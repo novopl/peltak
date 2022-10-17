@@ -2,8 +2,7 @@
 from unittest.mock import patch
 
 from peltak import testing
-from peltak.core import git
-from peltak.core import util
+from peltak.core import git, util
 
 
 @patch('peltak.core.shell.run')

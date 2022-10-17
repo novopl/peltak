@@ -1,7 +1,7 @@
 # pylint: disable=missing-docstring
 import pytest
 
-from peltak.extra.scripts.types import ScriptOption
+from peltak.core.scripts.types import ScriptOption
 
 
 def test_works():

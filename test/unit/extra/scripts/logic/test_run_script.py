@@ -7,11 +7,11 @@ import pytest
 from peltak import testing
 from peltak.core import conf
 from peltak.core.context import RunContext
-from peltak.extra.scripts.types import Script
-from peltak.extra.scripts.logic import run_script
+from peltak.core.scripts.logic import run_script
+from peltak.core.scripts.types import Script
 
 
-@patch('peltak.extra.scripts.logic.exec_script_command')
+@patch('peltak.core.scripts.logic.exec_script_command')
 def test_works(p_exec_script_command: Mock, app_conf: conf.Config):
     p_exec_script_command.return_value = 0
     options: Dict[str, Any] = {}
@@ -25,7 +25,7 @@ def test_works(p_exec_script_command: Mock, app_conf: conf.Config):
 
 
 @patch('sys.exit')
-@patch('peltak.extra.scripts.logic.exec_script_command')
+@patch('peltak.core.scripts.logic.exec_script_command')
 def test_exits_with_script_return_code_if_its_non_zero(
     p_exec_script_command: Mock,
     p_exit: Mock,
@@ -45,7 +45,7 @@ def test_exits_with_script_return_code_if_its_non_zero(
 @testing.patch_is_tty(False)
 @patch('sys.exit', Mock())
 @patch('peltak.core.shell.cprint')
-@patch('peltak.extra.scripts.logic.exec_script_command')
+@patch('peltak.core.scripts.logic.exec_script_command')
 def test_prints_return_code_if_verbose_lvl_ge_3(
     p_exec_script_command: Mock,
     p_cprint: Mock,
@@ -70,7 +70,7 @@ def test_prints_return_code_if_verbose_lvl_ge_3(
 @testing.patch_is_tty(False)
 @patch('sys.exit', Mock())
 @patch('peltak.core.shell.cprint')
-@patch('peltak.extra.scripts.logic.exec_script_command')
+@patch('peltak.core.scripts.logic.exec_script_command')
 def test_prints_template_context_if_verbose_lvl_ge_3(
     p_exec_script_command: Mock,
     p_cprint: Mock,
@@ -91,7 +91,7 @@ def test_prints_template_context_if_verbose_lvl_ge_3(
     )
 
 
-@patch('peltak.extra.scripts.logic.exec_script_command', Mock(return_value=0))
+@patch('peltak.core.scripts.logic.exec_script_command', Mock(return_value=0))
 def test_raises_ValueError_if_command_or_command_files_is_missing(app_conf: conf.Config):
     """
     GIVEN A script with neither command nor command_file defined
@@ -113,8 +113,8 @@ def test_raises_ValueError_if_command_or_command_files_is_missing(app_conf: conf
     ('', 'fake/file'),
     ('fake-cmd', 'fake/file'),
 ])
-@patch('peltak.extra.scripts.logic.exec_script_command', Mock(return_value=0))
-@testing.patch_open('peltak.extra.scripts.logic', read_data='fake command file')
+@patch('peltak.core.scripts.logic.exec_script_command', Mock(return_value=0))
+@testing.patch_open('peltak.core.scripts.logic', read_data='fake command file')
 def test_uses_command_file_if_given(
     p_open: Mock, command: str, command_file: str, app_conf: conf.Config
 ):

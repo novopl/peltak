@@ -1,7 +1,7 @@
 # pylint: disable=missing-docstring
 from unittest.mock import Mock, patch
 
-from peltak.extra.scripts.logic import exec_script_command
+from peltak.core.scripts.logic import exec_script_command
 
 
 @patch('subprocess.Popen')

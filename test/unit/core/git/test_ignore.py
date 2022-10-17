@@ -1,8 +1,7 @@
 # pylint: disable=missing-docstring
-from unittest.mock import patch, mock_open
+from unittest.mock import mock_open, patch
 
-from peltak.core import git
-from peltak.core import util
+from peltak.core import git, util
 
 
 FAKE_GIT_IGNORE = '\n'.join([
@@ -12,7 +11,7 @@ FAKE_GIT_IGNORE = '\n'.join([
 ])
 
 
-@patch('peltak.core.git.open', mock_open(read_data='\n'.join([
+@patch('peltak.core.git.util.open', mock_open(read_data='\n'.join([
     'pattern1',
     'pattern2',
     'pattern3',
@@ -27,7 +26,7 @@ def test_returns_all_patterns(app_conf):
     util.cached_result.clear(git.ignore)
 
 
-@patch('peltak.core.git.open', mock_open(read_data='\n'.join([
+@patch('peltak.core.git.util.open', mock_open(read_data='\n'.join([
     'pattern1',
     ' pattern2   \t',
     '\tpattern3',
@@ -42,7 +41,7 @@ def test_strips_whitespace(app_conf):
     util.cached_result.clear(git.ignore)
 
 
-@patch('peltak.core.git.open', mock_open(read_data='\n'.join([
+@patch('peltak.core.git.util.open', mock_open(read_data='\n'.join([
     'pattern1',
     ''
     ' pattern2   \t',
@@ -60,7 +59,7 @@ def test_skips_empty_lines(app_conf):
     util.cached_result.clear(git.ignore)
 
 
-@patch('peltak.core.git.open', mock_open(read_data=b'\n'.join([
+@patch('peltak.core.git.util.open', mock_open(read_data=b'\n'.join([
     b'pattern1',
     b''
     b' pattern2   \t',

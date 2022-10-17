@@ -21,9 +21,9 @@ extending the app.
 from .mocks import mock_result  # noqa: F401
 from .patches import (  # noqa: F401
     patch_is_tty,
-    patch_proj_root,
+    patch_open,
     patch_pelconf,
+    patch_proj_root,
     patch_run,
-    patch_open
 )
 from .util import DataLoader  # noqa: F401

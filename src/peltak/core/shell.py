@@ -16,13 +16,12 @@
 .. module:: peltak.core.shell
     :synopsis: Shell related helpers.
 """
+import dataclasses
 import os
 import re
 import subprocess
 import sys
 from typing import Any, Dict
-
-import attr
 
 from . import context
 
@@ -30,8 +29,8 @@ from . import context
 EnvDict = Dict[str, str]
 
 
-@attr.s
-class ExecResult(object):
+@dataclasses.dataclass
+class ExecResult:
     """ Encapsulates a `shell.run` result.
 
     Attributes:
@@ -50,12 +49,12 @@ class ExecResult(object):
             **True** if command failed.
 
     """
-    command = attr.ib(type=str)
-    return_code = attr.ib(type=int)
-    stdout = attr.ib(type=str)
-    stderr = attr.ib(type=str)
-    succeeded = attr.ib(type=bool)
-    failed = attr.ib(type=bool)
+    command: str
+    return_code: int
+    stdout: str
+    stderr: str
+    succeeded: bool
+    failed: bool
 
 
 is_tty = sys.stdout.isatty()
@@ -195,13 +194,11 @@ def highlight(code: str, fmt: str) -> str:
     Assumes 256 color terminal.
     """
     import pygments
-    from pygments.lexers.data import YamlLexer
-    from pygments.lexers.data import JsonLexer
-    from pygments.lexers.python import PythonLexer
-    from pygments.lexers.python import Python3Lexer
-    from pygments.lexers.templates import DjangoLexer
-    from pygments.lexers.shell import BashLexer
     from pygments.formatters.terminal256 import Terminal256Formatter
+    from pygments.lexers.data import JsonLexer, YamlLexer
+    from pygments.lexers.python import Python3Lexer, PythonLexer
+    from pygments.lexers.shell import BashLexer
+    from pygments.lexers.templates import DjangoLexer
 
     # Get lexer class based on format.
     lexer_cls = {

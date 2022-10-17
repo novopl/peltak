@@ -3,8 +3,7 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from peltak.core import util
-from peltak.core import templates
+from peltak.core import templates, util
 
 
 def test_is_singleton():

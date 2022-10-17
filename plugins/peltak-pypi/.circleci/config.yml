@@ -1,0 +1,172 @@
+version: 2
+
+jobs:
+  build:
+    docker:
+      - image: novopl/python:3.7-dev
+    steps:
+      - checkout
+      - restore_cache:
+          
+          key: deps-{{ checksum ".circleci/config.yml" }}-{{ checksum "poetry.lock" }}
+          
+
+      - run:
+          name: Install project dependencies
+          command: |
+            echo '== pwd ==================================================='
+            pwd
+            echo '== which pip ============================================='
+            which pip
+            echo '== which python =========================================='
+            which python
+            echo '== python --version ======================================'
+            python --version
+            echo '== whoami ================================================'
+            whoami
+            echo '== poetry install ========================================'
+            poetry config virtualenvs.create true
+            poetry config virtualenvs.in-project true
+            poetry show -v
+            poetry install --no-ansi
+            echo '=========================================================='
+
+      - run:
+          name: Checks
+          command: poetry run peltak check
+
+      - run:
+          name: Test
+          command: poetry run peltak test --no-sugar --cov-xml
+
+      - save_cache:
+          
+          key: deps-{{ checksum ".circleci/config.yml" }}-{{ checksum "poetry.lock" }}
+          
+          paths:
+            - .venv
+            - .mypy_cache
+            - .pytest_cache
+
+      - run:
+          name: Upload coverage reports
+          command: poetry run codecov
+
+      - run:
+          name: Build Documentation
+          command: |
+            poetry run peltak docs --recreate
+            mv docs/html docs/peltak-pypi-docs
+            cd docs && zip -r ../.build/peltak-pypi-docs.zip peltak-pypi-docs
+
+      - store_test_results:
+          path: .build
+      - store_artifacts:
+          path: .build/coverage/
+          destination: coverage
+      - store_artifacts:
+          path: .build/peltak-pypi-docs.zip
+
+#
+# Refactor to only build on version tags
+#
+#  release:
+#    docker:
+#      - image: novopl/python:3.7-dev
+#    steps:
+#      - checkout
+#      - restore_cache:
+#          
+#          key: deps-{{ checksum ".circleci/config.yml" }}-{{ checksum "poetry.lock" }}
+#          
+#
+#      - run:
+#          name: Install dependencies
+#          command: poetry install -n --no-ansi
+#
+#      - run:
+#          name: Upload to pypi
+#          command: |
+#            poetry publish -n --build --username="$PYPI_USER" --password="$PYPI_PASS"
+#
+#      - run:
+#          name: Generate release notes
+#          command: |
+#            poetry run peltak changelog > ./RELEASE_NOTES
+#            poetry run peltak version --porcelain > ./RELEASE_VERSION
+#            cat ./RELEASE_VERSION
+#            cat ./RELEASE_NOTES
+#
+#      - run:
+#          name: Create release tag
+#          command: |
+#
+#            poetry run peltak release tag -m "$(cat ./RELEASE_NOTES)"
+#            git push origin v$(cat ./RELEASE_VERSION)
+#
+#      - run:
+#          name: Create GitHub release
+#          command: |
+#            gh release create \
+#              --repo "novopl/peltak-pypi" \
+#              --title "v$(cat ./RELEASE_VERSION)" \
+#              --notes "$(cat ./RELEASE_NOTES)" \
+#              "v$(cat ./RELEASE_VERSION)" \
+#              dist/peltak-pypi-$(cat ./RELEASE_VERSION)-py3-none-any.whl \
+#              dist/peltak-pypi-$(cat ./RELEASE_VERSION).tar.gz
+#
+#
+#  gh-pages:
+#    docker:
+#      - image: novopl/python:3.7-dev
+#    steps:
+#      - checkout
+#      - restore_cache:
+#          
+#          key: deps-{{ checksum ".circleci/config.yml" }}-{{ checksum "poetry.lock" }}
+#          
+#
+#      - run:
+#          name: Setup
+#          command: |
+#            echo '== poetry install ========================================'
+#            time poetry install
+#            echo '== peltak --help ========================================='
+#            poetry run peltak --help
+#            echo '=========================================================='
+#
+#      - run:
+#          name: Build docs
+#          command: poetry run peltak docs
+#
+#      - run:
+#          name: Deploy gh-pages
+#          command: |
+#            git checkout gh-pages
+#            cp -r docs/html/* ./
+#            git add .
+#            git config user.email "${GIT_EMAIL}"
+#            git config user.name "${GIT_USER}"
+#            git commit -nm "Docs build #${CIRCLECI_BUILD_NUM}"
+#            git push --no-verify origin gh-pages
+
+workflows:
+  version: 2
+  main:
+    jobs:
+      - build:
+          filters:
+            branches:
+              ignore: [gh-pages]
+      - release:
+          requires:
+            - build
+          filters:
+            tags:
+              only: /^v.*/
+      - gh-pages:
+          requires:
+            - build
+          filters:
+            tags:
+              only: /^v.*/

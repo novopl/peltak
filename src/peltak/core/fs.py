@@ -23,17 +23,12 @@ import re
 from os.path import isdir, join, normpath
 from typing import Iterator, List, Optional, Union
 
-from six import string_types
-
-from . import conf
-from . import log
-from . import types
-from . import context
+from . import conf, context, log, types
 
 
 def wrap_paths(paths: List[str]) -> str:
     """ Put quotes around all paths and join them with space in-between. """
-    if isinstance(paths, string_types):
+    if isinstance(paths, str):
         raise ValueError(
             "paths cannot be a string. "
             "Use array with one element instead."
@@ -162,8 +157,7 @@ def write_file(path: str, content: Union[str, bytes], mode: str = 'w') -> None:
         content (str):
         mode (str):
     """
-    from peltak.core import context
-    from peltak.core import log
+    from peltak.core import context, log
 
     if context.get('pretend', False):
         log.info("Would overwrite <34>{path}<32> with:\n<90>{content}",

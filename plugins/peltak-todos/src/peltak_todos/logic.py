@@ -16,17 +16,17 @@ import itertools
 import sys
 import textwrap
 from pathlib import Path
-from typing import List, Optional
+from typing import List
 
-from peltak.core import context, git, log, shell
+from peltak.core import context, fs, git, log, shell
 
 from . import parser
 from .types import Todo
 
 
 def check_todos(
+    input_path: str,
     untracked: bool,
-    file_path: Optional[str],
     authors: List[str],
     verify_complete: bool,
 ) -> None:
@@ -34,15 +34,12 @@ def check_todos(
         shell.run("git rev-parse --show-toplevel", capture=True).stdout.strip()
     )
 
-    if file_path:
-        if file_path != ':commit':
-            input_files = frozenset([file_path])
-        else:
-            input_files = frozenset([
-                repo_path / fpath
-                for fpath in (git.staged() + git.unstaged())
-            ])
-    else:
+    if input_path == ':commit':
+        input_files = frozenset([
+            repo_path / fpath
+            for fpath in (git.staged() + git.unstaged())
+        ])
+    elif input_path == ':diff':
         input_files = frozenset(
             repo_path / fpath
             for fpath in (
@@ -50,7 +47,17 @@ def check_todos(
                 + git.staged()
                 + git.unstaged()
             )
+            if (repo_path / fpath).exists()
         )
+    else:
+        path = Path(input_path)
+        if path.is_dir():
+            input_files = frozenset(
+                Path(f) for f in fs.filtered_walk(str(path))
+                if not Path(f).is_dir()
+            )
+        else:
+            input_files = frozenset([path])
 
     if untracked:
         input_files |= frozenset([
@@ -58,7 +65,6 @@ def check_todos(
         ])
 
     todos = parser.extract_from_files(list(input_files))
-
     filtered_todos = [
         t for t in todos
         if not authors or any(
@@ -72,10 +78,18 @@ def check_todos(
 
 
 def _render_todos(todos: List[Todo]) -> None:
+    by_file = sorted(
+        # Convert the iterators to lists so we can go over them multiple times
+        [(x[0], list(x[1])) for x in itertools.groupby(todos, key=lambda x: x.file)],
+        key=lambda x: x[0],
+    )
+
     print('\n')
-    for file_path, file_todos in itertools.groupby(todos, key=lambda x: x.file):
+    for file_path, file_todos in by_file:
+        sorted_todos = sorted(file_todos, key=lambda x: x.lines.start)
+
         shell.cprint(f"<92>{file_path}\n")
-        for todo in sorted(file_todos, key=lambda x: x.lines.start):
+        for todo in sorted_todos:
             if context.get('verbose') >= 1:
                 shell.cprint(
                     f"<36>{todo.pretty_timestamp}  <33>{todo.author}<0>\n"

@@ -1,8 +1,7 @@
 # pylint: disable=missing-docstring
-from unittest.mock import patch, mock_open, Mock, call
+from unittest.mock import Mock, call, mock_open, patch
 
-from peltak.core import conf
-from peltak.core import util
+from peltak.core import conf, util
 
 
 test_yaml = '''

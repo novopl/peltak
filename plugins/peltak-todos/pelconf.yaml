@@ -21,16 +21,8 @@ version:
 changelog:
   tag_format: '{tag}:'
   tags:
-    - tag: feature
-      header: Features
-    - tag: fix
-      header: Fixes
-    - tag: change
-      header: Changes
-    - tag: dev
-      header: Dev tasks
-    - tag: refactor
-      header: Refactored
+    - tag: todos
+      header: peltak-todos
 
 
 clean:
@@ -144,9 +136,8 @@ scripts:
         about: PyPI repo password
         type: str
     command: |
-      poetry publish \
-        --build \
+      poetry publish --build \
         {{ ('-r ' + opts.repo) if opts.repo else '' }} \
         {{ '--dry-run' if opts.dry_run else '' }} \
-        {{ '-u {}'.format(opts.username) if opts.username else '' }} \
-        {{ '-p {}'.format(opts.password) if opts.password else '' }}
+        {{ '-u {}'.format(opts.username) if opts.username else '-u "$PYPI_USER"' }} \
+        {{ '-p {}'.format(opts.password) if opts.password else '-p "$PYPI_PASS"' }}

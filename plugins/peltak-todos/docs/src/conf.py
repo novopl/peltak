@@ -31,9 +31,9 @@ extensions = [
 # plantuml = 'java -jar {}'.format(repo_path('docs/bin/plantuml/plantuml.1.2019.9.jar'))
 # plantuml_output_format = 'svg'
 
-import peltak-todos
-version = peltak-todos.__version__
-release = peltak-todos.__version__
+import peltak_todos
+version = peltak_todos.__version__
+release = peltak_todos.__version__
 
 doctest_test_doctest_blocks='default'
 source_suffix = '.rst'

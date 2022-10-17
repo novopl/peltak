@@ -18,6 +18,7 @@ from typing import Any, Dict
 import jinja2
 
 from peltak.core import util
+
 from . import filters
 
 
@@ -123,9 +124,9 @@ class Engine(util.Singleton):
             lstrip_blocks=True,
         )
 
-        env.filters['header'] = filters.header
-        env.filters['count_flag'] = filters.count_flag
-        env.filters['cprint'] = filters.cprint
-        env.filters['wrap_paths'] = filters.wrap_paths
+        env.filters['header'] = filters.header_filter
+        env.filters['count_flag'] = filters.count_flag_filter
+        env.filters['cprint'] = filters.cprint_filter
+        env.filters['wrap_paths'] = filters.wrap_paths_filter
 
         return env
