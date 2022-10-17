@@ -15,7 +15,7 @@
 """ Application entry point. """
 
 # Scripts should be available by default
-import peltak.extra.scripts  # noqa: F401 pylint: disable=unused-import
+import peltak.extra.scripts.commands  # noqa: F401 pylint: disable=unused-import
 # Make sure config is loaded
 from peltak.commands import root_cli
 from peltak.core import context  # noqa: F401 pylint: disable=unused-import

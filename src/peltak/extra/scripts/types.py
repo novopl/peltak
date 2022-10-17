@@ -84,7 +84,7 @@ class Script:
     """
     name: str
     command: str
-    command_file: str
+    command_file: Optional[str] = None
     about: str = ''
     root_cli: bool = False
     success_exit_codes: List[int] = dataclasses.field(default_factory=lambda: [0])
@@ -130,8 +130,11 @@ class Script:
             files=files,
         )
 
-    def register(self, cli_group: click.Group):
-        """ Register the script with click. """
+    def register(self, cli_group: Any):
+        """ Register the script with click.
+
+        *cli_group* is the result of using the ``@click.group()`` decorator.
+        """
         @verbose_option
         @pretend_option
         @click.pass_context
@@ -156,3 +159,9 @@ class Script:
             count=option.count,
             type=option.type
         )(cmd_fn)
+
+    @property
+    def header(self) -> Dict[str, Any]:
+        result = dataclasses.asdict(self)
+        del result['command']
+        return result

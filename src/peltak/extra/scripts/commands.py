@@ -86,10 +86,12 @@ Example
           pycodestyle --config ops/tools/pep8.ini {{files}}; \\
           pylint --rc-file ops/tools/pylint.ini {{files}};
 """
+from pathlib import Path
+
 from peltak.commands import root_cli
 from peltak.core import conf, hooks
 
-from .types import Script
+from . import loader
 
 
 @root_cli.group('run')
@@ -101,8 +103,6 @@ def run_cli():
 @hooks.register('post-conf-load')
 def post_conf_load():
     """ After the config was loaded, register all scripts as click commands. """
-    scripts = conf.get('scripts', {})
+    scripts_dir = Path(conf.get_path('scripts_dir', 'scripts'))
 
-    for name, script_conf in scripts.items():
-        script = Script.from_config(name, script_conf)
-        script.register(root_cli if script.root_cli else run_cli)
+    loader.register_scripts_from(scripts_dir)

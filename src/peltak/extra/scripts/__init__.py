@@ -166,4 +166,3 @@ away with all scripts that use it.
 You can find out more in `/reference/script_filters`
 
 """
-from .commands import run_cli  # noqa: F401

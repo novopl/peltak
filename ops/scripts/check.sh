@@ -1,11 +1,20 @@
-#!/bin/bash
-#
+# peltak:
+#   about: Run all checks (types, pep8, code style)
+#   options:
+#     - name: ['--fix']
+#       is_flag: true
+#       about: Attempt to fix some of the failed checks (like isort).
+#   files:
+#     paths:
+#       - src/peltak
+#       - test/unit
+#     include: '*.py'
+#     use_gitignore: true
+
 # The weird {{ files | wrap_paths }} notation means the files will be collected
 # by the script command and passed onto the 3rd party tool. This allows use
 # to use the same command implementation for 'peltak check' and
 # 'peltak run check-commit'.
-#
-{#set -e#}
 
 {% if files %}
   {{ 'mypy' | header }}

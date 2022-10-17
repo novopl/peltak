@@ -1,4 +1,25 @@
-#!/bin/bash
+# peltak:
+#   root_cli: true
+#   about: Run tests
+#   options:
+#     - name: ['-k', '--kind']
+#       about: |
+#         What kind of tests should be ran (all/unit/e2e/doctest). If not given,
+#         then alltests will run.
+#       type: str
+#       default: all
+#     - name: ['-no-sugar']
+#       about: Disable pytest-sugar. Might be useful for CI runs.
+#       is_flag: true
+#     - name: ['--cov-xml']
+#       about: Generate junit XML coverage report. Useful for 3rd party integrations.
+#       is_flag: true
+#     - name: ['--cov']
+#       about: |
+#         What type of coverage should we define. Allowed values are:
+#         all/core/scripts/extra. Defaults to 'all'.
+#       type: str
+#       default: all
 set -e
 
 {%
