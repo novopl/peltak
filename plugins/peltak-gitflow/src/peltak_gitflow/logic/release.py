@@ -17,7 +17,6 @@ import os
 import sys
 
 from peltak.core import conf, context, git, hooks, log, shell, versioning
-from peltak.extra.changelog.logic import changelog
 
 from . import common
 
@@ -102,7 +101,13 @@ def finish(fast_forward: bool) -> None:
     common.git_merge(master, branch.name, no_ff=not fast_forward)
 
     # Tag the release commit with version number
-    tag(changelog())
+    try:
+        # If peltak-changelog is installed, use it for commit message
+        from peltak_changelog.logic import changelog  # type: ignore
+
+        tag(changelog())
+    except ImportError:
+        tag(f"v{versioning.current()}")
 
     # Cleanup
     common.git_branch_delete(branch.name)

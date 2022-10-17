@@ -81,7 +81,7 @@ def start(component: str, exact: str):
         $ peltak release start          # same as start patch
 
     """
-    from peltak.extra.gitflow import logic
+    from peltak_gitflow import logic
     logic.release.start(component, exact)
 
 
@@ -109,7 +109,7 @@ def tag_release(message: str):
         $ peltak release tag          # Tag the current commit as release
 
     """
-    from peltak.extra.gitflow import logic
+    from peltak_gitflow import logic
     logic.release.tag(message)
 
 
@@ -127,7 +127,7 @@ def finish(fast_forward: bool):
     This will perform a FF merge with develop if possible and --no-ff merge
     with master and then tag the merge commit with the current version.
     """
-    from peltak.extra.gitflow import logic
+    from peltak_gitflow import logic
     logic.release.finish(fast_forward)
 
 
@@ -151,5 +151,5 @@ def merged():
         $ peltak release merged     # Must be ran on the relase branch
 
     """
-    from peltak.extra.gitflow import logic
+    from peltak_gitflow import logic
     logic.release.merged()

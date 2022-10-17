@@ -32,7 +32,7 @@ def feature_cli():
 @pretend_option
 def start(name: str):
     """ Start a new git-flow feature.  """
-    from peltak.extra.gitflow import logic
+    from peltak_gitflow import logic
 
     if name is None:
         name = click.prompt('Feature name')
@@ -45,7 +45,7 @@ def start(name: str):
 @pretend_option
 def rename(name: str):
     """ Give the currently developed feature a new name. """
-    from peltak.extra.gitflow import logic
+    from peltak_gitflow import logic
 
     if name is None:
         name = click.prompt('Feature name')
@@ -57,7 +57,7 @@ def rename(name: str):
 @pretend_option
 def update():
     """ Update the feature with updates committed to develop. """
-    from peltak.extra.gitflow import logic
+    from peltak_gitflow import logic
     logic.feature.update()
 
 
@@ -71,7 +71,7 @@ def update():
 )
 def finish(fast_forward: bool):
     """ Merge current feature into develop. """
-    from peltak.extra.gitflow import logic
+    from peltak_gitflow import logic
     logic.feature.finish(fast_forward)
 
 
@@ -79,5 +79,5 @@ def finish(fast_forward: bool):
 @pretend_option
 def merged():
     """ Cleanup a remotely merged branch. """
-    from peltak.extra.gitflow import logic
+    from peltak_gitflow import logic
     logic.feature.merged()

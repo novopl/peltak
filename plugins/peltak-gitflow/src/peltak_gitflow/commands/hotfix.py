@@ -40,7 +40,7 @@ def hotfix_cli():
 @pretend_option
 def start(name: str):
     """ Start a new git flow hotfix branch.  """
-    from peltak.extra.gitflow import logic
+    from peltak_gitflow import logic
 
     if name is None:
         name = click.prompt('Hotfix name')
@@ -53,7 +53,7 @@ def start(name: str):
 @pretend_option
 def rename(name: str):
     """ Give the currently developed hotfix a new name. """
-    from peltak.extra.gitflow import logic
+    from peltak_gitflow import logic
 
     if name is None:
         name = click.prompt('Hotfix name')
@@ -65,7 +65,7 @@ def rename(name: str):
 @pretend_option
 def update():
     """ Update the hotfix with updates committed to master. """
-    from peltak.extra.gitflow import logic
+    from peltak_gitflow import logic
     logic.hotfix.update()
 
 
@@ -79,7 +79,7 @@ def update():
 )
 def finish(fast_forward: bool):
     """ Merge current hotfix into master. """
-    from peltak.extra.gitflow import logic
+    from peltak_gitflow import logic
     logic.hotfix.finish(fast_forward)
 
 
@@ -87,5 +87,5 @@ def finish(fast_forward: bool):
 @pretend_option
 def merged():
     """ Cleanup a remotely merged hotfix. """
-    from peltak.extra.gitflow import logic
+    from peltak_gitflow import logic
     logic.hotfix.merged()
