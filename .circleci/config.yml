@@ -3,7 +3,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: novopl/python36
+      - image: novopl/python37
     steps:
       - checkout
       - restore_cache:
@@ -63,7 +63,7 @@ jobs:
 
   release:
     docker:
-      - image: novopl/python36
+      - image: novopl/python37
     steps:
       - checkout
       - restore_cache:
@@ -105,7 +105,7 @@ jobs:
 
   gh-pages:
     docker:
-      - image: novopl/python36
+      - image: novopl/python37
     steps:
       - checkout
       - restore_cache:
