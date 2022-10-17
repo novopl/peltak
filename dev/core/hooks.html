@@ -4,7 +4,8 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <meta name="lang:clipboard.copy" content="Copy to clipboard">
@@ -44,25 +45,27 @@
   <meta name="theme-color" content="#3f51b5">
   <script src="../../_static/javascripts/modernizr.js"></script>
   
-  <script>
-      window.ga = window.ga || function () {
-          (ga.q = ga.q || []).push(arguments)
-      };
-      ga.l = +new Date;
-      ga('create', 'UA-187740680-2', 'auto');
-      ga('send', 'pageview');
-  </script>
-  <script async src='https://www.google-analytics.com/analytics.js'></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-187740680-2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'UA-187740680-2');
+</script>
   
   
-    <title>peltak.core.hooks &#8212; peltak 0.27.6 documentation</title>
-    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/material.css" type="text/css" />
-    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <title>peltak.core.hooks &#8212; peltak 0.28.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/material.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
     <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/language_data.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="peltak.core.log" href="log.html" />
@@ -90,7 +93,7 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex navheader">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href="../../index.html" title="peltak 0.27.6 documentation"
+        <a href="../../index.html" title="peltak 0.28.0 documentation"
            class="md-header-nav__button md-logo">
           
             <i class="md-icon">&#x267E</i>
@@ -112,7 +115,7 @@
 <div class="md-search" data-md-component="search" role="dialog">
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
-    <form class="md-search__form" action="../../search.html" method="GET" name="search">
+    <form class="md-search__form" action="../../search.html" method="get" name="search">
       <input type="text" class="md-search__input" name="q" placeholder="Search"
              autocapitalize="off" autocomplete="off" spellcheck="false"
              data-md-component="query" data-md-state="active">
@@ -176,7 +179,7 @@
   <nav class="md-tabs" data-md-component="tabs">
     <div class="md-tabs__inner md-grid">
       <ul class="md-tabs__list">
-          <li class="md-tabs__item"><a href="../../index.html" class="md-tabs__link">peltak 0.27.6 documentation</a></li>
+          <li class="md-tabs__item"><a href="../../index.html" class="md-tabs__link">peltak 0.28.0 documentation</a></li>
           <li class="md-tabs__item"><a href="../_index.html" class="md-tabs__link">Dev Docs</a></li>
           <li class="md-tabs__item"><a href="_index.html" class="md-tabs__link"><code class="docutils literal notranslate"><span class="pre">peltak.core</span></code></a></li>
       </ul>
@@ -190,13 +193,13 @@
               <div class="md-sidebar__inner">
                 <nav class="md-nav md-nav--primary" data-md-level="0">
   <label class="md-nav__title md-nav__title--site" for="__drawer">
-    <a href="../../index.html" title="peltak 0.27.6 documentation" class="md-nav__button md-logo">
+    <a href="../../index.html" title="peltak 0.28.0 documentation" class="md-nav__button md-logo">
       
         <i class="md-icon">&#x267E</i>
       
     </a>
     <a href="../../index.html"
-       title="peltak 0.27.6 documentation">peltak</a>
+       title="peltak 0.28.0 documentation">peltak</a>
   </label>
     <div class="md-nav__source">
       <a href="https://github.com/novopl/peltak" title="Go to repository" class="md-source" data-md-source="github">
@@ -239,13 +242,6 @@
     <li class="md-nav__item">
     
     
-      <a href="../../guides/scripts.html" class="md-nav__link">Create peltak scripts</a>
-      
-    
-    </li>
-    <li class="md-nav__item">
-    
-    
       <a href="../../guides/create_custom_commands.html" class="md-nav__link">Custom peltak commands</a>
       
     
@@ -254,41 +250,6 @@
     
     
       <a href="../../guides/package_commands.html" class="md-nav__link">Share your peltak commands</a>
-      
-    
-    </li>
-    <li class="md-nav__item">
-    
-    
-      <a href="../../guides/changelog.html" class="md-nav__link">Auto-generate changelog from git history</a>
-      
-    
-    </li></ul>
-    
-    </li>
-    <li class="md-nav__item">
-    
-    
-      <a href="../../reference/_index.html" class="md-nav__link">Reference Documentation</a>
-      <ul class="md-nav__list"> 
-    <li class="md-nav__item">
-    
-    
-      <a href="../../reference/script_templates.html" class="md-nav__link">Script template reference</a>
-      
-    
-    </li>
-    <li class="md-nav__item">
-    
-    
-      <a href="../../reference/script_filters.html" class="md-nav__link">Built-in script template filters</a>
-      
-    
-    </li>
-    <li class="md-nav__item">
-    
-    
-      <a href="../../reference/pelconf.html" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">pelconf.yaml</span></code></a>
       
     
     </li></ul>
@@ -309,7 +270,21 @@
     <li class="md-nav__item">
     
     
+      <a href="../releasing.html" class="md-nav__link">Releasing new versions of peltak</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
       <a href="../flows.html" class="md-nav__link">Flows</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="../notes.html" class="md-nav__link">Dev Notes</a>
       
     
     </li>
@@ -363,9 +338,9 @@
         <div class="md-content">
           <article class="md-content__inner md-typeset" role="main">
             
-  
+  <section id="module-peltak.core.hooks">
 <span id="peltak-core-hooks"></span><h1 id="dev-core-hooks--page-root"><code class="docutils literal notranslate"><span class="pre">peltak.core.hooks</span></code><a class="headerlink" href="#dev-core-hooks--page-root" title="Permalink to this headline">¶</a></h1>
-<span class="target" id="module-0"></span>
+<span class="target" id="module-0"></span><section id="using-hooks">
 <h2 id="using-hooks">Using Hooks<a class="headerlink" href="#using-hooks" title="Permalink to this headline">¶</a></h2>
 <p>Hook allow responding to various events during command execution. peltak exposes
 a set of standard hooks that you can use to react to what’s happening. Commands
@@ -390,12 +365,12 @@ it simply with:</p>
 </pre></div>
 </div>
 <dl class="py class">
-<dt id="peltak.core.hooks.HooksRegister">
-<em class="property">class </em><code class="sig-prename descclassname">peltak.core.hooks.</code><code class="sig-name descname">HooksRegister</code><a class="reference internal" href="../../_modules/peltak/core/hooks.html#HooksRegister"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.hooks.HooksRegister" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="peltak.core.hooks.HooksRegister">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">peltak.core.hooks.</span></span><span class="sig-name descname"><span class="pre">HooksRegister</span></span><a class="reference internal" href="../../_modules/peltak/core/hooks.html#HooksRegister"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#peltak.core.hooks.HooksRegister" title="Permalink to this definition">¶</a></dt>
 <dd><p>Intermediary between hooks emitters and handlers.</p>
 <dl class="py method">
-<dt id="peltak.core.hooks.HooksRegister.call">
-<code class="sig-name descname">call</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kw</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/hooks.html#HooksRegister.call"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.hooks.HooksRegister.call" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="peltak.core.hooks.HooksRegister.call">
+<span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kw</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/hooks.html#HooksRegister.call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#peltak.core.hooks.HooksRegister.call" title="Permalink to this definition">¶</a></dt>
 <dd><p>Call all hooks registered for the given name.</p>
 <p>This will pass all arguments except for the name directly to the hook.
 Remember that hook handler should not modify those arguments as that
@@ -414,8 +389,8 @@ hook handlers.</p>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="peltak.core.hooks.HooksRegister.remove">
-<code class="sig-name descname">remove</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="n">fn</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/hooks.html#HooksRegister.remove"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.hooks.HooksRegister.remove" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="peltak.core.hooks.HooksRegister.remove">
+<span class="sig-name descname"><span class="pre">remove</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fn</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/hooks.html#HooksRegister.remove"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#peltak.core.hooks.HooksRegister.remove" title="Permalink to this definition">¶</a></dt>
 <dd><p>Remove a handler for a given hook.</p>
 <p>After this call, the <em>fn</em> function won’t be called when the hook is
 called.</p>
@@ -423,14 +398,14 @@ called.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>) – The name of the hook.</p></li>
-<li><p><strong>fn</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.10)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code></a>[…, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]) – The function that we want to unregister from the hook calls.</p></li>
+<li><p><strong>fn</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.10)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/constants.html#Ellipsis" title="(in Python v3.10)"><code class="xref py py-data docutils literal notranslate"><span class="pre">...</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]) – The function that we want to unregister from the hook calls.</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 </dd></dl>
-
-
+</section>
+</section>
 
 
           </article>
@@ -479,7 +454,7 @@ called.</p>
               
           </div>
             Created using
-            <a href="http://www.sphinx-doc.org/">Sphinx</a> 3.3.1.
+            <a href="http://www.sphinx-doc.org/">Sphinx</a> 4.3.2.
              and
             <a href="https://github.com/bashtage/sphinx-material/">Material for
               Sphinx</a>

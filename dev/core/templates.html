@@ -1,0 +1,604 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="lang:clipboard.copy" content="Copy to clipboard">
+  <meta name="lang:clipboard.copied" content="Copied to clipboard">
+  <meta name="lang:search.language" content="en">
+  <meta name="lang:search.pipeline.stopwords" content="True">
+  <meta name="lang:search.pipeline.trimmer" content="True">
+  <meta name="lang:search.result.none" content="No matching documents">
+  <meta name="lang:search.result.one" content="1 matching document">
+  <meta name="lang:search.result.other" content="# matching documents">
+  <meta name="lang:search.tokenizer" content="[\s\-]+">
+
+  
+    <link href="https://fonts.gstatic.com/" rel="preconnect" crossorigin>
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:400,500,700|Roboto:300,400,400i,700&display=fallback" rel="stylesheet">
+
+    <style>
+      body,
+      input {
+        font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif
+      }
+
+      code,
+      kbd,
+      pre {
+        font-family: "Roboto Mono", "Courier New", Courier, monospace
+      }
+    </style>
+  
+
+  <link rel="stylesheet" href="../../_static/stylesheets/application.css"/>
+  <link rel="stylesheet" href="../../_static/stylesheets/application-palette.css"/>
+  <link rel="stylesheet" href="../../_static/stylesheets/application-fixes.css"/>
+  
+  <link rel="stylesheet" href="../../_static/fonts/material-icons.css"/>
+  
+  <meta name="theme-color" content="#3f51b5">
+  <script src="../../_static/javascripts/modernizr.js"></script>
+  
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-187740680-2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'UA-187740680-2');
+</script>
+  
+  
+    <title>peltak.core.templates &#8212; peltak 0.28.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/material.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="peltak.core.util" href="util.html" />
+    <link rel="prev" title="peltak.core.shell" href="shell.html" />
+  
+   
+
+  </head>
+  <body dir=ltr
+        data-md-color-primary=light-green data-md-color-accent=amber>
+  
+  <svg class="md-svg">
+    <defs data-children-count="0">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448" viewBox="0 0 416 448" id="__github"><path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19T128 352t-18.125-8.5-10.75-19T96 304t3.125-20.5 10.75-19T128 256t18.125 8.5 10.75 19T160 304zm160 0q0 10-3.125 20.5t-10.75 19T288 352t-18.125-8.5-10.75-19T256 304t3.125-20.5 10.75-19T288 256t18.125 8.5 10.75 19T320 304zm40 0q0-30-17.25-51T296 232q-10.25 0-48.75 5.25Q229.5 240 208 240t-39.25-2.75Q130.75 232 120 232q-29.5 0-46.75 21T56 304q0 22 8 38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0 37.25-1.75t35-7.375 30.5-15 20.25-25.75T360 304zm56-44q0 51.75-15.25 82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5T212 416q-19.5 0-35.5-.75t-36.875-3.125-38.125-7.5-34.25-12.875T37 371.5t-21.5-28.75Q0 312 0 260q0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25 30.875Q171.5 96 212 96q37 0 70 8 26.25-20.5 46.75-30.25T376 64q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34 99.5z"/></svg>
+      
+    </defs>
+  </svg>
+  
+  <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer">
+  <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search">
+  <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+  <a href="#dev/core/templates" tabindex="1" class="md-skip"> Skip to content </a>
+  <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex navheader">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="../../index.html" title="peltak 0.28.0 documentation"
+           class="md-header-nav__button md-logo">
+          
+            <i class="md-icon">&#x267E</i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          <span class="md-header-nav__topic">peltak</span>
+          <span class="md-header-nav__topic"> peltak.core.templates </span>
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+        
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" action="../../search.html" method="get" name="search">
+      <input type="text" class="md-search__input" name="q" placeholder="Search"
+             autocapitalize="off" autocomplete="off" spellcheck="false"
+             data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            <a href="https://github.com/novopl/peltak" title="Go to repository" class="md-source" data-md-source="github">
+
+    <div class="md-source__icon">
+      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" width="28" height="28">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    peltak
+  </div>
+</a>
+          </div>
+        </div>
+      
+      
+  
+  <script src="../../_static/javascripts/version_dropdown.js"></script>
+  <script>
+    var json_loc = "../../"versions.json"",
+        target_loc = "../../../",
+        text = "Versions";
+    $( document ).ready( add_version_dropdown(json_loc, target_loc, text));
+  </script>
+  
+
+    </div>
+  </nav>
+</header>
+
+  
+  <div class="md-container">
+    
+    
+    
+  <nav class="md-tabs" data-md-component="tabs">
+    <div class="md-tabs__inner md-grid">
+      <ul class="md-tabs__list">
+          <li class="md-tabs__item"><a href="../../index.html" class="md-tabs__link">peltak 0.28.0 documentation</a></li>
+          <li class="md-tabs__item"><a href="../_index.html" class="md-tabs__link">Dev Docs</a></li>
+          <li class="md-tabs__item"><a href="_index.html" class="md-tabs__link"><code class="docutils literal notranslate"><span class="pre">peltak.core</span></code></a></li>
+      </ul>
+    </div>
+  </nav>
+    <main class="md-main">
+      <div class="md-main__inner md-grid" data-md-component="container">
+        
+          <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+            <div class="md-sidebar__scrollwrap">
+              <div class="md-sidebar__inner">
+                <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="../../index.html" title="peltak 0.28.0 documentation" class="md-nav__button md-logo">
+      
+        <i class="md-icon">&#x267E</i>
+      
+    </a>
+    <a href="../../index.html"
+       title="peltak 0.28.0 documentation">peltak</a>
+  </label>
+    <div class="md-nav__source">
+      <a href="https://github.com/novopl/peltak" title="Go to repository" class="md-source" data-md-source="github">
+
+    <div class="md-source__icon">
+      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" width="28" height="28">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    peltak
+  </div>
+</a>
+    </div>
+  
+  
+
+  
+  <ul class="md-nav__list">
+    <li class="md-nav__item">
+    
+    
+      <a href="../../guides/_index.html" class="md-nav__link">Guides</a>
+      <ul class="md-nav__list"> 
+    <li class="md-nav__item">
+    
+    
+      <a href="../../guides/installation.html" class="md-nav__link">Installation</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="../../guides/quickstart.html" class="md-nav__link">Quickstart</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="../../guides/create_custom_commands.html" class="md-nav__link">Custom peltak commands</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="../../guides/package_commands.html" class="md-nav__link">Share your peltak commands</a>
+      
+    
+    </li></ul>
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="../_index.html" class="md-nav__link">Dev Docs</a>
+      <ul class="md-nav__list"> 
+    <li class="md-nav__item">
+    
+    
+      <a href="../contrib.html" class="md-nav__link">Setup up the project for development</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="../releasing.html" class="md-nav__link">Releasing new versions of peltak</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="../flows.html" class="md-nav__link">Flows</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="../notes.html" class="md-nav__link">Dev Notes</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="_index.html" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">peltak.core</span></code></a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="../_index.html#reference" class="md-nav__link">Reference</a>
+      
+    
+    </li></ul>
+    
+    </li>
+  </ul>
+  
+
+</nav>
+              </div>
+            </div>
+          </div>
+          <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+            <div class="md-sidebar__scrollwrap">
+              <div class="md-sidebar__inner">
+                
+<nav class="md-nav md-nav--secondary">
+    <label class="md-nav__title" for="__toc">Contents</label>
+  <ul class="md-nav__list" data-md-scrollfix="">
+        <li class="md-nav__item"><a href="#dev-core-templates--page-root" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">peltak.core.templates</span></code></a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#script-template-reference" class="md-nav__link">Script template reference</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#using-jinja-filters" class="md-nav__link">Using jinja filters</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#template-context" class="md-nav__link">Template context</a>
+        </li>
+        <li class="md-nav__item"><a href="#dev-reference" class="md-nav__link">Dev Reference</a>
+        </li></ul>
+            </nav>
+        </li></ul>
+            </nav>
+        </li></ul>
+            </nav>
+        </li>
+    
+<li class="md-nav__item"><a class="md-nav__extra_link" href="../../_sources/dev/core/templates.rst.txt">Show Source</a> </li>
+
+<li id="searchbox" class="md-nav__item"></li>
+
+  </ul>
+</nav>
+              </div>
+            </div>
+          </div>
+        
+        <div class="md-content">
+          <article class="md-content__inner md-typeset" role="main">
+            
+  <section id="peltak-core-templates">
+<span id="id1"></span><h1 id="dev-core-templates--page-root"><code class="docutils literal notranslate"><span class="pre">peltak.core.templates</span></code><a class="headerlink" href="#dev-core-templates--page-root" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="module-peltak.core.templates"></span><section id="script-template-reference">
+<h2 id="script-template-reference">Script template reference<a class="headerlink" href="#script-template-reference" title="Permalink to this headline">¶</a></h2>
+<section id="using-jinja-filters">
+<h3 id="using-jinja-filters">Using jinja filters<a class="headerlink" href="#using-jinja-filters" title="Permalink to this headline">¶</a></h3>
+<p>Let’s suppose you have a scripts that runs pytest over your project and you want
+to pass the verbosity flag down to the pytest command. The verbosity option
+can be accessed with <code class="docutils literal notranslate"><span class="pre">{{</span> <span class="pre">opts.verbose</span> <span class="pre">}}</span></code> but it is an <code class="docutils literal notranslate"><span class="pre">int</span></code> so we need
+to somehow convert it to the appropriate flag <code class="docutils literal notranslate"><span class="pre">-v</span></code>, or <code class="docutils literal notranslate"><span class="pre">-vv</span></code> etc. Thankfully
+peltak already implements a filter to do just that, it’s called <code class="docutils literal notranslate"><span class="pre">count_flag</span></code>
+and will convert a given number <strong>N</strong> to a flag that has the given letter appear
+<strong>N</strong> times. Here’s a quick example.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">scripts</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">test</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="nt">about</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run tests with pytest</span><span class="w"></span>
+<span class="w">        </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span><span class="w"></span>
+<span class="w">            </span><span class="no">pytest {{ opts.verbose | count_flag('v') }} {{ conf.src_dir }}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>This will result in the following command being invoked:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>peltak run <span class="nb">test</span>
+<span class="c1"># will result in: pytest src</span>
+
+peltak run <span class="nb">test</span> -v
+<span class="c1"># will result in: pytest src -v</span>
+
+peltak run <span class="nb">test</span> -vv
+<span class="c1"># will result in: pytest src -vv</span>
+</pre></div>
+</div>
+<section id="template-context">
+<h4 id="template-context">Template context<a class="headerlink" href="#template-context" title="Permalink to this headline">¶</a></h4>
+<p>Peltak will inject the following context into the template.</p>
+<table>
+<colgroup>
+<col style="width: 22%"/>
+<col style="width: 78%"/>
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>Name</p></td>
+<td><p>Description</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">conf</span></code></p></td>
+<td><div class="line-block">
+<div class="line">The entire configuration object. This is the dictionary</div>
+<div class="line">representation of <code class="xref any docutils literal notranslate"><span class="pre">pelconf.yaml</span></code> and makes it easy to acess</div>
+<div class="line">any global configuration values from within a script.</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">opts</span></code></p></td>
+<td><div class="line-block">
+<div class="line">Script command line options. This will contains all command</div>
+<div class="line">line options the script was called with.</div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">script</span></code></p></td>
+<td><div class="line-block">
+<div class="line">The script configuration as read from <code class="xref any docutils literal notranslate"><span class="pre">pelconf.yaml</span></code>.</div>
+<div class="line">This will only contain the configuration for the currently</div>
+<div class="line">running script, not the entire <strong>scripts:</strong> section.</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">ctx</span></code></p></td>
+<td><div class="line-block">
+<div class="line">Current runtime context. This is a value store that exists</div>
+<div class="line">only when peltak is running and is recreated on every run.</div>
+<div class="line">This is a way to share runtime information between commands</div>
+<div class="line">(things like <strong>verbosity</strong> or <strong>pretend</strong>).</div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">proj_path</span></code></p></td>
+<td><div class="line-block">
+<div class="line">A helper function. Given any project relative path (relative</div>
+<div class="line">to <code class="xref any docutils literal notranslate"><span class="pre">pelconf.yaml</span></code>) it will convert it to an absolute path.</div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<p>On top of all the values in the context, you can also use
+<code class="xref any docutils literal notranslate"><span class="pre">/reference/script_filters</span></code>.</p>
+</section>
+<section id="dev-reference">
+<h4 id="dev-reference">Dev Reference<a class="headerlink" href="#dev-reference" title="Permalink to this headline">¶</a></h4>
+<dl class="py class">
+<dt class="sig sig-object py" id="peltak.core.templates.Engine">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">peltak.core.templates.</span></span><span class="sig-name descname"><span class="pre">Engine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kw</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/templates/engine.html#Engine"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#peltak.core.templates.Engine" title="Permalink to this definition">¶</a></dt>
+<dd><p>Template engine wrapper.</p>
+<p>Engine is a singleton, which means there is always a single instance
+in existence during the app run. You can access this instance by calling
+the class initializer:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">peltak.core.templates</span> <span class="kn">import</span> <span class="n">Engine</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">engine</span> <span class="o">=</span> <span class="n">Engine</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Only on first call will the class be actually constructed, all following
+calls will return the same instance:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">peltak.core.templates</span> <span class="kn">import</span> <span class="n">Engine</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Engine</span><span class="p">()</span> <span class="ow">is</span> <span class="n">Engine</span><span class="p">()</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="peltak.core.templates.Engine.render">
+<span class="sig-name descname"><span class="pre">render</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">template_str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">template_ctx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/templates/engine.html#Engine.render"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#peltak.core.templates.Engine.render" title="Permalink to this definition">¶</a></dt>
+<dd><p>Render a script template using the given context.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">peltak.core.templates</span> <span class="kn">import</span> <span class="n">Engine</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Engine</span><span class="p">()</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="s2">"{{ msg | upper }}"</span><span class="p">,</span> <span class="p">{</span><span class="s1">'msg'</span><span class="p">:</span> <span class="s1">'hello'</span><span class="p">})</span>
+<span class="go">'HELLO'</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="peltak.core.templates.Engine.render_file">
+<span class="sig-name descname"><span class="pre">render_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">template_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">template_ctx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/templates/engine.html#Engine.render_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#peltak.core.templates.Engine.render_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Render a template file from src/peltak/templates directory.</p>
+<p>All built-in peltak templates should go to the <code class="docutils literal notranslate"><span class="pre">src/peltak/templates</span></code>
+directory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>template_file</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – The name of the template file to use. This file needs to reside
+in the templates directory and will be automatically loaded.</p></li>
+<li><p><strong>template_ctx</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em>, </em><em>Any</em><em>]</em>) – The template context to use. This is a dictionary of values that
+will be injected into the template during rendering.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A rendered template.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)">str</a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>
+&gt;&gt;&gt; from peltak.core.templates import Engine
+&gt;&gt;&gt;
+&gt;&gt;&gt; output = Engine().render_file(“pelconf.yaml”, {‘src_dir’: ‘src’})
+&gt;&gt;&gt; print(output)
+# peltak configuration file
+# Visit <a class="reference external" href="https://novopl.github.io/peltak">https://novopl.github.io/peltak</a> for more information
+pelconf_version: ‘1’
+&lt;BLANKLINE&gt;
+# You can add custom project commands or 3rd party packages here.
+commands:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>peltak.extra.scripts</p></li>
+<li><p>peltak.extra.git</p></li>
+<li><p>peltak.extra.gitflow</p></li>
+</ul>
+</div></blockquote>
+<p>&lt;BLANKLINE&gt;
+&lt;BLANKLINE&gt;
+&lt;BLANKLINE&gt;
+# This directory will be added to sys.path when the config is loaded.
+# Useful if do not keep the source code in th root directory.
+python_paths: [‘src’]
+&lt;BLANKLINE&gt;
+&lt;BLANKLINE&gt;
+&lt;BLANKLINE&gt;
+# Scripts to help you manage your project.
+scripts:</p>
+<blockquote>
+<div><dl>
+<dt>test:</dt><dd><p>about: Test your code
+command: |</p>
+<blockquote>
+<div><p>echo “Change me, I’m just a test command”</p>
+</div></blockquote>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+</dd></dl>
+</section>
+</section>
+</section>
+</section>
+
+
+          </article>
+        </div>
+      </div>
+    </main>
+  </div>
+  <footer class="md-footer">
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+          
+            <a href="shell.html" title="peltak.core.shell"
+               class="md-flex md-footer-nav__link md-footer-nav__link--prev"
+               rel="prev">
+              <div class="md-flex__cell md-flex__cell--shrink">
+                <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+              </div>
+              <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+                <span class="md-flex__ellipsis">
+                  <span
+                      class="md-footer-nav__direction"> Previous </span> <code class="docutils literal notranslate"><span class="pre">peltak.core.shell</span></code> </span>
+              </div>
+            </a>
+          
+          
+            <a href="util.html" title="peltak.core.util"
+               class="md-flex md-footer-nav__link md-footer-nav__link--next"
+               rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title"><span
+                class="md-flex__ellipsis"> <span
+                class="md-footer-nav__direction"> Next </span> <code class="docutils literal notranslate"><span class="pre">peltak.core.util</span></code> </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink"><i
+                class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          
+        </a>
+        
+      </nav>
+    </div>
+    <div class="md-footer-meta md-typeset">
+      <div class="md-footer-meta__inner md-grid">
+        <div class="md-footer-copyright">
+          <div class="md-footer-copyright__highlight">
+              &#169; Copyright 2016-2021, Mateusz &#39;novo&#39; Klos.
+              
+          </div>
+            Created using
+            <a href="http://www.sphinx-doc.org/">Sphinx</a> 4.3.2.
+             and
+            <a href="https://github.com/bashtage/sphinx-material/">Material for
+              Sphinx</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <script src="../../_static/javascripts/application.js"></script>
+  <script>app.initialize({version: "1.0.4", url: {base: ".."}})</script>
+  </body>
+</html>

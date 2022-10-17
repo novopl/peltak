@@ -4,7 +4,8 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <meta name="lang:clipboard.copy" content="Copy to clipboard">
@@ -44,28 +45,30 @@
   <meta name="theme-color" content="#3f51b5">
   <script src="../_static/javascripts/modernizr.js"></script>
   
-  <script>
-      window.ga = window.ga || function () {
-          (ga.q = ga.q || []).push(arguments)
-      };
-      ga.l = +new Date;
-      ga('create', 'UA-187740680-2', 'auto');
-      ga('send', 'pageview');
-  </script>
-  <script async src='https://www.google-analytics.com/analytics.js'></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-187740680-2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'UA-187740680-2');
+</script>
   
   
-    <title>Auto-generate changelog from git history &#8212; peltak 0.27.6 documentation</title>
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/material.css" type="text/css" />
-    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <title>&lt;no title&gt; &#8212; peltak 0.28.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/material.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
-    <script src="../_static/language_data.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Reference Documentation" href="../reference/_index.html" />
+    <link rel="next" title="Dev Docs" href="../dev/_index.html" />
     <link rel="prev" title="Share your peltak commands" href="package_commands.html" />
   
    
@@ -90,7 +93,7 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex navheader">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href="../index.html" title="peltak 0.27.6 documentation"
+        <a href="../index.html" title="peltak 0.28.0 documentation"
            class="md-header-nav__button md-logo">
           
             <i class="md-icon">&#x267E</i>
@@ -103,7 +106,7 @@
       <div class="md-flex__cell md-flex__cell--stretch">
         <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
           <span class="md-header-nav__topic">peltak</span>
-          <span class="md-header-nav__topic"> Auto-generate changelog from git history </span>
+          <span class="md-header-nav__topic"> &lt;no title&gt; </span>
         </div>
       </div>
       <div class="md-flex__cell md-flex__cell--shrink">
@@ -112,7 +115,7 @@
 <div class="md-search" data-md-component="search" role="dialog">
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
-    <form class="md-search__form" action="../search.html" method="GET" name="search">
+    <form class="md-search__form" action="../search.html" method="get" name="search">
       <input type="text" class="md-search__input" name="q" placeholder="Search"
              autocapitalize="off" autocomplete="off" spellcheck="false"
              data-md-component="query" data-md-state="active">
@@ -176,7 +179,7 @@
   <nav class="md-tabs" data-md-component="tabs">
     <div class="md-tabs__inner md-grid">
       <ul class="md-tabs__list">
-          <li class="md-tabs__item"><a href="../index.html" class="md-tabs__link">peltak 0.27.6 documentation</a></li>
+          <li class="md-tabs__item"><a href="../index.html" class="md-tabs__link">peltak 0.28.0 documentation</a></li>
           <li class="md-tabs__item"><a href="_index.html" class="md-tabs__link">Guides</a></li>
       </ul>
     </div>
@@ -189,13 +192,13 @@
               <div class="md-sidebar__inner">
                 <nav class="md-nav md-nav--primary" data-md-level="0">
   <label class="md-nav__title md-nav__title--site" for="__drawer">
-    <a href="../index.html" title="peltak 0.27.6 documentation" class="md-nav__button md-logo">
+    <a href="../index.html" title="peltak 0.28.0 documentation" class="md-nav__button md-logo">
       
         <i class="md-icon">&#x267E</i>
       
     </a>
     <a href="../index.html"
-       title="peltak 0.27.6 documentation">peltak</a>
+       title="peltak 0.28.0 documentation">peltak</a>
   </label>
     <div class="md-nav__source">
       <a href="https://github.com/novopl/peltak" title="Go to repository" class="md-source" data-md-source="github">
@@ -238,13 +241,6 @@
     <li class="md-nav__item">
     
     
-      <a href="scripts.html" class="md-nav__link">Create peltak scripts</a>
-      
-    
-    </li>
-    <li class="md-nav__item">
-    
-    
       <a href="create_custom_commands.html" class="md-nav__link">Custom peltak commands</a>
       
     
@@ -253,64 +249,6 @@
     
     
       <a href="package_commands.html" class="md-nav__link">Share your peltak commands</a>
-      
-    
-    </li>
-    <li class="md-nav__item">
-    
-    
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    <label class="md-nav__link md-nav__link--active" for="__toc"> Auto-generate changelog from git history </label>
-    
-      <a href="#" class="md-nav__link md-nav__link--active">Auto-generate changelog from git history</a>
-      
-        
-<nav class="md-nav md-nav--secondary">
-    <label class="md-nav__title" for="__toc">Contents</label>
-  <ul class="md-nav__list" data-md-scrollfix="">
-        <li class="md-nav__item"><a href="#guides-changelog--page-root" class="md-nav__link">Auto-generate changelog from git history</a><nav class="md-nav">
-              <ul class="md-nav__list">
-        <li class="md-nav__item"><a href="#overview" class="md-nav__link">Overview</a>
-        </li>
-        <li class="md-nav__item"><a href="#commit-format" class="md-nav__link">Commit Format</a>
-        </li>
-        <li class="md-nav__item"><a href="#configuration" class="md-nav__link">Configuration</a>
-        </li></ul>
-            </nav>
-        </li>
-    
-<li class="md-nav__item"><a class="md-nav__extra_link" href="../_sources/guides/changelog.rst.txt">Show Source</a> </li>
-
-  </ul>
-</nav>
-      
-    
-    </li></ul>
-    
-    </li>
-    <li class="md-nav__item">
-    
-    
-      <a href="../reference/_index.html" class="md-nav__link">Reference Documentation</a>
-      <ul class="md-nav__list"> 
-    <li class="md-nav__item">
-    
-    
-      <a href="../reference/script_templates.html" class="md-nav__link">Script template reference</a>
-      
-    
-    </li>
-    <li class="md-nav__item">
-    
-    
-      <a href="../reference/script_filters.html" class="md-nav__link">Built-in script template filters</a>
-      
-    
-    </li>
-    <li class="md-nav__item">
-    
-    
-      <a href="../reference/pelconf.html" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">pelconf.yaml</span></code></a>
       
     
     </li></ul>
@@ -331,7 +269,21 @@
     <li class="md-nav__item">
     
     
+      <a href="../dev/releasing.html" class="md-nav__link">Releasing new versions of peltak</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
       <a href="../dev/flows.html" class="md-nav__link">Flows</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="../dev/notes.html" class="md-nav__link">Dev Notes</a>
       
     
     </li>
@@ -363,18 +315,7 @@
               <div class="md-sidebar__inner">
                 
 <nav class="md-nav md-nav--secondary">
-    <label class="md-nav__title" for="__toc">Contents</label>
   <ul class="md-nav__list" data-md-scrollfix="">
-        <li class="md-nav__item"><a href="#guides-changelog--page-root" class="md-nav__link">Auto-generate changelog from git history</a><nav class="md-nav">
-              <ul class="md-nav__list">
-        <li class="md-nav__item"><a href="#overview" class="md-nav__link">Overview</a>
-        </li>
-        <li class="md-nav__item"><a href="#commit-format" class="md-nav__link">Commit Format</a>
-        </li>
-        <li class="md-nav__item"><a href="#configuration" class="md-nav__link">Configuration</a>
-        </li></ul>
-            </nav>
-        </li>
     
 <li class="md-nav__item"><a class="md-nav__extra_link" href="../_sources/guides/changelog.rst.txt">Show Source</a> </li>
 
@@ -389,75 +330,7 @@
         <div class="md-content">
           <article class="md-content__inner md-typeset" role="main">
             
-  <span class="target" id="module-peltak.extra.changelog"></span>
-<h1 id="guides-changelog--page-root">Auto-generate changelog from git history<a class="headerlink" href="#guides-changelog--page-root" title="Permalink to this headline">¶</a></h1>
-
-<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
-<p>This package adds the commands that allow you to greatly reduce the amount of
-work required in maintaining a change log for your releases. The main command
-<strong>peltak changelog</strong> will parse all commits since the last release and extract
-all features/changes/fixes implemented. To achieve this, it will look for
-specific tags in the commit descriptions. Once all those are found it will print
-a nice change log. Here’s an example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ peltak changelog
-v0.21.2
-
-Features:
-- A description of a feature, taken from the commit message
-- Each feature has it's own list item
-- And each commit can have multiple features and/or fixes defined
-
-Changes:
-- One thing had to be change to something else.
-- Another thing also had to be changed.
-
-Fixes:
-- Description of the first fix
-- Each fix has it's own list item
-</pre></div>
-</div>
-
-
-<h2 id="commit-format">Commit Format<a class="headerlink" href="#commit-format" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>&lt;title&gt;
-
-&lt;description text&gt;
-
-(&lt;tag&gt;) &lt;feature description&gt;
-
-&lt;description text&gt;
-</pre></div>
-</div>
-<p class="rubric">Example</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Just added some new cool feature
-
-(feature) This feature allows the user to do many
-great things.
-(fix) This feature also fixes some issues we had
-before
-
-Closes #1
-</pre></div>
-</div>
-
-
-<h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
-<p>The command can be configured through <a class="reference internal" href="../reference/pelconf.html#pelconf-yaml"><span class="std std-ref">pelconf.yaml</span></a>. You can define what tags
-are searched and what is their corresponding header in the changelog. Here is
-an example (this is the default configuration):</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">changelog</span><span class="p">:</span>
-  <span class="nt">tags</span><span class="p">:</span>
-    <span class="p p-Indicator">-</span> <span class="nt">header</span><span class="p">:</span> <span class="s">'Features'</span>
-      <span class="nt">tag</span><span class="p">:</span> <span class="s">'feature'</span>
-    <span class="p p-Indicator">-</span> <span class="nt">header</span><span class="p">:</span> <span class="s">'Changes'</span>
-      <span class="nt">tag</span><span class="p">:</span> <span class="s">'change'</span>
-    <span class="p p-Indicator">-</span> <span class="nt">header</span><span class="p">:</span> <span class="s">'Fixes'</span>
-      <span class="nt">tag</span><span class="p">:</span> <span class="s">'fix'</span>
-</pre></div>
-</div>
-
-
-
+  
 
           </article>
         </div>
@@ -482,12 +355,12 @@ an example (this is the default configuration):</p>
             </a>
           
           
-            <a href="../reference/_index.html" title="Reference Documentation"
+            <a href="../dev/_index.html" title="Dev Docs"
                class="md-flex md-footer-nav__link md-footer-nav__link--next"
                rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title"><span
                 class="md-flex__ellipsis"> <span
-                class="md-footer-nav__direction"> Next </span> Reference Documentation </span>
+                class="md-footer-nav__direction"> Next </span> Dev Docs </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink"><i
                 class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
@@ -505,7 +378,7 @@ an example (this is the default configuration):</p>
               
           </div>
             Created using
-            <a href="http://www.sphinx-doc.org/">Sphinx</a> 3.3.1.
+            <a href="http://www.sphinx-doc.org/">Sphinx</a> 4.3.2.
              and
             <a href="https://github.com/bashtage/sphinx-material/">Material for
               Sphinx</a>

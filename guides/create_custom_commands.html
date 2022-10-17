@@ -4,7 +4,8 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <meta name="lang:clipboard.copy" content="Copy to clipboard">
@@ -44,29 +45,31 @@
   <meta name="theme-color" content="#3f51b5">
   <script src="../_static/javascripts/modernizr.js"></script>
   
-  <script>
-      window.ga = window.ga || function () {
-          (ga.q = ga.q || []).push(arguments)
-      };
-      ga.l = +new Date;
-      ga('create', 'UA-187740680-2', 'auto');
-      ga('send', 'pageview');
-  </script>
-  <script async src='https://www.google-analytics.com/analytics.js'></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-187740680-2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'UA-187740680-2');
+</script>
   
   
-    <title>Custom peltak commands &#8212; peltak 0.27.6 documentation</title>
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/material.css" type="text/css" />
-    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <title>Custom peltak commands &#8212; peltak 0.28.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/material.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
-    <script src="../_static/language_data.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Share your peltak commands" href="package_commands.html" />
-    <link rel="prev" title="Create peltak scripts" href="scripts.html" />
+    <link rel="prev" title="&lt;no title&gt;" href="scripts.html" />
   
    
 
@@ -90,7 +93,7 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex navheader">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href="../index.html" title="peltak 0.27.6 documentation"
+        <a href="../index.html" title="peltak 0.28.0 documentation"
            class="md-header-nav__button md-logo">
           
             <i class="md-icon">&#x267E</i>
@@ -112,7 +115,7 @@
 <div class="md-search" data-md-component="search" role="dialog">
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
-    <form class="md-search__form" action="../search.html" method="GET" name="search">
+    <form class="md-search__form" action="../search.html" method="get" name="search">
       <input type="text" class="md-search__input" name="q" placeholder="Search"
              autocapitalize="off" autocomplete="off" spellcheck="false"
              data-md-component="query" data-md-state="active">
@@ -176,7 +179,7 @@
   <nav class="md-tabs" data-md-component="tabs">
     <div class="md-tabs__inner md-grid">
       <ul class="md-tabs__list">
-          <li class="md-tabs__item"><a href="../index.html" class="md-tabs__link">peltak 0.27.6 documentation</a></li>
+          <li class="md-tabs__item"><a href="../index.html" class="md-tabs__link">peltak 0.28.0 documentation</a></li>
           <li class="md-tabs__item"><a href="_index.html" class="md-tabs__link">Guides</a></li>
       </ul>
     </div>
@@ -189,13 +192,13 @@
               <div class="md-sidebar__inner">
                 <nav class="md-nav md-nav--primary" data-md-level="0">
   <label class="md-nav__title md-nav__title--site" for="__drawer">
-    <a href="../index.html" title="peltak 0.27.6 documentation" class="md-nav__button md-logo">
+    <a href="../index.html" title="peltak 0.28.0 documentation" class="md-nav__button md-logo">
       
         <i class="md-icon">&#x267E</i>
       
     </a>
     <a href="../index.html"
-       title="peltak 0.27.6 documentation">peltak</a>
+       title="peltak 0.28.0 documentation">peltak</a>
   </label>
     <div class="md-nav__source">
       <a href="https://github.com/novopl/peltak" title="Go to repository" class="md-source" data-md-source="github">
@@ -232,13 +235,6 @@
     
     
       <a href="quickstart.html" class="md-nav__link">Quickstart</a>
-      
-    
-    </li>
-    <li class="md-nav__item">
-    
-    
-      <a href="scripts.html" class="md-nav__link">Create peltak scripts</a>
       
     
     </li>
@@ -282,41 +278,6 @@
       <a href="package_commands.html" class="md-nav__link">Share your peltak commands</a>
       
     
-    </li>
-    <li class="md-nav__item">
-    
-    
-      <a href="changelog.html" class="md-nav__link">Auto-generate changelog from git history</a>
-      
-    
-    </li></ul>
-    
-    </li>
-    <li class="md-nav__item">
-    
-    
-      <a href="../reference/_index.html" class="md-nav__link">Reference Documentation</a>
-      <ul class="md-nav__list"> 
-    <li class="md-nav__item">
-    
-    
-      <a href="../reference/script_templates.html" class="md-nav__link">Script template reference</a>
-      
-    
-    </li>
-    <li class="md-nav__item">
-    
-    
-      <a href="../reference/script_filters.html" class="md-nav__link">Built-in script template filters</a>
-      
-    
-    </li>
-    <li class="md-nav__item">
-    
-    
-      <a href="../reference/pelconf.html" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">pelconf.yaml</span></code></a>
-      
-    
     </li></ul>
     
     </li>
@@ -335,7 +296,21 @@
     <li class="md-nav__item">
     
     
+      <a href="../dev/releasing.html" class="md-nav__link">Releasing new versions of peltak</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
       <a href="../dev/flows.html" class="md-nav__link">Flows</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="../dev/notes.html" class="md-nav__link">Dev Notes</a>
       
     
     </li>
@@ -397,14 +372,14 @@
         <div class="md-content">
           <article class="md-content__inner md-typeset" role="main">
             
-  
+  <section id="custom-peltak-commands">
 <h1 id="guides-create-custom-commands--page-root">Custom peltak commands<a class="headerlink" href="#guides-create-custom-commands--page-root" title="Permalink to this headline">¶</a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>You can find the example code for this tutorial here:
 <a class="reference external" href="https://github.com/novopl/peltak/tree/master/docs/src/examples/custom_commands">here</a></p>
 </div>
-
+<section id="background">
 <h2 id="background">Background<a class="headerlink" href="#background" title="Permalink to this headline">¶</a></h2>
 <p>When the built in scripts functionality is not enough <strong>peltak</strong> allows you to
 write commands directly in python. You are free to keep your <strong>peltak</strong> commands
@@ -418,43 +393,43 @@ just share with the community.</p>
 <p><strong>peltak</strong> internally uses <a class="reference external" href="https://click.palletsprojects.com/en/7.x/">click</a>
 so everything you can find in the click docs applies here as well. <strong>peltak</strong>
 does provide some functionality built on top of click that makes some of the
-tasks easier to implement (<code class="xref any docutils literal notranslate"><span class="pre">pretend_option</span></code> for example), and already provides
-the root CLI group (<code class="xref any docutils literal notranslate"><span class="pre">peltak.commands.root_cli</span></code>) as well as some predefined
-groups that you can extend.</p>
+tasks easier to implement (<code class="docutils literal notranslate"><span class="pre">pretend_option</span></code> for example), and
+already provides the root CLI group (<code class="docutils literal notranslate"><span class="pre">peltak.commands.root_cli</span></code>) as well as
+some predefined groups that you can extend.</p>
 <p>You can attach your commands to any existing group as well as create new groups
 and attach them wherever you want. <strong>peltak</strong> tries to be very flexible in terms
 of how you structure the CLI commands for your project.</p>
-
-
+</section>
+<section id="how-to-create-custom-commands">
 <h2 id="how-to-create-custom-commands">How to create custom commands<a class="headerlink" href="#how-to-create-custom-commands" title="Permalink to this headline">¶</a></h2>
-
+<section id="hello-world-command">
 <h3 id="hello-world-command">Hello world command<a class="headerlink" href="#hello-world-command" title="Permalink to this headline">¶</a></h3>
 <p>Let’s start with the most basic command that will just print hello world to
 the terminal. This will show you all the steps you need to take to implement the
 command and make it available to peltak. Let’s initialize a new
-<a class="reference internal" href="../reference/pelconf.html#pelconf-yaml"><span class="std std-ref">pelconf.yaml</span></a> with <code class="docutils literal notranslate"><span class="pre">peltak</span> <span class="pre">init</span></code>:</p>
+<code class="docutils literal notranslate"><span class="pre">pelconf.yaml</span></code> with <code class="docutils literal notranslate"><span class="pre">peltak</span> <span class="pre">init</span></code>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>peltak init --blank -v
 </pre></div>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>The generated <a class="reference internal" href="../reference/pelconf.html#pelconf-yaml"><span class="std std-ref">pelconf.yaml</span></a> should look like this:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># peltak configuration file</span>
-<span class="c1"># Visit https://novopl.github.io/peltak for more information</span>
-<span class="nt">pelconf_version</span><span class="p">:</span> <span class="s">'1'</span>
+<p>The generated <code class="docutils literal notranslate"><span class="pre">pelconf.yaml</span></code> should look like this:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># peltak configuration file</span><span class="w"></span>
+<span class="c1"># Visit https://novopl.github.io/peltak for more information</span><span class="w"></span>
+<span class="nt">pelconf_version</span><span class="p">:</span><span class="w"> </span><span class="s">'1'</span><span class="w"></span>
 
-<span class="c1"># You can add custom project commands or 3rd party packages here.</span>
-<span class="nt">commands</span><span class="p">:</span>
-  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">peltak.extra.scripts</span>
+<span class="c1"># You can add custom project commands or 3rd party packages here.</span><span class="w"></span>
+<span class="nt">commands</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">peltak.extra.scripts</span><span class="w"></span>
 
-<span class="c1"># This directory will be added to sys.path when the config is loaded.</span>
-<span class="c1"># Useful if do not keep the source code in th root directory.</span>
-<span class="nt">src_dir</span><span class="p">:</span> <span class="s">"."</span>
+<span class="c1"># This directory will be added to sys.path when the config is loaded.</span><span class="w"></span>
+<span class="c1"># Useful if do not keep the source code in th root directory.</span><span class="w"></span>
+<span class="nt">src_dir</span><span class="p">:</span><span class="w"> </span><span class="s">"."</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
 <p>The next step is to create the python module with the commands. It has to be
-importable by peltak so needs to be inside whatever <code class="docutils literal notranslate"><span class="pre">src_dir</span></code> in <a class="reference internal" href="../reference/pelconf.html#pelconf-yaml"><span class="std std-ref">pelconf.yaml</span></a>
+importable by peltak so needs to be inside whatever <code class="docutils literal notranslate"><span class="pre">src_dir</span></code> in <code class="docutils literal notranslate"><span class="pre">pelconf.yaml</span></code>
 is set to. Let’s create a new file called <code class="docutils literal notranslate"><span class="pre">./custom_commands.py</span></code>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># -*- coding: utf-8 -*-</span>
 <span class="sd">""" Custom command definitions for the project. """</span>
@@ -466,19 +441,19 @@ is set to. Let’s create a new file called <code class="docutils literal notran
 </pre></div>
 </div>
 <p>For peltak to be able to load your command file you need to add it to your
-<code class="docutils literal notranslate"><span class="pre">commands:</span></code> section in <a class="reference internal" href="../reference/pelconf.html#pelconf-yaml"><span class="std std-ref">pelconf.yaml</span></a>:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># peltak configuration file</span>
-<span class="c1"># Visit https://novopl.github.io/peltak for more information</span>
-<span class="nt">pelconf_version</span><span class="p">:</span> <span class="s">'1'</span>
+<code class="docutils literal notranslate"><span class="pre">commands:</span></code> section in <code class="docutils literal notranslate"><span class="pre">pelconf.yaml</span></code>:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># peltak configuration file</span><span class="w"></span>
+<span class="c1"># Visit https://novopl.github.io/peltak for more information</span><span class="w"></span>
+<span class="nt">pelconf_version</span><span class="p">:</span><span class="w"> </span><span class="s">'1'</span><span class="w"></span>
 
-<span class="c1"># You can add custom project commands or 3rd party packages here.</span>
-<span class="nt">commands</span><span class="p">:</span>
-  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">peltak.extra.scripts</span>
-  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">custom_commands</span>
+<span class="c1"># You can add custom project commands or 3rd party packages here.</span><span class="w"></span>
+<span class="nt">commands</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">peltak.extra.scripts</span><span class="w"></span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">custom_commands</span><span class="w"></span>
 
-<span class="c1"># This directory will be added to sys.path when the config is loaded.</span>
-<span class="c1"># Useful if do not keep the source code in th root directory.</span>
-<span class="nt">src_dir</span><span class="p">:</span> <span class="s">"."</span>
+<span class="c1"># This directory will be added to sys.path when the config is loaded.</span><span class="w"></span>
+<span class="c1"># Useful if do not keep the source code in th root directory.</span><span class="w"></span>
+<span class="nt">src_dir</span><span class="p">:</span><span class="w"> </span><span class="s">"."</span><span class="w"></span>
 </pre></div>
 </div>
 <p>Now our new command is visible to peltak and we can execute it with:</p>
@@ -486,8 +461,8 @@ is set to. Let’s create a new file called <code class="docutils literal notran
 Hello, World!
 </pre></div>
 </div>
-
-
+</section>
+<section id="a-more-advanced-example">
 <h3 id="a-more-advanced-example">A more advanced example<a class="headerlink" href="#a-more-advanced-example" title="Permalink to this headline">¶</a></h3>
 <p>As a more advanced example, we will re-implement the <strong>lint</strong> script defined
 in the <a class="reference internal" href="quickstart.html"><span class="doc">Quickstart</span></a> guide. First let’s define the command itself along
@@ -565,7 +540,7 @@ is actually executed and it keeps the command file size small for faster
 parsing.</p>
 </div>
 <p>Now we will create a new file with the business logic behind our lint command.
-In this tutorial we will call it <code class="xref any docutils literal notranslate"><span class="pre">custom_commands_lint.py</span></code> but you can use
+In this tutorial we will call it <code class="docutils literal notranslate"><span class="pre">custom_commands_lint.py</span></code> but you can use
 whatever structure you like.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># -*- coding: utf-8 -*-</span>
 <span class="sd">""" Custom commands business logic. """</span>
@@ -633,9 +608,9 @@ whatever structure you like.</p>
     <span class="p">)</span>
 </pre></div>
 </div>
-
-
-
+</section>
+</section>
+</section>
 
 
           </article>
@@ -647,7 +622,7 @@ whatever structure you like.</p>
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
           
-            <a href="scripts.html" title="Create peltak scripts"
+            <a href="scripts.html" title="&lt;no title&gt;"
                class="md-flex md-footer-nav__link md-footer-nav__link--prev"
                rel="prev">
               <div class="md-flex__cell md-flex__cell--shrink">
@@ -656,7 +631,7 @@ whatever structure you like.</p>
               <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
                 <span class="md-flex__ellipsis">
                   <span
-                      class="md-footer-nav__direction"> Previous </span> Create peltak scripts </span>
+                      class="md-footer-nav__direction"> Previous </span> &lt;no title&gt; </span>
               </div>
             </a>
           
@@ -684,7 +659,7 @@ whatever structure you like.</p>
               
           </div>
             Created using
-            <a href="http://www.sphinx-doc.org/">Sphinx</a> 3.3.1.
+            <a href="http://www.sphinx-doc.org/">Sphinx</a> 4.3.2.
              and
             <a href="https://github.com/bashtage/sphinx-material/">Material for
               Sphinx</a>

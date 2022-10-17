@@ -44,25 +44,27 @@
   <meta name="theme-color" content="#3f51b5">
   <script src="_static/javascripts/modernizr.js"></script>
   
-  <script>
-      window.ga = window.ga || function () {
-          (ga.q = ga.q || []).push(arguments)
-      };
-      ga.l = +new Date;
-      ga('create', 'UA-187740680-2', 'auto');
-      ga('send', 'pageview');
-  </script>
-  <script async src='https://www.google-analytics.com/analytics.js'></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-187740680-2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'UA-187740680-2');
+</script>
   
   
-    <title>Index &#8212; peltak 0.27.6 documentation</title>
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/material.css" type="text/css" />
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <title>Index &#8212; peltak 0.28.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/material.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
-    <script src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="#" />
     <link rel="search" title="Search" href="search.html" />
   
@@ -88,7 +90,7 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex navheader">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href="index.html" title="peltak 0.27.6 documentation"
+        <a href="index.html" title="peltak 0.28.0 documentation"
            class="md-header-nav__button md-logo">
           
             <i class="md-icon">&#x267E</i>
@@ -110,7 +112,7 @@
 <div class="md-search" data-md-component="search" role="dialog">
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
-    <form class="md-search__form" action="search.html" method="GET" name="search">
+    <form class="md-search__form" action="search.html" method="get" name="search">
       <input type="text" class="md-search__input" name="q" placeholder="Search"
              autocapitalize="off" autocomplete="off" spellcheck="false"
              data-md-component="query" data-md-state="active">
@@ -174,7 +176,7 @@
   <nav class="md-tabs" data-md-component="tabs">
     <div class="md-tabs__inner md-grid">
       <ul class="md-tabs__list">
-          <li class="md-tabs__item"><a href="index.html" class="md-tabs__link">peltak 0.27.6 documentation</a></li>
+          <li class="md-tabs__item"><a href="index.html" class="md-tabs__link">peltak 0.28.0 documentation</a></li>
       </ul>
     </div>
   </nav>
@@ -186,13 +188,13 @@
               <div class="md-sidebar__inner">
                 <nav class="md-nav md-nav--primary" data-md-level="0">
   <label class="md-nav__title md-nav__title--site" for="__drawer">
-    <a href="index.html" title="peltak 0.27.6 documentation" class="md-nav__button md-logo">
+    <a href="index.html" title="peltak 0.28.0 documentation" class="md-nav__button md-logo">
       
         <i class="md-icon">&#x267E</i>
       
     </a>
     <a href="index.html"
-       title="peltak 0.27.6 documentation">peltak</a>
+       title="peltak 0.28.0 documentation">peltak</a>
   </label>
     <div class="md-nav__source">
       <a href="https://github.com/novopl/peltak" title="Go to repository" class="md-source" data-md-source="github">
@@ -235,13 +237,6 @@
     <li class="md-nav__item">
     
     
-      <a href="guides/scripts.html" class="md-nav__link">Create peltak scripts</a>
-      
-    
-    </li>
-    <li class="md-nav__item">
-    
-    
       <a href="guides/create_custom_commands.html" class="md-nav__link">Custom peltak commands</a>
       
     
@@ -250,41 +245,6 @@
     
     
       <a href="guides/package_commands.html" class="md-nav__link">Share your peltak commands</a>
-      
-    
-    </li>
-    <li class="md-nav__item">
-    
-    
-      <a href="guides/changelog.html" class="md-nav__link">Auto-generate changelog from git history</a>
-      
-    
-    </li></ul>
-    
-    </li>
-    <li class="md-nav__item">
-    
-    
-      <a href="reference/_index.html" class="md-nav__link">Reference Documentation</a>
-      <ul class="md-nav__list"> 
-    <li class="md-nav__item">
-    
-    
-      <a href="reference/script_templates.html" class="md-nav__link">Script template reference</a>
-      
-    
-    </li>
-    <li class="md-nav__item">
-    
-    
-      <a href="reference/script_filters.html" class="md-nav__link">Built-in script template filters</a>
-      
-    
-    </li>
-    <li class="md-nav__item">
-    
-    
-      <a href="reference/pelconf.html" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">pelconf.yaml</span></code></a>
       
     
     </li></ul>
@@ -305,7 +265,21 @@
     <li class="md-nav__item">
     
     
+      <a href="dev/releasing.html" class="md-nav__link">Releasing new versions of peltak</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
       <a href="dev/flows.html" class="md-nav__link">Flows</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="dev/notes.html" class="md-nav__link">Dev Notes</a>
       
     
     </li>
@@ -355,8 +329,7 @@
 <h1 id="index">Index</h1>
 
 <div class="genindex-jumpbox">
- <a href="#A"><strong>A</strong></a>
- | <a href="#B"><strong>B</strong></a>
+ <a href="#B"><strong>B</strong></a>
  | <a href="#C"><strong>C</strong></a>
  | <a href="#D"><strong>D</strong></a>
  | <a href="#E"><strong>E</strong></a>
@@ -364,43 +337,17 @@
  | <a href="#G"><strong>G</strong></a>
  | <a href="#H"><strong>H</strong></a>
  | <a href="#I"><strong>I</strong></a>
- | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
- | <a href="#N"><strong>N</strong></a>
  | <a href="#P"><strong>P</strong></a>
  | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
  | <a href="#T"><strong>T</strong></a>
- | <a href="#U"><strong>U</strong></a>
- | <a href="#V"><strong>V</strong></a>
  | <a href="#W"><strong>W</strong></a>
  | <a href="#Y"><strong>Y</strong></a>
  
 </div>
-<h2 id="A">A</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="dev/core/git.html#peltak.core.git.Author">Author (class in peltak.core.git)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="dev/core/git.html#peltak.core.git.CommitDetails.author">author (peltak.core.git.CommitDetails attribute)</a>
-</li>
-  </ul></td>
-</tr></table>
-
 <h2 id="B">B</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="dev/core/git.html#peltak.core.git.BranchDetails">BranchDetails (class in peltak.core.git)</a>
-</li>
-      <li><a href="dev/core/git.html#peltak.core.git.branches">branches() (in module peltak.core.git)</a>
-
-      <ul>
-        <li><a href="dev/core/git.html#peltak.core.git.CommitDetails.branches">(peltak.core.git.CommitDetails property)</a>
-</li>
-      </ul></li>
-  </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="dev/core/versioning.html#peltak.core.versioning.bump">bump() (in module peltak.core.versioning)</a>
 </li>
@@ -426,31 +373,21 @@
 </li>
       <li><a href="dev/core/shell.html#peltak.core.shell.ExecResult.command">command (peltak.core.shell.ExecResult attribute)</a>
 </li>
-      <li><a href="dev/core/git.html#peltak.core.git.commit_author">commit_author() (in module peltak.core.git)</a>
-</li>
-      <li><a href="dev/core/git.html#peltak.core.git.commit_branches">commit_branches() (in module peltak.core.git)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="dev/core/git.html#peltak.core.git.commit_details">commit_details() (in module peltak.core.git)</a>
+      <li><a href="dev/core/conf.html#peltak.core.conf.Config">Config (class in peltak.core.conf)</a>
 </li>
-      <li><a href="dev/core/git.html#peltak.core.git.CommitDetails">CommitDetails (class in peltak.core.git)</a>
+      <li><a href="dev/core/conf.html#peltak.core.conf.ConfigAlreadyInitialized">ConfigAlreadyInitialized</a>
 </li>
-      <li><a href="dev/core/git.html#peltak.core.git.config">config() (in module peltak.core.git)</a>
+      <li><a href="dev/core/conf.html#peltak.core.conf.ConfigError">ConfigError</a>
+</li>
+      <li><a href="dev/core/conf.html#peltak.core.conf.ConfigNotInitialized">ConfigNotInitialized</a>
 </li>
       <li><a href="dev/core/context.html#peltak.core.context.ContextError">ContextError</a>
 </li>
-      <li><a href="reference/script_filters.html#peltak.core.templates.filters.count_flag">count_flag() (in module peltak.core.templates.filters)</a>
-</li>
       <li><a href="dev/core/shell.html#peltak.core.shell.cprint">cprint() (in module peltak.core.shell)</a>
-
-      <ul>
-        <li><a href="reference/script_filters.html#peltak.core.templates.filters.cprint">(in module peltak.core.templates.filters)</a>
 </li>
-      </ul></li>
       <li><a href="dev/core/versioning.html#peltak.core.versioning.current">current() (in module peltak.core.versioning)</a>
-</li>
-      <li><a href="dev/core/git.html#peltak.core.git.current_branch">current_branch() (in module peltak.core.git)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -459,10 +396,6 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="dev/core/shell.html#peltak.core.shell.decolorize">decolorize() (in module peltak.core.shell)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="dev/core/git.html#peltak.core.git.CommitDetails.desc">desc (peltak.core.git.CommitDetails attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -478,9 +411,7 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="dev/core/git.html#peltak.core.git.Author.email">email() (peltak.core.git.Author property)</a>
-</li>
-      <li><a href="reference/script_templates.html#peltak.core.templates.Engine">Engine (class in peltak.core.templates)</a>
+      <li><a href="dev/core/templates.html#peltak.core.templates.Engine">Engine (class in peltak.core.templates)</a>
 </li>
       <li><a href="dev/core/log.html#peltak.core.log.err">err() (in module peltak.core.log)</a>
 </li>
@@ -509,16 +440,18 @@
       <li><a href="dev/core/context.html#peltak.core.context.get">get() (in module peltak.core.context)</a>
 
       <ul>
-        <li><a href="dev/core/context.html#peltak.core.context.RunContext.get">(peltak.core.context.RunContext method)</a>
+        <li><a href="dev/core/conf.html#peltak.core.conf.Config.get">(peltak.core.conf.Config method)</a>
 </li>
-        <li><a href="dev/core/git.html#peltak.core.git.CommitDetails.get">(peltak.core.git.CommitDetails class method)</a>
+        <li><a href="dev/core/context.html#peltak.core.context.RunContext.get">(peltak.core.context.RunContext method)</a>
 </li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="dev/core/conf.html#peltak.core.conf.Config.get_env">get_env() (peltak.core.conf.Config method)</a>
+</li>
       <li><a href="dev/core/util.html#peltak.core.util.get_from_dict">get_from_dict() (in module peltak.core.util)</a>
 </li>
-      <li><a href="dev/core/git.html#peltak.core.git.guess_base_branch">guess_base_branch() (in module peltak.core.git)</a>
+      <li><a href="dev/core/conf.html#peltak.core.conf.Config.get_path">get_path() (peltak.core.conf.Config method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -526,12 +459,10 @@
 <h2 id="H">H</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/script_filters.html#peltak.core.templates.filters.header">header() (in module peltak.core.templates.filters)</a>
+      <li><a href="dev/core/shell.html#peltak.core.shell.highlight">highlight() (in module peltak.core.shell)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="dev/core/shell.html#peltak.core.shell.highlight">highlight() (in module peltak.core.shell)</a>
-</li>
       <li><a href="dev/core/hooks.html#peltak.core.hooks.HooksRegister">HooksRegister (class in peltak.core.hooks)</a>
 </li>
   </ul></td>
@@ -540,25 +471,13 @@
 <h2 id="I">I</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="dev/core/git.html#peltak.core.git.CommitDetails.id">id (peltak.core.git.CommitDetails attribute)</a>
-</li>
-      <li><a href="dev/core/git.html#peltak.core.git.ignore">ignore() (in module peltak.core.git)</a>
+      <li><a href="dev/core/util.html#peltak.core.util.in_batches">in_batches() (in module peltak.core.util)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="dev/core/util.html#peltak.core.util.in_batches">in_batches() (in module peltak.core.util)</a>
-</li>
       <li><a href="dev/core/log.html#peltak.core.log.info">info() (in module peltak.core.log)</a>
 </li>
       <li><a href="dev/core/context.html#peltak.core.context.InvalidPath">InvalidPath</a>
-</li>
-  </ul></td>
-</tr></table>
-
-<h2 id="L">L</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="dev/core/git.html#peltak.core.git.latest_commit">latest_commit() (in module peltak.core.git)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -576,6 +495,8 @@
     module
 
       <ul>
+        <li><a href="dev/core/conf.html#module-peltak.core.conf">peltak.core.conf</a>
+</li>
         <li><a href="dev/core/context.html#module-0">peltak.core.context</a>, <a href="dev/core/context.html#module-peltak.core.context">[1]</a>
 </li>
         <li><a href="dev/core/fs.html#module-0">peltak.core.fs</a>, <a href="dev/core/fs.html#module-peltak.core.fs">[1]</a>
@@ -588,45 +509,26 @@
 </li>
         <li><a href="dev/core/shell.html#module-0">peltak.core.shell</a>, <a href="dev/core/shell.html#module-peltak.core.shell">[1]</a>
 </li>
-        <li><a href="reference/script_templates.html#module-peltak.core.templates">peltak.core.templates</a>
-</li>
-        <li><a href="reference/script_filters.html#module-0">peltak.core.templates.filters</a>, <a href="reference/script_filters.html#module-peltak.core.templates.filters">[1]</a>
+        <li><a href="dev/core/templates.html#module-peltak.core.templates">peltak.core.templates</a>
 </li>
         <li><a href="dev/core/util.html#module-0">peltak.core.util</a>, <a href="dev/core/util.html#module-peltak.core.util">[1]</a>
 </li>
         <li><a href="dev/core/versioning.html#module-0">peltak.core.versioning</a>, <a href="dev/core/versioning.html#module-peltak.core.versioning">[1]</a>
 </li>
-        <li><a href="guides/changelog.html#module-peltak.extra.changelog">peltak.extra.changelog</a>
-</li>
-        <li><a href="guides/scripts.html#module-peltak.extra.scripts">peltak.extra.scripts</a>
-</li>
       </ul></li>
-  </ul></td>
-</tr></table>
-
-<h2 id="N">N</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="dev/core/git.html#peltak.core.git.BranchDetails.name">name (peltak.core.git.BranchDetails attribute)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="dev/core/git.html#peltak.core.git.Author.name">name() (peltak.core.git.Author property)</a>
-</li>
-      <li><a href="dev/core/git.html#peltak.core.git.CommitDetails.number">number() (peltak.core.git.CommitDetails property)</a>
-</li>
   </ul></td>
 </tr></table>
 
 <h2 id="P">P</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="dev/core/git.html#peltak.core.git.CommitDetails.parents">parents() (peltak.core.git.CommitDetails property)</a>
+      <li>
+    peltak.core.conf
+
+      <ul>
+        <li><a href="dev/core/conf.html#module-peltak.core.conf">module</a>
 </li>
-      <li><a href="dev/core/git.html#peltak.core.git.CommitDetails.parents_sha1">parents_sha1 (peltak.core.git.CommitDetails attribute)</a>
-</li>
-      <li><a href="dev/core/git.html#peltak.core.git.BranchDetails.parse">parse() (peltak.core.git.BranchDetails class method)</a>
-</li>
+      </ul></li>
       <li>
     peltak.core.context
 
@@ -655,6 +557,8 @@
         <li><a href="dev/core/hooks.html#module-0">module</a>, <a href="dev/core/hooks.html#module-peltak.core.hooks">[1]</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     peltak.core.log
 
@@ -669,20 +573,11 @@
         <li><a href="dev/core/shell.html#module-0">module</a>, <a href="dev/core/shell.html#module-peltak.core.shell">[1]</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     peltak.core.templates
 
       <ul>
-        <li><a href="reference/script_templates.html#module-peltak.core.templates">module</a>
-</li>
-      </ul></li>
-      <li>
-    peltak.core.templates.filters
-
-      <ul>
-        <li><a href="reference/script_filters.html#module-0">module</a>, <a href="reference/script_filters.html#module-peltak.core.templates.filters">[1]</a>
+        <li><a href="dev/core/templates.html#module-peltak.core.templates">module</a>
 </li>
       </ul></li>
       <li>
@@ -699,21 +594,7 @@
         <li><a href="dev/core/versioning.html#module-0">module</a>, <a href="dev/core/versioning.html#module-peltak.core.versioning">[1]</a>
 </li>
       </ul></li>
-      <li>
-    peltak.extra.changelog
-
-      <ul>
-        <li><a href="guides/changelog.html#module-peltak.extra.changelog">module</a>
-</li>
-      </ul></li>
-      <li>
-    peltak.extra.scripts
-
-      <ul>
-        <li><a href="guides/scripts.html#module-peltak.extra.scripts">module</a>
-</li>
-      </ul></li>
-      <li><a href="dev/core/git.html#peltak.core.git.protected_branches">protected_branches() (in module peltak.core.git)</a>
+      <li><a href="dev/core/conf.html#peltak.core.conf.Config.proj_path">proj_path() (peltak.core.conf.Config method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -725,11 +606,13 @@
 </li>
       <li><a href="dev/core/util.html#peltak.core.util.remove_indent">remove_indent() (in module peltak.core.util)</a>
 </li>
-      <li><a href="reference/script_templates.html#peltak.core.templates.Engine.render">render() (peltak.core.templates.Engine method)</a>
+      <li><a href="dev/core/templates.html#peltak.core.templates.Engine.render">render() (peltak.core.templates.Engine method)</a>
+</li>
+      <li><a href="dev/core/templates.html#peltak.core.templates.Engine.render_file">render_file() (peltak.core.templates.Engine method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/script_templates.html#peltak.core.templates.Engine.render_file">render_file() (peltak.core.templates.Engine method)</a>
+      <li><a href="dev/core/conf.html#peltak.core.conf.Config.reset">reset() (peltak.core.conf.Config method)</a>
 </li>
       <li><a href="dev/core/shell.html#peltak.core.shell.ExecResult.return_code">return_code (peltak.core.shell.ExecResult attribute)</a>
 </li>
@@ -753,13 +636,9 @@
       </ul></li>
       <li><a href="dev/core/util.html#peltak.core.util.set_in_dict">set_in_dict() (in module peltak.core.util)</a>
 </li>
-      <li><a href="dev/core/git.html#peltak.core.git.CommitDetails.sha1">sha1 (peltak.core.git.CommitDetails attribute)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="dev/core/util.html#peltak.core.util.Singleton">Singleton (class in peltak.core.util)</a>
-</li>
-      <li><a href="dev/core/git.html#peltak.core.git.staged">staged() (in module peltak.core.git)</a>
 </li>
       <li><a href="dev/core/shell.html#peltak.core.shell.ExecResult.stderr">stderr (peltak.core.shell.ExecResult attribute)</a>
 </li>
@@ -775,45 +654,13 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="dev/core/util.html#peltak.core.util.timed_block.t0">t0 (peltak.core.util.timed_block attribute)</a>
 </li>
-      <li><a href="dev/core/git.html#peltak.core.git.tag">tag() (in module peltak.core.git)</a>
-</li>
-      <li><a href="dev/core/git.html#peltak.core.git.tags">tags() (in module peltak.core.git)</a>
-</li>
       <li><a href="dev/core/util.html#peltak.core.util.timed_block">timed_block (class in peltak.core.util)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="dev/core/git.html#peltak.core.git.BranchDetails.title">title (peltak.core.git.BranchDetails attribute)</a>
-
-      <ul>
-        <li><a href="dev/core/git.html#peltak.core.git.CommitDetails.title">(peltak.core.git.CommitDetails attribute)</a>
-</li>
-      </ul></li>
       <li><a href="dev/core/util.html#peltak.core.util.toml_dump">toml_dump() (in module peltak.core.util)</a>
 </li>
       <li><a href="dev/core/util.html#peltak.core.util.toml_load">toml_load() (in module peltak.core.util)</a>
-</li>
-      <li><a href="dev/core/git.html#peltak.core.git.BranchDetails.type">type (peltak.core.git.BranchDetails attribute)</a>
-</li>
-  </ul></td>
-</tr></table>
-
-<h2 id="U">U</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="dev/core/git.html#peltak.core.git.unstaged">unstaged() (in module peltak.core.git)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="dev/core/git.html#peltak.core.git.untracked">untracked() (in module peltak.core.git)</a>
-</li>
-  </ul></td>
-</tr></table>
-
-<h2 id="V">V</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="dev/core/git.html#peltak.core.git.verify_branch">verify_branch() (in module peltak.core.git)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -821,12 +668,10 @@
 <h2 id="W">W</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="dev/core/fs.html#peltak.core.fs.wrap_paths">wrap_paths() (in module peltak.core.fs)</a>
-
-      <ul>
-        <li><a href="reference/script_filters.html#peltak.core.templates.filters.wrap_paths">(in module peltak.core.templates.filters)</a>
+      <li><a href="dev/core/conf.html#peltak.core.conf.Config.within_proj_dir">within_proj_dir() (peltak.core.conf.Config method)</a>
 </li>
-      </ul></li>
+      <li><a href="dev/core/fs.html#peltak.core.fs.wrap_paths">wrap_paths() (in module peltak.core.fs)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="dev/core/versioning.html#peltak.core.versioning.write">write() (in module peltak.core.versioning)</a>
@@ -872,7 +717,7 @@
               
           </div>
             Created using
-            <a href="http://www.sphinx-doc.org/">Sphinx</a> 3.3.1.
+            <a href="http://www.sphinx-doc.org/">Sphinx</a> 4.3.2.
              and
             <a href="https://github.com/bashtage/sphinx-material/">Material for
               Sphinx</a>

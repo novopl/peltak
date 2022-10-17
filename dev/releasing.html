@@ -59,7 +59,7 @@
 </script>
   
   
-    <title>Guides &#8212; peltak 0.28.0 documentation</title>
+    <title>Releasing new versions of peltak &#8212; peltak 0.28.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/material.css" />
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
@@ -68,8 +68,8 @@
     <script src="../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Installation" href="installation.html" />
-    <link rel="prev" title="peltak - Simplify your day-to-day dev tasks" href="../index.html" />
+    <link rel="next" title="Flows" href="flows.html" />
+    <link rel="prev" title="Setup up the project for development" href="contrib.html" />
   
    
 
@@ -88,7 +88,7 @@
   <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer">
   <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search">
   <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
-  <a href="#guides/_index" tabindex="1" class="md-skip"> Skip to content </a>
+  <a href="#dev/releasing" tabindex="1" class="md-skip"> Skip to content </a>
   <header class="md-header" data-md-component="header">
   <nav class="md-header-nav md-grid">
     <div class="md-flex navheader">
@@ -106,7 +106,7 @@
       <div class="md-flex__cell md-flex__cell--stretch">
         <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
           <span class="md-header-nav__topic">peltak</span>
-          <span class="md-header-nav__topic"> Guides </span>
+          <span class="md-header-nav__topic"> Releasing new versions of peltak </span>
         </div>
       </div>
       <div class="md-flex__cell md-flex__cell--shrink">
@@ -180,6 +180,7 @@
     <div class="md-tabs__inner md-grid">
       <ul class="md-tabs__list">
           <li class="md-tabs__item"><a href="../index.html" class="md-tabs__link">peltak 0.28.0 documentation</a></li>
+          <li class="md-tabs__item"><a href="_index.html" class="md-tabs__link">Dev Docs</a></li>
       </ul>
     </div>
   </nav>
@@ -221,45 +222,33 @@
     <li class="md-nav__item">
     
     
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    <label class="md-nav__link md-nav__link--active" for="__toc"> Guides </label>
-    
-      <a href="#" class="md-nav__link md-nav__link--active">Guides</a>
-      
-        
-<nav class="md-nav md-nav--secondary">
-  <ul class="md-nav__list" data-md-scrollfix="">
-    
-<li class="md-nav__item"><a class="md-nav__extra_link" href="../_sources/guides/_index.rst.txt">Show Source</a> </li>
-
-  </ul>
-</nav>
+      <a href="../guides/_index.html" class="md-nav__link">Guides</a>
       <ul class="md-nav__list"> 
     <li class="md-nav__item">
     
     
-      <a href="installation.html" class="md-nav__link">Installation</a>
+      <a href="../guides/installation.html" class="md-nav__link">Installation</a>
       
     
     </li>
     <li class="md-nav__item">
     
     
-      <a href="quickstart.html" class="md-nav__link">Quickstart</a>
+      <a href="../guides/quickstart.html" class="md-nav__link">Quickstart</a>
       
     
     </li>
     <li class="md-nav__item">
     
     
-      <a href="create_custom_commands.html" class="md-nav__link">Custom peltak commands</a>
+      <a href="../guides/create_custom_commands.html" class="md-nav__link">Custom peltak commands</a>
       
     
     </li>
     <li class="md-nav__item">
     
     
-      <a href="package_commands.html" class="md-nav__link">Share your peltak commands</a>
+      <a href="../guides/package_commands.html" class="md-nav__link">Share your peltak commands</a>
       
     
     </li></ul>
@@ -268,47 +257,74 @@
     <li class="md-nav__item">
     
     
-      <a href="../dev/_index.html" class="md-nav__link">Dev Docs</a>
+      <a href="_index.html" class="md-nav__link">Dev Docs</a>
       <ul class="md-nav__list"> 
     <li class="md-nav__item">
     
     
-      <a href="../dev/contrib.html" class="md-nav__link">Setup up the project for development</a>
+      <a href="contrib.html" class="md-nav__link">Setup up the project for development</a>
       
     
     </li>
     <li class="md-nav__item">
     
     
-      <a href="../dev/releasing.html" class="md-nav__link">Releasing new versions of peltak</a>
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    <label class="md-nav__link md-nav__link--active" for="__toc"> Releasing new versions of peltak </label>
+    
+      <a href="#" class="md-nav__link md-nav__link--active">Releasing new versions of peltak</a>
+      
+        
+<nav class="md-nav md-nav--secondary">
+    <label class="md-nav__title" for="__toc">Contents</label>
+  <ul class="md-nav__list" data-md-scrollfix="">
+        <li class="md-nav__item"><a href="#dev-releasing--page-root" class="md-nav__link">Releasing new versions of peltak</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#current-setup" class="md-nav__link">Current setup</a>
+        </li>
+        <li class="md-nav__item"><a href="#desired-setup" class="md-nav__link">Desired setup</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#automatic-releases" class="md-nav__link">Automatic Releases</a>
+        </li>
+        <li class="md-nav__item"><a href="#manual-releases" class="md-nav__link">Manual releases</a>
+        </li></ul>
+            </nav>
+        </li></ul>
+            </nav>
+        </li>
+    
+<li class="md-nav__item"><a class="md-nav__extra_link" href="../_sources/dev/releasing.rst.txt">Show Source</a> </li>
+
+  </ul>
+</nav>
       
     
     </li>
     <li class="md-nav__item">
     
     
-      <a href="../dev/flows.html" class="md-nav__link">Flows</a>
+      <a href="flows.html" class="md-nav__link">Flows</a>
       
     
     </li>
     <li class="md-nav__item">
     
     
-      <a href="../dev/notes.html" class="md-nav__link">Dev Notes</a>
+      <a href="notes.html" class="md-nav__link">Dev Notes</a>
       
     
     </li>
     <li class="md-nav__item">
     
     
-      <a href="../dev/core/_index.html" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">peltak.core</span></code></a>
+      <a href="core/_index.html" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">peltak.core</span></code></a>
       
     
     </li>
     <li class="md-nav__item">
     
     
-      <a href="../dev/_index.html#reference" class="md-nav__link">Reference</a>
+      <a href="_index.html#reference" class="md-nav__link">Reference</a>
       
     
     </li></ul>
@@ -326,9 +342,24 @@
               <div class="md-sidebar__inner">
                 
 <nav class="md-nav md-nav--secondary">
+    <label class="md-nav__title" for="__toc">Contents</label>
   <ul class="md-nav__list" data-md-scrollfix="">
+        <li class="md-nav__item"><a href="#dev-releasing--page-root" class="md-nav__link">Releasing new versions of peltak</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#current-setup" class="md-nav__link">Current setup</a>
+        </li>
+        <li class="md-nav__item"><a href="#desired-setup" class="md-nav__link">Desired setup</a><nav class="md-nav">
+              <ul class="md-nav__list">
+        <li class="md-nav__item"><a href="#automatic-releases" class="md-nav__link">Automatic Releases</a>
+        </li>
+        <li class="md-nav__item"><a href="#manual-releases" class="md-nav__link">Manual releases</a>
+        </li></ul>
+            </nav>
+        </li></ul>
+            </nav>
+        </li>
     
-<li class="md-nav__item"><a class="md-nav__extra_link" href="../_sources/guides/_index.rst.txt">Show Source</a> </li>
+<li class="md-nav__item"><a class="md-nav__extra_link" href="../_sources/dev/releasing.rst.txt">Show Source</a> </li>
 
 <li id="searchbox" class="md-nav__item"></li>
 
@@ -341,16 +372,72 @@
         <div class="md-content">
           <article class="md-content__inner md-typeset" role="main">
             
-  <section id="guides">
-<h1 id="guides-index--page-root">Guides<a class="headerlink" href="#guides-index--page-root" title="Permalink to this headline">¶</a></h1>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
-<li class="toctree-l1"><a class="reference internal" href="create_custom_commands.html">Custom peltak commands</a></li>
-<li class="toctree-l1"><a class="reference internal" href="package_commands.html">Share your peltak commands</a></li>
-</ul>
+  <section id="releasing-new-versions-of-peltak">
+<h1 id="dev-releasing--page-root">Releasing new versions of peltak<a class="headerlink" href="#dev-releasing--page-root" title="Permalink to this headline">¶</a></h1>
+<section id="current-setup">
+<h2 id="current-setup">Current setup<a class="headerlink" href="#current-setup" title="Permalink to this headline">¶</a></h2>
+<p>Currently the project is using gitflow to manage the code. All development happens
+on the <code class="docutils literal notranslate"><span class="pre">develop</span></code> branch and all releases are built from <code class="docutils literal notranslate"><span class="pre">master</span></code>. All work should
+be merged into <code class="docutils literal notranslate"><span class="pre">develop</span></code>.</p>
+<p>Once the release is to be made, a new <code class="docutils literal notranslate"><span class="pre">release/</span></code> branch is created. It can be done
+from the shell and you can also specify what kind of a version bump does the release
+represent. The default is <code class="docutils literal notranslate"><span class="pre">patch</span></code> (_._.X) but can be set to <code class="docutils literal notranslate"><span class="pre">minor</span></code> (_.X.0)) or
+<code class="docutils literal notranslate"><span class="pre">major</span></code> (X.0.0):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">peltak</span> <span class="n">release</span> <span class="n">start</span>            <span class="c1"># Start a patch release (1.2.3 -&gt; 1.2.4)</span>
+<span class="n">peltak</span> <span class="n">release</span> <span class="n">start</span> <span class="n">patch</span>      <span class="c1"># Same as above</span>
+<span class="n">peltak</span> <span class="n">release</span> <span class="n">start</span> <span class="n">minor</span>      <span class="c1"># Start a minor release (1.2.3 -&gt; 1.3.0)</span>
+<span class="n">peltak</span> <span class="n">release</span> <span class="n">start</span> <span class="n">major</span>      <span class="c1"># Start a major release (1.2.3 -&gt; 2.0.0)</span>
+</pre></div>
 </div>
+<p>Once the release branch is created it need’s to be pushed to the origin and a release
+PR needs to be created. This can be easily done from shell:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">peltak</span> <span class="n">git</span> <span class="n">push</span>
+<span class="n">peltak</span> <span class="n">pr</span><span class="o">-</span><span class="n">release</span>
+</pre></div>
+</div>
+<p>Now you need to go to the PR, wait for the CI to build and merge the pull request.
+Once that’s done, the build on the master branch will release a new version to pypi,
+as well as build a new version of the docs and deploy it to github pages.</p>
+<p>One final step is to merge the release branch back into develop and delete the local
+release branch. All of that can be done quickly via shell as well:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">peltak</span> <span class="n">release</span> <span class="n">merged</span>
+</pre></div>
+</div>
+<p>You should end up back on <code class="docutils literal notranslate"><span class="pre">develop</span></code> branch, ready to work on new features.</p>
+</section>
+<section id="desired-setup">
+<h2 id="desired-setup">Desired setup<a class="headerlink" href="#desired-setup" title="Permalink to this headline">¶</a></h2>
+<section id="automatic-releases">
+<h3 id="automatic-releases">Automatic Releases<a class="headerlink" href="#automatic-releases" title="Permalink to this headline">¶</a></h3>
+<p>We want to simplify this process as it’s both quite lengthy and generates a lot
+of unnecessary merge commits thus cluttering the history. With the new approach
+all development happens on master. Once the release is ready a release commit is
+created and tagged appropriately. The CI is setup to have a release build and
+deployment for the release tags. This way we decide what is released and we avoid
+creating a lot of merge commits due to existence of the release branch.</p>
+<p>Here’s the proposed flow for releasing new versions:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># at any point on the master branch</span>
+<span class="n">peltak</span> <span class="n">make</span><span class="o">-</span><span class="n">release</span> <span class="n">patch</span>
+<span class="n">git</span> <span class="n">push</span>
+</pre></div>
+</div>
+<p>The first command (<code class="docutils literal notranslate"><span class="pre">peltak</span> <span class="pre">make-release</span></code>) should bump the project version,
+create a release commit with the changelog and tag the release with the version tag.</p>
+<p>For the release tag build on the CI, we should make sure the appropriate github
+release is also created and that it contains the changelog.</p>
+</section>
+<section id="manual-releases">
+<h3 id="manual-releases">Manual releases<a class="headerlink" href="#manual-releases" title="Permalink to this headline">¶</a></h3>
+<p>With the new approach, we also want to be able to release manually from the CLI.
+This should not be used frequently, but might be useful sometimes (especially
+under problematic circumstances). In those cases, we also create the release
+commit locally, but instead of pushing the code, we can release directly to pypi:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">peltak</span> <span class="n">make</span><span class="o">-</span><span class="n">release</span> <span class="n">minor</span>
+<span class="n">peltak</span> <span class="n">publish</span> <span class="o">-</span><span class="n">r</span> <span class="n">pypi</span> <span class="o">-</span><span class="n">u</span> <span class="n">PYPI_USERNAME</span> <span class="o">-</span><span class="n">p</span> <span class="n">PYPI_PASSWORD</span>
+</pre></div>
+</div>
+</section>
+</section>
 </section>
 
 
@@ -363,7 +450,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
           
-            <a href="../index.html" title="peltak - Simplify your day-to-day dev tasks"
+            <a href="contrib.html" title="Setup up the project for development"
                class="md-flex md-footer-nav__link md-footer-nav__link--prev"
                rel="prev">
               <div class="md-flex__cell md-flex__cell--shrink">
@@ -372,17 +459,17 @@
               <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
                 <span class="md-flex__ellipsis">
                   <span
-                      class="md-footer-nav__direction"> Previous </span> peltak - Simplify your day-to-day dev tasks </span>
+                      class="md-footer-nav__direction"> Previous </span> Setup up the project for development </span>
               </div>
             </a>
           
           
-            <a href="installation.html" title="Installation"
+            <a href="flows.html" title="Flows"
                class="md-flex md-footer-nav__link md-footer-nav__link--next"
                rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title"><span
                 class="md-flex__ellipsis"> <span
-                class="md-footer-nav__direction"> Next </span> Installation </span>
+                class="md-footer-nav__direction"> Next </span> Flows </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink"><i
                 class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>

@@ -10,7 +10,6 @@ Table of Contents
     :maxdepth: 2
 
     guides/_index
-    reference/_index
     dev/_index
 
 
@@ -51,7 +50,7 @@ Simple by default
 
 **peltak** comes with a small set of built-in commands that provide for a very
 flexible base for simple projects. You can initialize a new peltak configuration
-(`pelconf.yaml`) in the current project with::
+(:ref:`pelconf.yaml <peltak.core.conf>`) in the current project with::
 
     peltak init
 
@@ -95,12 +94,12 @@ Extensible
 **peltak** is designed to grow with your project and provides a few layers of
 functionality that allow you to start small just like with simple shell scripts
 (but with more capabilities). For that there is the ``scripts:`` section in
-`pelconf.yaml`. You can define shell scripts that can make use of a very
-flexible templating engine. For most projects this will actually be enough.
-**peltak** allows you to easily define cmd line options for your scripts and
-thanks to the templating support you can actually dynamically build your script
-based on configuration and command line options. You can read more on how to
-use scripts in `/guides/scripts`.
+:ref:`pelconf.yaml <peltak.core.conf>`. You can define shell scripts that can
+make use of a very flexible templating engine. For most projects this will
+actually be enough. **peltak** allows you to easily define cmd line options for
+your scripts and thanks to the templating support you can actually dynamically
+build your script based on configuration and command line options. You can read
+more on how to use scripts in `/guides/scripts`.
 
 If you need more functionality, **peltak** also makes it very easy to extend
 the default set of commands with python. If your project suddenly needs
@@ -119,8 +118,9 @@ how to create packages for peltak commands if you need more information:
 `/guides/package_commands`.
 
 **peltak** is designed to be possibly least intrusive. Even if your team decides
-not to use it, you can use it yourself, just don't commit the `pelconf.yaml`
-file and you will be good. This way you can have a smooth developer experience
+not to use it, you can use it yourself, just don't commit the
+:ref:`pelconf.yaml <peltak.core.conf>` file and you will be good. This way you
+can have a smooth developer experience
 on every project you work on.
 
 Auto-completion

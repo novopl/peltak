@@ -4,7 +4,8 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <meta name="lang:clipboard.copy" content="Copy to clipboard">
@@ -44,25 +45,27 @@
   <meta name="theme-color" content="#3f51b5">
   <script src="../_static/javascripts/modernizr.js"></script>
   
-  <script>
-      window.ga = window.ga || function () {
-          (ga.q = ga.q || []).push(arguments)
-      };
-      ga.l = +new Date;
-      ga('create', 'UA-187740680-2', 'auto');
-      ga('send', 'pageview');
-  </script>
-  <script async src='https://www.google-analytics.com/analytics.js'></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-187740680-2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'UA-187740680-2');
+</script>
   
   
-    <title>Create peltak scripts &#8212; peltak 0.27.6 documentation</title>
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/material.css" type="text/css" />
-    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <title>&lt;no title&gt; &#8212; peltak 0.28.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/material.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
-    <script src="../_static/language_data.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Custom peltak commands" href="create_custom_commands.html" />
@@ -90,7 +93,7 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex navheader">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href="../index.html" title="peltak 0.27.6 documentation"
+        <a href="../index.html" title="peltak 0.28.0 documentation"
            class="md-header-nav__button md-logo">
           
             <i class="md-icon">&#x267E</i>
@@ -103,7 +106,7 @@
       <div class="md-flex__cell md-flex__cell--stretch">
         <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
           <span class="md-header-nav__topic">peltak</span>
-          <span class="md-header-nav__topic"> Create peltak scripts </span>
+          <span class="md-header-nav__topic"> &lt;no title&gt; </span>
         </div>
       </div>
       <div class="md-flex__cell md-flex__cell--shrink">
@@ -112,7 +115,7 @@
 <div class="md-search" data-md-component="search" role="dialog">
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
-    <form class="md-search__form" action="../search.html" method="GET" name="search">
+    <form class="md-search__form" action="../search.html" method="get" name="search">
       <input type="text" class="md-search__input" name="q" placeholder="Search"
              autocapitalize="off" autocomplete="off" spellcheck="false"
              data-md-component="query" data-md-state="active">
@@ -176,7 +179,7 @@
   <nav class="md-tabs" data-md-component="tabs">
     <div class="md-tabs__inner md-grid">
       <ul class="md-tabs__list">
-          <li class="md-tabs__item"><a href="../index.html" class="md-tabs__link">peltak 0.27.6 documentation</a></li>
+          <li class="md-tabs__item"><a href="../index.html" class="md-tabs__link">peltak 0.28.0 documentation</a></li>
           <li class="md-tabs__item"><a href="_index.html" class="md-tabs__link">Guides</a></li>
       </ul>
     </div>
@@ -189,13 +192,13 @@
               <div class="md-sidebar__inner">
                 <nav class="md-nav md-nav--primary" data-md-level="0">
   <label class="md-nav__title md-nav__title--site" for="__drawer">
-    <a href="../index.html" title="peltak 0.27.6 documentation" class="md-nav__button md-logo">
+    <a href="../index.html" title="peltak 0.28.0 documentation" class="md-nav__button md-logo">
       
         <i class="md-icon">&#x267E</i>
       
     </a>
     <a href="../index.html"
-       title="peltak 0.27.6 documentation">peltak</a>
+       title="peltak 0.28.0 documentation">peltak</a>
   </label>
     <div class="md-nav__source">
       <a href="https://github.com/novopl/peltak" title="Go to repository" class="md-source" data-md-source="github">
@@ -238,46 +241,6 @@
     <li class="md-nav__item">
     
     
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    <label class="md-nav__link md-nav__link--active" for="__toc"> Create peltak scripts </label>
-    
-      <a href="#" class="md-nav__link md-nav__link--active">Create peltak scripts</a>
-      
-        
-<nav class="md-nav md-nav--secondary">
-    <label class="md-nav__title" for="__toc">Contents</label>
-  <ul class="md-nav__list" data-md-scrollfix="">
-        <li class="md-nav__item"><a href="#guides-scripts--page-root" class="md-nav__link">Create peltak scripts</a><nav class="md-nav">
-              <ul class="md-nav__list">
-        <li class="md-nav__item"><a href="#get-a-list-of-scripts-available-in-the-project" class="md-nav__link">Get a list of scripts available in the project</a>
-        </li>
-        <li class="md-nav__item"><a href="#defining-a-script" class="md-nav__link">Defining a script</a><nav class="md-nav">
-              <ul class="md-nav__list">
-        <li class="md-nav__item"><a href="#debugging-your-script" class="md-nav__link">Debugging your script</a>
-        </li></ul>
-            </nav>
-        </li>
-        <li class="md-nav__item"><a href="#multiline-and-multi-statement-commands" class="md-nav__link">Multiline and multi statement commands</a>
-        </li>
-        <li class="md-nav__item"><a href="#templating-capabilities-of-scripts" class="md-nav__link">Templating capabilities of scripts</a><nav class="md-nav">
-              <ul class="md-nav__list">
-        <li class="md-nav__item"><a href="#injecting-config-values-from-pelconf-yaml-into-your-script" class="md-nav__link">Injecting config values from <code class="xref any docutils literal notranslate"><span class="pre">pelconf.yaml</span></code> into your script</a>
-        </li></ul>
-            </nav>
-        </li></ul>
-            </nav>
-        </li>
-    
-<li class="md-nav__item"><a class="md-nav__extra_link" href="../_sources/guides/scripts.rst.txt">Show Source</a> </li>
-
-  </ul>
-</nav>
-      
-    
-    </li>
-    <li class="md-nav__item">
-    
-    
       <a href="create_custom_commands.html" class="md-nav__link">Custom peltak commands</a>
       
     
@@ -286,41 +249,6 @@
     
     
       <a href="package_commands.html" class="md-nav__link">Share your peltak commands</a>
-      
-    
-    </li>
-    <li class="md-nav__item">
-    
-    
-      <a href="changelog.html" class="md-nav__link">Auto-generate changelog from git history</a>
-      
-    
-    </li></ul>
-    
-    </li>
-    <li class="md-nav__item">
-    
-    
-      <a href="../reference/_index.html" class="md-nav__link">Reference Documentation</a>
-      <ul class="md-nav__list"> 
-    <li class="md-nav__item">
-    
-    
-      <a href="../reference/script_templates.html" class="md-nav__link">Script template reference</a>
-      
-    
-    </li>
-    <li class="md-nav__item">
-    
-    
-      <a href="../reference/script_filters.html" class="md-nav__link">Built-in script template filters</a>
-      
-    
-    </li>
-    <li class="md-nav__item">
-    
-    
-      <a href="../reference/pelconf.html" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">pelconf.yaml</span></code></a>
       
     
     </li></ul>
@@ -341,7 +269,21 @@
     <li class="md-nav__item">
     
     
+      <a href="../dev/releasing.html" class="md-nav__link">Releasing new versions of peltak</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
       <a href="../dev/flows.html" class="md-nav__link">Flows</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="../dev/notes.html" class="md-nav__link">Dev Notes</a>
       
     
     </li>
@@ -373,28 +315,7 @@
               <div class="md-sidebar__inner">
                 
 <nav class="md-nav md-nav--secondary">
-    <label class="md-nav__title" for="__toc">Contents</label>
   <ul class="md-nav__list" data-md-scrollfix="">
-        <li class="md-nav__item"><a href="#guides-scripts--page-root" class="md-nav__link">Create peltak scripts</a><nav class="md-nav">
-              <ul class="md-nav__list">
-        <li class="md-nav__item"><a href="#get-a-list-of-scripts-available-in-the-project" class="md-nav__link">Get a list of scripts available in the project</a>
-        </li>
-        <li class="md-nav__item"><a href="#defining-a-script" class="md-nav__link">Defining a script</a><nav class="md-nav">
-              <ul class="md-nav__list">
-        <li class="md-nav__item"><a href="#debugging-your-script" class="md-nav__link">Debugging your script</a>
-        </li></ul>
-            </nav>
-        </li>
-        <li class="md-nav__item"><a href="#multiline-and-multi-statement-commands" class="md-nav__link">Multiline and multi statement commands</a>
-        </li>
-        <li class="md-nav__item"><a href="#templating-capabilities-of-scripts" class="md-nav__link">Templating capabilities of scripts</a><nav class="md-nav">
-              <ul class="md-nav__list">
-        <li class="md-nav__item"><a href="#injecting-config-values-from-pelconf-yaml-into-your-script" class="md-nav__link">Injecting config values from <code class="xref any docutils literal notranslate"><span class="pre">pelconf.yaml</span></code> into your script</a>
-        </li></ul>
-            </nav>
-        </li></ul>
-            </nav>
-        </li>
     
 <li class="md-nav__item"><a class="md-nav__extra_link" href="../_sources/guides/scripts.rst.txt">Show Source</a> </li>
 
@@ -409,131 +330,7 @@
         <div class="md-content">
           <article class="md-content__inner md-typeset" role="main">
             
-  <span class="target" id="module-peltak.extra.scripts"></span>
-<h1 id="guides-scripts--page-root">Create peltak scripts<a class="headerlink" href="#guides-scripts--page-root" title="Permalink to this headline">¶</a></h1>
-<p><strong>peltak</strong> supports defining simple scripts directly inside <a class="reference internal" href="../reference/pelconf.html#pelconf-yaml"><span class="std std-ref">pelconf.yaml</span></a>. On
-top of just defining the command, by default the command is processed by jinja
-before it’s being ran. This makes it possible to inject some dynamic values into
-the command and makes the whole scripts subsystem very flexible.</p>
-
-<h2 id="get-a-list-of-scripts-available-in-the-project">Get a list of scripts available in the project<a class="headerlink" href="#get-a-list-of-scripts-available-in-the-project" title="Permalink to this headline">¶</a></h2>
-<p>To get a list of all scripts that are defined in <a class="reference internal" href="../reference/pelconf.html#pelconf-yaml"><span class="std std-ref">pelconf.yaml</span></a> you only need
-to run the <code class="docutils literal notranslate"><span class="pre">peltak</span> <span class="pre">run</span></code> command without any arguments. Here’s an example from
-the <strong>peltak</strong> project itself (at the time of writing):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ peltak run
-Usage: peltak run [OPTIONS] COMMAND [ARGS]...
-
-  Run custom scripts
-
-Options:
-  --help  Show this message and exit.
-
-Commands:
-  checks       Run all checks (types, pep8, code style)
-  cov-core     Generate coverage report for peltak.core
-  cov-extra    Generate coverage report for peltak.extra
-  cov-scripts  Generate coverage report for peltak.extra.scripts
-  docs         Generate sphinx documentation
-  tests        Run unit tests
-  type-check   Run static type checks
-</pre></div>
-</div>
-
-
-<h2 id="defining-a-script">Defining a script<a class="headerlink" href="#defining-a-script" title="Permalink to this headline">¶</a></h2>
-<p>You can define a script inside <a class="reference internal" href="../reference/pelconf.html#pelconf-yaml"><span class="std std-ref">pelconf.yaml</span></a> in the <strong>scripts:</strong>. The script
-always has a name (key in the scripts config section) and a command (required
-prop). Say you want to define a <code class="docutils literal notranslate"><span class="pre">test</span></code> command that invokes pytest on the
-<code class="docutils literal notranslate"><span class="pre">./test</span></code> directory, here’s the corresponding <a class="reference internal" href="../reference/pelconf.html#pelconf-yaml"><span class="std std-ref">pelconf.yaml</span></a> section.</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">scripts</span><span class="p">:</span>
-    <span class="nt">test</span><span class="p">:</span>
-        <span class="nt">command</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">pytest ./test</span>
-</pre></div>
-</div>
-<p>And you can run this command with:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>peltak run <span class="nb">test</span>
-</pre></div>
-</div>
-
-<h3 id="debugging-your-script">Debugging your script<a class="headerlink" href="#debugging-your-script" title="Permalink to this headline">¶</a></h3>
-<p><strong>peltak</strong> provides a few helpers to ease the process of creating custom
-project scripts. The first one is the <code class="docutils literal notranslate"><span class="pre">--pretend</span></code> option. Providing it when
-invoking your script will cause <strong>peltak</strong> to render the compiled template
-script instead of running it. This allows you to see exactly what command would
-be executed.</p>
-<p>The second one is the <code class="docutils literal notranslate"><span class="pre">-v</span></code>, <code class="docutils literal notranslate"><span class="pre">--verbose</span></code> flag. With verbosity level 3 (<code class="docutils literal notranslate"><span class="pre">-vvv</span></code>)
-<strong>peltak</strong> will render the full script template context as a highlighted YAML.
-This makes it very easy to see exactly what values are available in the template
-context of your project.</p>
-<p>Combining <code class="docutils literal notranslate"><span class="pre">--pretend</span></code> with <code class="docutils literal notranslate"><span class="pre">-vvv</span></code> will show you the full template context
-followed by a compiled command without executing anything. This is perfect when
-you’re working on your script and are afraid you might break something.</p>
-
-
-
-<h2 id="multiline-and-multi-statement-commands">Multiline and multi statement commands<a class="headerlink" href="#multiline-and-multi-statement-commands" title="Permalink to this headline">¶</a></h2>
-<p>The <em>test</em> command above is a very simple one. What if your script command is
-very long, or you want to call multiple shell commands? The command you define
-is treated as a shell script, so you can do whatever you can with shell scripts.
-One thing to remember is to use <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">-e</span></code> in your script if you want it to fail
-if any of the commands fail.</p>
-<p>For convenience, you can use the YAML multiline string syntax:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">checks</span><span class="p">:</span>
-    <span class="nt">about</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Run checks on the code base</span>
-    <span class="nt">command</span><span class="p">:</span> <span class="p p-Indicator">|</span>
-        <span class="no">set -e</span>
-        <span class="no">pipenv run mypy src</span>
-        <span class="no">pipenv run pep8 --config tools/pep8.ini src</span>
-        <span class="no">pipenv run pylint --rcfile tools/pylint.ini src</span>
-</pre></div>
-</div>
-
-
-<h2 id="templating-capabilities-of-scripts">Templating capabilities of scripts<a class="headerlink" href="#templating-capabilities-of-scripts" title="Permalink to this headline">¶</a></h2>
-<p>The scripts module was designed to parse the commands as templates and inject
-<strong>peltak’s</strong> current working environment. This means you can use configuration
-and some helper filters to generate the actual command.</p>
-<p>If you want to more details about templating in scripts, you can read
-<a class="reference internal" href="../reference/script_templates.html"><span class="doc">Script template reference</span></a>.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Scripts templating is very simple. It should be used only for simple
-value substitution with optional processing. If need flow control for a
-script you probably should look at implementing a custom peltak command for
-the project as this will give you the full power of python and is also a
-very simple to do.</p>
-</div>
-
-<h3 id="injecting-config-values-from-pelconf-yaml-into-your-script">Injecting config values from <a class="reference internal" href="../reference/pelconf.html#pelconf-yaml"><span class="std std-ref">pelconf.yaml</span></a> into your script<a class="headerlink" href="#injecting-config-values-from-pelconf-yaml-into-your-script" title="Permalink to this headline">¶</a></h3>
-<p>Let’s modify our <em>checks</em> command to use config variables. We’re repeating
-ourselves passing <code class="docutils literal notranslate"><span class="pre">src</span></code> to every command. You probably already have a
-<code class="docutils literal notranslate"><span class="pre">src_dir</span></code> variable set up in your config, why not use that to execute the
-checks? Same goes for the location of the tools config files. We can create
-a new config variable to store the tool config dir and just use it in
-our command. The current configuration is injected into the template as <code class="docutils literal notranslate"><span class="pre">conf</span></code>
-object. You can access it via the <code class="docutils literal notranslate"><span class="pre">{{</span> <span class="pre">EXPRESSION</span> <span class="pre">}}</span></code> syntax. Here’s a
-modified version of the <em>checks</em> command.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">src_dir</span><span class="p">:</span> <span class="n">src</span>
-<span class="n">tool_dir</span><span class="p">:</span> <span class="n">tools</span>
-
-<span class="n">checks</span><span class="p">:</span>
-  <span class="n">about</span><span class="p">:</span> <span class="n">Run</span> <span class="n">checks</span> <span class="n">on</span> <span class="n">the</span> <span class="n">code</span> <span class="n">base</span>
-  <span class="n">command</span><span class="p">:</span> <span class="o">|</span>
-    <span class="n">pipenv</span> <span class="n">run</span> <span class="n">mypy</span> <span class="p">{{</span> <span class="n">conf</span><span class="o">.</span><span class="n">src_dir</span> <span class="p">}}</span>
-    <span class="n">pipenv</span> <span class="n">run</span> <span class="n">pep8</span> <span class="o">--</span><span class="n">config</span> <span class="p">{{</span> <span class="n">conf</span><span class="o">.</span><span class="n">tool_dir</span> <span class="p">}}</span><span class="o">/</span><span class="n">pep8</span><span class="o">.</span><span class="n">ini</span> <span class="p">{{</span> <span class="n">conf</span><span class="o">.</span><span class="n">src_dir</span> <span class="p">}};</span>
-    <span class="n">pipenv</span> <span class="n">run</span> <span class="n">pylint</span> <span class="o">--</span><span class="n">rcfile</span> <span class="p">{{</span> <span class="n">conf</span><span class="o">.</span><span class="n">tool_dir</span> <span class="p">}}</span><span class="o">/</span><span class="n">pylint</span><span class="o">.</span><span class="n">ini</span> <span class="p">{{</span> <span class="n">conf</span><span class="o">.</span><span class="n">src_dir</span> <span class="p">}};</span>
-</pre></div>
-</div>
-<p>This makes it easy to reuse certain values between scripts as all scripts can
-access config through <code class="docutils literal notranslate"><span class="pre">{{</span> <span class="pre">conf.VALUE</span> <span class="pre">}}</span></code> expression. This makes managing the
-project much easier as <a class="reference internal" href="../reference/pelconf.html#pelconf-yaml"><span class="std std-ref">pelconf.yaml</span></a> can serve as a config store for all
-scripts and changing any of those values will work right away with all scripts
-that use it.</p>
-<p>You can find out more in <a class="reference internal" href="../reference/script_filters.html"><span class="doc">Built-in script template filters</span></a></p>
-
-
-
-
+  
 
           </article>
         </div>
@@ -581,7 +378,7 @@ that use it.</p>
               
           </div>
             Created using
-            <a href="http://www.sphinx-doc.org/">Sphinx</a> 3.3.1.
+            <a href="http://www.sphinx-doc.org/">Sphinx</a> 4.3.2.
              and
             <a href="https://github.com/bashtage/sphinx-material/">Material for
               Sphinx</a>

@@ -4,7 +4,8 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <meta name="lang:clipboard.copy" content="Copy to clipboard">
@@ -44,29 +45,31 @@
   <meta name="theme-color" content="#3f51b5">
   <script src="../../_static/javascripts/modernizr.js"></script>
   
-  <script>
-      window.ga = window.ga || function () {
-          (ga.q = ga.q || []).push(arguments)
-      };
-      ga.l = +new Date;
-      ga('create', 'UA-187740680-2', 'auto');
-      ga('send', 'pageview');
-  </script>
-  <script async src='https://www.google-analytics.com/analytics.js'></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-187740680-2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'UA-187740680-2');
+</script>
   
   
-    <title>peltak.core.shell &#8212; peltak 0.27.6 documentation</title>
-    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/material.css" type="text/css" />
-    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <title>peltak.core.shell &#8212; peltak 0.28.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/material.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
     <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/language_data.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="peltak.core.util" href="util.html" />
-    <link rel="prev" title="peltak.core.pelconf" href="pelconf.html" />
+    <link rel="next" title="peltak.core.templates" href="templates.html" />
+    <link rel="prev" title="peltak.core.log" href="log.html" />
   
    
 
@@ -90,7 +93,7 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex navheader">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href="../../index.html" title="peltak 0.27.6 documentation"
+        <a href="../../index.html" title="peltak 0.28.0 documentation"
            class="md-header-nav__button md-logo">
           
             <i class="md-icon">&#x267E</i>
@@ -112,7 +115,7 @@
 <div class="md-search" data-md-component="search" role="dialog">
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
-    <form class="md-search__form" action="../../search.html" method="GET" name="search">
+    <form class="md-search__form" action="../../search.html" method="get" name="search">
       <input type="text" class="md-search__input" name="q" placeholder="Search"
              autocapitalize="off" autocomplete="off" spellcheck="false"
              data-md-component="query" data-md-state="active">
@@ -176,7 +179,7 @@
   <nav class="md-tabs" data-md-component="tabs">
     <div class="md-tabs__inner md-grid">
       <ul class="md-tabs__list">
-          <li class="md-tabs__item"><a href="../../index.html" class="md-tabs__link">peltak 0.27.6 documentation</a></li>
+          <li class="md-tabs__item"><a href="../../index.html" class="md-tabs__link">peltak 0.28.0 documentation</a></li>
           <li class="md-tabs__item"><a href="../_index.html" class="md-tabs__link">Dev Docs</a></li>
           <li class="md-tabs__item"><a href="_index.html" class="md-tabs__link"><code class="docutils literal notranslate"><span class="pre">peltak.core</span></code></a></li>
       </ul>
@@ -190,13 +193,13 @@
               <div class="md-sidebar__inner">
                 <nav class="md-nav md-nav--primary" data-md-level="0">
   <label class="md-nav__title md-nav__title--site" for="__drawer">
-    <a href="../../index.html" title="peltak 0.27.6 documentation" class="md-nav__button md-logo">
+    <a href="../../index.html" title="peltak 0.28.0 documentation" class="md-nav__button md-logo">
       
         <i class="md-icon">&#x267E</i>
       
     </a>
     <a href="../../index.html"
-       title="peltak 0.27.6 documentation">peltak</a>
+       title="peltak 0.28.0 documentation">peltak</a>
   </label>
     <div class="md-nav__source">
       <a href="https://github.com/novopl/peltak" title="Go to repository" class="md-source" data-md-source="github">
@@ -239,13 +242,6 @@
     <li class="md-nav__item">
     
     
-      <a href="../../guides/scripts.html" class="md-nav__link">Create peltak scripts</a>
-      
-    
-    </li>
-    <li class="md-nav__item">
-    
-    
       <a href="../../guides/create_custom_commands.html" class="md-nav__link">Custom peltak commands</a>
       
     
@@ -254,41 +250,6 @@
     
     
       <a href="../../guides/package_commands.html" class="md-nav__link">Share your peltak commands</a>
-      
-    
-    </li>
-    <li class="md-nav__item">
-    
-    
-      <a href="../../guides/changelog.html" class="md-nav__link">Auto-generate changelog from git history</a>
-      
-    
-    </li></ul>
-    
-    </li>
-    <li class="md-nav__item">
-    
-    
-      <a href="../../reference/_index.html" class="md-nav__link">Reference Documentation</a>
-      <ul class="md-nav__list"> 
-    <li class="md-nav__item">
-    
-    
-      <a href="../../reference/script_templates.html" class="md-nav__link">Script template reference</a>
-      
-    
-    </li>
-    <li class="md-nav__item">
-    
-    
-      <a href="../../reference/script_filters.html" class="md-nav__link">Built-in script template filters</a>
-      
-    
-    </li>
-    <li class="md-nav__item">
-    
-    
-      <a href="../../reference/pelconf.html" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">pelconf.yaml</span></code></a>
       
     
     </li></ul>
@@ -309,7 +270,21 @@
     <li class="md-nav__item">
     
     
+      <a href="../releasing.html" class="md-nav__link">Releasing new versions of peltak</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
       <a href="../flows.html" class="md-nav__link">Flows</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="../notes.html" class="md-nav__link">Dev Notes</a>
       
     
     </li>
@@ -356,15 +331,15 @@
         <div class="md-content">
           <article class="md-content__inner md-typeset" role="main">
             
-  
+  <section id="module-peltak.core.shell">
 <span id="peltak-core-shell"></span><h1 id="dev-core-shell--page-root"><code class="docutils literal notranslate"><span class="pre">peltak.core.shell</span></code><a class="headerlink" href="#dev-core-shell--page-root" title="Permalink to this headline">¶</a></h1>
 <span class="target" id="module-0"></span><dl class="py class">
-<dt id="peltak.core.shell.ExecResult">
-<em class="property">class </em><code class="sig-prename descclassname">peltak.core.shell.</code><code class="sig-name descname">ExecResult</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">command</span></em>, <em class="sig-param"><span class="n">return_code</span></em>, <em class="sig-param"><span class="n">stdout</span></em>, <em class="sig-param"><span class="n">stderr</span></em>, <em class="sig-param"><span class="n">succeeded</span></em>, <em class="sig-param"><span class="n">failed</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/shell.html#ExecResult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.shell.ExecResult" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="peltak.core.shell.ExecResult">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">peltak.core.shell.</span></span><span class="sig-name descname"><span class="pre">ExecResult</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stdout</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stderr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">succeeded</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">failed</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/shell.html#ExecResult"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#peltak.core.shell.ExecResult" title="Permalink to this definition">¶</a></dt>
 <dd><p>Encapsulates a <a class="reference internal" href="#peltak.core.shell.run" title="peltak.core.shell.run"><code class="xref any py py-func docutils literal notranslate"><span class="pre">shell.run</span></code></a> result.</p>
 <dl class="py attribute">
-<dt id="peltak.core.shell.ExecResult.command">
-<code class="sig-name descname">command</code><a class="headerlink" href="#peltak.core.shell.ExecResult.command" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="peltak.core.shell.ExecResult.command">
+<span class="sig-name descname"><span class="pre">command</span></span><a class="headerlink" href="#peltak.core.shell.ExecResult.command" title="Permalink to this definition">¶</a></dt>
 <dd><p>The command that was executed.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -373,8 +348,8 @@
 </dl>
 </dd></dl>
 <dl class="py attribute">
-<dt id="peltak.core.shell.ExecResult.return_code">
-<code class="sig-name descname">return_code</code><a class="headerlink" href="#peltak.core.shell.ExecResult.return_code" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="peltak.core.shell.ExecResult.return_code">
+<span class="sig-name descname"><span class="pre">return_code</span></span><a class="headerlink" href="#peltak.core.shell.ExecResult.return_code" title="Permalink to this definition">¶</a></dt>
 <dd><p>The command exit code.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -383,8 +358,8 @@
 </dl>
 </dd></dl>
 <dl class="py attribute">
-<dt id="peltak.core.shell.ExecResult.stdout">
-<code class="sig-name descname">stdout</code><a class="headerlink" href="#peltak.core.shell.ExecResult.stdout" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="peltak.core.shell.ExecResult.stdout">
+<span class="sig-name descname"><span class="pre">stdout</span></span><a class="headerlink" href="#peltak.core.shell.ExecResult.stdout" title="Permalink to this definition">¶</a></dt>
 <dd><p>The command standard output content after the execution.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -393,8 +368,8 @@
 </dl>
 </dd></dl>
 <dl class="py attribute">
-<dt id="peltak.core.shell.ExecResult.stderr">
-<code class="sig-name descname">stderr</code><a class="headerlink" href="#peltak.core.shell.ExecResult.stderr" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="peltak.core.shell.ExecResult.stderr">
+<span class="sig-name descname"><span class="pre">stderr</span></span><a class="headerlink" href="#peltak.core.shell.ExecResult.stderr" title="Permalink to this definition">¶</a></dt>
 <dd><p>The command standard error content after the execution.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -403,8 +378,8 @@
 </dl>
 </dd></dl>
 <dl class="py attribute">
-<dt id="peltak.core.shell.ExecResult.succeeded">
-<code class="sig-name descname">succeeded</code><a class="headerlink" href="#peltak.core.shell.ExecResult.succeeded" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="peltak.core.shell.ExecResult.succeeded">
+<span class="sig-name descname"><span class="pre">succeeded</span></span><a class="headerlink" href="#peltak.core.shell.ExecResult.succeeded" title="Permalink to this definition">¶</a></dt>
 <dd><p><strong>True</strong> if command was successful (return_code was 0 or the one
 that was expected).</p>
 <dl class="field-list simple">
@@ -414,8 +389,8 @@ that was expected).</p>
 </dl>
 </dd></dl>
 <dl class="py attribute">
-<dt id="peltak.core.shell.ExecResult.failed">
-<code class="sig-name descname">failed</code><a class="headerlink" href="#peltak.core.shell.ExecResult.failed" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="peltak.core.shell.ExecResult.failed">
+<span class="sig-name descname"><span class="pre">failed</span></span><a class="headerlink" href="#peltak.core.shell.ExecResult.failed" title="Permalink to this definition">¶</a></dt>
 <dd><p><strong>True</strong> if command failed.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -425,13 +400,13 @@ that was expected).</p>
 </dd></dl>
 </dd></dl>
 <dl class="py function">
-<dt id="peltak.core.shell.cprint">
-<code class="sig-prename descclassname">peltak.core.shell.</code><code class="sig-name descname">cprint</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">msg</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kw</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/shell.html#cprint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.shell.cprint" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="peltak.core.shell.cprint">
+<span class="sig-prename descclassname"><span class="pre">peltak.core.shell.</span></span><span class="sig-name descname"><span class="pre">cprint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kw</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/shell.html#cprint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#peltak.core.shell.cprint" title="Permalink to this definition">¶</a></dt>
 <dd><p>Print colored message to stdout.</p>
 </dd></dl>
 <dl class="py function">
-<dt id="peltak.core.shell.decolorize">
-<code class="sig-prename descclassname">peltak.core.shell.</code><code class="sig-name descname">decolorize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/shell.html#decolorize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.shell.decolorize" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="peltak.core.shell.decolorize">
+<span class="sig-prename descclassname"><span class="pre">peltak.core.shell.</span></span><span class="sig-name descname"><span class="pre">decolorize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/shell.html#decolorize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#peltak.core.shell.decolorize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Remove all opcodes from the text.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -447,8 +422,8 @@ function.</p>
 </dl>
 </dd></dl>
 <dl class="py function">
-<dt id="peltak.core.shell.fmt">
-<code class="sig-prename descclassname">peltak.core.shell.</code><code class="sig-name descname">fmt</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">msg</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kw</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/shell.html#fmt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.shell.fmt" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="peltak.core.shell.fmt">
+<span class="sig-prename descclassname"><span class="pre">peltak.core.shell.</span></span><span class="sig-name descname"><span class="pre">fmt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kw</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/shell.html#fmt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#peltak.core.shell.fmt" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generate shell color opcodes from a pretty coloring syntax.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
@@ -457,8 +432,8 @@ function.</p>
 </dl>
 </dd></dl>
 <dl class="py function">
-<dt id="peltak.core.shell.highlight">
-<code class="sig-prename descclassname">peltak.core.shell.</code><code class="sig-name descname">highlight</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">code</span></em>, <em class="sig-param"><span class="n">fmt</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/shell.html#highlight"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.shell.highlight" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="peltak.core.shell.highlight">
+<span class="sig-prename descclassname"><span class="pre">peltak.core.shell.</span></span><span class="sig-name descname"><span class="pre">highlight</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fmt</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/shell.html#highlight"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#peltak.core.shell.highlight" title="Permalink to this definition">¶</a></dt>
 <dd><p>Highlight a given code snippet for printing in the terminal.</p>
 <p>Assumes 256 color terminal.</p>
 <dl class="field-list simple">
@@ -468,8 +443,8 @@ function.</p>
 </dl>
 </dd></dl>
 <dl class="py function">
-<dt id="peltak.core.shell.run">
-<code class="sig-prename descclassname">peltak.core.shell.</code><code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cmd</span></em>, <em class="sig-param"><span class="n">capture</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">shell</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">env</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">exit_on_error</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">never_pretend</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/shell.html#run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#peltak.core.shell.run" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="peltak.core.shell.run">
+<span class="sig-prename descclassname"><span class="pre">peltak.core.shell.</span></span><span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cmd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">capture</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shell</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exit_on_error</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">never_pretend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/shell.html#run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#peltak.core.shell.run" title="Permalink to this definition">¶</a></dt>
 <dd><p>Run a shell command.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -497,7 +472,7 @@ a fake result.</p></li>
 </dd>
 </dl>
 </dd></dl>
-
+</section>
 
 
           </article>
@@ -509,7 +484,7 @@ a fake result.</p></li>
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
           
-            <a href="pelconf.html" title="peltak.core.pelconf"
+            <a href="log.html" title="peltak.core.log"
                class="md-flex md-footer-nav__link md-footer-nav__link--prev"
                rel="prev">
               <div class="md-flex__cell md-flex__cell--shrink">
@@ -518,17 +493,17 @@ a fake result.</p></li>
               <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
                 <span class="md-flex__ellipsis">
                   <span
-                      class="md-footer-nav__direction"> Previous </span> <code class="docutils literal notranslate"><span class="pre">peltak.core.pelconf</span></code> </span>
+                      class="md-footer-nav__direction"> Previous </span> <code class="docutils literal notranslate"><span class="pre">peltak.core.log</span></code> </span>
               </div>
             </a>
           
           
-            <a href="util.html" title="peltak.core.util"
+            <a href="templates.html" title="peltak.core.templates"
                class="md-flex md-footer-nav__link md-footer-nav__link--next"
                rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title"><span
                 class="md-flex__ellipsis"> <span
-                class="md-footer-nav__direction"> Next </span> <code class="docutils literal notranslate"><span class="pre">peltak.core.util</span></code> </span>
+                class="md-footer-nav__direction"> Next </span> <code class="docutils literal notranslate"><span class="pre">peltak.core.templates</span></code> </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink"><i
                 class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
@@ -546,7 +521,7 @@ a fake result.</p></li>
               
           </div>
             Created using
-            <a href="http://www.sphinx-doc.org/">Sphinx</a> 3.3.1.
+            <a href="http://www.sphinx-doc.org/">Sphinx</a> 4.3.2.
              and
             <a href="https://github.com/bashtage/sphinx-material/">Material for
               Sphinx</a>

@@ -44,25 +44,27 @@
   <meta name="theme-color" content="#3f51b5">
   <script src="../_static/javascripts/modernizr.js"></script>
   
-  <script>
-      window.ga = window.ga || function () {
-          (ga.q = ga.q || []).push(arguments)
-      };
-      ga.l = +new Date;
-      ga('create', 'UA-187740680-2', 'auto');
-      ga('send', 'pageview');
-  </script>
-  <script async src='https://www.google-analytics.com/analytics.js'></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-187740680-2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'UA-187740680-2');
+</script>
   
   
-    <title>Overview: module code &#8212; peltak 0.27.6 documentation</title>
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/material.css" type="text/css" />
-    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <title>Overview: module code &#8212; peltak 0.28.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/material.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
-    <script src="../_static/language_data.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
   
@@ -88,7 +90,7 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex navheader">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href="../index.html" title="peltak 0.27.6 documentation"
+        <a href="../index.html" title="peltak 0.28.0 documentation"
            class="md-header-nav__button md-logo">
           
             <i class="md-icon">&#x267E</i>
@@ -110,7 +112,7 @@
 <div class="md-search" data-md-component="search" role="dialog">
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
-    <form class="md-search__form" action="../search.html" method="GET" name="search">
+    <form class="md-search__form" action="../search.html" method="get" name="search">
       <input type="text" class="md-search__input" name="q" placeholder="Search"
              autocapitalize="off" autocomplete="off" spellcheck="false"
              data-md-component="query" data-md-state="active">
@@ -174,7 +176,7 @@
   <nav class="md-tabs" data-md-component="tabs">
     <div class="md-tabs__inner md-grid">
       <ul class="md-tabs__list">
-          <li class="md-tabs__item"><a href="../index.html" class="md-tabs__link">peltak 0.27.6 documentation</a></li>
+          <li class="md-tabs__item"><a href="../index.html" class="md-tabs__link">peltak 0.28.0 documentation</a></li>
       </ul>
     </div>
   </nav>
@@ -186,13 +188,13 @@
               <div class="md-sidebar__inner">
                 <nav class="md-nav md-nav--primary" data-md-level="0">
   <label class="md-nav__title md-nav__title--site" for="__drawer">
-    <a href="../index.html" title="peltak 0.27.6 documentation" class="md-nav__button md-logo">
+    <a href="../index.html" title="peltak 0.28.0 documentation" class="md-nav__button md-logo">
       
         <i class="md-icon">&#x267E</i>
       
     </a>
     <a href="../index.html"
-       title="peltak 0.27.6 documentation">peltak</a>
+       title="peltak 0.28.0 documentation">peltak</a>
   </label>
     <div class="md-nav__source">
       <a href="https://github.com/novopl/peltak" title="Go to repository" class="md-source" data-md-source="github">
@@ -235,13 +237,6 @@
     <li class="md-nav__item">
     
     
-      <a href="../guides/scripts.html" class="md-nav__link">Create peltak scripts</a>
-      
-    
-    </li>
-    <li class="md-nav__item">
-    
-    
       <a href="../guides/create_custom_commands.html" class="md-nav__link">Custom peltak commands</a>
       
     
@@ -250,41 +245,6 @@
     
     
       <a href="../guides/package_commands.html" class="md-nav__link">Share your peltak commands</a>
-      
-    
-    </li>
-    <li class="md-nav__item">
-    
-    
-      <a href="../guides/changelog.html" class="md-nav__link">Auto-generate changelog from git history</a>
-      
-    
-    </li></ul>
-    
-    </li>
-    <li class="md-nav__item">
-    
-    
-      <a href="../reference/_index.html" class="md-nav__link">Reference Documentation</a>
-      <ul class="md-nav__list"> 
-    <li class="md-nav__item">
-    
-    
-      <a href="../reference/script_templates.html" class="md-nav__link">Script template reference</a>
-      
-    
-    </li>
-    <li class="md-nav__item">
-    
-    
-      <a href="../reference/script_filters.html" class="md-nav__link">Built-in script template filters</a>
-      
-    
-    </li>
-    <li class="md-nav__item">
-    
-    
-      <a href="../reference/pelconf.html" class="md-nav__link"><code class="docutils literal notranslate"><span class="pre">pelconf.yaml</span></code></a>
       
     
     </li></ul>
@@ -305,7 +265,21 @@
     <li class="md-nav__item">
     
     
+      <a href="../dev/releasing.html" class="md-nav__link">Releasing new versions of peltak</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
       <a href="../dev/flows.html" class="md-nav__link">Flows</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="../dev/notes.html" class="md-nav__link">Dev Notes</a>
       
     
     </li>
@@ -352,14 +326,13 @@
           <article class="md-content__inner md-typeset" role="main">
             
   <h1 id="modules-index--page-root">All modules for which code is available</h1>
-<ul><li><a href="peltak/core/context.html">peltak.core.context</a></li>
+<ul><li><a href="peltak/core/conf.html">peltak.core.conf</a></li>
+<li><a href="peltak/core/context.html">peltak.core.context</a></li>
 <li><a href="peltak/core/fs.html">peltak.core.fs</a></li>
-<li><a href="peltak/core/git.html">peltak.core.git</a></li>
 <li><a href="peltak/core/hooks.html">peltak.core.hooks</a></li>
 <li><a href="peltak/core/log.html">peltak.core.log</a></li>
 <li><a href="peltak/core/shell.html">peltak.core.shell</a></li>
 <li><a href="peltak/core/templates/engine.html">peltak.core.templates.engine</a></li>
-<li><a href="peltak/core/templates/filters.html">peltak.core.templates.filters</a></li>
 <li><a href="peltak/core/util.html">peltak.core.util</a></li>
 <li><a href="peltak/core/versioning.html">peltak.core.versioning</a></li>
 </ul>
@@ -386,7 +359,7 @@
               
           </div>
             Created using
-            <a href="http://www.sphinx-doc.org/">Sphinx</a> 3.3.1.
+            <a href="http://www.sphinx-doc.org/">Sphinx</a> 4.3.2.
              and
             <a href="https://github.com/bashtage/sphinx-material/">Material for
               Sphinx</a>
