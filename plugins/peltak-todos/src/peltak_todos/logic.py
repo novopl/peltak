@@ -78,10 +78,18 @@ def check_todos(
 
 
 def _render_todos(todos: List[Todo]) -> None:
+    by_file = sorted(
+        # Convert the iterators to lists so we can go over them multiple times
+        [(x[0], list(x[1])) for x in itertools.groupby(todos, key=lambda x: x.file)],
+        key=lambda x: x[0],
+    )
+
     print('\n')
-    for file_path, file_todos in itertools.groupby(todos, key=lambda x: x.file):
+    for file_path, file_todos in by_file:
+        sorted_todos = sorted(file_todos, key=lambda x: x.lines.start)
+
         shell.cprint(f"<92>{file_path}\n")
-        for todo in sorted(file_todos, key=lambda x: x.lines.start):
+        for todo in sorted_todos:
             if context.get('verbose') >= 1:
                 shell.cprint(
                     f"<36>{todo.pretty_timestamp}  <33>{todo.author}<0>\n"

@@ -10,6 +10,7 @@ commands:
   - peltak_todos
 
 
+# TODO: Wrap all project configuration into a global 'cfg:' section.
 build_dir: .build
 python_paths: ['src']
 scripts_dir: ops/scripts
