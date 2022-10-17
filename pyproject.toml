@@ -29,9 +29,9 @@ peltak = 'peltak.main:root_cli'
 python = "^3.7"
 click = "~=7.0"
 PyYAML = ">=6.0"
-jinja2 = ">=2.10.3"
+jinja2 = ">=2.12"
 pygments = ">=2.7.4"
-tomlkit = "^0.7.0"
+tomlkit = ">=0.7.0"
 
 [tool.poetry.dev-dependencies]
 coverage = "~=5.3"
