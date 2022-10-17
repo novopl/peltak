@@ -2,7 +2,7 @@
 import pytest
 
 from peltak.core import types
-from peltak.extra.scripts.types import Script, ScriptOption
+from peltak.core.scripts.types import Script, ScriptOption
 
 
 def test_works():

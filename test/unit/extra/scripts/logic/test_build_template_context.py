@@ -5,8 +5,8 @@ from unittest.mock import Mock, patch
 from peltak import testing
 from peltak.core import conf
 from peltak.core.context import RunContext
-from peltak.extra.scripts.logic import build_template_context
-from peltak.extra.scripts.types import Script
+from peltak.core.scripts.logic import build_template_context
+from peltak.core.scripts.types import Script
 
 
 @testing.patch_pelconf({'pelconf': 'hello'})

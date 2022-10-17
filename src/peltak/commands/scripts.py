@@ -90,8 +90,7 @@ from pathlib import Path
 
 from peltak.commands import root_cli
 from peltak.core import conf, hooks
-
-from . import loader
+from peltak.core.scripts import loader
 
 
 @root_cli.group('run')

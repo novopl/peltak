@@ -5,7 +5,8 @@ from typing import Any, Dict, Iterator, List, NamedTuple, Tuple, cast
 
 from peltak.commands import root_cli
 from peltak.core import conf, util
-from peltak.extra.scripts import types
+
+from . import types
 
 
 class ScriptId(NamedTuple):
