@@ -2,8 +2,8 @@
 # Visit https://novopl.github.io/peltak for more information
 pelconf_version: '0'
 commands:
-  - peltak.extra.git
-  - peltak.extra.version
+  - peltak.commands.git
+  - peltak.commands.version
   - peltak_changelog
 
 
