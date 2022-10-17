@@ -40,7 +40,7 @@ jobs:
           key: deps-{{ checksum ".circleci/config.yml" }}-{{ checksum "poetry.lock" }}
           paths:
             - /usr/local/bin
-            - /usr/local/lib/python3.6/site-packages
+            - /usr/local/lib/python3.7/site-packages
             - .venv
             - .mypy_cache
             - .pytest_cache

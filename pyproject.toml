@@ -39,10 +39,6 @@ coverage = "^6.5.0"
 flake8 = "^5.0.4"
 isort = "^5.10.1"
 mypy = "^0.982"
-peltak-changelog = {path = "plugins/peltak-changelog", develop = true}
-peltak-gitflow = {path = "plugins/peltak-gitflow", develop = true}
-peltak-pypi = {path = "plugins/peltak-pypi", develop = true }
-peltak-todos = {path = "plugins/peltak-todos", develop = true }
 psutil = "^5.9.2"
 pycodestyle = "^2.9.1"
 pylint = "^2.15.4"
@@ -55,6 +51,10 @@ sphinx-autodoc-typehints = ">=1.11.1"
 types-PyYAML = "^6.0.12"
 types-click = "^7.1.8"
 sphinxcontrib-plantuml = "^0.24"
+peltak-changelog = {path = "plugins/peltak-changelog", develop = true}
+peltak-gitflow = {path = "plugins/peltak-gitflow", develop = true}
+peltak-pypi = {path = "plugins/peltak-pypi", develop = true }
+peltak-todos = {path = "plugins/peltak-todos", develop = true }
 
 
 [build-system]

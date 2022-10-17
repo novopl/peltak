@@ -324,7 +324,7 @@ url = "plugins/peltak-changelog"
 
 [[package]]
 name = "peltak-gitflow"
-version = "0.0.1"
+version = "0.0.2"
 description = ""
 category = "dev"
 optional = false
@@ -354,11 +354,11 @@ version = "0.0.8"
 description = ""
 category = "dev"
 optional = false
-python-versions = "^3.6.1"
+python-versions = ">=3.7.2"
 develop = true
 
 [package.dependencies]
-peltak = "^0.27.5"
+peltak = ">=0.27.5"
 
 [package.source]
 type = "directory"
