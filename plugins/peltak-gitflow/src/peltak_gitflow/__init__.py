@@ -37,4 +37,4 @@ from .commands.hotfix import hotfix_cli  # noqa: F401
 from .commands.release import release_cli  # noqa: F401
 
 
-__version__ = '0.0.2'
+__version__ = '0.0.3'
