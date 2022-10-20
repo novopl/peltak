@@ -158,4 +158,4 @@ def get_version_files() -> List[VersionFile]:
         single = conf.get('version.file', None)
         version_files = [single] if single else []
 
-    return [load_version_file(p) for p in version_files]
+    return [load_version_file(conf.proj_path(p)) for p in version_files]
