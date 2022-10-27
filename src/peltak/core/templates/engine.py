@@ -83,7 +83,7 @@ class Engine(util.Singleton):
             \b
             >>> from peltak.core.templates import Engine
             >>>
-            >>> output = Engine().render_file("pelconf.yaml", {'src_dir': 'src'})
+            >>> output = Engine().render_file("peltak-py.yaml", {'src_dir': 'src'})
             >>> print(output)
             # peltak configuration file
             # Visit https://novopl.github.io/peltak for more information
@@ -91,24 +91,39 @@ class Engine(util.Singleton):
             <BLANKLINE>
             # You can add custom project commands or 3rd party packages here.
             commands:
-              - peltak.extra.scripts
-              - peltak.extra.git
-              - peltak.extra.gitflow
+              - peltak.commands.git
+              - peltak.commands.version
+              - peltak_changelog
+              - peltak_gitflow
+              - peltak_todos
             <BLANKLINE>
-            <BLANKLINE>
-            <BLANKLINE>
-            # This directory will be added to sys.path when the config is loaded.
-            # Useful if do not keep the source code in th root directory.
+            build_dir: .build
             python_paths: ['src']
+            scripts_dir: scripts
+            <BLANKLINE>
+            clean:
+              include:
+                - '*__pycache__*'
+                - '*.py[cod]'
+                - '*.swp'
+                - '*.mypy_cache'
+                - '*.pytest_cache'
+                - '*.build'
+              exclude:
+                - '.venv'
             <BLANKLINE>
             <BLANKLINE>
-            <BLANKLINE>
-            # Scripts to help you manage your project.
-            scripts:
-              test:
-                about: Test your code
-                command: |
-                  echo "Change me, I'm just a test command"
+            changelog:
+              tag_format: '{tag}:'
+              tags:
+                - tag: feature
+                  header: Features
+                - tag: fix
+                  header: Fixes
+                - tag: change
+                  header: Changes
+                - tag: dev
+                  header: Dev tasks
 
         """
         template = self.env.get_template(template_file)

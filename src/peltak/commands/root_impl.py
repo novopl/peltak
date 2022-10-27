@@ -98,9 +98,10 @@ class InitForm(cliform.Form):
     )
 
 
-def init(quick: bool, blank: bool, force: bool):
+def init(quick: bool, blank: bool, force: bool, template: str):
     """ Create an empty pelconf.yaml from template """
     config_file = 'pelconf.yaml'
+    template_file = 'peltak-py.yaml' if template == 'py' else 'peltak-js.yaml'
     prompt = "-- <35>{} <32>already exists. Wipe it?<0>".format(config_file)
 
     if not force and exists(config_file) and not click.confirm(shell.fmt(prompt)):
@@ -113,7 +114,7 @@ def init(quick: bool, blank: bool, force: bool):
         form = InitForm().run(quick=quick)
         ctx.update(form.values)
 
-    config_content = templates.Engine().render_file('pelconf.yaml', ctx)
+    config_content = templates.Engine().render_file(template_file, ctx)
 
     log.info('Writing <35>{}'.format(config_file))
     fs.write_file(config_file, config_content)
