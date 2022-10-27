@@ -63,7 +63,13 @@ def _iter_script_files(scripts_dir: Path) -> Iterator[Path]:
     for dir_item in scripts_dir.iterdir():
         if dir_item.is_dir():
             yield from _iter_script_files(dir_item)
-        else:
+        # else:
+        #     yield dir_item
+        elif dir_item.name.endswith('.sh'):
+            # We only support shell scripts this way. The user can also keep python
+            # scripts in his scripts dir and those should import `root_cli` and
+            # be registered via ``pelconf.yaml``
+            # TODO: Autoload python scripts found inside `scripts_dir`.
             yield dir_item
 
     return results
