@@ -40,7 +40,7 @@ test_config = util.yaml_load(test_yaml)
 
 
 @patch('peltak.core.conf.open', mock_open(read_data=test_yaml))
-@patch('peltak.core.conf._import', Mock())
+@patch('peltak.core.conf.py_import', Mock())
 def test_properly_loads_all_config_variables():
     values = conf._load_from_file('pelconf.yaml')
 
@@ -48,7 +48,7 @@ def test_properly_loads_all_config_variables():
 
 
 @patch('peltak.core.conf.open', mock_open(read_data=test_yaml))
-@patch('peltak.core.conf._import')
+@patch('peltak.core.conf.py_import')
 def test_imports_commands(p_import):
     values = conf._load_from_file('pelconf.yaml')
 
