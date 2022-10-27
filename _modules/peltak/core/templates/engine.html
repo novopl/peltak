@@ -58,7 +58,7 @@
 </script>
   
   
-    <title>peltak.core.templates.engine &#8212; peltak 0.28.5 documentation</title>
+    <title>peltak.core.templates.engine &#8212; peltak 0.28.6 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/material.css" />
     <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
@@ -90,7 +90,7 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex navheader">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href="../../../../index.html" title="peltak 0.28.5 documentation"
+        <a href="../../../../index.html" title="peltak 0.28.6 documentation"
            class="md-header-nav__button md-logo">
           
             <i class="md-icon">&#x267E</i>
@@ -176,7 +176,7 @@
   <nav class="md-tabs" data-md-component="tabs">
     <div class="md-tabs__inner md-grid">
       <ul class="md-tabs__list">
-          <li class="md-tabs__item"><a href="../../../../index.html" class="md-tabs__link">peltak 0.28.5 documentation</a></li>
+          <li class="md-tabs__item"><a href="../../../../index.html" class="md-tabs__link">peltak 0.28.6 documentation</a></li>
           <li class="md-tabs__item"><a href="../../../index.html" class="md-tabs__link">Module code</a></li>
       </ul>
     </div>
@@ -189,13 +189,13 @@
               <div class="md-sidebar__inner">
                 <nav class="md-nav md-nav--primary" data-md-level="0">
   <label class="md-nav__title md-nav__title--site" for="__drawer">
-    <a href="../../../../index.html" title="peltak 0.28.5 documentation" class="md-nav__button md-logo">
+    <a href="../../../../index.html" title="peltak 0.28.6 documentation" class="md-nav__button md-logo">
       
         <i class="md-icon">&#x267E</i>
       
     </a>
     <a href="../../../../index.html"
-       title="peltak 0.28.5 documentation">peltak</a>
+       title="peltak 0.28.6 documentation">peltak</a>
   </label>
     <div class="md-nav__source">
       <a href="https://github.com/novopl/peltak" title="Go to repository" class="md-source" data-md-source="github">
@@ -412,7 +412,7 @@
 <span class="sd">            \b</span>
 <span class="sd">            &gt;&gt;&gt; from peltak.core.templates import Engine</span>
 <span class="sd">            &gt;&gt;&gt;</span>
-<span class="sd">            &gt;&gt;&gt; output = Engine().render_file("pelconf.yaml", {'src_dir': 'src'})</span>
+<span class="sd">            &gt;&gt;&gt; output = Engine().render_file("peltak-py.yaml", {'src_dir': 'src'})</span>
 <span class="sd">            &gt;&gt;&gt; print(output)</span>
 <span class="sd">            # peltak configuration file</span>
 <span class="sd">            # Visit https://novopl.github.io/peltak for more information</span>
@@ -420,24 +420,39 @@
 <span class="sd">            &lt;BLANKLINE&gt;</span>
 <span class="sd">            # You can add custom project commands or 3rd party packages here.</span>
 <span class="sd">            commands:</span>
-<span class="sd">              - peltak.extra.scripts</span>
-<span class="sd">              - peltak.extra.git</span>
-<span class="sd">              - peltak.extra.gitflow</span>
+<span class="sd">              - peltak.commands.git</span>
+<span class="sd">              - peltak.commands.version</span>
+<span class="sd">              - peltak_changelog</span>
+<span class="sd">              - peltak_gitflow</span>
+<span class="sd">              - peltak_todos</span>
 <span class="sd">            &lt;BLANKLINE&gt;</span>
-<span class="sd">            &lt;BLANKLINE&gt;</span>
-<span class="sd">            &lt;BLANKLINE&gt;</span>
-<span class="sd">            # This directory will be added to sys.path when the config is loaded.</span>
-<span class="sd">            # Useful if do not keep the source code in th root directory.</span>
+<span class="sd">            build_dir: .build</span>
 <span class="sd">            python_paths: ['src']</span>
+<span class="sd">            scripts_dir: scripts</span>
+<span class="sd">            &lt;BLANKLINE&gt;</span>
+<span class="sd">            clean:</span>
+<span class="sd">              include:</span>
+<span class="sd">                - '*__pycache__*'</span>
+<span class="sd">                - '*.py[cod]'</span>
+<span class="sd">                - '*.swp'</span>
+<span class="sd">                - '*.mypy_cache'</span>
+<span class="sd">                - '*.pytest_cache'</span>
+<span class="sd">                - '*.build'</span>
+<span class="sd">              exclude:</span>
+<span class="sd">                - '.venv'</span>
 <span class="sd">            &lt;BLANKLINE&gt;</span>
 <span class="sd">            &lt;BLANKLINE&gt;</span>
-<span class="sd">            &lt;BLANKLINE&gt;</span>
-<span class="sd">            # Scripts to help you manage your project.</span>
-<span class="sd">            scripts:</span>
-<span class="sd">              test:</span>
-<span class="sd">                about: Test your code</span>
-<span class="sd">                command: |</span>
-<span class="sd">                  echo "Change me, I'm just a test command"</span>
+<span class="sd">            changelog:</span>
+<span class="sd">              tag_format: '{tag}:'</span>
+<span class="sd">              tags:</span>
+<span class="sd">                - tag: feature</span>
+<span class="sd">                  header: Features</span>
+<span class="sd">                - tag: fix</span>
+<span class="sd">                  header: Fixes</span>
+<span class="sd">                - tag: change</span>
+<span class="sd">                  header: Changes</span>
+<span class="sd">                - tag: dev</span>
+<span class="sd">                  header: Dev tasks</span>
 
 <span class="sd">        """</span>
         <span class="n">template</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">get_template</span><span class="p">(</span><span class="n">template_file</span><span class="p">)</span>
