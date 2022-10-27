@@ -74,6 +74,12 @@ def clean(exclude: List[str]) -> None:
     help="Force creating. This will not ask whether to wipe out existing config"
          "or cancel in case the config already exists."
 )
+@click.option(
+    '-t', '--template',
+    type=click.Choice(['py', 'js']),
+    default='py',
+    help="Specify which template to use, defaults to python."
+)
 @pretend_option
 @verbose_option
 def init(**args: Any) -> None:

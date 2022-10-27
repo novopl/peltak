@@ -1,0 +1,44 @@
+# peltak configuration file
+# Visit https://novopl.github.io/peltak for more information
+pelconf_version: '1'
+
+# You can add custom project commands or 3rd party packages here.
+commands:
+  - peltak.commands.git
+  - peltak.commands.version
+{% if not blank %}  - peltak_changelog
+  - peltak_gitflow
+  - peltak_todos
+{% endif %}
+
+
+build_dir: .build
+python_paths: [{{ '.' if blank else "'" + src_dir + "'" }}]
+scripts_dir: scripts
+{% if version_file %}version:
+  file: "{{version_file}}"{% endif %}
+{% if not blank %}
+
+clean:
+  include:
+    - '*__pycache__*'
+    - '*.py[cod]'
+    - '*.swp'
+    - '*.mypy_cache'
+    - '*.pytest_cache'
+    - '*.build'
+  exclude:
+    - '.venv'
+
+changelog:
+  tag_format: '{tag}:'
+  tags:
+    - tag: feature
+      header: Features
+    - tag: fix
+      header: Fixes
+    - tag: change
+      header: Changes
+    - tag: dev
+      header: Dev tasks
+{% endif %}
