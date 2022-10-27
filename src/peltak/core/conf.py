@@ -222,13 +222,19 @@ def _load_config(path: str) -> Config:
     python_paths = [cfg.proj_path(p) for p in cfg.get('python_paths', [])]
     sys.path[0:0] = [p for p in python_paths if p not in sys.path]
 
+    # Add scripts_dir to python paths so we can directly import all the python
+    # scripts that exist there.
+    scripts_dir = cfg.get_path('scripts_dir')
+    if scripts_dir and scripts_dir not in sys.path:
+        sys.path.insert(0, scripts_dir)
+
     # TODO: src_dir is deprecated, use 'python_paths' config value instead.
     if cfg.has('src_dir'):
         sys.path.insert(0, cfg.get_path('src_dir'))
 
     for cmd in cfg.get('commands', []):
         try:
-            _import(cmd)
+            py_import(cmd)
         except ImportError as ex:
             log.err("Failed to load commands from <33>{}<31>: {}", cmd, ex)
 
@@ -287,6 +293,6 @@ def _discover_proj_config() -> Optional[str]:
     return None
 
 
-def _import(cmd: str) -> ModuleType:
+def py_import(cmd: str) -> ModuleType:
     """ Exists only so we can patch it in tests."""
     return __import__(cmd)   # nocov

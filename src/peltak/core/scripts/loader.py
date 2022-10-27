@@ -75,6 +75,9 @@ def _iter_script_files(scripts_dir: Path) -> Iterator[Path]:
             # be registered via ``pelconf.yaml``
             # TODO: Autoload python scripts found inside `scripts_dir`.
             yield dir_item
+        elif dir_item.name.endswith('.py'):
+            # Auto load python scripts in scripts_dir
+            conf.py_import(dir_item.stem)
 
     return results
 
