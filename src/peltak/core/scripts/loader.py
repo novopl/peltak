@@ -4,7 +4,7 @@ from pathlib import Path
 from typing import Any, Dict, Iterator, List, NamedTuple, Tuple, cast
 
 from peltak.commands import root_cli
-from peltak.core import conf, util
+from peltak.core import conf, exc, util
 
 from . import types
 
@@ -12,6 +12,10 @@ from . import types
 class ScriptId(NamedTuple):
     name: str
     path: str
+
+
+class NoScript(exc.PeltakError):
+    msg = "No Script"
 
 
 CliGroups = Dict[str, Any]
@@ -81,13 +85,15 @@ def _process_script_files(scripts_dir: Path, script_files: List[Path]) -> Script
     for script_file in sorted(script_files):
         rel_path = script_file.relative_to(scripts_dir)
         script_id = _gen_script_id(rel_path)
-        # results[script_id] = script_file
-        results[script_id] = _parse_script_file(script_id, script_file)
+        try:
+            results[script_id] = _parse_script(script_id, script_file)
+        except NoScript:
+            pass
 
     return results
 
 
-def _parse_script_file(script_id: ScriptId, script_path: Path) -> types.Script:
+def _parse_script(script_id: ScriptId, script_path: Path) -> types.Script:
     """ Parse a script file.
 
     The file starts wit the file header.
@@ -125,10 +131,13 @@ def _parse_script_file(script_id: ScriptId, script_path: Path) -> types.Script:
             source_lines.append(line.rstrip())
 
     header_yaml = '\n'.join(header_lines)
-    header: Dict[str, Any] = cast(Dict[str, Any], util.yaml_load(header_yaml))
 
-    if len(header) != 1:
-        raise ValueError("Script header can only have a single root object 'peltak'")
+    if not header_yaml:
+        raise NoScript(f"peltak header is missing from file: {script_path}")
+
+    header: Dict[str, Any] = cast(Dict[str, Any], util.yaml_load(header_yaml))
+    if not (len(header) == 1 and 'peltak' in header):
+        raise NoScript("Script header can only have a single root object 'peltak'")
 
     return types.Script.from_config(
         name=script_id.name,
