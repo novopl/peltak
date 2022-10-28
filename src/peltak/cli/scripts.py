@@ -88,12 +88,12 @@ Example
 """
 from pathlib import Path
 
-from peltak.commands import root_cli
+from peltak.cli import peltak_cli
 from peltak.core import conf, hooks
 from peltak.core.scripts import loader
 
 
-@root_cli.group('run')
+@peltak_cli.group('run')
 def run_cli():
     """ Run custom scripts """
     pass  # nocov

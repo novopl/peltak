@@ -4,8 +4,8 @@ pelconf_version: '1'
 {% set version_file = version_file or 'package.json' %}
 # You can add custom project commands or 3rd party packages here.
 commands:
-  - peltak.commands.git
-  - peltak.commands.version
+  - peltak.cli.git
+  - peltak.cli.version
 {% if not blank %}  - peltak_changelog
   - peltak_gitflow
   - peltak_todos

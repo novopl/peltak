@@ -224,7 +224,7 @@ def _load_config(path: str) -> Config:
 
     # Add scripts_dir to python paths so we can directly import all the python
     # scripts that exist there.
-    scripts_dir = cfg.get_path('scripts_dir')
+    scripts_dir = cfg.get_path('scripts_dir', 'scripts')
     if scripts_dir and scripts_dir not in sys.path:
         sys.path.insert(0, scripts_dir)
 

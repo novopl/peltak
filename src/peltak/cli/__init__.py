@@ -34,7 +34,7 @@ AnyFn = Callable[..., Any]
 
 @click.group()
 @click.version_option(version=peltak.__version__, message='%(version)s')
-def root_cli() -> None:
+def peltak_cli() -> None:
     """
 
     To get help for a specific command:
@@ -60,10 +60,10 @@ def pretend_option(fn: AnyFn) -> AnyFn:
     callback. The value will be accessible through `peltak.core.context` under
     'pretend' if the command needs it. To get the current value you can do:
 
-        >>> from peltak.commands import click, root_cli
+        >>> from peltak.cli import click, peltak_cli
         >>> from peltak.core import context
         >>>
-        >>> @root_cli.command('my-command')
+        >>> @peltak_cli.command('my-command')
         ... @pretend_option
         ... def my_command():
         ...     pretend = context.get('pretend', False)

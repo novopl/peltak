@@ -23,7 +23,7 @@ include = ["LICENSE", "AUTHORS", "README.rst"]
 exclude = ["docs/**"]
 
 [tool.poetry.scripts]
-peltak = 'peltak.main:root_cli'
+peltak = 'peltak.main:peltak_cli'
 
 [tool.poetry.dependencies]
 python = ">=3.7.2,<4.0"

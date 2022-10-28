@@ -91,8 +91,8 @@ class Engine(util.Singleton):
             <BLANKLINE>
             # You can add custom project commands or 3rd party packages here.
             commands:
-              - peltak.commands.git
-              - peltak.commands.version
+              - peltak.cli.git
+              - peltak.cli.version
               - peltak_changelog
               - peltak_gitflow
               - peltak_todos

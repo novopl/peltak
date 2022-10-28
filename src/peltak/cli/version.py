@@ -21,10 +21,10 @@ Commands for managing the managed project version.
 """
 from typing import Optional
 
-from peltak.commands import click, pretend_option, root_cli
+from peltak.cli import click, peltak_cli, pretend_option
 
 
-@root_cli.group('version', invoke_without_command=True)
+@peltak_cli.group('version', invoke_without_command=True)
 @click.option('--porcelain', is_flag=True)
 @click.pass_context
 def version_cli(ctx: click.Context, porcelain: bool) -> None:

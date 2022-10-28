@@ -1,7 +1,7 @@
 # pylint: disable=missing-docstring
 from unittest.mock import Mock, patch
 
-from peltak.commands.scripts import post_conf_load, root_cli
+from peltak.cli.scripts import peltak_cli, post_conf_load
 from peltak.testing import patch_pelconf
 
 
@@ -28,16 +28,16 @@ def test_works(p_Script):
 
 @patch_pelconf({
     'scripts': {
-        'fake1': {'command': 'fake1_cmd', 'root_cli': True},
+        'fake1': {'command': 'fake1_cmd', 'peltak_cli': True},
     }
 })
 @patch('peltak.core.scripts.types.Script')
-def test_attaches_to_root_cli_if_root_cli_is_True(p_Script):
+def test_attaches_to_peltak_cli_if_peltak_cli_is_True(p_Script):
     p_script = Mock()
-    p_script.root_cli = True
+    p_script.peltak_cli = True
 
     p_Script.from_config.return_value = p_script
 
     post_conf_load()
 
-    p_script.register.assert_called_once_with(root_cli)
+    p_script.register.assert_called_once_with(peltak_cli)
