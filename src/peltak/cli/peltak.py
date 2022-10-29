@@ -15,10 +15,10 @@
 """ Root level CLI commands. """
 from typing import Any, List
 
-from . import click, pretend_option, root_cli, verbose_option
+from . import click, peltak_cli, pretend_option, verbose_option
 
 
-@root_cli.command('clean')
+@peltak_cli.command('clean')
 @click.option(
     '-e', '--exclude',
     multiple=True,
@@ -53,11 +53,11 @@ def clean(exclude: List[str]) -> None:
         $ peltak clean --pretend
 
     """
-    from . import root_impl
-    root_impl.clean(exclude)
+    from . import peltak_impl
+    peltak_impl.clean(exclude)
 
 
-@root_cli.command('init')
+@peltak_cli.command('init')
 @click.option(
     '-q', '--quick',
     is_flag=True,
@@ -93,5 +93,5 @@ def init(**args: Any) -> None:
         $ peltak init
 
     """
-    from . import root_impl
-    root_impl.init(**args)
+    from . import peltak_impl
+    peltak_impl.init(**args)

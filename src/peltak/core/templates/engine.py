@@ -90,40 +90,40 @@ class Engine(util.Singleton):
             pelconf_version: '1'
             <BLANKLINE>
             # You can add custom project commands or 3rd party packages here.
-            commands:
-              - peltak.commands.git
-              - peltak.commands.version
+            plugins:
+              - peltak.cli.git
+              - peltak.cli.version
               - peltak_changelog
               - peltak_gitflow
               - peltak_todos
             <BLANKLINE>
-            build_dir: .build
-            python_paths: ['src']
-            scripts_dir: scripts
+            cfg:
+              build_dir: .build
+              python_paths: ['src']
+              scripts_dir: scripts
             <BLANKLINE>
-            clean:
-              include:
-                - '*__pycache__*'
-                - '*.py[cod]'
-                - '*.swp'
-                - '*.mypy_cache'
-                - '*.pytest_cache'
-                - '*.build'
-              exclude:
-                - '.venv'
+              clean:
+                include:
+                  - '*__pycache__*'
+                  - '*.py[cod]'
+                  - '*.swp'
+                  - '*.mypy_cache'
+                  - '*.pytest_cache'
+                  - '*.build'
+                exclude:
+                  - '.venv'
             <BLANKLINE>
-            <BLANKLINE>
-            changelog:
-              tag_format: '{tag}:'
-              tags:
-                - tag: feature
-                  header: Features
-                - tag: fix
-                  header: Fixes
-                - tag: change
-                  header: Changes
-                - tag: dev
-                  header: Dev tasks
+              changelog:
+                tag_format: '{tag}:'
+                tags:
+                  - tag: feature
+                    header: Features
+                  - tag: fix
+                    header: Fixes
+                  - tag: change
+                    header: Changes
+                  - tag: dev
+                    header: Dev tasks
 
         """
         template = self.env.get_template(template_file)

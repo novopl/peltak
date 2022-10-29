@@ -16,7 +16,7 @@
 import dataclasses
 from typing import Any, Callable, Dict, List, Optional, Type, cast
 
-from peltak.commands import click, pretend_option, verbose_option
+from peltak.cli import click, pretend_option, verbose_option
 from peltak.core import types
 
 

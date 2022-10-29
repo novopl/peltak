@@ -19,10 +19,10 @@
 
 git helpers.
 """
-from peltak.commands import click, pretend_option, root_cli
+from peltak.cli import click, peltak_cli, pretend_option
 
 
-@root_cli.group('git')
+@peltak_cli.group('git')
 def git_cli():
     """ Git related commands """
     pass

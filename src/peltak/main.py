@@ -15,15 +15,15 @@
 """ Application entry point. """
 
 # Scripts should be available by default
-import peltak.commands.scripts  # noqa: F401 pylint: disable=unused-import
+import peltak.cli.scripts  # noqa: F401 pylint: disable=unused-import
 # Make sure config is loaded
-from peltak.commands import root_cli
+from peltak.cli import peltak_cli
 from peltak.core import context  # noqa: F401 pylint: disable=unused-import
 from peltak.core import conf
 
 
 __all__ = [
-    'root_cli'
+    'peltak_cli'
 ]
 
 
@@ -33,4 +33,4 @@ __all__ = [
 conf.init()
 
 
-from peltak.commands.root import clean  # noqa: F401, E402 pylint: disable=unused-import
+from peltak.cli.peltak import clean  # noqa: F401, E402 pylint: disable=unused-import

@@ -3,7 +3,7 @@ import re
 from pathlib import Path
 from typing import Any, Dict, Iterator, List, NamedTuple, Tuple, cast
 
-from peltak.commands import root_cli
+from peltak.cli import peltak_cli
 from peltak.core import conf, exc, util
 
 from . import types
@@ -24,7 +24,6 @@ ScriptsMap = Dict[ScriptId, types.Script]
 
 def register_scripts_from(scripts_dir: Path) -> None:
     """ Parse script files and build the ClI for it. """
-    cli_groups: Dict[str, Any] = {}
     if scripts_dir.exists() and scripts_dir.is_dir():
         # Silently return if the scripts directory does not exist. They are not
         # required and the completion should not brake so we can't raise
@@ -37,22 +36,9 @@ def register_scripts_from(scripts_dir: Path) -> None:
             cli_group = cli_groups[script_id.path]
             script.register(cli_group)
 
-    # Load the scripts defined in the old way. This is now deprecated and will
-    # be removed before v1.0
-    # TODO: Remove old scripts implementation.
-    old_scripts = conf.get('scripts', {})
-    if 'run' in cli_groups:
-        run_cli = cli_groups['run']
-    else:
-        run_cli = root_cli.group('run')(lambda: None)
-
-    for name, script_conf in old_scripts.items():
-        script = types.Script.from_config(name, script_conf)
-        script.register(root_cli if script.root_cli else run_cli)
-
 
 def generate_cli_groups(scripts: ScriptsMap) -> Dict[str, Any]:
-    results: Dict[str, Any] = {'': root_cli}
+    results: Dict[str, Any] = {'': peltak_cli}
     unique_paths = sorted(frozenset(x.path for x in scripts.keys() if x.path))
 
     for path in unique_paths:
@@ -71,7 +57,7 @@ def _iter_script_files(scripts_dir: Path) -> Iterator[Path]:
         #     yield dir_item
         elif dir_item.name.endswith('.sh'):
             # We only support shell scripts this way. The user can also keep python
-            # scripts in his scripts dir and those should import `root_cli` and
+            # scripts in his scripts dir and those should import `peltak_cli` and
             # be registered via ``pelconf.yaml``
             # TODO: Autoload python scripts found inside `scripts_dir`.
             yield dir_item
@@ -159,7 +145,7 @@ def _gen_script_id(rel_path: Path) -> ScriptId:
 
 def _generate_cli_group(groups: Dict[str, Any], group_path: str):
     name, parent = _parse_group_path(group_path)
-    parent_cli = root_cli
+    parent_cli = peltak_cli
 
     if parent:
         if parent in groups:

@@ -1,9 +1,9 @@
 # peltak configuration file
 # Visit https://novopl.github.io/peltak for more information
 pelconf_version: '0'
-commands:
-  - peltak.commands.git
-  - peltak.commands.version
+plugins:
+  - peltak.cli.git
+  - peltak.cli.version
   - peltak_changelog
   - peltak_gitflow
   - peltak_pypi
@@ -11,27 +11,27 @@ commands:
 
 
 # TODO: Wrap all project configuration into a global 'cfg:' section.
-build_dir: .build
-python_paths: ['src']
-scripts_dir: ops/scripts
+cfg:
+  build_dir: .build
+  python_paths: ['src']
+  scripts_dir: ops/scripts
 
-version:
-  files:
-    - pyproject.toml
-    - src/peltak/__init__.py
+  version:
+    files:
+      - pyproject.toml
+      - src/peltak/__init__.py
 
-clean:
-  exclude: ['.venv']
+  clean:
+    exclude: ['.venv']
 
-
-changelog:
-  tag_format: '{tag}:'
-  tags:
-    - tag: feature
-      header: Features
-    - tag: fix
-      header: Fixes
-    - tag: change
-      header: Changes
-    - tag: dev
-      header: Dev tasks
+  changelog:
+    tag_format: '{tag}:'
+    tags:
+      - tag: feature
+        header: Features
+      - tag: fix
+        header: Fixes
+      - tag: change
+        header: Changes
+      - tag: dev
+        header: Dev tasks
