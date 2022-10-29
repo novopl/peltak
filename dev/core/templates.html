@@ -59,7 +59,7 @@
 </script>
   
   
-    <title>peltak.core.templates &#8212; peltak 0.28.6 documentation</title>
+    <title>peltak.core.templates &#8212; peltak 0.29.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/material.css" />
     <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
@@ -93,7 +93,7 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex navheader">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href="../../index.html" title="peltak 0.28.6 documentation"
+        <a href="../../index.html" title="peltak 0.29.0 documentation"
            class="md-header-nav__button md-logo">
           
             <i class="md-icon">&#x267E</i>
@@ -179,7 +179,7 @@
   <nav class="md-tabs" data-md-component="tabs">
     <div class="md-tabs__inner md-grid">
       <ul class="md-tabs__list">
-          <li class="md-tabs__item"><a href="../../index.html" class="md-tabs__link">peltak 0.28.6 documentation</a></li>
+          <li class="md-tabs__item"><a href="../../index.html" class="md-tabs__link">peltak 0.29.0 documentation</a></li>
           <li class="md-tabs__item"><a href="../_index.html" class="md-tabs__link">Dev Docs</a></li>
           <li class="md-tabs__item"><a href="_index.html" class="md-tabs__link"><code class="docutils literal notranslate"><span class="pre">peltak.core</span></code></a></li>
       </ul>
@@ -193,13 +193,13 @@
               <div class="md-sidebar__inner">
                 <nav class="md-nav md-nav--primary" data-md-level="0">
   <label class="md-nav__title md-nav__title--site" for="__drawer">
-    <a href="../../index.html" title="peltak 0.28.6 documentation" class="md-nav__button md-logo">
+    <a href="../../index.html" title="peltak 0.29.0 documentation" class="md-nav__button md-logo">
       
         <i class="md-icon">&#x267E</i>
       
     </a>
     <a href="../../index.html"
-       title="peltak 0.28.6 documentation">peltak</a>
+       title="peltak 0.29.0 documentation">peltak</a>
   </label>
     <div class="md-nav__source">
       <a href="https://github.com/novopl/peltak" title="Go to repository" class="md-source" data-md-source="github">
@@ -507,24 +507,26 @@ will be injected into the template during rendering.</p></li>
 pelconf_version: ‘1’
 &lt;BLANKLINE&gt;
 # You can add custom project commands or 3rd party packages here.
-commands:</p>
+plugins:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p>peltak.commands.git</p></li>
-<li><p>peltak.commands.version</p></li>
+<li><p>peltak.cli.git</p></li>
+<li><p>peltak.cli.version</p></li>
 <li><p>peltak_changelog</p></li>
 <li><p>peltak_gitflow</p></li>
 <li><p>peltak_todos</p></li>
 </ul>
 </div></blockquote>
 <p>&lt;BLANKLINE&gt;
-build_dir: .build
-python_paths: [‘src’]
-scripts_dir: scripts
-&lt;BLANKLINE&gt;
-clean:</p>
+cfg:</p>
 <blockquote>
-<div><dl class="simple">
+<div><p>build_dir: .build
+python_paths: [‘src’]
+scripts_dir: scripts</p>
+</div></blockquote>
+<dl>
+<dt>&lt;BLANKLINE&gt;</dt><dd><dl class="simple">
+<dt>clean:</dt><dd><dl class="simple">
 <dt>include:</dt><dd><ul class="simple">
 <li><p>‘<em>__pycache__</em>’</p></li>
 <li><p>‘<a href="#id2"><span class="problematic" id="id3">*</span></a>.py[cod]’</p></li>
@@ -539,12 +541,11 @@ clean:</p>
 </ul>
 </dd>
 </dl>
-</div></blockquote>
-<p>&lt;BLANKLINE&gt;
-&lt;BLANKLINE&gt;
-changelog:</p>
-<blockquote>
-<div><p>tag_format: ‘{tag}:’
+</dd>
+</dl>
+</dd>
+<dt>&lt;BLANKLINE&gt;</dt><dd><dl>
+<dt>changelog:</dt><dd><p>tag_format: ‘{tag}:’
 tags:</p>
 <blockquote>
 <div><ul class="simple">
@@ -558,7 +559,10 @@ header: Changes</p></li>
 header: Dev tasks</p></li>
 </ul>
 </div></blockquote>
-</div></blockquote>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 </dd></dl>
 </section>
