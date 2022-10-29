@@ -24,7 +24,6 @@ ScriptsMap = Dict[ScriptId, types.Script]
 
 def register_scripts_from(scripts_dir: Path) -> None:
     """ Parse script files and build the ClI for it. """
-    cli_groups: Dict[str, Any] = {}
     if scripts_dir.exists() and scripts_dir.is_dir():
         # Silently return if the scripts directory does not exist. They are not
         # required and the completion should not brake so we can't raise
@@ -36,19 +35,6 @@ def register_scripts_from(scripts_dir: Path) -> None:
         for script_id, script in scripts.items():
             cli_group = cli_groups[script_id.path]
             script.register(cli_group)
-
-    # Load the scripts defined in the old way. This is now deprecated and will
-    # be removed before v1.0
-    # TODO: Remove old scripts implementation.
-    old_scripts = conf.get('scripts', {})
-    if 'run' in cli_groups:
-        run_cli = cli_groups['run']
-    else:
-        run_cli = peltak_cli.group('run')(lambda: None)
-
-    for name, script_conf in old_scripts.items():
-        script = types.Script.from_config(name, script_conf)
-        script.register(peltak_cli if script.root_cli else run_cli)
 
 
 def generate_cli_groups(scripts: ScriptsMap) -> Dict[str, Any]:
