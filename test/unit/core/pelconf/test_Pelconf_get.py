@@ -4,25 +4,39 @@ import pytest
 from peltak.core import conf
 
 
-def test_get_existing_root_value_works():
+def test_cannot_get_values_from_config_root():
     app_conf = conf.Config({'test1': 'test value'})
-    assert app_conf.get('test1') == 'test value'
+    with pytest.raises(AttributeError):
+        app_conf.get('test1')
+
+
+def test_will_actually_get_values_from_the_cfg_section():
+    app_conf = conf.Config({
+        'test1': 'unavailable value',
+        'cfg': {
+            'test1': 'config value'
+        }})
+    assert app_conf.get('test1') == 'config value'
 
 
 def test_get_existing_nested_value_works():
     app_conf = conf.Config({
-        'test1': {
-            'sub': 'test value',
-        }
+        'cfg': {
+            'test1': {
+                'sub': 'test value',
+            },
+        },
     })
     assert app_conf.get('test1.sub') == 'test value'
 
 
 def test_can_just_get_the_full_nested_object():
     app_conf = conf.Config({
-        'test1': {
-            'sub': 'test value',
-        }
+        'cfg': {
+            'test1': {
+                'sub': 'test value',
+            },
+        },
     })
 
     assert app_conf.get('test1') == {'sub': 'test value'}

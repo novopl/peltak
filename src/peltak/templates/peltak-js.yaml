@@ -11,26 +11,27 @@ commands:
   - peltak_todos
 {% endif %}
 
-scripts_dir: scripts
-version:
-  file: "{{ version_file }}"{% if not blank %}
+cfg:
+  scripts_dir: scripts
+  version:
+    file: "{{ version_file }}"{% if not blank %}
 
-clean:
-  include:
-    - 'dist'
-    - '*.build'
-  exclude:
-    - 'node_modules'
+  clean:
+    include:
+      - 'dist'
+      - '*.build'
+    exclude:
+      - 'node_modules'
 
-changelog:
-  tag_format: '{tag}:'
-  tags:
-    - tag: feature
-      header: Features
-    - tag: fix
-      header: Fixes
-    - tag: change
-      header: Changes
-    - tag: dev
-      header: Dev tasks
+  changelog:
+    tag_format: '{tag}:'
+    tags:
+      - tag: feature
+        header: Features
+      - tag: fix
+        header: Fixes
+      - tag: change
+        header: Changes
+      - tag: dev
+        header: Dev tasks
 {% endif %}

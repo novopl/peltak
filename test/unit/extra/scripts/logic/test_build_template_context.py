@@ -9,7 +9,7 @@ from peltak.core.scripts.logic import build_template_context
 from peltak.core.scripts.types import Script
 
 
-@testing.patch_pelconf({'pelconf': 'hello'})
+@testing.patch_pelconf({'cfg': {'pelconf': 'hello'}})
 def test_works():
     options = {'fake_opt': 'hello'}
     script = Script.from_config('test', {'command': 'fake-cmd'})
@@ -36,7 +36,7 @@ def test_works():
     'file2',
     'file3'
 ]))
-@testing.patch_pelconf({'pelconf': 'hello'})
+@testing.patch_pelconf({'cfg': {'pelconf': 'hello'}})
 def test_includes_files_if_specified_in_config():
     options = {'fake_opt': 'hello'}
     script = Script.from_config('test', {

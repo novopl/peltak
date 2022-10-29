@@ -14,7 +14,9 @@ def test_converts_default_to_abspath():
 
 
 @testing.patch_pelconf({
-    'test': 'hello'
+    'cfg': {
+        'test': 'hello',
+    },
 })
 def test_converts_config_value_to_absolute_path():
     assert conf.get_path('test') == conf.proj_path('hello')

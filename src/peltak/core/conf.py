@@ -3,7 +3,7 @@ import os.path
 import sys
 from contextlib import contextmanager
 from types import ModuleType
-from typing import Any, Dict, Iterator, Optional, Union
+from typing import Any, Dict, Iterator, List, Optional, Union
 
 from . import hooks, log, util
 
@@ -80,7 +80,7 @@ def as_dict() -> ConfigDict:
     if not g_conf:
         raise ConfigNotInitialized()
 
-    return g_conf.values
+    return g_conf.values.get('cfg', {})
 
 
 @contextmanager
@@ -139,7 +139,7 @@ class Config:
             AttributeError: If the value does not exist and *default* was not given.
         """
         try:
-            return util.get_from_dict(self.values, name, *default)
+            return util.get_from_dict(self.values, f"cfg.{name}", *default)
         except KeyError:
             raise AttributeError(f"Config value '{name}' does not exist")
 
@@ -212,6 +212,10 @@ class Config:
         yield
         os.chdir(curr_dir)
 
+    @property
+    def commands(self) -> List[str]:
+        return self.values.get('commands', [])
+
 
 def _load_config(path: str) -> Config:
     values = _load_from_file(path) if path else {}
@@ -232,7 +236,7 @@ def _load_config(path: str) -> Config:
     if cfg.has('src_dir'):
         sys.path.insert(0, cfg.get_path('src_dir'))
 
-    for cmd in cfg.get('commands', []):
+    for cmd in cfg.commands:
         try:
             py_import(cmd)
         except ImportError as ex:
