@@ -1,6 +1,7 @@
+[tool]
 [tool.poetry]
 name = "peltak-pypi"
-version = "0.0.1"
+version = "0.0.2"
 description = ""
 authors = ["Mateusz Klos <novopl@gmail.com>"]
 repository = "https://github.com/novopl/peltak-pypi"
@@ -37,22 +38,14 @@ Sphinx = ">=4.3.2"
 sphinx-material = "^0.0.35"
 sphinx-autodoc-typehints = ">=1.11.1"
 sphinxcontrib-plantuml = "^0.24"
-peltak-changelog = "^0.0.1"
-peltak-gitflow = "^0.0.2"
-
-[build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
-
-
-##################
-#     PYTEST     #
-##################
+peltak-changelog = {path = "../peltak-changelog", develop = true}
+peltak-gitflow = {path = "../peltak-gitflow", develop = true}
 
 
 [tool.pytest.ini_options]
 addopts = "--durations=3"
 doctest_optionflags = "NORMALIZE_WHITESPACE IGNORE_EXCEPTION_DETAIL ELLIPSIS"
+
 
 [tool.coverage.run]
 branch = true
@@ -65,6 +58,7 @@ exclude_lines = ["nocov"]
 ##################
 #     PYLINT     #
 ##################
+
 
 [tool.pylint.MASTER]
 jobs = 1
@@ -82,3 +76,14 @@ enable = [
     'redefined-builtin',
     'wrong-import-order',
 ]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+
+##################
+#     PYTEST     #
+##################
+
+
