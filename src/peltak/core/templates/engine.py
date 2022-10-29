@@ -90,7 +90,7 @@ class Engine(util.Singleton):
             pelconf_version: '1'
             <BLANKLINE>
             # You can add custom project commands or 3rd party packages here.
-            commands:
+            plugins:
               - peltak.cli.git
               - peltak.cli.version
               - peltak_changelog

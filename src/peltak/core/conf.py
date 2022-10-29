@@ -213,8 +213,8 @@ class Config:
         os.chdir(curr_dir)
 
     @property
-    def commands(self) -> List[str]:
-        return self.values.get('commands', [])
+    def plugins(self) -> List[str]:
+        return self.values.get('plugins', [])
 
 
 def _load_config(path: str) -> Config:
@@ -236,11 +236,11 @@ def _load_config(path: str) -> Config:
     if cfg.has('src_dir'):
         sys.path.insert(0, cfg.get_path('src_dir'))
 
-    for cmd in cfg.commands:
+    for cmd in cfg.plugins:
         try:
             py_import(cmd)
         except ImportError as ex:
-            log.err("Failed to load commands from <33>{}<31>: {}", cmd, ex)
+            log.err("Failed to load plugin <33>{}<31>: {}", cmd, ex)
 
     return cfg
 

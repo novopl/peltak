@@ -1,7 +1,7 @@
 # peltak configuration file
 # Visit https://novopl.github.io/peltak for more information
 pelconf_version: '0'
-commands:
+plugins:
   - peltak.cli.git
   - peltak.cli.version
   - peltak_changelog
