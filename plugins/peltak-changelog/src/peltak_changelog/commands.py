@@ -20,10 +20,10 @@
 CLI definition.
 """
 
-from peltak.commands import click, root_cli
+from peltak.cli import click, peltak_cli
 
 
-@root_cli.group(
+@peltak_cli.group(
     'changelog',
     invoke_without_command=True,
     help=(

@@ -17,10 +17,10 @@
 ``peltak hotfix``
 #################
 """
-from peltak.commands import click, pretend_option, root_cli
+from peltak.cli import click, peltak_cli, pretend_option
 
 
-@root_cli.group('hotfix', invoke_without_command=True)
+@peltak_cli.group('hotfix', invoke_without_command=True)
 def hotfix_cli():
     """ Commands that ease the work with git flow hotfix branches.
 

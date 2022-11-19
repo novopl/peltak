@@ -1,4 +1,12 @@
-
+# peltak:
+#   about: Generate sphinx documentation
+#   options:
+#     - name: ['--recreate']
+#       about: Delete build and out directories before running.
+#       is_flag: true
+#     - name: ['--run-doctests']
+#       about: Also run all doctests.
+#       is_flag: true
 {% if opts.recreate %}
   {{ 'Cleaning after previous builds' | header }}
 

@@ -14,7 +14,7 @@
 #
 from typing import List
 
-from peltak.commands import click, root_cli, verbose_option
+from peltak.cli import click, peltak_cli, verbose_option
 
 
 # TODO: Add date filter.
@@ -25,7 +25,7 @@ from peltak.commands import click, root_cli, verbose_option
 #  define which git files should be checked
 # TODO: Support passing directory via --file argument
 #  Should check all files in the given directory.
-@root_cli.command('todos')
+@peltak_cli.command('todos')
 @click.option('-u', '--untracked', is_flag=True, default=False)
 @click.option(
     '-a',

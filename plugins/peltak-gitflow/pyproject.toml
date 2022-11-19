@@ -1,7 +1,7 @@
 [tool]
 [tool.poetry]
 name = "peltak-gitflow"
-version = "0.0.3"
+version = "0.0.4"
 description = ""
 authors = ["Mateusz Klos <novopl@gmail.com>"]
 repository = "https://github.com/novopl/peltak-gitflow"
@@ -27,7 +27,7 @@ coverage = "^6.5.0"
 flake8 = "^5.0.4"
 isort = "^5.10.1"
 mypy = "^0.982"
-peltak = ">=0.27.5"
+peltak = ">=0.29.0"
 psutil = "^5.9.2"
 pycodestyle = "^2.9.1"
 pylint = "^2.15.4"
@@ -37,7 +37,7 @@ pytest-sugar = "^0.9.5"
 Sphinx = ">=4.3.2"
 sphinx-material = "^0.0.35"
 sphinx-autodoc-typehints = ">=1.11.1"
-peltak-changelog = "^0.0.1"
+peltak-changelog = {path = "../peltak-changelog", develop = true}
 
 
 [tool.pytest.ini_options]
@@ -74,6 +74,7 @@ enable = [
     'redefined-builtin',
     'wrong-import-order',
 ]
+
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

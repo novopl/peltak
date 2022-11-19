@@ -13,10 +13,10 @@
 # limitations under the License.
 #
 """ Helper commands for dealing with pypi. """
-from peltak.commands import click, pretend_option, root_cli
+from peltak.cli import click, peltak_cli, pretend_option
 
 
-@root_cli.group('pypi')
+@peltak_cli.group('pypi')
 def pypi_cli():
     """ pypi related commands """
     pass

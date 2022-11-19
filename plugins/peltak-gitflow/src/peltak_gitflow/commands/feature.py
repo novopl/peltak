@@ -19,10 +19,10 @@
 
 git flow feature commands.
 """
-from peltak.commands import click, pretend_option, root_cli
+from peltak.cli import click, peltak_cli, pretend_option
 
 
-@root_cli.group('feature', invoke_without_command=True)
+@peltak_cli.group('feature', invoke_without_command=True)
 def feature_cli():
     """ Start a new git-flow feature.  """
 

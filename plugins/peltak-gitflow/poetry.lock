@@ -451,7 +451,7 @@ reference = "novocode-dev"
 
 [[package]]
 name = "peltak"
-version = "0.28.0"
+version = "0.29.0"
 description = "A command line tool to help manage a project"
 category = "dev"
 optional = false
@@ -1118,7 +1118,7 @@ reference = "novocode-dev"
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.7.2,<4.0"
-content-hash = "ffa1e096646a41055f0debe1a4f6dcebf3d2a25c9e6eacd64c37f5a32c649c9f"
+content-hash = "3a10091983c39611180e7576e5f30adc5dcda168c2a24c06255def964ef817d5"
 
 [metadata.files]
 alabaster = [
@@ -1445,8 +1445,8 @@ packaging = [
     {file = "packaging-21.3.tar.gz", hash = "sha256:dd47c42927d89ab911e606518907cc2d3a1f38bbd026385970643f9c5b8ecfeb"},
 ]
 peltak = [
-    {file = "peltak-0.28.0-py3-none-any.whl", hash = "sha256:2ff11c1cfcf920a4578b5e0a2916fc55d20674ec9c0df0eae1f836c3184c7a8b"},
-    {file = "peltak-0.28.0.tar.gz", hash = "sha256:6d14b14ed4c37447382ce0ee1ca344377c6800d6e67210625e77ec2e9c8ad864"},
+    {file = "peltak-0.29.0-py3-none-any.whl", hash = "sha256:083a04eab91bd57072d90b645a4c749efa7314fd23934e5af1318e465326e102"},
+    {file = "peltak-0.29.0.tar.gz", hash = "sha256:bc1e7f8d4dbddcb64782002c6bac4a18548cc76a16e8c782ae26585507002b88"},
 ]
 peltak-changelog = [
     {file = "peltak-changelog-0.0.1.tar.gz", hash = "sha256:b9795dfb18bf014fc1e57c0812959bd297793b25619ce49db9c1ea1f00fbba6b"},

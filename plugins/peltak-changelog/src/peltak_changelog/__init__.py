@@ -94,4 +94,4 @@ an example (this is the default configuration):
 from .commands import changelog_cli  # noqa: F401
 
 
-__version__ = '0.0.2'
+__version__ = '0.0.3'
