@@ -12,7 +12,7 @@ git add {{ conf.version.files | wrap_paths }}
 
 TAG="peltak-changelog-v$(peltak version --porcelain)"
 echo "Creating release $TAG"
-git commit -m "$TAG\n"
+git commit -m "$TAG"
 echo "Tagging release $TAG"
 git tag -a "$TAG" -m "$TAG"
 echo "Pushing released tag $TAG"
