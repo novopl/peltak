@@ -47,7 +47,7 @@ setup(
     install_requires=requirements,
     entry_points={
         'console_scripts': [
-            'peltak = peltak.main:root_cli',
+            'peltak = peltak.main:peltak_cli',
         ]
     },
     package_data={
