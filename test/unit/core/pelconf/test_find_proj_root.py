@@ -35,7 +35,9 @@ class patch_pelconf_location(object):
 
 @patch_pelconf_location('/fake/proj/root')
 def test_runs_detection_when_no_global_variable_stored():
-    assert conf._discover_proj_config() == '/fake/proj/root/pelconf.yaml'
+    assert (
+        conf._discover_proj_config() == f'/fake/proj/root/{conf.DEFAULT_PELCONF_NAME}'
+    )
 
 
 @patch_pelconf_location(None)
