@@ -10,6 +10,10 @@ from . import types
 
 
 class ScriptId(NamedTuple):
+    """ A unique identifier for the script.
+
+    Comprises of the path to the script and it's name - file name without the extension.
+    """
     name: str
     path: str
 
@@ -45,6 +49,27 @@ def generate_cli_groups(scripts: ScriptsMap) -> Dict[str, Any]:
         results[path] = _generate_cli_group(results, path)
 
     return results
+
+
+def _generate_cli_group(groups: Dict[str, Any], group_path: str):
+    name, parent = _parse_group_path(group_path)
+    parent_cli = peltak_cli
+
+    if parent:
+        if parent in groups:
+            parent_cli = groups[parent]
+        else:
+            parent_cli = _generate_cli_group(groups, parent)
+            groups[parent] = parent_cli
+
+    return parent_cli.group(name)(lambda: None)
+
+
+def _parse_group_path(group_path: str) -> Tuple[str, str]:
+    parts = group_path.rsplit(maxsplit=1)
+    name = parts[-1]
+    parent = parts[0] if len(parts) == 2 else ''
+    return name, parent
 
 
 def _iter_script_files(scripts_dir: Path) -> Iterator[Path]:
@@ -138,27 +163,11 @@ def _parse_script(script_id: ScriptId, script_path: Path) -> types.Script:
 
 
 def _gen_script_id(rel_path: Path) -> ScriptId:
+    """ Parse *rel_path* into a `ScriptId`.
+
+    It will parse *rel_path* to get the file system path and the name (file name,
+    without extension).
+    """
     path = ' '.join(str(rel_path).split(os.sep)[:-1])
     name = rel_path.name.split('.')[0]
     return ScriptId(name, path)
-
-
-def _generate_cli_group(groups: Dict[str, Any], group_path: str):
-    name, parent = _parse_group_path(group_path)
-    parent_cli = peltak_cli
-
-    if parent:
-        if parent in groups:
-            parent_cli = groups[parent]
-        else:
-            parent_cli = _generate_cli_group(groups, parent)
-            groups[parent] = parent_cli
-
-    return parent_cli.group(name)(lambda: None)
-
-
-def _parse_group_path(group_path: str) -> Tuple[str, str]:
-    parts = group_path.rsplit(maxsplit=1)
-    name = parts[-1]
-    parent = parts[0] if len(parts) == 2 else ''
-    return name, parent
