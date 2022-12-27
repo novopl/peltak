@@ -2,10 +2,6 @@
     :start-after: readme_badges_start
     :end-before: readme_badges_end
 
-################
-peltak-changelog
-################
-
 
 .. include:: ../../README.rst
     :start-after: readme_about_start
@@ -34,11 +30,13 @@ Installation
     :end-before: readme_installation_end
 
 
-Example
-=======
+Overview
+========
 
-.. literalinclude:: /examples/simple.py
-    :language: python
+.. include:: ../../README.rst
+    :start-after: readme_overview_start
+    :end-before: readme_overview_end
+
 
 
 More Documentation
