@@ -1,6 +1,6 @@
 # peltak:
 #   root_cli: true
-#   about: Create a release commit
+#   about: Create a version bump commit and tag it as release.
 #   options:
 #     - name: ['-t', '--type']
 #       about: "Type of release to make: patch|minor|major. Defaults to 'patch'."
@@ -9,7 +9,7 @@
 {{ "-- <32>Creating <95>{}<32> release" | cprint(opts.type) }}
 
 poetry run peltak version bump {{ opts.type }}
-git add pyproject.toml src/ezfilter/__init__.py
+git add pyproject.toml src/peltak/__init__.py
 
 
 peltak changelog > .RELEASE_CHANGELOG
