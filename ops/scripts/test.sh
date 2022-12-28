@@ -20,6 +20,9 @@
 #         all/core/scripts/extra. Defaults to 'all'.
 #       type: str
 #       default: all
+#   use:
+#     - cprint
+#     - header
 set -e
 
 {%

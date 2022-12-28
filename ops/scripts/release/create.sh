@@ -6,6 +6,8 @@
 #       about: "Type of release to make: patch|minor|major. Defaults to 'patch'."
 #       type: str
 #       default: patch
+#   use:
+#     - cprint
 cprint "-- <32>Creating <95>{{ opts.type }}<32> release"
 
 poetry run peltak version bump {{ opts.type }}

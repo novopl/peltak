@@ -8,6 +8,9 @@
 #     - name: ['--run-doctests']
 #       about: Also run all doctests.
 #       is_flag: true
+#   use:
+#     - cprint
+#     - header
 {% if opts.recreate %}
   header 'Cleaning after previous builds'
 

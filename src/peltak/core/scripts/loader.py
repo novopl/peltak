@@ -1,5 +1,6 @@
 import os
 import re
+import textwrap
 from pathlib import Path
 from typing import Any, Dict, Iterator, List, cast
 
@@ -19,19 +20,19 @@ class CommandAlreadyExists(exc.PeltakError):
     msg = "Command Already Exists"
 
 
-SCRIPTS_COMMON = '''
-function cprint() {
-  echo $(echo $@ | sed -E 's/<([0-9][0-9]?)>/\\x1b[\\1m/g')
-}
-function header() {
-  local title="$@"
-  local title_len=$(echo $title | wc -m)
-  local bar_len=$(( 78 - title_len ))
-  local header_bar=$(head -c $bar_len < /dev/zero | tr '\\0' '=')
+BUILTIN_FUNCTIONS = {
+    'cprint': textwrap.dedent('''
+        echo $(echo $@ | sed -E 's/<([0-9][0-9]?)>/\\x1b[\\1m/g')
+    '''),
+    'header': textwrap.dedent('''
+        local title="$@"
+        local title_len=$(echo $title | wc -m)
+        local bar_len=$(( 78 - title_len ))
+        local header_bar=$(head -c $bar_len < /dev/zero | tr '\\0' '=')
 
-  cprint "<32>= <35>$title <32>$header_bar<0>"
+        cprint "<32>= <35>$title <32>$header_bar<0>"
+    '''),
 }
-'''
 
 
 def register_scripts_from(scripts_dir: Path) -> None:
@@ -113,7 +114,11 @@ def _parse_script(script_path: Path) -> types.Script:
     else:
         script_options = header
 
-    script_src = SCRIPTS_COMMON + '\n'.join(source_lines).strip()
+    script_src = _inject_builtins(
+        script_conf=script_options,
+        script_src='\n'.join(source_lines).strip()
+    )
+
     return types.Script.from_config(
         name=script_name,
         script_conf={
@@ -121,6 +126,19 @@ def _parse_script(script_path: Path) -> types.Script:
             'command': script_src,
         },
     )
+
+
+def _inject_builtins(script_conf: Dict[str, Any], script_src: str) -> str:
+    """ Inject all built-ins the script specifies it's using. """
+    result = ''
+
+    for fn_name in script_conf.get('use', []):
+        impl = textwrap.indent(BUILTIN_FUNCTIONS.get(fn_name, ''), prefix='    ')
+        if not impl:
+            continue
+        result += f'function {fn_name}() {{{impl}}}' + '\n'
+
+    return f"### BUILTINS ###\n{result}### END BUILTINS ###\n{script_src}"
 
 
 def _register_script(script: types.Script, cli_path: List[str]):

@@ -10,6 +10,9 @@
 #       - test/unit
 #     include: '*.py'
 #     use_gitignore: true
+#   use:
+#     - cprint
+#     - header
 
 # The weird {{ files | wrap_paths }} notation means the files will be collected
 # by the script command and passed onto the 3rd party tool. This allows use

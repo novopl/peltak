@@ -90,6 +90,8 @@ class Script:
     success_exit_codes: List[int] = dataclasses.field(default_factory=lambda: [0])
     options: List[ScriptOption] = dataclasses.field(default_factory=list)
     files: Optional[types.FilesCollection] = None
+    # Script can use any (or none) of the peltak provided helpers.
+    use: List[str] = dataclasses.field(default_factory=list)
 
     @classmethod
     def from_config(cls, name: str, script_conf: YamlConf) -> 'Script':
@@ -128,6 +130,7 @@ class Script:
             success_exit_codes=success_exit_codes,
             options=[ScriptOption.from_config(opt_conf) for opt_conf in options],
             files=files,
+            use=script_conf.get('use', [])
         )
 
     def register(self, cli_group: Any):
