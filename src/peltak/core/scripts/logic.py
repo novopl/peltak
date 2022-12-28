@@ -14,6 +14,7 @@
 #
 """ scripts logic. """
 import dataclasses
+import os
 import subprocess
 import sys
 
@@ -74,7 +75,13 @@ def exec_script_command(cmd: str, pretend: bool) -> int:
             # different. If we just use Popen directly, everything works as
             # expected  ¯\_(ツ)_/¯
             # TODO: This possibly happens because of exit_on_error in shell.run()
-            p = subprocess.Popen(cmd, shell=True)
+            p = subprocess.Popen(
+                cmd,
+                shell=True,
+                # Replacement shell to use
+                # TODO: This works on POSIX systems, might cause problems on windows.
+                executable=os.environ.get('SHELL', None),
+            )
             try:
                 p.communicate()
                 return p.returncode
