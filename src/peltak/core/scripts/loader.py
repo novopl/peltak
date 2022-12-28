@@ -19,6 +19,21 @@ class CommandAlreadyExists(exc.PeltakError):
     msg = "Command Already Exists"
 
 
+SCRIPTS_COMMON = '''
+function cprint() {
+  echo $(echo $@ | sed -E 's/<([0-9][0-9]?)>/\\x1b[\\1m/g')
+}
+function header() {
+  local title="$@"
+  local title_len=$(echo $title | wc -m)
+  local bar_len=$(( 78 - title_len ))
+  local header_bar=$(head -c $bar_len < /dev/zero | tr '\\0' '=')
+
+  cprint "<32>= <35>$title <32>$header_bar<0>"
+}
+'''
+
+
 def register_scripts_from(scripts_dir: Path) -> None:
     """ Parse script files and build the ClI for it. """
     if not (scripts_dir.exists() and scripts_dir.is_dir()):
@@ -98,11 +113,12 @@ def _parse_script(script_path: Path) -> types.Script:
     else:
         script_options = header
 
+    script_src = SCRIPTS_COMMON + '\n'.join(source_lines).strip()
     return types.Script.from_config(
         name=script_name,
         script_conf={
             **script_options,
-            'command': '\n'.join(source_lines).strip(),
+            'command': script_src,
         },
     )
 

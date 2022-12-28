@@ -6,7 +6,7 @@
 #       about: "Type of release to make: patch|minor|major. Defaults to 'patch'."
 #       type: str
 #       default: patch
-{{ "-- <32>Creating <95>{}<32> release" | cprint(opts.type) }}
+cprint "-- <32>Creating <95>{{ opts.type }}<32> release"
 
 poetry run peltak version bump {{ opts.type }}
 git add pyproject.toml src/peltak/__init__.py

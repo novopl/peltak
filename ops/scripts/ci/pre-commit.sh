@@ -1,5 +1,4 @@
-# peltak:
-#   about: Tag current commit and create GitHub release
+# about: Tag current commit and create GitHub release
 set -e
 
 PATH="/opt/local/libexec/gnubin\

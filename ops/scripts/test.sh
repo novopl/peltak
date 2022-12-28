@@ -42,7 +42,7 @@ set cov_config = {
 %}
 
 {% if not cov_config[0] and not cov_config[1] %}
-  {{ "<31>Invalid <35>--cov <31>option value: <33>{}" | cprint(opts.cov) }}
+  cprint "<31>Invalid <35>--cov <31>option value: <33>{{ opts.cov }}"
   exit 1
 {%  endif %}
 
@@ -51,7 +51,7 @@ set cov_config = {
 
 
 {% if opts.kind != 'doctest' %}
-  {{ "Running tests" | header }}
+  header "Running tests"
   pytest \
       -c ops/tools/pytest.ini \
       --cov={{ cov_path }} \
@@ -64,7 +64,7 @@ set cov_config = {
 
 
 {% if opts.kind in ('all', 'doctest') %}
-  {{ "Running doctests" | header }}
+  header "Running doctests"
   pytest \
       -c ops/tools/pytest.ini \
       --doctest-modules \
@@ -74,4 +74,4 @@ set cov_config = {
       src/peltak
 {% endif %}
 
-{{ '<32>HTML report: <34>file://{}' | cprint(proj_path(cov_html_path, 'index.html')) }}
+cprint "<32>HTML report: <34>file://{{ proj_path(cov_html_path, 'index.html') }}"
