@@ -40,16 +40,9 @@ def _iter_script_files(scripts_dir: Path) -> Iterator[Path]:
     for dir_item in scripts_dir.iterdir():
         if dir_item.is_dir():
             yield from _iter_script_files(dir_item)
-        # else:
-        #     yield dir_item
         elif dir_item.name.endswith('.sh'):
-            # We only support shell scripts this way. The user can also keep python
-            # scripts in his scripts dir and those should import `peltak_cli` and
-            # be registered via ``pelconf.yaml``
-            # TODO: Autoload python scripts found inside `scripts_dir`.
             yield dir_item
         elif dir_item.name.endswith('.py'):
-            # Auto load python scripts in scripts_dir
             conf.py_import(dir_item.stem)
 
     return results
@@ -100,21 +93,15 @@ def _parse_script(script_path: Path) -> types.Script:
 
     # Load the header yaml and make sure it's a peltak script configuration.
     header: Dict[str, Any] = cast(Dict[str, Any], util.yaml_load(header_yaml))
-    # TODO: Do not require the header to be nested in the peltak object.
-    #  This would make it easier to use on project unofficially. We can verify it's
-    #  a peltak script by just trying to load yaml and validating the fields, so:
-    #    # peltak:
-    #    #   about: Script about message
-    #  becomes:
-    #    # about: Script about message
-    #
-    if not (len(header) == 1 and 'peltak' in header):
-        raise NoScript("Script header can only have a single root object 'peltak'")
+    if len(header) == 1 and 'peltak' in header:
+        script_options = header['peltak']
+    else:
+        script_options = header
 
     return types.Script.from_config(
         name=script_name,
         script_conf={
-            **header['peltak'],
+            **script_options,
             'command': '\n'.join(source_lines).strip(),
         },
     )
