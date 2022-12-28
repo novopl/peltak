@@ -1,6 +1,4 @@
 # about: Tag current commit and create GitHub release
-# use:
-#   - cprint
 set -e
 
 PATH="/opt/local/libexec/gnubin\
@@ -20,9 +18,9 @@ function check_py_project() {
     local header_len=${#header_str}
     local header_bar=$(head -c $header_len < /dev/zero | tr '\0' '#')
 
-    cprint "<96>$header_bar"
-    cprint "<96>#  <95>$plugin_name  <96>#"
-    cprint "<96>$header_bar"
+    echo "\x1b[96m$header_bar\x1b[0m"
+    echo "\x1b[96m#  \x1b[95m$plugin_name  \x1b[96m#\x1b[0m"
+    echo "\x1b[96m$header_bar\x1b[0m"
 
     cd "$proj_path"
     . ".venv/bin/activate"

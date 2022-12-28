@@ -17,6 +17,8 @@ import dataclasses
 import os
 import subprocess
 import sys
+from pathlib import Path
+from typing import Optional
 
 import yaml
 
@@ -80,7 +82,7 @@ def exec_script_command(cmd: str, pretend: bool) -> int:
                 shell=True,
                 # Replacement shell to use
                 # TODO: This works on POSIX systems, might cause problems on windows.
-                executable=os.environ.get('SHELL', None),
+                executable=_default_shell(),
             )
             try:
                 p.communicate()
@@ -119,3 +121,12 @@ def build_template_context(script, options):
         template_ctx['files'] = fs.collect_files(script.files)
 
     return template_ctx
+
+
+def _default_shell() -> Optional[str]:
+    default_shell = os.environ.get('SHELL', None)
+
+    if default_shell in (None, '/bin/sh') and Path('/bin/bash').exists():
+        default_shell = '/bin/bash'
+
+    return default_shell

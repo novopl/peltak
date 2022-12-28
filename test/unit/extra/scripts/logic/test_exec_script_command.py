@@ -2,7 +2,7 @@
 import os
 from unittest.mock import Mock, patch
 
-from peltak.core.scripts.logic import exec_script_command
+from peltak.core.scripts.logic import _default_shell, exec_script_command
 
 
 CALLING_SHELL = os.environ.get('SHELL', None)
@@ -12,7 +12,7 @@ CALLING_SHELL = os.environ.get('SHELL', None)
 def test_executes_the_command_if_pretend_is_False(p_Popen, app_conf):
     exec_script_command('fake-cmd', False)
 
-    p_Popen.assert_called_once_with('fake-cmd', shell=True, executable=CALLING_SHELL)
+    p_Popen.assert_called_once_with('fake-cmd', shell=True, executable=_default_shell())
 
 
 @patch('subprocess.Popen')
