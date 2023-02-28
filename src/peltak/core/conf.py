@@ -29,8 +29,9 @@ class ConfigAlreadyInitialized(ConfigError):
 def init():
     global g_conf
 
-    if g_conf:
-        raise ConfigAlreadyInitialized()
+    if g_conf is not None:
+        # Running init() multiple times should have no effect.
+        return
 
     config_path = _discover_proj_config()
     g_conf = _load_config(config_path)

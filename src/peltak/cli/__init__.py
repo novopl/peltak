@@ -32,27 +32,6 @@ import peltak
 AnyFn = Callable[..., Any]
 
 
-@click.group()
-@click.version_option(version=peltak.__version__, message='%(version)s')
-def peltak_cli() -> None:
-    """
-
-    To get help for a specific command:
-
-       \033[1m peltak <command> --help\033[0m
-
-    Examples:
-
-       \033[1m peltak lint --help\033[0m
-
-       \033[1m peltak version bump --help\033[0m
-
-       \033[1m peltak release upload --help\033[0m
-
-    """
-    pass
-
-
 def pretend_option(fn: AnyFn) -> AnyFn:
     """ Decorator to add a --pretend option to any click command.
 
@@ -151,8 +130,9 @@ def verbose_option(fn):
         param: Union[click.Option, click.Parameter],
         value: Any
     ) -> Any:
-        from peltak.core import context
+        from peltak.core import conf, context
         context.set('verbose', value or 0)
+        conf.init()
 
     return click.option(
         '-v', '--verbose',
@@ -161,3 +141,30 @@ def verbose_option(fn):
         callback=set_verbose,
         help="Be verbose. Can specify multiple times for more verbosity.",
     )(fn)
+
+
+@click.group()
+@click.version_option(version=peltak.__version__, message='%(version)s')
+@verbose_option
+def peltak_cli() -> None:
+    """
+
+    To get help for a specific command:
+
+       \033[1m peltak <command> --help\033[0m
+
+    Examples:
+
+       \033[1m peltak lint --help\033[0m
+
+       \033[1m peltak version bump --help\033[0m
+
+       \033[1m peltak release upload --help\033[0m
+
+    """
+    from peltak.core import conf
+
+    # Accessing the config for the first time will load it.
+    # This is crucial for the completion to work well. We need to load the config
+    # here so we have autocompletion for all commands defined in the config.
+    conf.init()

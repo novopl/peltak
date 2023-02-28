@@ -19,18 +19,11 @@ import peltak.cli.scripts  # noqa: F401 pylint: disable=unused-import
 # Make sure config is loaded
 from peltak.cli import peltak_cli
 from peltak.core import context  # noqa: F401 pylint: disable=unused-import
-from peltak.core import conf
 
 
 __all__ = [
     'peltak_cli'
 ]
-
-
-# Accessing the config for the first time will load it.
-# This is crucial for the completion to work well. We need to load the config
-# here so we have autocompletion for all commands defined in the config.
-conf.init()
 
 
 from peltak.cli.peltak import clean  # noqa: F401, E402 pylint: disable=unused-import

@@ -7,7 +7,7 @@ from typing import Any, Dict, Iterator, List, cast
 import click
 
 from peltak.cli import peltak_cli
-from peltak.core import conf, exc, util
+from peltak.core import conf, exc, log, util
 
 from . import types
 
@@ -44,6 +44,8 @@ def register_scripts_from(scripts_dir: Path) -> None:
         pass
 
     for script_path in _iter_script_files(scripts_dir):
+        log.dbg(f"Loading script {script_path}")
+
         script = _parse_script(script_path)
         rel_path = script_path.relative_to(scripts_dir)
         script_cli_path = str(rel_path).split(os.sep)[:-1]
@@ -54,6 +56,7 @@ def _iter_script_files(scripts_dir: Path) -> Iterator[Path]:
     results: List[Path] = []
 
     for dir_item in scripts_dir.iterdir():
+        log.dbg(f"Looking for a script in {dir_item}")
         if dir_item.is_dir():
             yield from _iter_script_files(dir_item)
         elif dir_item.name.endswith('.sh'):

@@ -35,12 +35,12 @@ def run_script(script: Script, options: CliOptions) -> None:
     pretend = RunContext().get('pretend')
 
     if verbose >= 3:
-        log.info('Compiling script <35>{name}\n{script}'.format(
+        log.dbg('Compiling script <35>{name}\n{script}'.format(
             name=script.name,
             script=shell.highlight(script.command, 'jinja')
         ))
         yaml_str = yaml.dump(template_ctx, default_flow_style=False)
-        log.info('with context:\n{}\n'.format(shell.highlight(yaml_str, 'yaml')))
+        log.dbg('with context:\n{}\n'.format(shell.highlight(yaml_str, 'yaml')))
 
     # Command is either specified directly in pelconf.yaml or lives in a
     # separate file.
@@ -55,8 +55,7 @@ def run_script(script: Script, options: CliOptions) -> None:
     cmd = templates.Engine().render(command, template_ctx)
     retcode = exec_script_command(cmd, pretend)
 
-    if verbose:
-        log.info("Script exited with code: <33>{}", retcode)
+    log.detail(f"Script exited with code: <33>{retcode}")
 
     if retcode not in script.success_exit_codes:
         sys.exit(retcode)

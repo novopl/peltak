@@ -18,7 +18,7 @@
 """
 from typing import Any
 
-from . import shell
+from . import context, shell
 
 
 def info(msg: str, *args: Any, **kw: Any) -> None:
@@ -43,3 +43,25 @@ def err(msg: str, *args: Any, **kw: Any) -> None:
         msg = msg.format(*args, **kw)
 
     shell.cprint('-- <31>{}<0>'.format(msg))
+
+
+def detail(msg: str, *args: Any, **kw: Any) -> None:
+    """ Detail level logs, only visible with -v flag. """
+    if context.get('verbose') < 1:
+        return
+
+    if len(args) or len(kw):
+        msg = msg.format(*args, **kw)
+
+    shell.cprint('-- <0>{}<0>'.format(msg))
+
+
+def dbg(msg: str, *args: Any, **kw: Any) -> None:
+    """ Debug level logs, only visible with -vvv flag. """
+    if context.get('verbose') < 3:
+        return
+
+    if len(args) or len(kw):
+        msg = msg.format(*args, **kw)
+
+    shell.cprint('-- <90>{}<0>'.format(msg))
