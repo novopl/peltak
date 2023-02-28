@@ -25,7 +25,7 @@ def commit_author(sha1: str = '') -> Author:
     """ Return the author of the given commit.
 
     Args:
-        sha1 (str):
+        sha1:
             The sha1 of the commit to query. If not given, it will return the
             sha1 for the current commit.
     Returns:
@@ -47,7 +47,7 @@ def ignore() -> List[str]:
     """ Return a list of patterns in the project .gitignore
 
     Returns:
-        list[str]: List of patterns set to be ignored by git.
+        List of patterns set to be ignored by git.
     """
 
     def parse_line(line):   # pylint: disable=missing-docstring
@@ -82,15 +82,12 @@ def tag(name: str, message: str, author: Optional[Author] = None):
     """ Tag the current commit.
 
     Args:
-        name (str):
+        name:
             The tag name.
-        message (str):
+        message:
             The tag message. Same as ``-m`` parameter in ``git tag``.
-        author (Author):
+        author:
             The commit author. Will default to the author of the commit.
-        pretend (bool):
-            If set to **True** it will print the full ``git tag`` command
-            instead of actually executing it.
     """
     cmd = (
         'git -c "user.name={author.name}" -c "user.email={author.email}" '
@@ -108,7 +105,7 @@ def config() -> Dict[str, Any]:
     """ Return the current git configuration.
 
     Returns:
-        dict[str, Any]: The current git config taken from ``git config --list``.
+        The current git config taken from ``git config --list``.
     """
     out = shell.run(
         'git config --list',
@@ -129,7 +126,7 @@ def tags() -> List[str]:
     """ Returns all tags in the repo.
 
     Returns:
-        list[str]: List of all tags in the repo, sorted as versions.
+        List of all tags in the repo, sorted as versions.
 
     All tags returned by this function will be parsed as if the contained
     versions (using ``v:refname`` sorting).
