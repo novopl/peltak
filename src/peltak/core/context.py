@@ -71,6 +71,19 @@ class RunContext(util.Singleton):
                 f"Context value '{name}' does not exist:\n{util.yaml_dump(self.values)}"
             )
 
+    def has(self, name: str) -> bool:
+        """ Check whether the given name/path is present in the context.
+
+        Args:
+            name:   The name of the value to check for. You can reach nested values using
+                    the dot notation. For example ``some.value.name`` will internally
+                    traverse up to 3 dictionaries to perform ths check.
+
+        Returns:
+            **True** if the value is stored in the context, **False** otherwise.
+        """
+        return util.dict_has(self.values, name)
+
     def set(self, name: str, value: Any) -> None:
         """ Set context value.
 
@@ -84,6 +97,20 @@ class RunContext(util.Singleton):
             util.set_in_dict(self.values, name, value)
         except KeyError:
             raise InvalidPath(name)
+
+
+def has(name: str) -> bool:
+    """ Check whether the given name/path is present in the context.
+
+    Args:
+        name:   The name of the value to check for. You can reach nested values using
+                the dot notation. For example ``some.value.name`` will internally
+                traverse up to 3 dictionaries to perform ths check.
+
+    Returns:
+        **True** if the value is stored in the context, **False** otherwise.
+    """
+    return RunContext().has(name)
 
 
 def get(name: str, *default: Any) -> Any:

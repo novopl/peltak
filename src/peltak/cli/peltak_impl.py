@@ -42,7 +42,7 @@ def clean(exclude: List[str]):
         "*.build",
     ])
 
-    if context.get('verbose'):
+    if log.get_verbosity() > 0:
         log.info('Clean patterns:')
         for pattern in clean_patterns:
             log.info(f'  <90>{pattern}')
@@ -119,5 +119,5 @@ def init(quick: bool, blank: bool, force: bool, template: str):
     log.info('Writing <35>{}'.format(config_file))
     fs.write_file(config_file, config_content)
 
-    if context.get('verbose') > 0:
+    if log.get_verbosity() > 0:
         print(f"{'- ' * 40}\n{shell.highlight(config_content, 'yaml')}{'- ' * 40}")

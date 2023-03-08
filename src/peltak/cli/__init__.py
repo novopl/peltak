@@ -130,9 +130,8 @@ def verbose_option(fn):
         param: Union[click.Option, click.Parameter],
         value: Any
     ) -> Any:
-        from peltak.core import conf, context
+        from peltak.core import context
         context.set('verbose', value or 0)
-        conf.init()
 
     return click.option(
         '-v', '--verbose',
@@ -146,7 +145,8 @@ def verbose_option(fn):
 @click.group()
 @click.version_option(version=peltak.__version__, message='%(version)s')
 @verbose_option
-def peltak_cli() -> None:
+@click.pass_context
+def peltak_cli(ctx: click.Context) -> None:
     """
 
     To get help for a specific command:
@@ -162,9 +162,4 @@ def peltak_cli() -> None:
        \033[1m peltak release upload --help\033[0m
 
     """
-    from peltak.core import conf
-
-    # Accessing the config for the first time will load it.
-    # This is crucial for the completion to work well. We need to load the config
-    # here so we have autocompletion for all commands defined in the config.
-    conf.init()
+    pass

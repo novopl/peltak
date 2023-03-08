@@ -31,7 +31,7 @@ from .types import CliOptions, Script
 def run_script(script: Script, options: CliOptions) -> None:
     """ Run the script with the given (command line) options. """
     template_ctx = build_template_context(script, options)
-    verbose = RunContext().get('verbose')
+    verbose = log.get_verbosity()
     pretend = RunContext().get('pretend')
 
     if verbose >= 3:
@@ -106,7 +106,7 @@ def build_template_context(script, options):
     """
     template_ctx = {
         'opts': dict(
-            verbose=RunContext().get('verbose'),
+            verbose=log.get_verbosity(),
             pretend=RunContext().get('pretend'),
             **options
         ),
