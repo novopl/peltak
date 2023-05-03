@@ -22,7 +22,7 @@ class CommandAlreadyExists(exc.PeltakError):
 
 BUILTIN_FUNCTIONS = {
     'cprint': textwrap.dedent('''
-        echo $(echo $@ | sed -E 's/<([0-9][0-9]?)>/\\x1b[\\1m/g')
+        echo $(echo "$@<0>" | sed -E 's/<([0-9][0-9]?)>/\\x1b[\\1m/g')
     '''),
     'header': textwrap.dedent('''
         local title="$@"
@@ -30,7 +30,8 @@ BUILTIN_FUNCTIONS = {
         local bar_len=$(( 78 - title_len ))
         local header_bar=$(head -c $bar_len < /dev/zero | tr '\\0' '=')
 
-        cprint "<32>= <35>$title <32>$header_bar<0>"
+        echo $(echo "<32>= <35>$title <32>$header_bar<0>" \\
+            | sed -E 's/<([0-9][0-9]?)>/\\x1b[\\1m/g')
     '''),
 }
 
@@ -106,6 +107,7 @@ def _parse_script(script_path: Path) -> types.Script:
 
             source_lines.append(line.rstrip())
 
+    # Check if we have the script header.
     header_yaml = '\n'.join(header_lines)
     if not header_yaml:
         raise NoScript(f"peltak header is missing from file: {script_path}")
