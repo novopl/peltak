@@ -4,4 +4,8 @@
 #     - cprint
 #     - header
 peltak test
+
+deactivate
+
+{{ '<96>peltak-changelog' | cprint }}
 cd plugins/peltak-changelog && poetry run peltak test
