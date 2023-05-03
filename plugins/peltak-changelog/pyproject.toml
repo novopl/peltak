@@ -1,7 +1,7 @@
 [tool]
 [tool.poetry]
 name = "peltak-changelog"
-version = "0.0.3"
+version = "0.0.4"
 description = ""
 authors = ["Mateusz Klos <novopl@gmail.com>"]
 repository = "https://github.com/novopl/peltak-changelog"
@@ -70,6 +70,7 @@ enable = [
     'redefined-builtin',
     'wrong-import-order',
 ]
+
 
 
 
