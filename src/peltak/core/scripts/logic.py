@@ -14,8 +14,11 @@
 #
 """ scripts logic. """
 import dataclasses
+import os
 import subprocess
 import sys
+from pathlib import Path
+from typing import Optional
 
 import yaml
 
@@ -28,16 +31,16 @@ from .types import CliOptions, Script
 def run_script(script: Script, options: CliOptions) -> None:
     """ Run the script with the given (command line) options. """
     template_ctx = build_template_context(script, options)
-    verbose = RunContext().get('verbose')
+    verbose = log.get_verbosity()
     pretend = RunContext().get('pretend')
 
     if verbose >= 3:
-        log.info('Compiling script <35>{name}\n{script}'.format(
+        log.dbg('Compiling script <35>{name}\n{script}'.format(
             name=script.name,
             script=shell.highlight(script.command, 'jinja')
         ))
         yaml_str = yaml.dump(template_ctx, default_flow_style=False)
-        log.info('with context:\n{}\n'.format(shell.highlight(yaml_str, 'yaml')))
+        log.dbg('with context:\n{}\n'.format(shell.highlight(yaml_str, 'yaml')))
 
     # Command is either specified directly in pelconf.yaml or lives in a
     # separate file.
@@ -52,8 +55,7 @@ def run_script(script: Script, options: CliOptions) -> None:
     cmd = templates.Engine().render(command, template_ctx)
     retcode = exec_script_command(cmd, pretend)
 
-    if verbose:
-        log.info("Script exited with code: <33>{}", retcode)
+    log.detail(f"Script exited with code: <33>{retcode}")
 
     if retcode not in script.success_exit_codes:
         sys.exit(retcode)
@@ -74,7 +76,13 @@ def exec_script_command(cmd: str, pretend: bool) -> int:
             # different. If we just use Popen directly, everything works as
             # expected  ¯\_(ツ)_/¯
             # TODO: This possibly happens because of exit_on_error in shell.run()
-            p = subprocess.Popen(cmd, shell=True)
+            p = subprocess.Popen(
+                cmd,
+                shell=True,
+                # Replacement shell to use
+                # TODO: This works on POSIX systems, might cause problems on windows.
+                executable=_default_shell(),
+            )
             try:
                 p.communicate()
                 return p.returncode
@@ -98,7 +106,7 @@ def build_template_context(script, options):
     """
     template_ctx = {
         'opts': dict(
-            verbose=RunContext().get('verbose'),
+            verbose=log.get_verbosity(),
             pretend=RunContext().get('pretend'),
             **options
         ),
@@ -112,3 +120,12 @@ def build_template_context(script, options):
         template_ctx['files'] = fs.collect_files(script.files)
 
     return template_ctx
+
+
+def _default_shell() -> Optional[str]:
+    default_shell = os.environ.get('SHELL', None)
+
+    if default_shell in (None, '/bin/sh') and Path('/bin/bash').exists():
+        default_shell = '/bin/bash'
+
+    return default_shell

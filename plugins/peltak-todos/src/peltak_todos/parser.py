@@ -16,6 +16,7 @@ import dataclasses
 import hashlib
 import re
 from datetime import datetime
+from pathlib import Path
 from typing import List
 
 from peltak.core import conf, context, shell
@@ -31,7 +32,7 @@ def get_changed_files(base_branch: str = 'master') -> List[str]:
     return result.stdout.splitlines()
 
 
-def extract_from_files(files: List[str]) -> List[Todo]:
+def extract_from_files(files: List[Path]) -> List[Todo]:
     parser = TodoParser(
         comment_token=conf.get('todos.comment_token', '#'),
         todo_token=conf.get('todos.todo_token', 'TODO'),
@@ -58,7 +59,7 @@ class TodoParser:
             f"(?P<prefix>.*?){comment_token} {todo_token}: (?P<text>.*)"
         )
 
-    def extract_todos(self, files: List[str]) -> List[Todo]:
+    def extract_todos(self, files: List[Path]) -> List[Todo]:
         todos: List[Todo] = []
 
         for path in files:
@@ -75,7 +76,7 @@ class TodoParser:
 
         return todos
 
-    def _process_file(self, path: str) -> List[Todo]:
+    def _process_file(self, path: Path) -> List[Todo]:
         todos: List[Todo] = []
         line_no = 0
 
@@ -131,7 +132,7 @@ class TodoParser:
     def _continuation_regex(self, prefix: str) -> re.Pattern:
         return re.compile(f"{prefix}{self.comment_token} \\s+(?P<text>.*)")
 
-    def _get_todo_details(self, file_path: str, lines: LineRange) -> TodoDetails:
+    def _get_todo_details(self, file_path: Path, lines: LineRange) -> TodoDetails:
         result = shell.run(
             f"git blame {file_path} -L {lines.start},{lines.end} -p",
             capture=True

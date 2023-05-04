@@ -32,27 +32,6 @@ import peltak
 AnyFn = Callable[..., Any]
 
 
-@click.group()
-@click.version_option(version=peltak.__version__, message='%(version)s')
-def peltak_cli() -> None:
-    """
-
-    To get help for a specific command:
-
-       \033[1m peltak <command> --help\033[0m
-
-    Examples:
-
-       \033[1m peltak lint --help\033[0m
-
-       \033[1m peltak version bump --help\033[0m
-
-       \033[1m peltak release upload --help\033[0m
-
-    """
-    pass
-
-
 def pretend_option(fn: AnyFn) -> AnyFn:
     """ Decorator to add a --pretend option to any click command.
 
@@ -161,3 +140,26 @@ def verbose_option(fn):
         callback=set_verbose,
         help="Be verbose. Can specify multiple times for more verbosity.",
     )(fn)
+
+
+@click.group()
+@click.version_option(version=peltak.__version__, message='%(version)s')
+@verbose_option
+@click.pass_context
+def peltak_cli(ctx: click.Context) -> None:
+    """
+
+    To get help for a specific command:
+
+       \033[1m peltak <command> --help\033[0m
+
+    Examples:
+
+       \033[1m peltak lint --help\033[0m
+
+       \033[1m peltak version bump --help\033[0m
+
+       \033[1m peltak release upload --help\033[0m
+
+    """
+    pass

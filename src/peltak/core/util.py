@@ -1,4 +1,4 @@
-# Copyright 2017-2020 Mateusz Klos
+# Copyright 2017-2023 Mateusz Klos
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -111,7 +111,7 @@ def mark_deprecated(replaced_by: str) -> Decorator:
     """ Mark command as deprecated.
 
     Args:
-        replaced_by (str):
+        replaced_by:
             The command that deprecated this command and should be used instead.
     """
     def decorator(fn):   # pylint: disable=missing-docstring
@@ -332,9 +332,11 @@ def get_from_dict(dct: Dict, path: str, *default: Any) -> Any:
     if any of the keys or value itself is missing.
 
     Args:
-        name (str):
-            The name of the config value.
-        *default (Any):
+        dct:
+            The dict the requested value will be read from.
+        path:
+            The name/path of the config value.
+        *default:
             If given and the key doesn't not exist, this will be returned
             instead. If it's not given and the config value does not exist,
             KeyError will be raised.
@@ -382,9 +384,11 @@ def set_in_dict(dct: Dict, path: str, value: Any) -> None:
 
 
     Args:
-        name (str):
-            The name of the context value to change.
-        value (Any):
+        dct:
+            The dict that will be modified by this call.
+        path:
+            The name/path of the context value to change.
+        value:
             The new value for the selected context value
 
     Raises:
@@ -418,6 +422,11 @@ def set_in_dict(dct: Dict, path: str, value: Any) -> None:
 
 
 def dict_has(dct: Dict, path: str) -> bool:
+    """ Check if a given dict has a value under a comma separated name/path.
+
+    This will split *path* by dots and drill down the dictionary to check if the value
+    exists.
+    """
     curr = dct
     for part in path.split('.'):
         if part in curr:

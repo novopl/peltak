@@ -28,14 +28,6 @@ jobs:
             poetry install --no-ansi
             echo '=========================================================='
 
-      - run:
-          name: Checks
-          command: poetry run peltak check
-
-      - run:
-          name: Test
-          command: poetry run peltak test
-
       - save_cache:
           key: deps-{{ checksum ".circleci/config.yml" }}-{{ checksum "poetry.lock" }}
           paths:
@@ -44,6 +36,14 @@ jobs:
             - .venv
             - .mypy_cache
             - .pytest_cache
+
+      - run:
+          name: Checks
+          command: poetry run peltak check
+
+      - run:
+          name: Test
+          command: poetry run peltak test
 
       - run:
           name: Build Documentation

@@ -16,9 +16,10 @@
 .. module:: peltak.core.log
     :synopsis: Helpers for nice shell output formatting.
 """
+import os
 from typing import Any
 
-from . import shell
+from . import context, exc, shell
 
 
 def info(msg: str, *args: Any, **kw: Any) -> None:
@@ -43,3 +44,46 @@ def err(msg: str, *args: Any, **kw: Any) -> None:
         msg = msg.format(*args, **kw)
 
     shell.cprint('-- <31>{}<0>'.format(msg))
+
+
+def detail(msg: str, *args: Any, **kw: Any) -> None:
+    """ Detail level logs, only visible with -v flag. """
+    if get_verbosity() < 1:
+        return
+
+    if len(args) or len(kw):
+        msg = msg.format(*args, **kw)
+
+    shell.cprint('-- <0>{}<0>'.format(msg))
+
+
+def dbg(msg: str, *args: Any, **kw: Any) -> None:
+    """ Debug level logs, only visible with -vvv flag. """
+    if get_verbosity() < 3:
+        return
+
+    if len(args) or len(kw):
+        msg = msg.format(*args, **kw)
+
+    shell.cprint('-- <90>{}<0>'.format(msg))
+
+
+def get_verbosity() -> int:
+    """ Get the current verbosity level.
+
+    This can be set either using the -v/--verbose option or via env variable
+    PELTAK_VERBOSE. The CLI will override the env variable if set. The reason for that
+    is that some of the internals of peltak run before the options are parsed and thus
+    the value given via CLI is not available yet. For this type of bug investigation,
+    you can use the env variable.
+
+    The code should use this function instead of just doing ``context.get('verbose')``.
+    """
+    if context.has('verbose'):
+        return context.get('verbose')
+    else:
+        str_value = os.environ.get('PELTAK_VERBOSE', '0')
+        if not str_value.isdigit():
+            raise exc.PeltakError('PELTAK_VERBOSE env variable is not a digit')
+
+        return int(str_value)

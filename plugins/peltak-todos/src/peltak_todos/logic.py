@@ -16,7 +16,7 @@ import itertools
 import sys
 import textwrap
 from pathlib import Path
-from typing import List
+from typing import Collection, FrozenSet, List
 
 from peltak.core import context, fs, git, log, shell
 
@@ -25,45 +25,11 @@ from .types import Todo
 
 
 def check_todos(
-    input_path: str,
-    untracked: bool,
+    input_paths: Collection[str],
     authors: List[str],
     verify_complete: bool,
 ) -> None:
-    repo_path = Path(
-        shell.run("git rev-parse --show-toplevel", capture=True).stdout.strip()
-    )
-
-    if input_path == ':commit':
-        input_files = frozenset([
-            repo_path / fpath
-            for fpath in (git.staged() + git.unstaged())
-        ])
-    elif input_path == ':diff':
-        input_files = frozenset(
-            repo_path / fpath
-            for fpath in (
-                parser.get_changed_files(base_branch='master')
-                + git.staged()
-                + git.unstaged()
-            )
-            if (repo_path / fpath).exists()
-        )
-    else:
-        path = Path(input_path)
-        if path.is_dir():
-            input_files = frozenset(
-                Path(f) for f in fs.filtered_walk(str(path))
-                if not Path(f).is_dir()
-            )
-        else:
-            input_files = frozenset([path])
-
-    if untracked:
-        input_files |= frozenset([
-            (repo_path / fpath) for fpath in git.untracked()
-        ])
-
+    input_files = _collect_input_files(input_paths)
     todos = parser.extract_from_files(list(input_files))
     filtered_todos = [
         t for t in todos
@@ -75,6 +41,43 @@ def check_todos(
 
     if verify_complete and len(filtered_todos) > 0:
         sys.exit(127)
+
+
+def _collect_input_files(input_paths: Collection[str], ) -> FrozenSet[Path]:
+    repo_path = Path(
+        shell.run("git rev-parse --show-toplevel", capture=True).stdout.strip()
+    )
+    input_files: FrozenSet[Path] = frozenset()
+
+    for input_path in input_paths:
+        if input_path == ':commit':
+            input_files |= frozenset([
+                repo_path / fpath
+                for fpath in (git.staged() + git.unstaged())
+            ])
+        elif input_path == ':diff':
+            input_files |= frozenset(
+                repo_path / fpath
+                for fpath in (
+                    parser.get_changed_files(base_branch='master')
+                )
+                if (repo_path / fpath).exists()
+            )
+        elif input_path == ':untracked':
+            input_files |= frozenset([
+                (repo_path / fpath) for fpath in git.untracked()
+            ])
+        else:
+            path = Path(input_path)
+            if path.is_dir():
+                input_files |= frozenset(
+                    Path(f) for f in fs.filtered_walk(str(path))
+                    if not Path(f).is_dir()
+                )
+            else:
+                input_files |= frozenset([path])
+
+    return input_files
 
 
 def _render_todos(todos: List[Todo]) -> None:

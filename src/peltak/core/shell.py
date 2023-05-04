@@ -21,7 +21,7 @@ import os
 import re
 import subprocess
 import sys
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
 from . import context
 
@@ -96,8 +96,8 @@ def cprint(msg: str, *args: Any, **kw: Any):
 def run(cmd: str,
         capture: bool = False,
         shell: bool = True,
-        env: EnvDict = None,
-        exit_on_error: bool = None,
+        env: Optional[EnvDict] = None,
+        exit_on_error: Optional[bool] = None,
         never_pretend: bool = False):
     """ Run a shell command.
 

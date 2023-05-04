@@ -10,8 +10,8 @@ from . import hooks, log, util
 
 g_conf: Optional['Config'] = None
 ConfigDict = Dict[str, Any]
-DEFAULT_PELCONF_NAME = 'pelconf.yaml'
-PELTAK_CONFIG_FILES = frozenset({'pelconf.yaml', 'pyproject.toml'})
+DEFAULT_PELCONF_NAME = 'peltak.yaml'
+PELTAK_CONFIG_FILES = frozenset({'peltak.yaml', 'pelconf.yaml', 'pyproject.toml'})
 
 
 class ConfigError(RuntimeError):
@@ -29,8 +29,9 @@ class ConfigAlreadyInitialized(ConfigError):
 def init():
     global g_conf
 
-    if g_conf:
-        raise ConfigAlreadyInitialized()
+    if g_conf is not None:
+        # Running init() multiple times should have no effect.
+        return
 
     config_path = _discover_proj_config()
     g_conf = _load_config(config_path)
@@ -249,7 +250,7 @@ def _load_from_file(proj_config: str):
     """ Load configuration from file. """
     if proj_config.endswith('pyproject.toml'):
         return _load_from_toml_file(proj_config)
-    elif proj_config.endswith('pelconf.yaml'):
+    elif proj_config.endswith('.yaml'):
         return _load_from_yaml_file(proj_config)
     else:
         raise RuntimeError(f"Unsupported configuration {proj_config}")

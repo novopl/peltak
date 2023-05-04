@@ -95,3 +95,44 @@ def delete_remote():
     """
     from . import git_impl
     git_impl.delete_remote()
+
+
+@git_cli.command('tag')
+@click.argument(
+    'name',
+    required=True,
+    type=str,
+)
+@click.option(
+    '-m', '--message',
+    required=True,
+    type=str,
+    help=("Tag message. Will replace the default 'Mark vX.X release'"),
+)
+@pretend_option
+def tag(message: str, name: str):
+    """ Tag the current commit with as the current version release.
+
+    This should be the same commit as the one that's uploaded as the release
+    (to pypi for example).
+
+    **Example Config**::
+
+        \b
+        version:
+            file: 'src/mypkg/__init__.py'
+
+    Examples::
+
+        $ peltak release tag          # Tag the current commit as release
+
+    """
+    from peltak.core import conf, git, log
+
+    with conf.within_proj_dir():
+        log.info(f"Creating tag <35>{name}")
+        git.tag(
+            author=git.latest_commit().author,
+            name=name,
+            message=message,
+        )

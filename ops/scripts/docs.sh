@@ -8,17 +8,20 @@
 #     - name: ['--run-doctests']
 #       about: Also run all doctests.
 #       is_flag: true
+#   use:
+#     - cprint
+#     - header
 {% if opts.recreate %}
-  {{ 'Cleaning after previous builds' | header }}
+  header 'Cleaning after previous builds'
 
-  {{ '<91>Deleting <94>docs/html' | cprint }}
+  header '<91>Deleting <94>docs/html'
   rm -rf docs/html
 
-  {{ '<91>Deleting <94>.build/docs' | cprint }}
+  header '<91>Deleting <94>.build/docs'
   rm -rf .build/docs
 {% endif %}
 
-{{ 'Generating documentation' | header }}
+header 'Generating documentation'
 sphinx-build \
     -b html \
     -d {{ conf.build_dir }}/docs \
@@ -26,7 +29,7 @@ sphinx-build \
     docs/html
 
 {% if opts.run_doctests %}
-  {{ 'Running doctests' | header }}
+  header 'Running doctests'
   sphinx-build \
       -b doctest \
       -d {{ conf.build_dir }}/docs \
@@ -35,4 +38,4 @@ sphinx-build \
 {% endif %}
 
 {% set docs_path = proj_path('docs/html/index.html') %}
-{{ '<32>Documentation: <34>{}' | cprint(docs_path) }}
+cprint '<32>Documentation: <34>{{docs_path }}'

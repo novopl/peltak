@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-from typing import List
+from typing import List, Tuple
 
 from peltak.cli import click, peltak_cli, verbose_option
 
@@ -26,7 +26,6 @@ from peltak.cli import click, peltak_cli, verbose_option
 # TODO: Support passing directory via --file argument
 #  Should check all files in the given directory.
 @peltak_cli.command('todos')
-@click.option('-u', '--untracked', is_flag=True, default=False)
 @click.option(
     '-a',
     '--author',
@@ -44,27 +43,36 @@ from peltak.cli import click, peltak_cli, verbose_option
     help="Return with non-zero exit code if there are any TODOs left in the code."
 )
 @click.argument(
-    'input_path',
+    'input_paths',
     type=click.Path(exists=True, dir_okay=True, file_okay=True),
     required=True,
+    nargs=-1,
 )
 @verbose_option
 def todos(
-    input_path: str,
-    untracked: bool,
+    input_paths: Tuple[str, ...],
     authors: List[str],
     verify_complete: bool,
 ) -> None:
     """ Scan code for TODOs and print a report.
 
+    INPUT_PATH argument also accepts few special tokens that map to files with a given
+    git status. Those tokens are:
+
+      :commit:      All the files that has been changed since the last commit.
+                    Comprises of the currently staged and unstaged chanegs in git.
+      :diff:        Will look for todos in the files that has changed between the current
+                    branch and the master branch.
+      :untracked:   Maps to all files untracked but not ignored files.
+
     Examples::
 
         \b
-        $ peltak todos .
+        $ peltak todos src tests
         $ peltak todos . --untracked
         $ peltak todos . --author novopl
         $ peltak . --verify-complete
     """
     from . import logic
 
-    logic.check_todos(input_path, untracked, authors, verify_complete)
+    logic.check_todos(input_paths, authors, verify_complete)

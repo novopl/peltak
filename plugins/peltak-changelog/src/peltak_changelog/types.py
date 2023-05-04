@@ -13,16 +13,15 @@
 # limitations under the License.
 #
 """ Types and classes used by `peltak.extra.changelog`. """
+import dataclasses
 from typing import Any, Dict, List
-
-import attr
 
 
 ChangelogItems = Dict[str, List[Any]]
 
 
-@attr.s
-class ChangelogTag(object):
+@dataclasses.dataclass
+class ChangelogTag:
     """ Changelog tag config.
 
     This is used to map the tags used in commit message details to the actual
@@ -33,5 +32,5 @@ class ChangelogTag(object):
         tag (str):      The tag used in commit message details.
 
     """
-    header = attr.ib(type=str)
-    tag = attr.ib(type=str)
+    header: str
+    tag: str
