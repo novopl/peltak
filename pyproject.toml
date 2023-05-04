@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "peltak"
-version = "0.29.1"
+version = "0.30.0"
 description = "A command line tool to help manage a project"
 readme = "README.rst"
 repository = "http://github.com/novopl/peltak"
@@ -55,6 +55,7 @@ peltak-changelog = {path = "plugins/peltak-changelog", develop = true}
 peltak-gitflow = {path = "plugins/peltak-gitflow", develop = true}
 peltak-pypi = {path = "plugins/peltak-pypi", develop = true }
 peltak-todos = {path = "plugins/peltak-todos", develop = true }
+
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
