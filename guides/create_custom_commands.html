@@ -59,7 +59,7 @@
 </script>
   
   
-    <title>Custom peltak commands &#8212; peltak 0.29.1 documentation</title>
+    <title>Custom peltak commands &#8212; peltak 0.30.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/material.css" />
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
@@ -93,7 +93,7 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex navheader">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href="../index.html" title="peltak 0.29.1 documentation"
+        <a href="../index.html" title="peltak 0.30.0 documentation"
            class="md-header-nav__button md-logo">
           
             <i class="md-icon">&#x267E</i>
@@ -179,7 +179,7 @@
   <nav class="md-tabs" data-md-component="tabs">
     <div class="md-tabs__inner md-grid">
       <ul class="md-tabs__list">
-          <li class="md-tabs__item"><a href="../index.html" class="md-tabs__link">peltak 0.29.1 documentation</a></li>
+          <li class="md-tabs__item"><a href="../index.html" class="md-tabs__link">peltak 0.30.0 documentation</a></li>
           <li class="md-tabs__item"><a href="_index.html" class="md-tabs__link">Guides</a></li>
       </ul>
     </div>
@@ -192,13 +192,13 @@
               <div class="md-sidebar__inner">
                 <nav class="md-nav md-nav--primary" data-md-level="0">
   <label class="md-nav__title md-nav__title--site" for="__drawer">
-    <a href="../index.html" title="peltak 0.29.1 documentation" class="md-nav__button md-logo">
+    <a href="../index.html" title="peltak 0.30.0 documentation" class="md-nav__button md-logo">
       
         <i class="md-icon">&#x267E</i>
       
     </a>
     <a href="../index.html"
-       title="peltak 0.29.1 documentation">peltak</a>
+       title="peltak 0.30.0 documentation">peltak</a>
   </label>
     <div class="md-nav__source">
       <a href="https://github.com/novopl/peltak" title="Go to repository" class="md-source" data-md-source="github">
@@ -224,13 +224,6 @@
     
       <a href="_index.html" class="md-nav__link">Guides</a>
       <ul class="md-nav__list"> 
-    <li class="md-nav__item">
-    
-    
-      <a href="installation.html" class="md-nav__link">Installation</a>
-      
-    
-    </li>
     <li class="md-nav__item">
     
     
@@ -408,23 +401,23 @@ of how you structure the CLI commands for your project.</p>
 the terminal. This will show you all the steps you need to take to implement the
 command and make it available to peltak. Let’s initialize a new
 <code class="docutils literal notranslate"><span class="pre">pelconf.yaml</span></code> with <code class="docutils literal notranslate"><span class="pre">peltak</span> <span class="pre">init</span></code>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>peltak init --blank -v
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>peltak<span class="w"> </span>init<span class="w"> </span>--blank<span class="w"> </span>-v
 </pre></div>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The generated <code class="docutils literal notranslate"><span class="pre">pelconf.yaml</span></code> should look like this:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># peltak configuration file</span><span class="w"></span>
-<span class="c1"># Visit https://novopl.github.io/peltak for more information</span><span class="w"></span>
-<span class="nt">pelconf_version</span><span class="p">:</span><span class="w"> </span><span class="s">'1'</span><span class="w"></span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># peltak configuration file</span>
+<span class="c1"># Visit https://novopl.github.io/peltak for more information</span>
+<span class="nt">pelconf_version</span><span class="p">:</span><span class="w"> </span><span class="s">'1'</span>
 
-<span class="c1"># You can add custom project commands or 3rd party packages here.</span><span class="w"></span>
-<span class="nt">commands</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">peltak.extra.scripts</span><span class="w"></span>
+<span class="c1"># You can add custom project commands or 3rd party packages here.</span>
+<span class="nt">commands</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">peltak.extra.scripts</span>
 
-<span class="c1"># This directory will be added to sys.path when the config is loaded.</span><span class="w"></span>
-<span class="c1"># Useful if do not keep the source code in th root directory.</span><span class="w"></span>
-<span class="nt">src_dir</span><span class="p">:</span><span class="w"> </span><span class="s">"."</span><span class="w"></span>
+<span class="c1"># This directory will be added to sys.path when the config is loaded.</span>
+<span class="c1"># Useful if do not keep the source code in th root directory.</span>
+<span class="nt">src_dir</span><span class="p">:</span><span class="w"> </span><span class="s">"."</span>
 </pre></div>
 </div>
 </div>
@@ -442,23 +435,23 @@ is set to. Let’s create a new file called <code class="docutils literal notran
 </div>
 <p>For peltak to be able to load your command file you need to add it to your
 <code class="docutils literal notranslate"><span class="pre">commands:</span></code> section in <code class="docutils literal notranslate"><span class="pre">pelconf.yaml</span></code>:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># peltak configuration file</span><span class="w"></span>
-<span class="c1"># Visit https://novopl.github.io/peltak for more information</span><span class="w"></span>
-<span class="nt">pelconf_version</span><span class="p">:</span><span class="w"> </span><span class="s">'1'</span><span class="w"></span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># peltak configuration file</span>
+<span class="c1"># Visit https://novopl.github.io/peltak for more information</span>
+<span class="nt">pelconf_version</span><span class="p">:</span><span class="w"> </span><span class="s">'1'</span>
 
-<span class="c1"># You can add custom project commands or 3rd party packages here.</span><span class="w"></span>
-<span class="nt">commands</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">peltak.extra.scripts</span><span class="w"></span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">custom_commands</span><span class="w"></span>
+<span class="c1"># You can add custom project commands or 3rd party packages here.</span>
+<span class="nt">commands</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">peltak.extra.scripts</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">custom_commands</span>
 
-<span class="c1"># This directory will be added to sys.path when the config is loaded.</span><span class="w"></span>
-<span class="c1"># Useful if do not keep the source code in th root directory.</span><span class="w"></span>
-<span class="nt">src_dir</span><span class="p">:</span><span class="w"> </span><span class="s">"."</span><span class="w"></span>
+<span class="c1"># This directory will be added to sys.path when the config is loaded.</span>
+<span class="c1"># Useful if do not keep the source code in th root directory.</span>
+<span class="nt">src_dir</span><span class="p">:</span><span class="w"> </span><span class="s">"."</span>
 </pre></div>
 </div>
 <p>Now our new command is visible to peltak and we can execute it with:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ peltak hello-world
-Hello, World!
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>peltak<span class="w"> </span>hello-world
+Hello,<span class="w"> </span>World!
 </pre></div>
 </div>
 </section>
@@ -477,7 +470,7 @@ that will be linted:</p>
 
 <span class="nd">@root_cli</span><span class="o">.</span><span class="n">command</span><span class="p">(</span><span class="s1">'hello-world'</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">hello_world</span><span class="p">():</span>
-    <span class="sd">""" Hello world command. """</span>
+<span class="w">    </span><span class="sd">""" Hello world command. """</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">'Hello, World!'</span><span class="p">)</span>
 
 
@@ -511,7 +504,7 @@ that will be linted:</p>
     <span class="n">help</span><span class="o">=</span><span class="s1">'Include untracked files'</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="k">def</span> <span class="nf">lint</span><span class="p">(</span><span class="n">paths</span><span class="p">,</span> <span class="n">include</span><span class="p">,</span> <span class="n">exclude</span><span class="p">,</span> <span class="n">only_staged</span><span class="p">,</span> <span class="n">ignore_untracked</span><span class="p">):</span>
-    <span class="sd">""" Run code checks (pylint + mypy) """</span>
+<span class="w">    </span><span class="sd">""" Run code checks (pylint + mypy) """</span>
     <span class="kn">from</span> <span class="nn">peltak.core</span> <span class="kn">import</span> <span class="n">log</span>
 
     <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">'&lt;0&gt;&lt;1&gt;</span><span class="si">{}</span><span class="s1">'</span><span class="p">,</span> <span class="s1">'-'</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
@@ -558,7 +551,7 @@ whatever structure you like.</p>
 
 <span class="k">def</span> <span class="nf">check</span><span class="p">(</span><span class="n">paths</span><span class="p">,</span> <span class="n">include</span><span class="p">,</span> <span class="n">exclude</span><span class="p">,</span> <span class="n">only_staged</span><span class="p">,</span> <span class="n">untracked</span><span class="p">):</span>
     <span class="c1"># type: (str, Sequence[str], Sequence[str], bool, bool) -&gt; None</span>
-    <span class="sd">""" Run mypy and pylint against the current directory."""</span>
+<span class="w">    </span><span class="sd">""" Run mypy and pylint against the current directory."""</span>
 
     <span class="n">files</span> <span class="o">=</span> <span class="n">types</span><span class="o">.</span><span class="n">FilesCollection</span><span class="p">(</span>
         <span class="n">paths</span><span class="o">=</span><span class="n">paths</span><span class="p">,</span>
@@ -587,7 +580,7 @@ whatever structure you like.</p>
 </div>
 <p>The last bit is to actually call our lint function from our peltak command:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">lint</span><span class="p">(</span><span class="n">paths</span><span class="p">,</span> <span class="n">include</span><span class="p">,</span> <span class="n">exclude</span><span class="p">,</span> <span class="n">only_staged</span><span class="p">,</span> <span class="n">ignore_untracked</span><span class="p">):</span>
-    <span class="sd">""" Run code checks (pylint + mypy) """</span>
+<span class="w">    </span><span class="sd">""" Run code checks (pylint + mypy) """</span>
     <span class="kn">from</span> <span class="nn">peltak.core</span> <span class="kn">import</span> <span class="n">log</span>
     <span class="kn">from</span> <span class="nn">custom_commands_logic</span> <span class="kn">import</span> <span class="n">check</span>
 

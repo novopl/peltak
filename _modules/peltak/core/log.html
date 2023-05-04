@@ -58,7 +58,7 @@
 </script>
   
   
-    <title>peltak.core.log &#8212; peltak 0.29.1 documentation</title>
+    <title>peltak.core.log &#8212; peltak 0.30.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/material.css" />
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
@@ -90,7 +90,7 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex navheader">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href="../../../index.html" title="peltak 0.29.1 documentation"
+        <a href="../../../index.html" title="peltak 0.30.0 documentation"
            class="md-header-nav__button md-logo">
           
             <i class="md-icon">&#x267E</i>
@@ -176,7 +176,7 @@
   <nav class="md-tabs" data-md-component="tabs">
     <div class="md-tabs__inner md-grid">
       <ul class="md-tabs__list">
-          <li class="md-tabs__item"><a href="../../../index.html" class="md-tabs__link">peltak 0.29.1 documentation</a></li>
+          <li class="md-tabs__item"><a href="../../../index.html" class="md-tabs__link">peltak 0.30.0 documentation</a></li>
           <li class="md-tabs__item"><a href="../../index.html" class="md-tabs__link">Module code</a></li>
       </ul>
     </div>
@@ -189,13 +189,13 @@
               <div class="md-sidebar__inner">
                 <nav class="md-nav md-nav--primary" data-md-level="0">
   <label class="md-nav__title md-nav__title--site" for="__drawer">
-    <a href="../../../index.html" title="peltak 0.29.1 documentation" class="md-nav__button md-logo">
+    <a href="../../../index.html" title="peltak 0.30.0 documentation" class="md-nav__button md-logo">
       
         <i class="md-icon">&#x267E</i>
       
     </a>
     <a href="../../../index.html"
-       title="peltak 0.29.1 documentation">peltak</a>
+       title="peltak 0.30.0 documentation">peltak</a>
   </label>
     <div class="md-nav__source">
       <a href="https://github.com/novopl/peltak" title="Go to repository" class="md-source" data-md-source="github">
@@ -221,13 +221,6 @@
     
       <a href="../../../guides/_index.html" class="md-nav__link">Guides</a>
       <ul class="md-nav__list"> 
-    <li class="md-nav__item">
-    
-    
-      <a href="../../../guides/installation.html" class="md-nav__link">Installation</a>
-      
-    
-    </li>
     <li class="md-nav__item">
     
     
@@ -345,13 +338,14 @@
 <span class="sd">.. module:: peltak.core.log</span>
 <span class="sd">    :synopsis: Helpers for nice shell output formatting.</span>
 <span class="sd">"""</span>
+<span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
 
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">shell</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">context</span><span class="p">,</span> <span class="n">exc</span><span class="p">,</span> <span class="n">shell</span>
 
 
 <div class="viewcode-block" id="info"><a class="viewcode-back" href="../../../dev/core/log.html#peltak.core.log.info">[docs]</a><span class="k">def</span> <span class="nf">info</span><span class="p">(</span><span class="n">msg</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">""" Print sys message to stdout.</span>
+<span class="w">    </span><span class="sd">""" Print sys message to stdout.</span>
 
 <span class="sd">    System messages should inform about the flow of the script. This should</span>
 <span class="sd">    be a major milestones during the build.</span>
@@ -363,7 +357,7 @@
 
 
 <div class="viewcode-block" id="err"><a class="viewcode-back" href="../../../dev/core/log.html#peltak.core.log.err">[docs]</a><span class="k">def</span> <span class="nf">err</span><span class="p">(</span><span class="n">msg</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">""" Per step status messages</span>
+<span class="w">    </span><span class="sd">""" Per step status messages</span>
 
 <span class="sd">    Use this locally in a command definition to highlight more important</span>
 <span class="sd">    information.</span>
@@ -372,6 +366,49 @@
         <span class="n">msg</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">)</span>
 
     <span class="n">shell</span><span class="o">.</span><span class="n">cprint</span><span class="p">(</span><span class="s1">'-- &lt;31&gt;</span><span class="si">{}</span><span class="s1">&lt;0&gt;'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">msg</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="detail"><a class="viewcode-back" href="../../../dev/core/log.html#peltak.core.log.detail">[docs]</a><span class="k">def</span> <span class="nf">detail</span><span class="p">(</span><span class="n">msg</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">""" Detail level logs, only visible with -v flag. """</span>
+    <span class="k">if</span> <span class="n">get_verbosity</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">kw</span><span class="p">):</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">)</span>
+
+    <span class="n">shell</span><span class="o">.</span><span class="n">cprint</span><span class="p">(</span><span class="s1">'-- &lt;0&gt;</span><span class="si">{}</span><span class="s1">&lt;0&gt;'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">msg</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="dbg"><a class="viewcode-back" href="../../../dev/core/log.html#peltak.core.log.dbg">[docs]</a><span class="k">def</span> <span class="nf">dbg</span><span class="p">(</span><span class="n">msg</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">""" Debug level logs, only visible with -vvv flag. """</span>
+    <span class="k">if</span> <span class="n">get_verbosity</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="k">return</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">kw</span><span class="p">):</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">)</span>
+
+    <span class="n">shell</span><span class="o">.</span><span class="n">cprint</span><span class="p">(</span><span class="s1">'-- &lt;90&gt;</span><span class="si">{}</span><span class="s1">&lt;0&gt;'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">msg</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="get_verbosity"><a class="viewcode-back" href="../../../dev/core/log.html#peltak.core.log.get_verbosity">[docs]</a><span class="k">def</span> <span class="nf">get_verbosity</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">""" Get the current verbosity level.</span>
+
+<span class="sd">    This can be set either using the -v/--verbose option or via env variable</span>
+<span class="sd">    PELTAK_VERBOSE. The CLI will override the env variable if set. The reason for that</span>
+<span class="sd">    is that some of the internals of peltak run before the options are parsed and thus</span>
+<span class="sd">    the value given via CLI is not available yet. For this type of bug investigation,</span>
+<span class="sd">    you can use the env variable.</span>
+
+<span class="sd">    The code should use this function instead of just doing ``context.get('verbose')``.</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">context</span><span class="o">.</span><span class="n">has</span><span class="p">(</span><span class="s1">'verbose'</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">context</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'verbose'</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">str_value</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'PELTAK_VERBOSE'</span><span class="p">,</span> <span class="s1">'0'</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">str_value</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="n">exc</span><span class="o">.</span><span class="n">PeltakError</span><span class="p">(</span><span class="s1">'PELTAK_VERBOSE env variable is not a digit'</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">str_value</span><span class="p">)</span></div>
 </pre></div>
 
           </article>

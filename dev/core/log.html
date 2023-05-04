@@ -59,7 +59,7 @@
 </script>
   
   
-    <title>peltak.core.log &#8212; peltak 0.29.1 documentation</title>
+    <title>peltak.core.log &#8212; peltak 0.30.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/material.css" />
     <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
@@ -93,7 +93,7 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex navheader">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href="../../index.html" title="peltak 0.29.1 documentation"
+        <a href="../../index.html" title="peltak 0.30.0 documentation"
            class="md-header-nav__button md-logo">
           
             <i class="md-icon">&#x267E</i>
@@ -179,7 +179,7 @@
   <nav class="md-tabs" data-md-component="tabs">
     <div class="md-tabs__inner md-grid">
       <ul class="md-tabs__list">
-          <li class="md-tabs__item"><a href="../../index.html" class="md-tabs__link">peltak 0.29.1 documentation</a></li>
+          <li class="md-tabs__item"><a href="../../index.html" class="md-tabs__link">peltak 0.30.0 documentation</a></li>
           <li class="md-tabs__item"><a href="../_index.html" class="md-tabs__link">Dev Docs</a></li>
           <li class="md-tabs__item"><a href="_index.html" class="md-tabs__link"><code class="docutils literal notranslate"><span class="pre">peltak.core</span></code></a></li>
       </ul>
@@ -193,13 +193,13 @@
               <div class="md-sidebar__inner">
                 <nav class="md-nav md-nav--primary" data-md-level="0">
   <label class="md-nav__title md-nav__title--site" for="__drawer">
-    <a href="../../index.html" title="peltak 0.29.1 documentation" class="md-nav__button md-logo">
+    <a href="../../index.html" title="peltak 0.30.0 documentation" class="md-nav__button md-logo">
       
         <i class="md-icon">&#x267E</i>
       
     </a>
     <a href="../../index.html"
-       title="peltak 0.29.1 documentation">peltak</a>
+       title="peltak 0.30.0 documentation">peltak</a>
   </label>
     <div class="md-nav__source">
       <a href="https://github.com/novopl/peltak" title="Go to repository" class="md-source" data-md-source="github">
@@ -225,13 +225,6 @@
     
       <a href="../../guides/_index.html" class="md-nav__link">Guides</a>
       <ul class="md-nav__list"> 
-    <li class="md-nav__item">
-    
-    
-      <a href="../../guides/installation.html" class="md-nav__link">Installation</a>
-      
-    
-    </li>
     <li class="md-nav__item">
     
     
@@ -334,6 +327,26 @@
   <section id="module-peltak.core.log">
 <span id="peltak-core-log"></span><h1 id="dev-core-log--page-root"><code class="docutils literal notranslate"><span class="pre">peltak.core.log</span></code><a class="headerlink" href="#dev-core-log--page-root" title="Permalink to this headline">¶</a></h1>
 <span class="target" id="module-0"></span><dl class="py function">
+<dt class="sig sig-object py" id="peltak.core.log.dbg">
+<span class="sig-prename descclassname"><span class="pre">peltak.core.log.</span></span><span class="sig-name descname"><span class="pre">dbg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kw</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/log.html#dbg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#peltak.core.log.dbg" title="Permalink to this definition">¶</a></dt>
+<dd><p>Debug level logs, only visible with -vvv flag.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="peltak.core.log.detail">
+<span class="sig-prename descclassname"><span class="pre">peltak.core.log.</span></span><span class="sig-name descname"><span class="pre">detail</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kw</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/log.html#detail"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#peltak.core.log.detail" title="Permalink to this definition">¶</a></dt>
+<dd><p>Detail level logs, only visible with -v flag.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py function">
 <dt class="sig sig-object py" id="peltak.core.log.err">
 <span class="sig-prename descclassname"><span class="pre">peltak.core.log.</span></span><span class="sig-name descname"><span class="pre">err</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kw</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/log.html#err"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#peltak.core.log.err" title="Permalink to this definition">¶</a></dt>
 <dd><p>Per step status messages</p>
@@ -342,6 +355,22 @@ information.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="peltak.core.log.get_verbosity">
+<span class="sig-prename descclassname"><span class="pre">peltak.core.log.</span></span><span class="sig-name descname"><span class="pre">get_verbosity</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/peltak/core/log.html#get_verbosity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#peltak.core.log.get_verbosity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the current verbosity level.</p>
+<p>This can be set either using the -v/–verbose option or via env variable
+PELTAK_VERBOSE. The CLI will override the env variable if set. The reason for that
+is that some of the internals of peltak run before the options are parsed and thus
+the value given via CLI is not available yet. For this type of bug investigation,
+you can use the env variable.</p>
+<p>The code should use this function instead of just doing <code class="docutils literal notranslate"><span class="pre">context.get('verbose')</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>

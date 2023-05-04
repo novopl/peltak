@@ -58,7 +58,7 @@
 </script>
   
   
-    <title>peltak.core.templates.engine &#8212; peltak 0.29.1 documentation</title>
+    <title>peltak.core.templates.engine &#8212; peltak 0.30.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/material.css" />
     <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
@@ -90,7 +90,7 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex navheader">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href="../../../../index.html" title="peltak 0.29.1 documentation"
+        <a href="../../../../index.html" title="peltak 0.30.0 documentation"
            class="md-header-nav__button md-logo">
           
             <i class="md-icon">&#x267E</i>
@@ -176,7 +176,7 @@
   <nav class="md-tabs" data-md-component="tabs">
     <div class="md-tabs__inner md-grid">
       <ul class="md-tabs__list">
-          <li class="md-tabs__item"><a href="../../../../index.html" class="md-tabs__link">peltak 0.29.1 documentation</a></li>
+          <li class="md-tabs__item"><a href="../../../../index.html" class="md-tabs__link">peltak 0.30.0 documentation</a></li>
           <li class="md-tabs__item"><a href="../../../index.html" class="md-tabs__link">Module code</a></li>
       </ul>
     </div>
@@ -189,13 +189,13 @@
               <div class="md-sidebar__inner">
                 <nav class="md-nav md-nav--primary" data-md-level="0">
   <label class="md-nav__title md-nav__title--site" for="__drawer">
-    <a href="../../../../index.html" title="peltak 0.29.1 documentation" class="md-nav__button md-logo">
+    <a href="../../../../index.html" title="peltak 0.30.0 documentation" class="md-nav__button md-logo">
       
         <i class="md-icon">&#x267E</i>
       
     </a>
     <a href="../../../../index.html"
-       title="peltak 0.29.1 documentation">peltak</a>
+       title="peltak 0.30.0 documentation">peltak</a>
   </label>
     <div class="md-nav__source">
       <a href="https://github.com/novopl/peltak" title="Go to repository" class="md-source" data-md-source="github">
@@ -221,13 +221,6 @@
     
       <a href="../../../../guides/_index.html" class="md-nav__link">Guides</a>
       <ul class="md-nav__list"> 
-    <li class="md-nav__item">
-    
-    
-      <a href="../../../../guides/installation.html" class="md-nav__link">Installation</a>
-      
-    
-    </li>
     <li class="md-nav__item">
     
     
@@ -342,7 +335,7 @@
 <span class="c1"># limitations under the License.</span>
 <span class="c1">#</span>
 <span class="sd">""" Engine wraps the jinja2 environment and exposes it to the rest of the code. """</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span>
 
 <span class="kn">import</span> <span class="nn">jinja2</span>
 
@@ -351,8 +344,11 @@
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">filters</span>
 
 
+<span class="n">TemplateCtx</span> <span class="o">=</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>
+
+
 <div class="viewcode-block" id="Engine"><a class="viewcode-back" href="../../../../dev/core/templates.html#peltak.core.templates.Engine">[docs]</a><span class="k">class</span> <span class="nc">Engine</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">Singleton</span><span class="p">):</span>
-    <span class="sd">""" Template engine wrapper.</span>
+<span class="w">    </span><span class="sd">""" Template engine wrapper.</span>
 
 <span class="sd">    Engine is a singleton, which means there is always a single instance</span>
 <span class="sd">    in existence during the app run. You can access this instance by calling</span>
@@ -377,8 +373,12 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">env</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_env</span><span class="p">()</span>
             <span class="k">pass</span>
 
-<div class="viewcode-block" id="Engine.render"><a class="viewcode-back" href="../../../../dev/core/templates.html#peltak.core.templates.Engine.render">[docs]</a>    <span class="k">def</span> <span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">template_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">template_ctx</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">""" Render a script template using the given context.</span>
+<div class="viewcode-block" id="Engine.render"><a class="viewcode-back" href="../../../../dev/core/templates.html#peltak.core.templates.Engine.render">[docs]</a>    <span class="k">def</span> <span class="nf">render</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">template_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">template_ctx</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TemplateCtx</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">""" Render a script template using the given context.</span>
 
 <span class="sd">        Examples:</span>
 
@@ -390,8 +390,12 @@
 <span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="n">template_str</span><span class="p">)</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">template_ctx</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Engine.render_file"><a class="viewcode-back" href="../../../../dev/core/templates.html#peltak.core.templates.Engine.render_file">[docs]</a>    <span class="k">def</span> <span class="nf">render_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">template_file</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">template_ctx</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="sd">""" Render a template file from src/peltak/templates directory.</span>
+<div class="viewcode-block" id="Engine.render_file"><a class="viewcode-back" href="../../../../dev/core/templates.html#peltak.core.templates.Engine.render_file">[docs]</a>    <span class="k">def</span> <span class="nf">render_file</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">template_file</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">template_ctx</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TemplateCtx</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">""" Render a template file from src/peltak/templates directory.</span>
 
 <span class="sd">        All built-in peltak templates should go to the ``src/peltak/templates``</span>
 <span class="sd">        directory.</span>
@@ -459,7 +463,7 @@
         <span class="k">return</span> <span class="n">template</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">template_ctx</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">_make_env</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jinja2</span><span class="o">.</span><span class="n">Environment</span><span class="p">:</span>
-        <span class="sd">""" Initialize jinja2 env. """</span>
+<span class="w">        </span><span class="sd">""" Initialize jinja2 env. """</span>
         <span class="n">env</span> <span class="o">=</span> <span class="n">jinja2</span><span class="o">.</span><span class="n">Environment</span><span class="p">(</span>
             <span class="n">loader</span><span class="o">=</span><span class="n">jinja2</span><span class="o">.</span><span class="n">PackageLoader</span><span class="p">(</span><span class="s1">'peltak'</span><span class="p">,</span> <span class="s1">'templates'</span><span class="p">),</span>
             <span class="n">variable_start_string</span><span class="o">=</span><span class="s1">'{{'</span><span class="p">,</span>

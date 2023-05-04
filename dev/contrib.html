@@ -59,7 +59,7 @@
 </script>
   
   
-    <title>Setup up the project for development &#8212; peltak 0.29.1 documentation</title>
+    <title>Setup up the project for development &#8212; peltak 0.30.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/material.css" />
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
@@ -93,7 +93,7 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex navheader">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href="../index.html" title="peltak 0.29.1 documentation"
+        <a href="../index.html" title="peltak 0.30.0 documentation"
            class="md-header-nav__button md-logo">
           
             <i class="md-icon">&#x267E</i>
@@ -179,7 +179,7 @@
   <nav class="md-tabs" data-md-component="tabs">
     <div class="md-tabs__inner md-grid">
       <ul class="md-tabs__list">
-          <li class="md-tabs__item"><a href="../index.html" class="md-tabs__link">peltak 0.29.1 documentation</a></li>
+          <li class="md-tabs__item"><a href="../index.html" class="md-tabs__link">peltak 0.30.0 documentation</a></li>
           <li class="md-tabs__item"><a href="_index.html" class="md-tabs__link">Dev Docs</a></li>
       </ul>
     </div>
@@ -192,13 +192,13 @@
               <div class="md-sidebar__inner">
                 <nav class="md-nav md-nav--primary" data-md-level="0">
   <label class="md-nav__title md-nav__title--site" for="__drawer">
-    <a href="../index.html" title="peltak 0.29.1 documentation" class="md-nav__button md-logo">
+    <a href="../index.html" title="peltak 0.30.0 documentation" class="md-nav__button md-logo">
       
         <i class="md-icon">&#x267E</i>
       
     </a>
     <a href="../index.html"
-       title="peltak 0.29.1 documentation">peltak</a>
+       title="peltak 0.30.0 documentation">peltak</a>
   </label>
     <div class="md-nav__source">
       <a href="https://github.com/novopl/peltak" title="Go to repository" class="md-source" data-md-source="github">
@@ -224,13 +224,6 @@
     
       <a href="../guides/_index.html" class="md-nav__link">Guides</a>
       <ul class="md-nav__list"> 
-    <li class="md-nav__item">
-    
-    
-      <a href="../guides/installation.html" class="md-nav__link">Installation</a>
-      
-    
-    </li>
     <li class="md-nav__item">
     
     
@@ -366,12 +359,12 @@
             
   <section id="setup-up-the-project-for-development">
 <h1 id="dev-contrib--page-root">Setup up the project for development<a class="headerlink" href="#dev-contrib--page-root" title="Permalink to this headline">¶</a></h1>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ git clone git@github.com:novopl/peltak.git
-$ <span class="nb">cd</span> peltak
-$ virtualenv env
-$ <span class="nb">source</span> ./env/bin/activate
-$ pip install -r requirements.txt -r ops/devrequirements.txt
-$ peltak git add-hooks
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>git@github.com:novopl/peltak.git
+$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>peltak
+$<span class="w"> </span>virtualenv<span class="w"> </span>env
+$<span class="w"> </span><span class="nb">source</span><span class="w"> </span>./env/bin/activate
+$<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt<span class="w"> </span>-r<span class="w"> </span>ops/devrequirements.txt
+$<span class="w"> </span>peltak<span class="w"> </span>git<span class="w"> </span>add-hooks
 </pre></div>
 </div>
 <div class="admonition note">
@@ -383,7 +376,7 @@ $ peltak git add-hooks
 <h2 id="running-tests">Running tests<a class="headerlink" href="#running-tests" title="Permalink to this headline">¶</a></h2>
 <p><strong>Config</strong>: The types of tests are defined in <code class="docutils literal notranslate"><span class="pre">pelconf.py</span></code> and the
 pytest configuration is defined in <code class="docutils literal notranslate"><span class="pre">ops/tools/pytest.ini</span></code>.</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ peltak <span class="nb">test</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>peltak<span class="w"> </span><span class="nb">test</span>
 </pre></div>
 </div>
 <div class="admonition-how-to-test-for-all-supported-python-versions admonition">
@@ -398,7 +391,7 @@ and python3.6 all in one go.</p>
 <h2 id="linting">Linting<a class="headerlink" href="#linting" title="Permalink to this headline">¶</a></h2>
 <p><strong>Config</strong>: The list of locations to lint is defined in <code class="docutils literal notranslate"><span class="pre">pelconf.py</span></code> and the
 linters configuration is defined in <code class="docutils literal notranslate"><span class="pre">ops/tools/{pylint,pep8}.ini</span></code>.</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ peltak lint
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>peltak<span class="w"> </span>lint
 </pre></div>
 </div>
 </section>
@@ -406,7 +399,7 @@ linters configuration is defined in <code class="docutils literal notranslate"><
 <h2 id="generating-docs">Generating docs<a class="headerlink" href="#generating-docs" title="Permalink to this headline">¶</a></h2>
 <p><strong>Config</strong>: The list of documented files and general configuration is in
 <code class="docutils literal notranslate"><span class="pre">pelconf.py</span></code> and the Sphinx configuration is defined in <code class="docutils literal notranslate"><span class="pre">docs/conf.py</span></code>.</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ peltak docs
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>peltak<span class="w"> </span>docs
 </pre></div>
 </div>
 </section>

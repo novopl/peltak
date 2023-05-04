@@ -59,7 +59,7 @@
 </script>
   
   
-    <title>peltak.core.templates &#8212; peltak 0.29.1 documentation</title>
+    <title>peltak.core.templates &#8212; peltak 0.30.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/material.css" />
     <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
@@ -93,7 +93,7 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex navheader">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href="../../index.html" title="peltak 0.29.1 documentation"
+        <a href="../../index.html" title="peltak 0.30.0 documentation"
            class="md-header-nav__button md-logo">
           
             <i class="md-icon">&#x267E</i>
@@ -179,7 +179,7 @@
   <nav class="md-tabs" data-md-component="tabs">
     <div class="md-tabs__inner md-grid">
       <ul class="md-tabs__list">
-          <li class="md-tabs__item"><a href="../../index.html" class="md-tabs__link">peltak 0.29.1 documentation</a></li>
+          <li class="md-tabs__item"><a href="../../index.html" class="md-tabs__link">peltak 0.30.0 documentation</a></li>
           <li class="md-tabs__item"><a href="../_index.html" class="md-tabs__link">Dev Docs</a></li>
           <li class="md-tabs__item"><a href="_index.html" class="md-tabs__link"><code class="docutils literal notranslate"><span class="pre">peltak.core</span></code></a></li>
       </ul>
@@ -193,13 +193,13 @@
               <div class="md-sidebar__inner">
                 <nav class="md-nav md-nav--primary" data-md-level="0">
   <label class="md-nav__title md-nav__title--site" for="__drawer">
-    <a href="../../index.html" title="peltak 0.29.1 documentation" class="md-nav__button md-logo">
+    <a href="../../index.html" title="peltak 0.30.0 documentation" class="md-nav__button md-logo">
       
         <i class="md-icon">&#x267E</i>
       
     </a>
     <a href="../../index.html"
-       title="peltak 0.29.1 documentation">peltak</a>
+       title="peltak 0.30.0 documentation">peltak</a>
   </label>
     <div class="md-nav__source">
       <a href="https://github.com/novopl/peltak" title="Go to repository" class="md-source" data-md-source="github">
@@ -225,13 +225,6 @@
     
       <a href="../../guides/_index.html" class="md-nav__link">Guides</a>
       <ul class="md-nav__list"> 
-    <li class="md-nav__item">
-    
-    
-      <a href="../../guides/installation.html" class="md-nav__link">Installation</a>
-      
-    
-    </li>
     <li class="md-nav__item">
     
     
@@ -361,21 +354,21 @@ to somehow convert it to the appropriate flag <code class="docutils literal notr
 peltak already implements a filter to do just that, it’s called <code class="docutils literal notranslate"><span class="pre">count_flag</span></code>
 and will convert a given number <strong>N</strong> to a flag that has the given letter appear
 <strong>N</strong> times. Here’s a quick example.</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">scripts</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="nt">test</span><span class="p">:</span><span class="w"></span>
-<span class="w">        </span><span class="nt">about</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run tests with pytest</span><span class="w"></span>
-<span class="w">        </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span><span class="w"></span>
-<span class="w">            </span><span class="no">pytest {{ opts.verbose | count_flag('v') }} {{ conf.src_dir }}</span><span class="w"></span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">scripts</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">test</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">about</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run tests with pytest</span>
+<span class="w">        </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">            </span><span class="no">pytest {{ opts.verbose | count_flag('v') }} {{ conf.src_dir }}</span>
 </pre></div>
 </div>
 <p>This will result in the following command being invoked:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>peltak run <span class="nb">test</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>peltak<span class="w"> </span>run<span class="w"> </span><span class="nb">test</span>
 <span class="c1"># will result in: pytest src</span>
 
-peltak run <span class="nb">test</span> -v
+peltak<span class="w"> </span>run<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-v
 <span class="c1"># will result in: pytest src -v</span>
 
-peltak run <span class="nb">test</span> -vv
+peltak<span class="w"> </span>run<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-vv
 <span class="c1"># will result in: pytest src -vv</span>
 </pre></div>
 </div>
@@ -445,14 +438,14 @@ peltak run <span class="nb">test</span> -vv
 in existence during the app run. You can access this instance by calling
 the class initializer:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">peltak.core.templates</span> <span class="kn">import</span> <span class="n">Engine</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">engine</span> <span class="o">=</span> <span class="n">Engine</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>Only on first call will the class be actually constructed, all following
 calls will return the same instance:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">peltak.core.templates</span> <span class="kn">import</span> <span class="n">Engine</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">Engine</span><span class="p">()</span> <span class="ow">is</span> <span class="n">Engine</span><span class="p">()</span>
 <span class="go">True</span>
 </pre></div>
@@ -463,7 +456,7 @@ calls will return the same instance:</p>
 <dd><p>Render a script template using the given context.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">peltak.core.templates</span> <span class="kn">import</span> <span class="n">Engine</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">Engine</span><span class="p">()</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="s2">"{{ msg | upper }}"</span><span class="p">,</span> <span class="p">{</span><span class="s1">'msg'</span><span class="p">:</span> <span class="s1">'hello'</span><span class="p">})</span>
 <span class="go">'HELLO'</span>
 </pre></div>

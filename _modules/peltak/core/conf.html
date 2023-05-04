@@ -58,7 +58,7 @@
 </script>
   
   
-    <title>peltak.core.conf &#8212; peltak 0.29.1 documentation</title>
+    <title>peltak.core.conf &#8212; peltak 0.30.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/material.css" />
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
@@ -90,7 +90,7 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex navheader">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href="../../../index.html" title="peltak 0.29.1 documentation"
+        <a href="../../../index.html" title="peltak 0.30.0 documentation"
            class="md-header-nav__button md-logo">
           
             <i class="md-icon">&#x267E</i>
@@ -176,7 +176,7 @@
   <nav class="md-tabs" data-md-component="tabs">
     <div class="md-tabs__inner md-grid">
       <ul class="md-tabs__list">
-          <li class="md-tabs__item"><a href="../../../index.html" class="md-tabs__link">peltak 0.29.1 documentation</a></li>
+          <li class="md-tabs__item"><a href="../../../index.html" class="md-tabs__link">peltak 0.30.0 documentation</a></li>
           <li class="md-tabs__item"><a href="../../index.html" class="md-tabs__link">Module code</a></li>
       </ul>
     </div>
@@ -189,13 +189,13 @@
               <div class="md-sidebar__inner">
                 <nav class="md-nav md-nav--primary" data-md-level="0">
   <label class="md-nav__title md-nav__title--site" for="__drawer">
-    <a href="../../../index.html" title="peltak 0.29.1 documentation" class="md-nav__button md-logo">
+    <a href="../../../index.html" title="peltak 0.30.0 documentation" class="md-nav__button md-logo">
       
         <i class="md-icon">&#x267E</i>
       
     </a>
     <a href="../../../index.html"
-       title="peltak 0.29.1 documentation">peltak</a>
+       title="peltak 0.30.0 documentation">peltak</a>
   </label>
     <div class="md-nav__source">
       <a href="https://github.com/novopl/peltak" title="Go to repository" class="md-source" data-md-source="github">
@@ -221,13 +221,6 @@
     
       <a href="../../../guides/_index.html" class="md-nav__link">Guides</a>
       <ul class="md-nav__list"> 
-    <li class="md-nav__item">
-    
-    
-      <a href="../../../guides/installation.html" class="md-nav__link">Installation</a>
-      
-    
-    </li>
     <li class="md-nav__item">
     
     
@@ -339,8 +332,8 @@
 
 <span class="n">g_conf</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s1">'Config'</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="n">ConfigDict</span> <span class="o">=</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>
-<span class="n">DEFAULT_PELCONF_NAME</span> <span class="o">=</span> <span class="s1">'pelconf.yaml'</span>
-<span class="n">PELTAK_CONFIG_FILES</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">({</span><span class="s1">'pelconf.yaml'</span><span class="p">,</span> <span class="s1">'pyproject.toml'</span><span class="p">})</span>
+<span class="n">DEFAULT_PELCONF_NAME</span> <span class="o">=</span> <span class="s1">'peltak.yaml'</span>
+<span class="n">PELTAK_CONFIG_FILES</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">({</span><span class="s1">'peltak.yaml'</span><span class="p">,</span> <span class="s1">'pelconf.yaml'</span><span class="p">,</span> <span class="s1">'pyproject.toml'</span><span class="p">})</span>
 
 
 <div class="viewcode-block" id="ConfigError"><a class="viewcode-back" href="../../../dev/core/conf.html#peltak.core.conf.ConfigError">[docs]</a><span class="k">class</span> <span class="nc">ConfigError</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">):</span>
@@ -358,8 +351,9 @@
 <span class="k">def</span> <span class="nf">init</span><span class="p">():</span>
     <span class="k">global</span> <span class="n">g_conf</span>
 
-    <span class="k">if</span> <span class="n">g_conf</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">ConfigAlreadyInitialized</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">g_conf</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># Running init() multiple times should have no effect.</span>
+        <span class="k">return</span>
 
     <span class="n">config_path</span> <span class="o">=</span> <span class="n">_discover_proj_config</span><span class="p">()</span>
     <span class="n">g_conf</span> <span class="o">=</span> <span class="n">_load_config</span><span class="p">(</span><span class="n">config_path</span><span class="p">)</span>
@@ -427,7 +421,7 @@
 
 
 <div class="viewcode-block" id="Config"><a class="viewcode-back" href="../../../dev/core/conf.html#peltak.core.conf.Config">[docs]</a><span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
-    <span class="sd">""" Represents the `pelconf.yaml` file. """</span>
+<span class="w">    </span><span class="sd">""" Represents the `pelconf.yaml` file. """</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">values</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ConfigDict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -439,7 +433,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">root_dir</span> <span class="o">=</span> <span class="n">path</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Config.reset"><a class="viewcode-back" href="../../../dev/core/conf.html#peltak.core.conf.Config.reset">[docs]</a>    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
-        <span class="sd">""" Reset config to the given values.</span>
+<span class="w">        </span><span class="sd">""" Reset config to the given values.</span>
 
 <span class="sd">        This will completely overwrite the current configuration.</span>
 <span class="sd">        """</span>
@@ -449,7 +443,7 @@
         <span class="k">return</span> <span class="n">util</span><span class="o">.</span><span class="n">dict_has</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Config.get"><a class="viewcode-back" href="../../../dev/core/conf.html#peltak.core.conf.Config.get">[docs]</a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">default</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-        <span class="sd">""" Get config value with the given name and optional default.</span>
+<span class="w">        </span><span class="sd">""" Get config value with the given name and optional default.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            name (str):</span>
@@ -473,7 +467,7 @@
             <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Config value '</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">' does not exist"</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Config.get_path"><a class="viewcode-back" href="../../../dev/core/conf.html#peltak.core.conf.Config.get_path">[docs]</a>    <span class="k">def</span> <span class="nf">get_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">default</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-        <span class="sd">""" Get config value as path relative to the project directory.</span>
+<span class="w">        </span><span class="sd">""" Get config value as path relative to the project directory.</span>
 
 <span class="sd">        This allows easily defining the project configuration within the fabfile</span>
 <span class="sd">        as always relative to that fabfile.</span>
@@ -502,11 +496,11 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">proj_path</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Config.get_env"><a class="viewcode-back" href="../../../dev/core/conf.html#peltak.core.conf.Config.get_env">[docs]</a>    <span class="k">def</span> <span class="nf">get_env</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">default</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-        <span class="sd">""" Get the value of an ENV variable. """</span>
+<span class="w">        </span><span class="sd">""" Get the value of an ENV variable. """</span>
         <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">default</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Config.proj_path"><a class="viewcode-back" href="../../../dev/core/conf.html#peltak.core.conf.Config.proj_path">[docs]</a>    <span class="k">def</span> <span class="nf">proj_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">path_parts</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">""" Return absolute path to the repo dir (root project directory).</span>
+<span class="w">        </span><span class="sd">""" Return absolute path to the repo dir (root project directory).</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            *path_parts (str):</span>
@@ -527,7 +521,7 @@
 
 <div class="viewcode-block" id="Config.within_proj_dir"><a class="viewcode-back" href="../../../dev/core/conf.html#peltak.core.conf.Config.within_proj_dir">[docs]</a>    <span class="nd">@contextmanager</span>
     <span class="k">def</span> <span class="nf">within_proj_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">'.'</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="kc">None</span><span class="p">]:</span>
-        <span class="sd">""" Return an absolute path to the given project relative path.</span>
+<span class="w">        </span><span class="sd">""" Return an absolute path to the given project relative path.</span>
 
 <span class="sd">        :param path:</span>
 <span class="sd">            Project relative path that will be converted to the system wide absolute</span>
@@ -575,24 +569,24 @@
 
 
 <span class="k">def</span> <span class="nf">_load_from_file</span><span class="p">(</span><span class="n">proj_config</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-    <span class="sd">""" Load configuration from file. """</span>
+<span class="w">    </span><span class="sd">""" Load configuration from file. """</span>
     <span class="k">if</span> <span class="n">proj_config</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">'pyproject.toml'</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">_load_from_toml_file</span><span class="p">(</span><span class="n">proj_config</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">proj_config</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">'pelconf.yaml'</span><span class="p">):</span>
+    <span class="k">elif</span> <span class="n">proj_config</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">'.yaml'</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">_load_from_yaml_file</span><span class="p">(</span><span class="n">proj_config</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unsupported configuration </span><span class="si">{</span><span class="n">proj_config</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
 
 <span class="k">def</span> <span class="nf">_load_from_yaml_file</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
-    <span class="sd">""" Load config values from a YAML file. """</span>
+<span class="w">    </span><span class="sd">""" Load config values from a YAML file. """</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
         <span class="n">values</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">yaml_load</span><span class="p">(</span><span class="n">fp</span><span class="p">)</span> <span class="ow">or</span> <span class="p">{}</span>
         <span class="k">return</span> <span class="n">values</span>
 
 
 <span class="k">def</span> <span class="nf">_load_from_toml_file</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
-    <span class="sd">""" Load config values from a YAML file. """</span>
+<span class="w">    </span><span class="sd">""" Load config values from a YAML file. """</span>
     <span class="n">config</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">toml_load</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
     <span class="n">values</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'tool'</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'peltak'</span><span class="p">,</span> <span class="p">{})</span>
     <span class="k">return</span> <span class="n">values</span>
@@ -600,7 +594,7 @@
 
 <span class="c1"># @util.cached_result()</span>
 <span class="k">def</span> <span class="nf">_discover_proj_config</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-    <span class="sd">""" Find the project path by going up the file tree.</span>
+<span class="w">    </span><span class="sd">""" Find the project path by going up the file tree.</span>
 
 <span class="sd">    This will look in the current directory and upwards for pelconf.yaml  or</span>
 <span class="sd">    pyproject.toml.</span>
@@ -627,7 +621,7 @@
 
 
 <div class="viewcode-block" id="py_import"><a class="viewcode-back" href="../../../dev/core/conf.html#peltak.core.conf.py_import">[docs]</a><span class="k">def</span> <span class="nf">py_import</span><span class="p">(</span><span class="n">cmd</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ModuleType</span><span class="p">:</span>
-    <span class="sd">""" Exists only so we can patch it in tests."""</span>
+<span class="w">    </span><span class="sd">""" Exists only so we can patch it in tests."""</span>
     <span class="k">return</span> <span class="nb">__import__</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>   <span class="c1"># nocov</span></div>
 </pre></div>
 

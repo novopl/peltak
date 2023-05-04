@@ -58,7 +58,7 @@
 </script>
   
   
-    <title>peltak.core.context &#8212; peltak 0.29.1 documentation</title>
+    <title>peltak.core.context &#8212; peltak 0.30.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/material.css" />
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
@@ -90,7 +90,7 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex navheader">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href="../../../index.html" title="peltak 0.29.1 documentation"
+        <a href="../../../index.html" title="peltak 0.30.0 documentation"
            class="md-header-nav__button md-logo">
           
             <i class="md-icon">&#x267E</i>
@@ -176,7 +176,7 @@
   <nav class="md-tabs" data-md-component="tabs">
     <div class="md-tabs__inner md-grid">
       <ul class="md-tabs__list">
-          <li class="md-tabs__item"><a href="../../../index.html" class="md-tabs__link">peltak 0.29.1 documentation</a></li>
+          <li class="md-tabs__item"><a href="../../../index.html" class="md-tabs__link">peltak 0.30.0 documentation</a></li>
           <li class="md-tabs__item"><a href="../../index.html" class="md-tabs__link">Module code</a></li>
       </ul>
     </div>
@@ -189,13 +189,13 @@
               <div class="md-sidebar__inner">
                 <nav class="md-nav md-nav--primary" data-md-level="0">
   <label class="md-nav__title md-nav__title--site" for="__drawer">
-    <a href="../../../index.html" title="peltak 0.29.1 documentation" class="md-nav__button md-logo">
+    <a href="../../../index.html" title="peltak 0.30.0 documentation" class="md-nav__button md-logo">
       
         <i class="md-icon">&#x267E</i>
       
     </a>
     <a href="../../../index.html"
-       title="peltak 0.29.1 documentation">peltak</a>
+       title="peltak 0.30.0 documentation">peltak</a>
   </label>
     <div class="md-nav__source">
       <a href="https://github.com/novopl/peltak" title="Go to repository" class="md-source" data-md-source="github">
@@ -221,13 +221,6 @@
     
       <a href="../../../guides/_index.html" class="md-nav__link">Guides</a>
       <ul class="md-nav__list"> 
-    <li class="md-nav__item">
-    
-    
-      <a href="../../../guides/installation.html" class="md-nav__link">Installation</a>
-      
-    
-    </li>
     <li class="md-nav__item">
     
     
@@ -345,12 +338,12 @@
 
 
 <div class="viewcode-block" id="ContextError"><a class="viewcode-back" href="../../../dev/core/context.html#peltak.core.context.ContextError">[docs]</a><span class="k">class</span> <span class="nc">ContextError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-    <span class="sd">""" Base class for context related exceptions. """</span>
+<span class="w">    </span><span class="sd">""" Base class for context related exceptions. """</span>
     <span class="k">pass</span></div>
 
 
 <div class="viewcode-block" id="InvalidPath"><a class="viewcode-back" href="../../../dev/core/context.html#peltak.core.context.InvalidPath">[docs]</a><span class="k">class</span> <span class="nc">InvalidPath</span><span class="p">(</span><span class="n">ContextError</span><span class="p">):</span>
-    <span class="sd">""" Invalid variable path. """</span>
+<span class="w">    </span><span class="sd">""" Invalid variable path. """</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">InvalidPath</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">"</span><span class="si">{}</span><span class="s2"> is not a dict"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
             <span class="s1">'.'</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
@@ -358,7 +351,7 @@
 
 
 <div class="viewcode-block" id="RunContext"><a class="viewcode-back" href="../../../dev/core/context.html#peltak.core.context.RunContext">[docs]</a><span class="k">class</span> <span class="nc">RunContext</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">Singleton</span><span class="p">):</span>
-    <span class="sd">""" Runtime context.</span>
+<span class="w">    </span><span class="sd">""" Runtime context.</span>
 
 <span class="sd">    This class is the equivalent of conf but for values that can be modified</span>
 <span class="sd">    in runtime. This is for all the settings that can be set on the command</span>
@@ -371,11 +364,11 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="p">{}</span>
 
 <div class="viewcode-block" id="RunContext.clear"><a class="viewcode-back" href="../../../dev/core/context.html#peltak.core.context.RunContext.clear">[docs]</a>    <span class="k">def</span> <span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">""" Clear all existing values. """</span>
+<span class="w">        </span><span class="sd">""" Clear all existing values. """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="p">{}</span></div>
 
 <div class="viewcode-block" id="RunContext.get"><a class="viewcode-back" href="../../../dev/core/context.html#peltak.core.context.RunContext.get">[docs]</a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">default</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-        <span class="sd">""" Get context value with the given name and optional default.</span>
+<span class="w">        </span><span class="sd">""" Get context value with the given name and optional default.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            name (str):</span>
@@ -400,8 +393,21 @@
                 <span class="sa">f</span><span class="s2">"Context value '</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">' does not exist:</span><span class="se">\n</span><span class="si">{</span><span class="n">util</span><span class="o">.</span><span class="n">yaml_dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
             <span class="p">)</span></div>
 
+<div class="viewcode-block" id="RunContext.has"><a class="viewcode-back" href="../../../dev/core/context.html#peltak.core.context.RunContext.has">[docs]</a>    <span class="k">def</span> <span class="nf">has</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">""" Check whether the given name/path is present in the context.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            name:   The name of the value to check for. You can reach nested values using</span>
+<span class="sd">                    the dot notation. For example ``some.value.name`` will internally</span>
+<span class="sd">                    traverse up to 3 dictionaries to perform ths check.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            **True** if the value is stored in the context, **False** otherwise.</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="n">util</span><span class="o">.</span><span class="n">dict_has</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="RunContext.set"><a class="viewcode-back" href="../../../dev/core/context.html#peltak.core.context.RunContext.set">[docs]</a>    <span class="k">def</span> <span class="nf">set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">""" Set context value.</span>
+<span class="w">        </span><span class="sd">""" Set context value.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            name (str):</span>
@@ -415,8 +421,22 @@
             <span class="k">raise</span> <span class="n">InvalidPath</span><span class="p">(</span><span class="n">name</span><span class="p">)</span></div></div>
 
 
+<div class="viewcode-block" id="has"><a class="viewcode-back" href="../../../dev/core/context.html#peltak.core.context.has">[docs]</a><span class="k">def</span> <span class="nf">has</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">""" Check whether the given name/path is present in the context.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        name:   The name of the value to check for. You can reach nested values using</span>
+<span class="sd">                the dot notation. For example ``some.value.name`` will internally</span>
+<span class="sd">                traverse up to 3 dictionaries to perform ths check.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        **True** if the value is stored in the context, **False** otherwise.</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="n">RunContext</span><span class="p">()</span><span class="o">.</span><span class="n">has</span><span class="p">(</span><span class="n">name</span><span class="p">)</span></div>
+
+
 <div class="viewcode-block" id="get"><a class="viewcode-back" href="../../../dev/core/context.html#peltak.core.context.get">[docs]</a><span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">default</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-    <span class="sd">""" Get context value with the given name and optional default.</span>
+<span class="w">    </span><span class="sd">""" Get context value with the given name and optional default.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        name (str):</span>
@@ -438,7 +458,7 @@
 
 
 <div class="viewcode-block" id="set"><a class="viewcode-back" href="../../../dev/core/context.html#peltak.core.context.set">[docs]</a><span class="k">def</span> <span class="nf">set</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>   <span class="c1"># pylint: disable=redefined-builtin</span>
-    <span class="sd">""" Set context value.</span>
+<span class="w">    </span><span class="sd">""" Set context value.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        name (str):</span>
@@ -450,7 +470,7 @@
 
 
 <div class="viewcode-block" id="clear"><a class="viewcode-back" href="../../../dev/core/context.html#peltak.core.context.clear">[docs]</a><span class="k">def</span> <span class="nf">clear</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">""" Clear all existing values. """</span>
+<span class="w">    </span><span class="sd">""" Clear all existing values. """</span>
     <span class="k">return</span> <span class="n">RunContext</span><span class="p">()</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span></div>
 </pre></div>
 

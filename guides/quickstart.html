@@ -59,7 +59,7 @@
 </script>
   
   
-    <title>Quickstart &#8212; peltak 0.29.1 documentation</title>
+    <title>Quickstart &#8212; peltak 0.30.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/material.css" />
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
@@ -69,7 +69,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="&lt;no title&gt;" href="scripts.html" />
-    <link rel="prev" title="Installation" href="installation.html" />
+    <link rel="prev" title="Guides" href="_index.html" />
   
    
 
@@ -93,7 +93,7 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex navheader">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href="../index.html" title="peltak 0.29.1 documentation"
+        <a href="../index.html" title="peltak 0.30.0 documentation"
            class="md-header-nav__button md-logo">
           
             <i class="md-icon">&#x267E</i>
@@ -179,7 +179,7 @@
   <nav class="md-tabs" data-md-component="tabs">
     <div class="md-tabs__inner md-grid">
       <ul class="md-tabs__list">
-          <li class="md-tabs__item"><a href="../index.html" class="md-tabs__link">peltak 0.29.1 documentation</a></li>
+          <li class="md-tabs__item"><a href="../index.html" class="md-tabs__link">peltak 0.30.0 documentation</a></li>
           <li class="md-tabs__item"><a href="_index.html" class="md-tabs__link">Guides</a></li>
       </ul>
     </div>
@@ -192,13 +192,13 @@
               <div class="md-sidebar__inner">
                 <nav class="md-nav md-nav--primary" data-md-level="0">
   <label class="md-nav__title md-nav__title--site" for="__drawer">
-    <a href="../index.html" title="peltak 0.29.1 documentation" class="md-nav__button md-logo">
+    <a href="../index.html" title="peltak 0.30.0 documentation" class="md-nav__button md-logo">
       
         <i class="md-icon">&#x267E</i>
       
     </a>
     <a href="../index.html"
-       title="peltak 0.29.1 documentation">peltak</a>
+       title="peltak 0.30.0 documentation">peltak</a>
   </label>
     <div class="md-nav__source">
       <a href="https://github.com/novopl/peltak" title="Go to repository" class="md-source" data-md-source="github">
@@ -224,13 +224,6 @@
     
       <a href="_index.html" class="md-nav__link">Guides</a>
       <ul class="md-nav__list"> 
-    <li class="md-nav__item">
-    
-    
-      <a href="installation.html" class="md-nav__link">Installation</a>
-      
-    
-    </li>
     <li class="md-nav__item">
     
     
@@ -384,32 +377,32 @@
 <h2 id="configure-test-runner-with-peltak">Configure test runner with peltak<a class="headerlink" href="#configure-test-runner-with-peltak" title="Permalink to this headline">¶</a></h2>
 <p>In our <code class="docutils literal notranslate"><span class="pre">pelconf.yaml</span></code> configuration, we will define a <strong>test</strong> script that will
 run all of our unit test with some default configuration:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">pelconf_version</span><span class="p">:</span><span class="w"> </span><span class="s">'1'</span><span class="w"></span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">pelconf_version</span><span class="p">:</span><span class="w"> </span><span class="s">'1'</span>
 
-<span class="nt">scripts</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">test</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="nt">about</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run unit tests</span><span class="w"></span>
-<span class="w">    </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span><span class="w"></span>
-<span class="w">      </span><span class="no">pytest test/unit</span><span class="w"></span>
+<span class="nt">scripts</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">test</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">about</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run unit tests</span>
+<span class="w">    </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">      </span><span class="no">pytest test/unit</span>
 </pre></div>
 </div>
 <p>This is the simplest version of that command, but it will only tell us whether
 the tests passed or not. It would be nice if we could also generate coverage
 report and see the slowest tests (so we can quickly see if some tests take
 suspiciously large amount of time to execute). Here’s the full setup for tests:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">pelconf_version</span><span class="p">:</span><span class="w"> </span><span class="s">'1'</span><span class="w"></span>
-<span class="nt">build_dir</span><span class="p">:</span><span class="w"> </span><span class="s">'.build'</span><span class="w"></span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">pelconf_version</span><span class="p">:</span><span class="w"> </span><span class="s">'1'</span>
+<span class="nt">build_dir</span><span class="p">:</span><span class="w"> </span><span class="s">'.build'</span>
 
-<span class="nt">scripts</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">test</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="nt">about</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run unit tests</span><span class="w"></span>
-<span class="w">    </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span><span class="w"></span>
-<span class="w">      </span><span class="no">pytest -c tools/pytest.ini \</span><span class="w"></span>
-<span class="w">          </span><span class="no">--cov-config=tools/coverage.ini \</span><span class="w"></span>
-<span class="w">          </span><span class="no">--cov=src/todo_api \</span><span class="w"></span>
-<span class="w">          </span><span class="no">--cov-report=term \</span><span class="w"></span>
-<span class="w">          </span><span class="no">--cov-report=html:{{ conf.build_dir }}/coverage \</span><span class="w"></span>
-<span class="w">          </span><span class="no">.</span><span class="w"></span>
+<span class="nt">scripts</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">test</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">about</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run unit tests</span>
+<span class="w">    </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">      </span><span class="no">pytest -c tools/pytest.ini \</span>
+<span class="w">          </span><span class="no">--cov-config=tools/coverage.ini \</span>
+<span class="w">          </span><span class="no">--cov=src/todo_api \</span>
+<span class="w">          </span><span class="no">--cov-report=term \</span>
+<span class="w">          </span><span class="no">--cov-report=html:{{ conf.build_dir }}/coverage \</span>
+<span class="w">          </span><span class="no">.</span>
 </pre></div>
 </div>
 <p>As you can see, we defined an extra config value <strong>build_dir</strong>. Right now we use
@@ -424,20 +417,20 @@ values and use them in your scripts.</p>
 <p>We can actually make it even more simple, by attaching our script to the root
 <strong>peltak</strong> command. To do so, we only need to set <code class="docutils literal notranslate"><span class="pre">root_cli</span></code> to <strong>true</strong> in
 our script config:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">pelconf_version</span><span class="p">:</span><span class="w"> </span><span class="s">'1'</span><span class="w"></span>
-<span class="nt">build_dir</span><span class="p">:</span><span class="w"> </span><span class="s">'.build'</span><span class="w"></span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">pelconf_version</span><span class="p">:</span><span class="w"> </span><span class="s">'1'</span>
+<span class="nt">build_dir</span><span class="p">:</span><span class="w"> </span><span class="s">'.build'</span>
 
-<span class="nt">scripts</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">test</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="nt">about</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run unit tests</span><span class="w"></span>
-<span class="w">    </span><span class="nt">root_cli</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
-<span class="w">    </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span><span class="w"></span>
-<span class="w">      </span><span class="no">pytest -c tools/pytest.ini \</span><span class="w"></span>
-<span class="w">          </span><span class="no">--cov-config=tools/coverage.ini \</span><span class="w"></span>
-<span class="w">          </span><span class="no">--cov=src/todo_api \</span><span class="w"></span>
-<span class="w">          </span><span class="no">--cov-report=term \</span><span class="w"></span>
-<span class="w">          </span><span class="no">--cov-report=html:{{ conf.build_dir }}/coverage \</span><span class="w"></span>
-<span class="w">          </span><span class="no">.</span><span class="w"></span>
+<span class="nt">scripts</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">test</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">about</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run unit tests</span>
+<span class="w">    </span><span class="nt">root_cli</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">      </span><span class="no">pytest -c tools/pytest.ini \</span>
+<span class="w">          </span><span class="no">--cov-config=tools/coverage.ini \</span>
+<span class="w">          </span><span class="no">--cov=src/todo_api \</span>
+<span class="w">          </span><span class="no">--cov-report=term \</span>
+<span class="w">          </span><span class="no">--cov-report=html:{{ conf.build_dir }}/coverage \</span>
+<span class="w">          </span><span class="no">.</span>
 </pre></div>
 </div>
 <p>Now you can run your script with:</p>
@@ -464,24 +457,24 @@ ready to pass to a command line. It will wrap all items in the given array with
 double quotes, making sure you don’t have unexpected errors due to paths having
 spaces, etc.</p>
 <p>Here’s an example of pylint + mypy based lint script:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">pelconf_version</span><span class="p">:</span><span class="w"> </span><span class="s">'1'</span><span class="w"></span>
-<span class="nt">build_dir</span><span class="p">:</span><span class="w"> </span><span class="s">'.build'</span><span class="w"></span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">pelconf_version</span><span class="p">:</span><span class="w"> </span><span class="s">'1'</span>
+<span class="nt">build_dir</span><span class="p">:</span><span class="w"> </span><span class="s">'.build'</span>
 
-<span class="nt">scripts</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">lint</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="nt">about</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run code checks (pylint + mypy)</span><span class="w"></span>
-<span class="w">    </span><span class="nt">root_cli</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
-<span class="w">    </span><span class="nt">files</span><span class="p">:</span><span class="w"></span>
-<span class="w">      </span><span class="nt">paths</span><span class="p">:</span><span class="w"></span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">src/todo_api</span><span class="w"></span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">test/unit</span><span class="w"></span>
-<span class="w">      </span><span class="nt">include</span><span class="p">:</span><span class="w"> </span><span class="s">"*.py"</span><span class="w"></span>
-<span class="w">      </span><span class="nt">use_gitignore</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
-<span class="w">    </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span><span class="w"></span>
-<span class="w">      </span><span class="no">set -e</span><span class="w"></span>
+<span class="nt">scripts</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">lint</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">about</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run code checks (pylint + mypy)</span>
+<span class="w">    </span><span class="nt">root_cli</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">files</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">paths</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">src/todo_api</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">test/unit</span>
+<span class="w">      </span><span class="nt">include</span><span class="p">:</span><span class="w"> </span><span class="s">"*.py"</span>
+<span class="w">      </span><span class="nt">use_gitignore</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">      </span><span class="no">set -e</span>
 
-<span class="w">      </span><span class="no">mypy --ignore-missing-imports {{ files | wrap_paths }}</span><span class="w"></span>
-<span class="w">      </span><span class="no">pylint --rcfile tools/pylint.ini {{ files | wrap_paths }}</span><span class="w"></span>
+<span class="w">      </span><span class="no">mypy --ignore-missing-imports {{ files | wrap_paths }}</span>
+<span class="w">      </span><span class="no">pylint --rcfile tools/pylint.ini {{ files | wrap_paths }}</span>
 </pre></div>
 </div>
 </section>
@@ -495,10 +488,10 @@ the <code class="docutils literal notranslate"><span class="pre">peltak.extra.gi
 implementing your own commands.</p>
 <p>The git-flow commands are not enabled by default. You need to explicitly enable
 them using the <code class="docutils literal notranslate"><span class="pre">commands:</span></code> section in <code class="docutils literal notranslate"><span class="pre">pelconf.yaml</span></code>:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">pelconf_version</span><span class="p">:</span><span class="w"> </span><span class="s">'1'</span><span class="w"></span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">pelconf_version</span><span class="p">:</span><span class="w"> </span><span class="s">'1'</span>
 
-<span class="nt">commands</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">peltak.extra.gitflow</span><span class="w"></span>
+<span class="nt">commands</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">peltak.extra.gitflow</span>
 </pre></div>
 </div>
 <p>If you have used <code class="docutils literal notranslate"><span class="pre">peltak</span> <span class="pre">init</span></code> to generate the initial configuration than
@@ -553,7 +546,7 @@ branch.</p></li>
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
           
-            <a href="installation.html" title="Installation"
+            <a href="_index.html" title="Guides"
                class="md-flex md-footer-nav__link md-footer-nav__link--prev"
                rel="prev">
               <div class="md-flex__cell md-flex__cell--shrink">
@@ -562,7 +555,7 @@ branch.</p></li>
               <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
                 <span class="md-flex__ellipsis">
                   <span
-                      class="md-footer-nav__direction"> Previous </span> Installation </span>
+                      class="md-footer-nav__direction"> Previous </span> Guides </span>
               </div>
             </a>
           

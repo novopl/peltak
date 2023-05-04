@@ -58,7 +58,7 @@
 </script>
   
   
-    <title>peltak.core.shell &#8212; peltak 0.29.1 documentation</title>
+    <title>peltak.core.shell &#8212; peltak 0.30.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/material.css" />
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
@@ -90,7 +90,7 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex navheader">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href="../../../index.html" title="peltak 0.29.1 documentation"
+        <a href="../../../index.html" title="peltak 0.30.0 documentation"
            class="md-header-nav__button md-logo">
           
             <i class="md-icon">&#x267E</i>
@@ -176,7 +176,7 @@
   <nav class="md-tabs" data-md-component="tabs">
     <div class="md-tabs__inner md-grid">
       <ul class="md-tabs__list">
-          <li class="md-tabs__item"><a href="../../../index.html" class="md-tabs__link">peltak 0.29.1 documentation</a></li>
+          <li class="md-tabs__item"><a href="../../../index.html" class="md-tabs__link">peltak 0.30.0 documentation</a></li>
           <li class="md-tabs__item"><a href="../../index.html" class="md-tabs__link">Module code</a></li>
       </ul>
     </div>
@@ -189,13 +189,13 @@
               <div class="md-sidebar__inner">
                 <nav class="md-nav md-nav--primary" data-md-level="0">
   <label class="md-nav__title md-nav__title--site" for="__drawer">
-    <a href="../../../index.html" title="peltak 0.29.1 documentation" class="md-nav__button md-logo">
+    <a href="../../../index.html" title="peltak 0.30.0 documentation" class="md-nav__button md-logo">
       
         <i class="md-icon">&#x267E</i>
       
     </a>
     <a href="../../../index.html"
-       title="peltak 0.29.1 documentation">peltak</a>
+       title="peltak 0.30.0 documentation">peltak</a>
   </label>
     <div class="md-nav__source">
       <a href="https://github.com/novopl/peltak" title="Go to repository" class="md-source" data-md-source="github">
@@ -221,13 +221,6 @@
     
       <a href="../../../guides/_index.html" class="md-nav__link">Guides</a>
       <ul class="md-nav__list"> 
-    <li class="md-nav__item">
-    
-    
-      <a href="../../../guides/installation.html" class="md-nav__link">Installation</a>
-      
-    
-    </li>
     <li class="md-nav__item">
     
     
@@ -350,7 +343,7 @@
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">subprocess</span>
 <span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span>
 
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">context</span>
 
@@ -360,7 +353,7 @@
 
 <div class="viewcode-block" id="ExecResult"><a class="viewcode-back" href="../../../dev/core/shell.html#peltak.core.shell.ExecResult">[docs]</a><span class="nd">@dataclasses</span><span class="o">.</span><span class="n">dataclass</span>
 <span class="k">class</span> <span class="nc">ExecResult</span><span class="p">:</span>
-    <span class="sd">""" Encapsulates a `shell.run` result.</span>
+<span class="w">    </span><span class="sd">""" Encapsulates a `shell.run` result.</span>
 
 <span class="sd">    Attributes:</span>
 <span class="sd">        command (str):</span>
@@ -390,7 +383,7 @@
 
 
 <div class="viewcode-block" id="decolorize"><a class="viewcode-back" href="../../../dev/core/shell.html#peltak.core.shell.decolorize">[docs]</a><span class="k">def</span> <span class="nf">decolorize</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="sd">""" Remove all opcodes from the text.</span>
+<span class="w">    </span><span class="sd">""" Remove all opcodes from the text.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        text (str):</span>
@@ -404,7 +397,7 @@
 
 
 <div class="viewcode-block" id="fmt"><a class="viewcode-back" href="../../../dev/core/shell.html#peltak.core.shell.fmt">[docs]</a><span class="k">def</span> <span class="nf">fmt</span><span class="p">(</span><span class="n">msg</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="sd">""" Generate shell color opcodes from a pretty coloring syntax. """</span>
+<span class="w">    </span><span class="sd">""" Generate shell color opcodes from a pretty coloring syntax. """</span>
     <span class="k">global</span> <span class="n">is_tty</span>
 
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">kw</span><span class="p">):</span>
@@ -415,7 +408,7 @@
 
 
 <div class="viewcode-block" id="cprint"><a class="viewcode-back" href="../../../dev/core/shell.html#peltak.core.shell.cprint">[docs]</a><span class="k">def</span> <span class="nf">cprint</span><span class="p">(</span><span class="n">msg</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
-    <span class="sd">""" Print colored message to stdout. """</span>
+<span class="w">    </span><span class="sd">""" Print colored message to stdout. """</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">kw</span><span class="p">):</span>
         <span class="n">msg</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">)</span>
 
@@ -425,10 +418,10 @@
 <div class="viewcode-block" id="run"><a class="viewcode-back" href="../../../dev/core/shell.html#peltak.core.shell.run">[docs]</a><span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">cmd</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">capture</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">shell</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-        <span class="n">env</span><span class="p">:</span> <span class="n">EnvDict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">exit_on_error</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">env</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">EnvDict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">exit_on_error</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">never_pretend</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
-    <span class="sd">""" Run a shell command.</span>
+<span class="w">    </span><span class="sd">""" Run a shell command.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        cmd (str):</span>
@@ -518,7 +511,7 @@
 
 
 <div class="viewcode-block" id="highlight"><a class="viewcode-back" href="../../../dev/core/shell.html#peltak.core.shell.highlight">[docs]</a><span class="k">def</span> <span class="nf">highlight</span><span class="p">(</span><span class="n">code</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">fmt</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="sd">""" Highlight a given code snippet for printing in the terminal.</span>
+<span class="w">    </span><span class="sd">""" Highlight a given code snippet for printing in the terminal.</span>
 
 <span class="sd">    Assumes 256 color terminal.</span>
 <span class="sd">    """</span>
