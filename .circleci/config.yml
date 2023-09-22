@@ -3,7 +3,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: novopl/python37
+      - image: novopl/python:3.8-dev
     steps:
       - checkout
       - restore_cache:
@@ -32,7 +32,7 @@ jobs:
           key: deps-{{ checksum ".circleci/config.yml" }}-{{ checksum "poetry.lock" }}
           paths:
             - /usr/local/bin
-            - /usr/local/lib/python3.7/site-packages
+            - /usr/local/lib/python3.8/site-packages
             - .venv
             - .mypy_cache
             - .pytest_cache
@@ -63,7 +63,7 @@ jobs:
 
   release:
     docker:
-      - image: novopl/python37
+      - image: novopl/python:3.8-dev
     steps:
       - checkout
       - restore_cache:
@@ -85,7 +85,7 @@ jobs:
 
   gh-pages:
     docker:
-      - image: novopl/python37
+      - image: novopl/python:3.8-dev
     steps:
       - checkout
       - restore_cache:

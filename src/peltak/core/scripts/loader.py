@@ -42,7 +42,7 @@ def register_scripts_from(scripts_dir: Path) -> None:
         # Silently return if the scripts directory does not exist. They are not
         # required and the completion should not brake so we can't raise
         # any exceptions or print anything to stdout/stderr.
-        pass
+        return
 
     for script_path in _iter_script_files(scripts_dir):
         log.dbg(f"Loading script {script_path}")
