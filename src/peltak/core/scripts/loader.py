@@ -60,6 +60,10 @@ def _iter_script_files(scripts_dir: Path) -> Iterator[Path]:
         log.dbg(f"Looking for a script in {dir_item}")
         if dir_item.is_dir():
             yield from _iter_script_files(dir_item)
+        elif dir_item.name.startswith('_'):
+            # Ignore files starting with '_' - they can be used to store code
+            # shared between the script (via `source _common.sh`).
+            continue
         elif dir_item.name.endswith('.sh'):
             yield dir_item
         elif dir_item.name.endswith('.py'):
