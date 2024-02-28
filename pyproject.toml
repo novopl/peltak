@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "peltak"
-version = "0.30.3"
+version = "0.30.4"
 description = "A command line tool to help manage a project"
 readme = "README.rst"
 repository = "http://github.com/novopl/peltak"
@@ -55,6 +55,7 @@ peltak-changelog = {path = "plugins/peltak-changelog", develop = true}
 peltak-gitflow = {path = "plugins/peltak-gitflow", develop = true}
 peltak-pypi = {path = "plugins/peltak-pypi", develop = true }
 peltak-todos = {path = "plugins/peltak-todos", develop = true }
+
 
 
 

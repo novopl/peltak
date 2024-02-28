@@ -16,5 +16,5 @@
 from os.path import abspath, dirname
 
 
-__version__ = '0.30.3'
+__version__ = '0.30.4'
 PKG_DIR = abspath(dirname(__file__))
