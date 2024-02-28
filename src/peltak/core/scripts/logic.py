@@ -55,7 +55,7 @@ def run_script(script: Script, options: CliOptions) -> None:
     cmd = templates.Engine().render(command, template_ctx)
     retcode = exec_script_command(cmd, pretend)
 
-    log.detail(f"Script exited with code: <33>{retcode}")
+    log.dbg(f"Script exited with code: <33>{retcode}")
 
     if retcode not in script.success_exit_codes:
         sys.exit(retcode)

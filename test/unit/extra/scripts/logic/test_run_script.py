@@ -51,7 +51,7 @@ def test_prints_return_code_if_verbose_lvl_ge_3(
     p_cprint: Mock,
     app_conf: conf.Config,
 ):
-    RunContext().set('verbose', 1)
+    RunContext().set('verbose', 3)
     p_exec_script_command.return_value = -99
     options: Dict[str, Any] = {}
     script = Script.from_config('test', {
