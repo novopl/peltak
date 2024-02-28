@@ -71,6 +71,9 @@ def count_flag_filter(count: int, flag: str) -> str:
     In the above example, if ``verbose`` is ``0`` the result of this filter will
     be an empty string.
     """
+    if isinstance(count, str) and count.isdigit():
+        count = int(count)
+
     if not isinstance(count, int) or count < 0:
         raise ValueError('Cannot create count flag from count={}'.format(count))
 
