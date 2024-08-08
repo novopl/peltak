@@ -22,6 +22,8 @@ jobs:
             python --version
             echo '== whoami ================================================'
             whoami
+            echo '== poetry --version ======================================'
+            poetry --version
             echo '== poetry install ========================================'
             poetry config virtualenvs.in-project true
             poetry show -v
