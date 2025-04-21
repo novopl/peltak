@@ -23,7 +23,7 @@ from peltak.core import conf
 
 from .version_file import (  # noqa: F401
     NodeVersionFile,
-    PoetryVersionFile,
+    PyprojectVersionFile,
     PyVersionFile,
     RawVersionFile,
     VersionFile,

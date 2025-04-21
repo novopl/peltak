@@ -40,6 +40,11 @@ class InvalidVersionFile(RuntimeError):
     pass
 
 
+class InvalidPyprojectVersionFile(InvalidVersionFile):
+    def __init__(self, path: str) -> None:
+        super().__init__(f"Invalid pyproject.toml version file {path}")
+
+
 def is_valid(version_str: str) -> bool:
     """ Check if the given string is a version string
 
@@ -161,15 +166,42 @@ class NodeVersionFile(VersionFile):
         fs.write_file(self.path, json.dumps(config, indent=2) + '\n')
 
 
-class PoetryVersionFile(VersionFile):
+class PyprojectVersionFile(VersionFile):
     """ Store project version in package.json. """
+    def __init__(self, *args, **kw):
+        super().__init__(*args, **kw)
+
+        config = util.toml_load(self.path)
+
+        try:
+            util.get_from_dict(config, 'tool.poetry.version')
+            self.type = 'poetry'
+        except KeyError:
+            try:
+                util.get_from_dict(config, 'project.version')
+                self.type = 'pep'
+            except KeyError:
+                raise InvalidVersionFile(self.path)
+
     def read(self) -> Optional[str]:
         config = util.toml_load(self.path)
-        return util.get_from_dict(config, 'tool.poetry.version', None)
+
+        if self.type == 'poetry':
+            return util.get_from_dict(config, 'tool.poetry.version', None)
+        elif self.type == 'pep':
+            return util.get_from_dict(config, 'project.version', None)
+        else:
+            raise InvalidVersionFile(self.path)
 
     def write(self, version: str):
         config = util.toml_load(self.path)
-        config['tool']['poetry']['version'] = version
+
+        if self.type == 'poetry':
+            config['tool']['poetry']['version'] = version
+        elif self.type == 'pep':
+            config['project']['version'] = version
+        else:
+            raise InvalidVersionFile(self.path)
 
         fs.write_file(self.path, util.toml_dump(config))
 
@@ -178,7 +210,7 @@ class PoetryVersionFile(VersionFile):
 VERSION_FILE_TYPES = [
     (lambda p: p.endswith('.py'), PyVersionFile),
     (lambda p: p.endswith('package.json'), NodeVersionFile),
-    (lambda p: p.endswith('pyproject.toml'), PoetryVersionFile),
+    (lambda p: p.endswith('pyproject.toml'), PyprojectVersionFile),
     (lambda p: True, RawVersionFile),   # default to Raw version file.
 ]
 
