@@ -17,6 +17,7 @@
     :synopsis: Helpers for nice shell output formatting.
 """
 import os
+import sys
 from typing import Any
 
 from . import context, exc, shell
@@ -43,7 +44,7 @@ def err(msg: str, *args: Any, **kw: Any) -> None:
     if len(args) or len(kw):
         msg = msg.format(*args, **kw)
 
-    shell.cprint('-- <31>{}<0>'.format(msg))
+    sys.stderr.write(shell.fmt('-- <31>{}<0>\n'.format(msg)))
 
 
 def detail(msg: str, *args: Any, **kw: Any) -> None:
